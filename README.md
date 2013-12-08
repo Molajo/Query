@@ -1,4 +1,4 @@
 Query
 =====
 
-Query tool with multi-database support for PHP Applications
+Query tool with multi-query support for PHP Applications

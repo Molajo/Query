@@ -1,0 +1,30 @@
+{
+    "name": "molajo/query",
+    "type": "molajo-package",
+    "description": "Molajo Query: platform independent multi-query support with Joomla Query adapter",
+    "keywords": ["Molajo", "Query", "SQL Server", "MySQL", "Oracle"],
+    "homepage": "http://github.com/Molajo/Query",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Amy Stephen",
+            "Query": "AmyStephen@Molajo.org",
+            "homepage": "http://AmyStephen.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.10",
+        "commonapi/query": "dev-master",
+        "joomla/query": "dev-master"
+    },
+
+    "support": {
+        "Query": "hello@molajo.org",
+        "irc": "irc://irc.freenode.org/molajo"
+    },
+    "autoload": {
+        "psr-0": {
+            "Molajo\\Query": "./"
+        }
+    }
+}
