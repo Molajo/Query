@@ -79,7 +79,7 @@ class Adapter implements QueryInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  AdapterException
+     * @throws  RuntimeException
      */
     public function getQueryString()
     {
@@ -88,7 +88,7 @@ class Adapter implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new AdapterException
+            throw new RuntimeException
             ('Query Adapter getQueryString Exception: ' . $e->getMessage());
         }
     }
@@ -100,7 +100,7 @@ class Adapter implements QueryInterface
      *
      * @return  mixed
      * @since   1.0
-     * @throws  AdapterException
+     * @throws  RuntimeException
      */
     public function quote($value)
     {
@@ -108,7 +108,7 @@ class Adapter implements QueryInterface
             return $this->handler->quote($value);
         } catch (Exception $e) {
 
-            throw new AdapterException
+            throw new RuntimeException
             ('Query Adapter quote Exception: ' . $e->getMessage());
         }
     }
@@ -120,7 +120,7 @@ class Adapter implements QueryInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  AdapterException
+     * @throws  RuntimeException
      */
     public function quoteName($name)
     {
@@ -128,7 +128,7 @@ class Adapter implements QueryInterface
             return $this->handler->quoteName($name);
         } catch (Exception $e) {
 
-            throw new AdapterException
+            throw new RuntimeException
             ('Query Adapter quoteName Exception: ' . $e->getMessage());
         }
     }
@@ -140,7 +140,7 @@ class Adapter implements QueryInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  AdapterException
+     * @throws  RuntimeException
      */
     public function escape($text)
     {
@@ -148,7 +148,7 @@ class Adapter implements QueryInterface
             return $this->handler->escape($text);
         } catch (Exception $e) {
 
-            throw new AdapterException
+            throw new RuntimeException
             ('Query Adapter escape Exception: ' . $e->getMessage());
         }
     }
@@ -160,7 +160,7 @@ class Adapter implements QueryInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  AdapterException
+     * @throws  RuntimeException
      */
     public function q($value)
     {
@@ -168,7 +168,7 @@ class Adapter implements QueryInterface
             return $this->handler->quote($value);
         } catch (Exception $e) {
 
-            throw new AdapterException
+            throw new RuntimeException
             ('Query Adapter q Exception: ' . $e->getMessage());
         }
     }
@@ -180,7 +180,7 @@ class Adapter implements QueryInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  AdapterException
+     * @throws  RuntimeException
      */
     public function qn($name)
     {
@@ -188,7 +188,7 @@ class Adapter implements QueryInterface
             return $this->handler->quoteName($name);
         } catch (Exception $e) {
 
-            throw new AdapterException
+            throw new RuntimeException
             ('Query Adapter qn Exception: ' . $e->getMessage());
         }
     }
@@ -201,7 +201,7 @@ class Adapter implements QueryInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  AdapterException
+     * @throws  RuntimeException
      */
     public function e($text, $extra)
     {
@@ -209,7 +209,7 @@ class Adapter implements QueryInterface
             return $this->handler->escape($text, $extra);
         } catch (Exception $e) {
 
-            throw new AdapterException
+            throw new RuntimeException
             ('Query Adapter escape Exception: ' . $e->getMessage());
         }
     }
