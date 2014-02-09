@@ -26,5 +26,11 @@
         "psr-0": {
             "Molajo\\Query": "./"
         }
-    }
+    },
+
+    "archive": {
+        "exclude": ["/.dev"]
+    },
+
+    "minimum-stability": "dev"
 }
