@@ -51,6 +51,8 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
         parent::setDependencies($reflection);
 
         $this->dependencies['Resource']      = array();
+        $this->dependencies['Database']      = array();
+        $this->dependencies['Query']         = array();
         $this->dependencies['Runtimedata']   = array();
         $this->dependencies['Eventcallback'] = array();
 
@@ -79,9 +81,9 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
             'Query'
         )->include_file_extensions;
 
-        $this->dependencies['query']          = $this->dependencies['Database']->getQueryObject();
-        $this->dependencies['null_date']      = $this->dependencies['Database']->getNullDate();
-        $this->dependencies['current_date']   = $this->dependencies['Database']->getDate();
+        $this->dependencies['query']          = $this->dependencies['Query'];
+        $this->dependencies['null_date']      = $this->dependencies['Query']->getNullDate();
+        $this->dependencies['current_date']   = $this->dependencies['Query']->getDate();
         $this->dependencies['schedule_event'] = $this->dependencies['Eventcallback'];
 
         return $this->dependencies;

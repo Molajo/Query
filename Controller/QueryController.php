@@ -1,47 +1,27 @@
 <?php
 /**
- * Query Driver
+ * Query Controller Proxy
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
-namespace Molajo\Query;
+namespace Molajo\Controller;
 
 use Exception;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\Query\QueryInterface;
 
 /**
- * Adapter for Query
+ * Query Controller Proxy
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0
  */
-class Driver implements QueryInterface
+abstract class QueryController extends Controller implements QueryInterface
 {
-    /**
-     * Query Adapter
-     *
-     * @var     object  CommonApi\Query\QueryInterface
-     * @since   1.0
-     */
-    protected $adapter;
-
-    /**
-     * Constructor
-     *
-     * @param  QueryInterface $adapter
-     *
-     * @since  1.0
-     */
-    public function __construct(QueryInterface $adapter)
-    {
-        $this->adapter = $adapter;
-    }
-
     /**
      * Get the current value (or default) of the specified property
      *
@@ -54,7 +34,7 @@ class Driver implements QueryInterface
      */
     public function get($key, $default = null)
     {
-        return $this->adapter->get($key, $default);
+        return $this->query->get($key, $default);
     }
 
     /**
@@ -65,7 +45,7 @@ class Driver implements QueryInterface
      */
     public function clearQuery()
     {
-        return $this->adapter->clearQuery();
+        return $this->query->clearQuery();
     }
 
     /**
@@ -78,7 +58,7 @@ class Driver implements QueryInterface
      */
     public function setType($query_type = 'select')
     {
-        return $this->adapter->setType($query_type);
+        return $this->query->setType($query_type);
     }
 
     /**
@@ -89,7 +69,7 @@ class Driver implements QueryInterface
      */
     public function getDateFormat()
     {
-        return $this->adapter->getDateFormat();
+        return $this->query->getDateFormat();
     }
 
     /**
@@ -100,7 +80,7 @@ class Driver implements QueryInterface
      */
     public function getDate()
     {
-        return $this->adapter->getDate();
+        return $this->query->getDate();
     }
 
     /**
@@ -111,7 +91,7 @@ class Driver implements QueryInterface
      */
     public function getNullDate()
     {
-        return $this->adapter->getNullDate();
+        return $this->query->getNullDate();
     }
 
     /**
@@ -124,7 +104,7 @@ class Driver implements QueryInterface
      */
     public function setDistinct($distinct = false)
     {
-        return $this->adapter->setDistinct($distinct);
+        return $this->query->setDistinct($distinct);
     }
 
     /**
@@ -143,7 +123,7 @@ class Driver implements QueryInterface
     public function select($column_name, $alias = null, $value = null, $data_type = null)
     {
         try {
-            return $this->adapter->select($column_name, $alias, $value, $data_type);
+            return $this->query->select($column_name, $alias, $value, $data_type);
 
         } catch (Exception $e) {
 
@@ -165,7 +145,7 @@ class Driver implements QueryInterface
     public function from($table_name, $alias = null)
     {
         try {
-            return $this->adapter->from($table_name, $alias);
+            return $this->query->from($table_name, $alias);
 
         } catch (Exception $e) {
 
@@ -187,7 +167,7 @@ class Driver implements QueryInterface
     public function whereGroup($group, $group_connector = 'and')
     {
         try {
-            return $this->adapter->whereGroup($group, $group_connector);
+            return $this->query->whereGroup($group, $group_connector);
 
         } catch (Exception $e) {
 
@@ -221,7 +201,7 @@ class Driver implements QueryInterface
         $group = null
     ) {
         try {
-            return $this->adapter->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
+            return $this->query->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
 
         } catch (Exception $e) {
 
@@ -243,7 +223,7 @@ class Driver implements QueryInterface
     public function groupBy($column_name, $alias = null)
     {
         try {
-            return $this->adapter->groupBy($column_name, $alias);
+            return $this->query->groupBy($column_name, $alias);
 
         } catch (Exception $e) {
 
@@ -265,7 +245,7 @@ class Driver implements QueryInterface
     public function havingGroup($group, $group_connector = 'and')
     {
         try {
-            return $this->adapter->havingGroup($group, $group_connector);
+            return $this->query->havingGroup($group, $group_connector);
 
         } catch (Exception $e) {
 
@@ -299,7 +279,7 @@ class Driver implements QueryInterface
         $group = ''
     ) {
         try {
-            return $this->adapter->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
+            return $this->query->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
 
         } catch (Exception $e) {
 
@@ -320,7 +300,7 @@ class Driver implements QueryInterface
     public function orderBy($column_name, $direction = 'ASC')
     {
         try {
-            return $this->adapter->orderBy($column_name, $direction);
+            return $this->query->orderBy($column_name, $direction);
 
         } catch (Exception $e) {
 
@@ -340,7 +320,7 @@ class Driver implements QueryInterface
      */
     public function setOffsetAndLimit($offset = 0, $limit = 15)
     {
-        return $this->adapter->setOffsetAndLimit($offset, $limit);
+        return $this->query->setOffsetAndLimit($offset, $limit);
     }
 
     /**
@@ -355,7 +335,7 @@ class Driver implements QueryInterface
     public function getSQL($sql = null)
     {
         try {
-            return $this->adapter->getSQL($sql);
+            return $this->query->getSQL($sql);
 
         } catch (Exception $e) {
 

@@ -9,8 +9,10 @@
 namespace Molajo\Resource\Factory;
 
 use Exception;
+use CommonApi\Cache\CacheInterface;
 use CommonApi\Exception\RuntimeException;
-use CommonApi\Controller\ReadControllerInterface;
+use CommonApi\Model\ModelInterface;
+use CommonApi\Query\QueryInterface;
 use Molajo\Resource\Api\FactoryInterface;
 
 /**
@@ -24,12 +26,28 @@ use Molajo\Resource\Api\FactoryInterface;
 class ReadControllerFactory implements FactoryInterface
 {
     /**
-     * Model Instance  CommonApi\Controller\ReadControllerInterface
+     * Query Instance
      *
-     * @var    object
+     * @var    object  CommonApi\Query\QueryInterface
+     * @since  1.0
+     */
+    protected $query = null;
+
+    /**
+     * Model Instance
+     *
+     * @var    object  CommonApi\Controller\ReadControllerInterface
      * @since  1.0
      */
     protected $model;
+
+    /**
+     * Model Registry
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $model_registry = null;
 
     /**
      * Runtime Data
@@ -64,28 +82,91 @@ class ReadControllerFactory implements FactoryInterface
     protected $sql;
 
     /**
+     * Cache
+     *
+     * @var    object  CommonApi\Cache\CacheInterface
+     * @since  1.0
+     */
+    protected $cache;
+
+    /**
+     * Site ID
+     *
+     * @var    int
+     * @since  1.0
+     */
+    protected $site_id = null;
+
+    /**
+     * Application ID
+     *
+     * @var    int
+     * @since  1.0
+     */
+    protected $application_id = null;
+
+    /**
+     * Used in queries to determine date validity
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $null_date;
+
+    /**
+     * Today's CCYY-MM-DD 00:00:00 formatted for query
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $current_date;
+
+    /**
      * Constructor
      *
-     * @param  ReadControllerInterface $model
-     * @param  object                  $runtime_data
-     * @param  object                  $plugin_data
-     * @param  callback                $schedule_event
-     * @param  string                  $sql
+     * @param  QueryInterface $query
+     * @param  ModelInterface $model
+     * @param  array          $model_registry
+     * @param  object         $runtime_data
+     * @param  object         $plugin_data
+     * @param  callback       $schedule_event
+     * @param  string         $sql
+     * @param  object         $cache
+     * @param  int            $site_id
+     * @param  int            $application_id
+     * @param  string         $null_date
+     * @param  string         $current_date
      *
      * @since  1.0
      */
     public function __construct(
-        ReadControllerInterface $model,
+        QueryInterface $query,
+        ModelInterface $model,
+        $model_registry,
         $runtime_data,
         $plugin_data,
         callable $schedule_event,
-        $sql = ''
+        $sql = '',
+        CacheInterface $cache,
+        $site_id = 0,
+        $application_id = 0,
+        $null_date = '',
+        $current_date = ''
     ) {
+        $this->query          = $query;
         $this->model          = $model;
+        $this->model_registry = $model_registry;
         $this->runtime_data   = $runtime_data;
         $this->plugin_data    = $plugin_data;
         $this->schedule_event = $schedule_event;
         $this->sql            = $sql;
+        $this->cache          = $cache;
+        $this->site_id        = $site_id;
+        $this->application_id = $application_id;
+        $this->null_date      = $null_date;
+        $this->current_date   = $current_date;
+
+        $this->query->clearQuery();
     }
 
     /**
@@ -101,15 +182,22 @@ class ReadControllerFactory implements FactoryInterface
 
         try {
             return new $class (
+                $this->query,
                 $this->model,
+                $this->model_registry,
                 $this->runtime_data,
                 $this->plugin_data,
                 $this->schedule_event,
-                $this->sql
+                $this->sql,
+                $this->cache,
+                $this->site_id,
+                $this->application_id,
+                $this->null_date,
+                $this->current_date
             );
         } catch (Exception $e) {
-            throw new RuntimeException ('Resource Factory ReadControllerFactory failed in class instantiation. '
-            . $e->getMessage());
+            throw new RuntimeException
+            ('Resource Factory ReadControllerFactory failed in instantiateClass Method.' . $e->getMessage());
         }
     }
 }

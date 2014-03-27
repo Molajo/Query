@@ -8,10 +8,10 @@
  */
 namespace Molajo\Query\Adapter;
 
+use CommonApi\Database\DatabaseInterface;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\Model\FieldhandlerInterface;
 use CommonApi\Query\QueryInterface;
-use CommonApi\Database\DatabaseInterface;
 use DateTime;
 use Exception;
 use stdClass;
@@ -28,7 +28,7 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Fieldhandler Instance
      *
-     * @var    object CommonApi\Query\FieldhandlerInterface
+     * @var    object  CommonApi\Query\FieldhandlerInterface
      * @since  1.0
      */
     protected $fieldhandler = '';
@@ -194,6 +194,31 @@ abstract class AbstractAdapter implements QueryInterface
     protected $quote_value = '"';
 
     /**
+     * List of Controller Properties
+     *
+     * @var    object
+     * @since  1.0
+     */
+    protected $property_array = array(
+        'database_prefix',
+        'query_type',
+        'distinct',
+        'columns',
+        'values',
+        'from',
+        'where_group',
+        'where',
+        'group_by',
+        'having_group',
+        'having',
+        'order_by',
+        'offset',
+        'limit',
+        'date_format',
+        'null_date'
+    );
+
+    /**
      * Constructor
      *
      * @since  1.0
@@ -206,7 +231,32 @@ abstract class AbstractAdapter implements QueryInterface
         $this->fieldhandler    = $fieldhandler;
         $this->database_prefix = $database_prefix;
         $this->database        = $database;
+
         $this->clearQuery();
+    }
+
+    /**
+     * Get the current value (or default) of the specified property
+     *
+     * @param   string $key
+     * @param   mixed  $default
+     *
+     * @return  mixed
+     * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    public function get($key, $default = null)
+    {
+        if (in_array($key, $this->property_array)) {
+        } else {
+            throw new RuntimeException('Controller Get: Unknown key: ' . $key);
+        }
+
+        if ($this->$key === null) {
+            $this->$key = $default;
+        }
+
+        return $this->$key;
     }
 
     /**
@@ -246,6 +296,7 @@ abstract class AbstractAdapter implements QueryInterface
         $query_type = strtolower($query_type);
 
         if ($query_type == 'insert'
+            || $query_type == 'insert-from'
             || $query_type == 'select'
             || $query_type == 'update'
             || $query_type == 'delete'
@@ -332,11 +383,11 @@ abstract class AbstractAdapter implements QueryInterface
             throw new RuntimeException ('Query-Select Method: Value required for $column_name.');
         }
 
-// select
-// COUNT
-
-
-        $column = $this->setColumnName($column_name);
+        if ($data_type === 'special') {
+            $column = $column_name;
+        } else {
+            $column = $this->setColumnName($column_name);
+        }
 
         $item            = new stdClass();
         $item->column    = $column;
@@ -346,6 +397,11 @@ abstract class AbstractAdapter implements QueryInterface
         if ($data_type === null || trim($data_type) == '') {
             $item->data_type = null;
             $item->value     = null;
+
+        } elseif ($data_type === 'special') {
+            $item->data_type = $data_type;
+            $item->value     = $value;
+
         } else {
             $item->data_type = $data_type;
             $item->value     = $this->filter($item->column, $value, $item->data_type);
@@ -394,17 +450,19 @@ abstract class AbstractAdapter implements QueryInterface
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function whereGroup($group, $group_connector = 'and')
+    public function whereGroup($group, $group_connector = 'AND')
     {
         if ($group === null || trim($group) == '') {
             throw new RuntimeException
             ('Query Adapter WhereGroup Method Exception');
         }
 
-        if ($group_connector == 'or') {
-            $group_connector = 'or';
+        $group_connector = strtoupper($group_connector);
+
+        if ($group_connector == 'OR') {
+            $group_connector = 'OR';
         } else {
-            $group_connector = 'and';
+            $group_connector = 'AND';
         }
 
         $this->where_group[$group] = $group_connector;
@@ -433,15 +491,9 @@ abstract class AbstractAdapter implements QueryInterface
         $condition,
         $right_filter = 'column',
         $right,
-        $connector = 'and',
+        $connector = 'AND',
         $group = null
     ) {
-
-// Condition
-// ' IN '
-// . '(' . implode(',', $this->permissions->view_groups) . ')'
-
-
         if (trim($left_filter) == '' || trim($left) == ''
             || trim($condition) == ''
             || trim($right_filter) == '' || trim($right) == ''
@@ -459,6 +511,14 @@ abstract class AbstractAdapter implements QueryInterface
             $group = '';
         }
 
+        $connector = strtoupper($connector);
+
+        if ($connector == 'OR') {
+            $connector = 'OR';
+        } else {
+            $connector = 'AND';
+        }
+
         if (strtolower($left_filter) == 'column') {
             $left = $this->setColumnName($left);
         } else {
@@ -468,7 +528,11 @@ abstract class AbstractAdapter implements QueryInterface
         if (strtolower($right_filter) == 'column') {
             $right = $this->setColumnName($right);
         } else {
-            $right = $this->filter('Right', $right, $right_filter);
+            if (strtolower($condition) == 'in') {
+                $right = $this->processInArray('Right', $right, $right_filter);
+            } else {
+                $right = $this->filter('Right', $right, $right_filter);
+            }
         }
 
         $item            = new stdClass();
@@ -483,7 +547,7 @@ abstract class AbstractAdapter implements QueryInterface
     }
 
     /**
-     * Set Group By column name and optional value for alias
+     * Group By column name and optional value for alias
      *
      * @param   string      $column_name
      * @param   null|string $alias
@@ -520,17 +584,19 @@ abstract class AbstractAdapter implements QueryInterface
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function havingGroup($group, $group_connector = 'and')
+    public function havingGroup($group, $group_connector = 'AND')
     {
         if ($group === null || trim($group) == '') {
             throw new RuntimeException
             ('Query Adapter WhereGroup Method Exception');
         }
 
-        if ($group_connector == 'or') {
-            $group_connector = 'or';
+        $group_connector = strtoupper($group_connector);
+
+        if ($group_connector == 'OR') {
+            $group_connector = 'OR';
         } else {
-            $group_connector = 'and';
+            $group_connector = 'AND';
         }
 
         $this->having_group[$group] = $group_connector;
@@ -559,7 +625,7 @@ abstract class AbstractAdapter implements QueryInterface
         $condition,
         $right_filter = 'column',
         $right,
-        $connector = 'and',
+        $connector = 'AND',
         $group = null
     ) {
         if (trim($left_filter) == '' || trim($left) == ''
@@ -577,6 +643,14 @@ abstract class AbstractAdapter implements QueryInterface
 
         if ($group === null) {
             $group = '';
+        }
+
+        $connector = strtoupper($connector);
+
+        if ($connector == 'OR') {
+            $connector = 'OR';
+        } else {
+            $connector = 'AND';
         }
 
         if (strtolower($left_filter) == 'column') {
@@ -603,7 +677,7 @@ abstract class AbstractAdapter implements QueryInterface
     }
 
     /**
-     * Set Order By column name and optional value for alias
+     * Order By column name and optional value for alias
      *
      * @param   string      $column_name
      * @param   null|string $direction
@@ -632,7 +706,7 @@ abstract class AbstractAdapter implements QueryInterface
     }
 
     /**
-     * Set Offset and Limit
+     * Offset and Limit
      *
      * @param   int $offset
      * @param   int $limit
@@ -700,6 +774,30 @@ abstract class AbstractAdapter implements QueryInterface
     }
 
     /**
+     * Process Array of Values for IN condition
+     *
+     * @param array $values
+     * @param       $filter
+     */
+    protected function processInArray($name, $value_string, $filter)
+    {
+        if (is_array($value_string) && count($value_string) > 0) {
+            $temp         = implode(',', $value_string);
+            $value_string = $temp;
+        }
+
+        $filtered_array = array();
+
+        $temp = explode(',', $value_string);
+
+        foreach ($temp as $value) {
+            $filtered_array[] = $this->filter($name, trim($value), $filter);
+        }
+
+        return $filtered_array;
+    }
+
+    /**
      * Get SQL (optionally setting the SQL)
      *
      * @param   null|string $sql
@@ -721,6 +819,9 @@ abstract class AbstractAdapter implements QueryInterface
 
         if ($this->query_type == 'insert') {
             $query = $this->setSQLInsert();
+
+        } elseif ($this->query_type == 'insert-from') {
+            $query = $this->setSQLInsertFrom();
 
         } elseif ($this->query_type == 'update') {
             $query = $this->setSQLUpdate();
@@ -777,6 +878,17 @@ abstract class AbstractAdapter implements QueryInterface
         $query .= $string . ')' . PHP_EOL;
 
         return $query;
+    }
+
+    /**
+     * Generate SQL for Insert using a select
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLInsertFrom()
+    {
+        return '';
     }
 
     /**
@@ -918,7 +1030,7 @@ abstract class AbstractAdapter implements QueryInterface
 
         } else {
             throw new RuntimeException
-                ('Query-setFromSQL Method: Value required for table name.');
+            ('Query-setFromSQL Method: Value required for table name.');
         }
 
         foreach ($this->from as $from) {
@@ -968,7 +1080,25 @@ abstract class AbstractAdapter implements QueryInterface
                         $string .= PHP_EOL . $where->connector . ' ';
                     }
 
-                    $string .= $where->left . ' ' . $where->condition . ' ' . $where->right;
+                    $string .= $where->left . ' ' . $where->condition;
+
+                    if (strtolower($where->condition) == 'in') {
+                        $in_string = '';
+
+                        foreach ($where->right as $value) {
+
+                            if ($in_string == '') {
+                            } else {
+                                $in_string .= ', ';
+                            }
+
+                            $in_string .= $value;
+                        }
+
+                        $where->right = '(' . trim($in_string) . ')';
+                    }
+
+                    $string .= ' ' . $where->right;
                 }
             }
 

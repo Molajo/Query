@@ -24,7 +24,8 @@
         "commonapi/controller": "dev-master",
         "commonapi/model": "dev-master",
         "commonapi/query": "dev-master",
-        "molajo/fieldhandler": "dev-master"
+        "molajo/fieldhandler": "dev-master",
+        "molajo/resource": "dev-master"
     },
     "autoload": {
         "psr-4": {
@@ -33,7 +34,6 @@
             "Molajo\\Controller\\": "Controller/",
             "Molajo\\Model\\": "Model/",
             "Molajo\\Resource\\": "Resource/"
-
         }
     },
 

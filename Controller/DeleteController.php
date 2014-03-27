@@ -20,7 +20,7 @@ use CommonApi\Controller\DeleteControllerInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class DeleteController extends Controller implements DeleteControllerInterface
+class DeleteController extends ReadController implements DeleteControllerInterface
 {
     /**
      * Delete row and plugin other delete actions
@@ -112,7 +112,7 @@ class DeleteController extends Controller implements DeleteControllerInterface
         $primary_prefix = $this->get('primary_prefix', 'a');
 
         if (isset($this->row->$primary_key)) {
-            $this->model->query->where(
+            $this->query->where(
                 $primary_prefix
                 . '.'
                 . $primary_key
@@ -120,7 +120,7 @@ class DeleteController extends Controller implements DeleteControllerInterface
                 . $this->row->$primary_key
             );
         } elseif (isset($this->row->$name_key)) {
-            $this->model->query->where(
+            $this->query->where(
                 $primary_prefix
                 . '.'
                 . $name_key
@@ -133,7 +133,7 @@ class DeleteController extends Controller implements DeleteControllerInterface
         }
 
         if (isset($this->row->catalog_type_id)) {
-            $this->model->query->where(
+            $this->query->where(
                 $primary_prefix
                 . '.'
                 . 'catalog_type_id'
@@ -144,7 +144,7 @@ class DeleteController extends Controller implements DeleteControllerInterface
 
         $item = $this->getData('item');
 //		echo '<br /><br /><br />';
-//		echo $this->model->query->__toString();
+//		echo $this->query->__toString();
 //		echo '<br /><br /><br />';
 
         if ($item === false) {

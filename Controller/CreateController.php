@@ -384,9 +384,9 @@ class CreateController extends ReadController implements CreateControllerInterfa
                 $controller                 = new $controller_class_namespace();
                 $controller->getModelRegistry('datasource', $source_model, 1);
 
-                $controller->model->query->select('COUNT(*)');
-                $controller->model->query->from($controller->get('table_name'));
-                $controller->model->query->where(
+                $controller->select('COUNT(*)');
+                $controller->from($controller->get('table_name'));
+                $controller->where(
                     $source_id
                     . ' = '
                     . (int)$this->row->$name

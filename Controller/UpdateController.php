@@ -21,7 +21,7 @@ use CommonApi\Controller\UpdateControllerInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0
  */
-class UpdateController extends Controller implements UpdateControllerInterface
+class UpdateController extends ReadController implements UpdateControllerInterface
 {
     /**
      * Tasks: reorder, orderup, orderdown, saveorder
