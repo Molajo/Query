@@ -162,18 +162,18 @@ abstract class Controller implements ControllerInterface
     /**
      * Class Constructor
      *
-     * @param  QueryInterface $query
-     * @param  ModelInterface $model
-     * @param  array          $model_registry
-     * @param  object         $runtime_data
-     * @param  object         $plugin_data
-     * @param  callable       $schedule_event
-     * @param  string         $sql
-     * @param  null|int       $site_id
-     * @param  null|int       $application_id
-     * @param  string         $null_date
-     * @param  string         $current_date
-     * @param  CacheInterface $cache
+     * @param  QueryInterface  $query
+     * @param  ModelInterface  $model
+     * @param  array           $model_registry
+     * @param  object          $runtime_data
+     * @param  object          $plugin_data
+     * @param  callable        $schedule_event
+     * @param  string          $sql
+     * @param  null|int        $site_id
+     * @param  null|int        $application_id
+     * @param  string          $null_date
+     * @param  string          $current_date
+     * @param  CacheInterface  $cache
      *
      * @since  1.0
      */
@@ -567,13 +567,13 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryDefaultsCriteriaArray()
     {
-        if (isset($this->model_registry['criteria_array'])) {
-            $criteria_array = $this->model_registry['criteria_array'];
+        if (isset($this->model_registry['criteria'])) {
+            $criteria_array = $this->model_registry['criteria'];
         } else {
             $criteria_array = array();
         }
 
-        $this->model_registry['criteria_array'] = $criteria_array;
+        $this->model_registry['criteria'] = $criteria_array;
 
         return $this;
     }

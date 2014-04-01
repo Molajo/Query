@@ -391,6 +391,13 @@ abstract class AbstractAdapter implements QueryInterface
 
         $item            = new stdClass();
         $item->column    = $column;
+
+        if ($alias === null || trim($alias) == '') {
+            $item->alias = null;
+        } else {
+            $item->alias     = $this->quoteName($alias);
+        }
+
         $item->value     = $value;
         $item->data_type = $data_type;
 
@@ -432,7 +439,7 @@ abstract class AbstractAdapter implements QueryInterface
 
         if ($alias === null || trim($alias) == '') {
         } else {
-            $table .= ' as ' . $this->quoteName($alias);
+            $table .= ' AS ' . $this->quoteName($alias);
         }
 
         $this->from[] = $table;
@@ -494,9 +501,9 @@ abstract class AbstractAdapter implements QueryInterface
         $connector = 'AND',
         $group = null
     ) {
-        if (trim($left_filter) == '' || trim($left) == ''
+        if (trim($left_filter) == ''
             || trim($condition) == ''
-            || trim($right_filter) == '' || trim($right) == ''
+            || trim($right_filter) == ''
         ) {
             throw new RuntimeException
             ('Query-Where Method: Value required for '
@@ -628,9 +635,9 @@ abstract class AbstractAdapter implements QueryInterface
         $connector = 'AND',
         $group = null
     ) {
-        if (trim($left_filter) == '' || trim($left) == ''
+        if (trim($left_filter) == ''
             || trim($condition) == ''
-            || trim($right_filter) == '' || trim($right) == ''
+            || trim($right_filter) == ''
         ) {
             throw new RuntimeException
             ('Query-Having Method: Value required for '
@@ -847,13 +854,14 @@ abstract class AbstractAdapter implements QueryInterface
      */
     protected function setSQLInsert()
     {
-        $query = 'INSERT INTO ';
+        $query = 'INSERT INTO ' . $this->setFromSQL() . PHP_EOL;
 
-        $string = '(';
+        $string = '';
 
         foreach ($this->columns as $item) {
 
             if ($string == '') {
+                $string = '(';
             } else {
                 $string .= ', ';
             }
@@ -863,11 +871,12 @@ abstract class AbstractAdapter implements QueryInterface
 
         $query .= $string . ')' . PHP_EOL;
 
-        $string = 'VALUES (';
+        $string = '';
 
         foreach ($this->columns as $item) {
 
             if ($string == '') {
+                $string = 'VALUES (';
             } else {
                 $string .= ', ';
             }
@@ -922,6 +931,11 @@ abstract class AbstractAdapter implements QueryInterface
             }
 
             $string .= trim($item->column);
+
+            if ($item->alias === null || trim($item->alias) == '') {
+            } else {
+                $string .= ' AS ' . $item->alias;
+            }
         }
 
         $query .= $string . PHP_EOL;
@@ -1080,7 +1094,7 @@ abstract class AbstractAdapter implements QueryInterface
                         $string .= PHP_EOL . $where->connector . ' ';
                     }
 
-                    $string .= $where->left . ' ' . $where->condition;
+                    $string .= $where->left . ' ' . strtoupper($where->condition);
 
                     if (strtolower($where->condition) == 'in') {
                         $in_string = '';

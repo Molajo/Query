@@ -244,6 +244,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
             $this->registry->set($model_registry, $plural, $joins);
 
             $this->registry->set($model_registry, 'JoinFields', $selects);
+
         } elseif ($plural == 'values') {
 
             $valuesArray = array();

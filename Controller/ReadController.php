@@ -76,19 +76,19 @@ class ReadController extends QueryController implements ReadControllerInterface
      */
     protected function setModelRegistrySQL()
     {
-        $select = $this->query->get('columns', array());
+        $select = $this->get('columns', array());
 
         if (count($select) == 0) {
             $this->setSelectColumns();
         }
 
-        $from = $this->query->get('from', array());
+        $from = $this->get('from', array());
 
         if (count($from) == 0) {
             $this->setFromTable();
         }
 
-        $where = $this->query->get('where', array());
+        $where = $this->get('where', array());
 
         if (count($where) == 0) {
             $this->setWhereStatements();
@@ -110,30 +110,28 @@ class ReadController extends QueryController implements ReadControllerInterface
      */
     protected function setSelectColumns()
     {
-
-//if ($this->model_registry['query_object'] == 'distinct') {
-//            $this->query->setDistinct(true);
-//        }
-
         if ($this->model_registry['query_object'] == 'result') {
 
             if ((int)$this->model_registry['id'] > 0) {
-
-                $this->query->select($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
-
+                $this->select($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
                 return $this;
             }
 
-            $this->query->select($this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key']);
+            $this->select($this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key']);
 
             return $this;
         }
 
+        if ($this->model_registry['query_object'] == 'distinct') {
+            $this->setDistinct(true);
+        }
+
         if (count($this->model_registry['columns']) === 0) {
-            $this->query->select($this->model_registry['primary_prefix'] . '.' . '*');
+            $this->select($this->model_registry['primary_prefix'] . '.' . '*');
+
         } else {
             foreach ($this->model_registry['columns'] as $column) {
-                $this->query->select($this->model_registry['primary_prefix'] . '.' . $column['name']);
+                $this->select($this->model_registry['primary_prefix'] . '.' . $column['name']);
             }
         }
 
@@ -152,7 +150,7 @@ class ReadController extends QueryController implements ReadControllerInterface
         $primary_prefix = $this->model_registry['primary_prefix'];
         $table_name     = $this->model_registry['table_name'];
 
-        $this->query->from($table_name, $primary_prefix);
+        $this->from($table_name, $primary_prefix);
 
         return $this;
     }
@@ -167,7 +165,7 @@ class ReadController extends QueryController implements ReadControllerInterface
     protected function setWhereStatements()
     {
         if ((int)$this->model_registry['id'] > 0) {
-            $this->query->where(
+            $this->where(
                 'column',
                 $this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key'],
                 '=',
@@ -178,7 +176,7 @@ class ReadController extends QueryController implements ReadControllerInterface
         } elseif (trim($this->model_registry['name_key_value']) == '') {
 
         } else {
-            $this->query->where(
+            $this->where(
                 'column',
                 $this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key'],
                 '=',
@@ -227,7 +225,7 @@ class ReadController extends QueryController implements ReadControllerInterface
 
                 if (count($select_array) > 0) {
                     foreach ($select_array as $select_item) {
-                        $this->query->select(
+                        $this->select(
                             trim($alias) . '.' . trim($select_item),
                             trim($alias) . '_' . trim($select_item)
                         );
@@ -285,11 +283,11 @@ class ReadController extends QueryController implements ReadControllerInterface
 
                         if ($join_table === null) {
                         } else {
-                            $this->query->from($join_table, $alias);
+                            $this->from($join_table, $alias);
                             $join_table = null;
                         }
 
-                        $this->query->where(
+                        $this->where(
                             $where_left_filter,
                             $where_left,
                             $operator,
@@ -372,7 +370,7 @@ class ReadController extends QueryController implements ReadControllerInterface
     {
         if ($this->model_registry['criteria_status'] === '') {
         } else {
-            $this->query->where(
+            $this->where(
                 'column',
                 $this->model_registry['primary_prefix'] . '.' . 'status',
                 'IN',
@@ -383,7 +381,7 @@ class ReadController extends QueryController implements ReadControllerInterface
 
         if ((int)$this->model_registry['criteria_catalog_type_id'] === 0) {
         } else {
-            $this->query->where(
+            $this->where(
                 'column',
                 $this->model_registry['primary_prefix'] . '.' . 'catalog_type_id',
                 '=',
@@ -394,7 +392,7 @@ class ReadController extends QueryController implements ReadControllerInterface
 
         if ((int)$this->model_registry['criteria_extension_instance_id'] === 0) {
         } else {
-            $this->query->where(
+            $this->where(
                 'column',
                 $this->model_registry['primary_prefix'] . '.' . 'extension_instance_id',
                 '=',
@@ -405,7 +403,7 @@ class ReadController extends QueryController implements ReadControllerInterface
 
         if ((int)$this->model_registry['criteria_menu_id'] === 0) {
         } else {
-            $this->query->where(
+            $this->where(
                 'column',
                 $this->model_registry['primary_prefix'] . '.' . 'menu_id',
                 '=',
@@ -426,18 +424,43 @@ class ReadController extends QueryController implements ReadControllerInterface
      */
     protected function setModelRegistryCriteriaArrayCriteria()
     {
-        if (count($this->model_registry['criteria_array']) > 0) {
+        if (count($this->model_registry['criteria']) > 0) {
         } else {
             return $this;
         }
 
-        foreach ($this->model_registry['criteria_array'] as $item) {
+        if ($this->model_registry['use_special_joins'] === 0
+            || count($this->model_registry['joins']) === 0
+        ) {
+            $use_special_joins = false;
+        } else {
+            $use_special_joins = true;
+        }
 
-            if (isset($item['value'])) {
-                $this->query->where('column', $item['name'], $item['connector'], 'integer', $item['value']);
+        foreach ($this->model_registry['criteria'] as $item) {
 
-            } elseif (isset($item['name2'])) {
-                $this->query->where('column', $item['name'], $item['connector'], 'column', $item['name2']);
+            $use = false;
+
+            if ($use_special_joins === true) {
+                $use = true;
+
+            } elseif (strpos($item['name'], '.') > 0) {
+                $parts = explode('.', $item['name']);
+                if ($parts[0] == $this->model_registry['primary_prefix']) {
+                    $use = true;
+                }
+            } else {
+                $use = true;
+            }
+
+            if ($use === true) {
+
+                if (isset($item['value'])) {
+                    $this->where('column', $item['name'], $item['connector'], 'integer', (int) $item['value']);
+
+                } elseif (isset($item['name2'])) {
+                    $this->where('column', $item['name'], $item['connector'], 'column', $item['name2']);
+                }
             }
         }
 
@@ -458,7 +481,7 @@ class ReadController extends QueryController implements ReadControllerInterface
             return $this;
         }
 
-        $this->query->setOffsetAndLimit(
+        $this->setOffsetAndLimit(
             $this->model_registry['offset'],
             $this->model_registry['limit']
         );
@@ -488,7 +511,7 @@ class ReadController extends QueryController implements ReadControllerInterface
         return $this;
 
 //        if (is_object($this->cache)) {
-//            $cache_key = $this->query->__toString();
+//            $cache_key = $this->__toString();
 //            $results   = $this->cache->get(serialize($cache_key));
 //            if ($results->isHit() === true) {
 //                $cached_output = $results->value;
@@ -509,9 +532,9 @@ class ReadController extends QueryController implements ReadControllerInterface
 
             if ($count < count($query_results)) {
                 $hold = $this->query;
-                $this->query->clear('select');
-                $this->query->select('count(*)');
-                $this->model_registry['total_items'] = $this->database->loadResult($this->query->getSQL());
+                $this->clear('select');
+                $this->select('count(*)');
+                $this->model_registry['total_items'] = $this->database->loadResult($this->getSQL());
                 $this->query                         = $hold;
             } else {
                 $this->model_registry['total_items'] = count($query_results);

@@ -25,6 +25,7 @@
         "commonapi/model": "dev-master",
         "commonapi/query": "dev-master",
         "molajo/fieldhandler": "dev-master",
+        "molajo/database": "dev-master",
         "molajo/resource": "dev-master"
     },
     "autoload": {

@@ -136,7 +136,7 @@ class UpdateModel extends Model implements UpdateModelInterface
         ) {
 
             $value = (int)$input;
-        } elseif ($type == 'char'
+        } elseif ($type == 'string'
             || $type == 'datetime'
             || $type == 'url'
             || $type == 'email'

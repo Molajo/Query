@@ -134,7 +134,7 @@ class CreateModel extends Model implements CreateModelInterface
         ) {
 
             $value = (int)$input;
-        } elseif ($type == 'char'
+        } elseif ($type == 'string'
             || $type == 'datetime'
             || $type == 'url'
             || $type == 'email'
