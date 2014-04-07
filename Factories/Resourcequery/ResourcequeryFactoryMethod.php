@@ -44,7 +44,7 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
      *
      * @return  array
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function setDependencies(array $reflection = null)
     {
@@ -64,7 +64,7 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
      *
      * @return  array
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function onBeforeInstantiation(array $dependency_values = null)
     {
@@ -107,7 +107,7 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function createScheme()
     {

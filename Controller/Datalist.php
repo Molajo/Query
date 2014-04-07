@@ -131,8 +131,8 @@ class Datalist implements DatalistInterface
         }
 
         if ((string)$catalog_type_id == '*') {
-            if (isset($this->plugin_data->resource->data->parameters->criteria_catalog_type_id)) {
-                $catalog_type_id = $this->plugin_data->resource->data->parameters->criteria_catalog_type_id;
+            if (isset($this->runtime_data->resource->data->parameters->criteria_catalog_type_id)) {
+                $catalog_type_id = $this->runtime_data->resource->data->parameters->criteria_catalog_type_id;
             }
         }
 

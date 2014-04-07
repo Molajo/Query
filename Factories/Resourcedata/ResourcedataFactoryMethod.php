@@ -167,7 +167,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function setDependencies(array $reflection = null)
     {
@@ -248,7 +248,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function instantiateClass()
     {
@@ -287,7 +287,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function onAfterInstantiation()
     {
@@ -386,7 +386,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
      *
      * @return  array
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function loadDatalists($datalistsArray, $folder)
     {
@@ -415,7 +415,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function createDataobject()
     {
@@ -440,7 +440,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function createModel()
     {
@@ -469,7 +469,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function createXml($model_handler, $dataobject_handler)
     {
@@ -504,7 +504,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
      *
      * @return  object
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException;
+     * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function createScheme()
     {
