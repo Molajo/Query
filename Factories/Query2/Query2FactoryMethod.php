@@ -1,12 +1,12 @@
 <?php
 /**
- * Query Factory Method
+ * Query2 Factory Method
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Factories\Query;
+namespace Molajo\Factories\Query2;
 
 use Exception;
 use CommonApi\Exception\RuntimeException;
@@ -15,14 +15,14 @@ use CommonApi\IoC\FactoryBatchInterface;
 use Molajo\IoC\FactoryMethodBase;
 
 /**
- * Query Factory Method
+ * Query2 Factory Method
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class QueryFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
+class Query2FactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Constructor
@@ -107,7 +107,7 @@ class QueryFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
     }
 
     /**
-     * Get the Query Adapter
+     * Get the Query2 Adapter
      *
      * @param   string $type
      *
