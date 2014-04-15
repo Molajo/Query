@@ -30,7 +30,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Molajo\\Factories\\Query\\": "Factories/Query/",
+            "Molajo\\Factories\\": "Factories/",
             "Molajo\\Query\\": "Source/",
             "Molajo\\Controller\\": "Controller/",
             "Molajo\\Model\\": "Model/",
