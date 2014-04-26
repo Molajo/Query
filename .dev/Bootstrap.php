@@ -1,6 +1,6 @@
 <?php
 /**
- * Bootstrap for Testing
+ * Bootstrap
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -8,21 +8,10 @@
  */
 include_once __DIR__ . '/CreateClassMap.php';
 
-if (! defined('PHP_VERSION_ID')) {
-    $version = explode('.', phpversion());
-    define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
-}
-
 $base     = substr(__DIR__, 0, strlen(__DIR__) - 5);
-$classmap = array();
-$classmap = createClassMap($base . '/vendor/commonapi/route', 'CommonApi\\Query\\');
-
-$results  = createClassMap($base . '/vendor/commonapi/exception', 'CommonApi\\Exception\\');
-$classmap = array_merge($classmap, $results);
+include $base . '/vendor/autoload.php';
 
 $results  = createClassMap($base . '/Source/Handler', 'Molajo\\Render\\Adapter\\');
-$classmap = array_merge($classmap, $results);
-
 $classmap['Molajo\\Render\\Adapter'] = $base . '/Source/Adapter.php';
 ksort($classmap);
 
