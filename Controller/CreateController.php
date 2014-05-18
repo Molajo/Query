@@ -293,7 +293,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
 
                 try {
                     /** Filters, sets defaults, and validates */
-                    $value = $this->fieldhandler->filter($value, $type, $null, $default);
+                    $value = $this->fieldhandler->sanitize($name, $value, $type);
 
                     if ($customFieldName == '') {
                         $this->row->$name = trim($value);
