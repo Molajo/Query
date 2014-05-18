@@ -1273,7 +1273,7 @@ abstract class AbstractAdapter implements QueryInterface
         try {
             $results = $this->fieldhandler->sanitize($key, $value, $data_type);
 
-            $value = $results->getReturnValue();
+            $value = $results->getFieldValue();
 
         } catch (Exception $e) {
             throw new RuntimeException
