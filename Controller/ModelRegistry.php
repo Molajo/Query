@@ -185,6 +185,11 @@ class ModelRegistry
      */
     protected function setModelRegistryDefaultsQueryObject()
     {
+        if (isset($this->model_registry['query_object'])) {
+        } else {
+            $this->model_registry['query_object'] =  'list';
+        }
+
         $query_object = strtolower($this->model_registry['query_object']);
 
         if ($query_object == 'result'

@@ -195,7 +195,7 @@ abstract class Controller implements ControllerInterface
         $this->plugin_data    = $plugin_data;
         $this->schedule_event = $schedule_event;
         $this->cache          = $cache;
-        
+
         $this->setDateProperties($null_date, $current_date);
         $this->setModelProperties($query, $model, $sql);
         $this->setSiteApplicationProperties($site_id, $application_id);
@@ -234,6 +234,7 @@ abstract class Controller implements ControllerInterface
         if (in_array($key, $this->property_array)) {
             $this->$key = $value;
         }
+
         return $this;
     }
 

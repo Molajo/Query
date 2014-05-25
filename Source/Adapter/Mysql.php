@@ -28,7 +28,7 @@ class MySql extends AbstractAdapter implements QueryInterface
      */
     public function __construct(
         FieldhandlerInterface $fieldhandler,
-        $database_prefix = '',
+        $database_prefix,
         DatabaseInterface $database
     ) {
         $this->name_quote_start = '`';
