@@ -62,8 +62,7 @@ class ModelRegistry
         $this->setModelRegistryDefaultsCriteriaArray();
         $this->setModelRegistryDefaultsJoins();
         $this->setModelRegistryDefaultLimits();
-        $this->setModelRegistryNoPagination();
-        $this->setModelRegistryPaginationNotList();
+        $this->setModelRegistryPaginationCrossEdits();
 
         return $this->model_registry;
     }
@@ -243,33 +242,21 @@ class ModelRegistry
     }
 
     /**
-     * Pagination Off
+     * Pagination Query Object is not List and Pagination is Off
      *
      * @return  $this
      * @since   1.0
      */
-    protected function setModelRegistryNoPagination()
+    protected function setModelRegistryPaginationCrossEdits()
     {
+        if ($this->model_registry['query_object'] === 'list') {
+        } else {
+            $this->model_registry['use_pagination'] = 0;
+        }
+
         if ($this->model_registry['use_pagination'] === 0) {
             $this->model_registry['model_offset'] = 0;
             $this->model_registry['model_count']  = 0;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Pagination Query Object is not List
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setModelRegistryPaginationNotList()
-    {
-        if ($this->model_registry['query_object'] === 'list') {
-            $this->model_registry['model_offset'] = 0;
-            $this->model_registry['model_count']  = 0;
-            $this->model_registry['use_pagination'] = 0;
         }
 
         return $this;

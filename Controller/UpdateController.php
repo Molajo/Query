@@ -331,6 +331,7 @@ class UpdateController extends ReadController implements UpdateControllerInterfa
      * saveItemBatch prepares the copy or move data and calls saveItem
      * deleteItemBatch handles the delete processing
      *
+     * @param string $column
      * @return Boolean
      * @since    1.0
      */

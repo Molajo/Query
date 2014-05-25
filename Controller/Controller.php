@@ -191,22 +191,14 @@ abstract class Controller implements ControllerInterface
         $site_id = 0,
         $application_id = 0
     ) {
-        $this->query          = $query;
-        $this->model          = $model;
         $this->runtime_data   = $runtime_data;
         $this->plugin_data    = $plugin_data;
         $this->schedule_event = $schedule_event;
-        $this->null_date      = $null_date;
-        $this->current_date   = $current_date;
         $this->cache          = $cache;
-        $this->site_id        = (int)$site_id;
-        $this->application_id = (int)$application_id;
-
-//todo: FIX
-        $this->site_id        = 2;
-        $this->application_id = 2;
-
-        $this->setSQL($sql);
+        
+        $this->setDateProperties($null_date, $current_date);
+        $this->setModelProperties($query, $model, $sql);
+        $this->setSiteApplicationProperties($site_id, $application_id);
         $this->setModelRegistryDefaults($model_registry);
     }
 
@@ -312,11 +304,18 @@ abstract class Controller implements ControllerInterface
     /**
      * Set Default Values for SQL
      *
+     * @param   QueryInterface $query,
+     * @param   ModelInterface $model,
+     * @param   string         $sql
+     *
      * @return  $this
      * @since   1.0
      */
-    protected function setSQL($sql)
+    protected function setModelProperties(QueryInterface $query, ModelInterface $model, $sql)
     {
+        $this->query          = $query;
+        $this->model          = $model;
+
         $this->sql = $sql;
 
         if ($this->sql === null || trim($this->sql) == '') {
@@ -337,6 +336,44 @@ abstract class Controller implements ControllerInterface
         $defaults = new ModelRegistry($model_registry);
 
         $this->model_registry = $defaults->setModelRegistryDefaults();
+
+        return $this;
+    }
+
+    /**
+     * Set Default Values for SQL
+     *
+     * @param   string  $null_date
+     * @param   string  $current_date
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setDateProperties($null_date, $current_date)
+    {
+        $this->null_date    = $null_date;
+        $this->current_date = $current_date;
+
+        return $this;
+    }
+
+    /**
+     * Set Default Values for SQL
+     *
+     * @param   integer  $site_id
+     * @param   integer  $application_id
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setSiteApplicationProperties($site_id, $application_id)
+    {
+        $this->site_id        = (int)$site_id;
+        $this->application_id = (int)$application_id;
+
+//todo: FIX
+        $this->site_id        = 2;
+        $this->application_id = 2;
 
         return $this;
     }
