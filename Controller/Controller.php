@@ -145,18 +145,17 @@ abstract class Controller implements ControllerInterface
         = array(
             'query',
             'model',
-            'model_registry',
             'runtime_data',
             'plugin_data',
             'schedule_event',
             'sql',
-            'site',
+            'site_id',
             'application',
+            'query_results',
+            'row',
             'null_date',
             'current_date',
-            'cache',
-            'query_results',
-            'row'
+            'cache'
         );
 
     /**

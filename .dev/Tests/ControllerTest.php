@@ -31,6 +31,8 @@ use PHPUnit_Framework_TestCase;
  */
 class ControllerTest extends PHPUnit_Framework_TestCase
 {
+    protected $controller;
+
     public function setup()
     {
         $field_handler = new FieldhandlerRequest();
@@ -105,30 +107,154 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      */
     public function testConstruct()
     {
-
         $this->assertEquals('#__content', $this->controller->getModelRegistry('table_name'));
-/**
 
-        $dispatcher->registerForEvent('onBeforeRead', $x, 2);
-        $dispatcher->registerForEvent('onBeforeRead', $y, 1);
-        $dispatcher->registerForEvent('onBeforeUpdate', $y, 1);
-        $dispatcher->registerForEvent('onAfterDelete', $x, 3);
-        $dispatcher->registerForEvent('onAfterDelete', $y, 2);
-        $dispatcher->registerForEvent('onAfterDelete', $z, 1);
-
-        $return = array('a', 'e');
-        $data = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
-        $event_instance = new Scheduled('onBeforeRead', $return, $data);
-
-        $results = $dispatcher->scheduleEvent('onBeforeRead', $event_instance);
-
-        $this->assertEquals(100, $results['a']);
-        $this->assertEquals(5, $results['e']);
-        $this->assertEquals(2, count($results));
-*/
         return;
     }
 
+    /**
+     * Test Get and Set Methods
+     *
+     * @covers  Molajo\Controller\Controller::__construct
+     * @covers  Molajo\Controller\Controller::getValue
+     * @covers  Molajo\Controller\Controller::setValue
+     * @covers  Molajo\Controller\Controller::getModelRegistry
+     * @covers  Molajo\Controller\Controller::getModelRegistryAll
+     * @covers  Molajo\Controller\Controller::getModelRegistryByKey
+     * @covers  Molajo\Controller\Controller::setModelRegistry
+     * @covers  Molajo\Controller\Controller::setModelProperties
+     * @covers  Molajo\Controller\Controller::setModelRegistryDefaults
+     * @covers  Molajo\Controller\Controller::setDateProperties
+     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
+     *
+     * @covers  Molajo\Controller\ModelRegistry::__construct
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsGroup
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryCriteriaValues
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsFields
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsTableName
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsPrimaryPrefix
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsQueryObject
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsCriteriaArray
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsJoins
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultLimits
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryPaginationCrossEdits
+     * @covers  Molajo\Controller\ModelRegistry::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistry::setProperty
+     *
+     * @return void
+     * @since   1.0
+     */
+    public function testGetSet()
+    {
+        $this->assertEquals(2, $this->controller->getValue('site_id'));
+        $this->controller->setValue('site_id', 1);
+        $this->assertEquals(1, $this->controller->getValue('site_id'));
+
+        return;
+    }
+
+    /**
+     * Test Get and Set Model Registry
+     *
+     * @covers  Molajo\Controller\Controller::__construct
+     * @covers  Molajo\Controller\Controller::getValue
+     * @covers  Molajo\Controller\Controller::setValue
+     * @covers  Molajo\Controller\Controller::getModelRegistry
+     * @covers  Molajo\Controller\Controller::getModelRegistryAll
+     * @covers  Molajo\Controller\Controller::getModelRegistryByKey
+     * @covers  Molajo\Controller\Controller::setModelRegistry
+     * @covers  Molajo\Controller\Controller::setModelProperties
+     * @covers  Molajo\Controller\Controller::setModelRegistryDefaults
+     * @covers  Molajo\Controller\Controller::setDateProperties
+     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
+     *
+     * @covers  Molajo\Controller\ModelRegistry::__construct
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsGroup
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryCriteriaValues
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsFields
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsTableName
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsPrimaryPrefix
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsQueryObject
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsCriteriaArray
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsJoins
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultLimits
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryPaginationCrossEdits
+     * @covers  Molajo\Controller\ModelRegistry::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistry::setProperty
+     *
+     * @return void
+     * @since   1.0
+     */
+    public function testGetSetModelRegistry()
+    {
+        $this->controller->setModelRegistry('table_name', 'dog');
+        $this->assertEquals('dog', $this->controller->getModelRegistry('table_name'));
+
+        return;
+    }
+
+    /**
+     * Test Get and Set Model Registry
+     *
+     * @covers  Molajo\Controller\Controller::__construct
+     * @covers  Molajo\Controller\Controller::getValue
+     * @covers  Molajo\Controller\Controller::setValue
+     * @covers  Molajo\Controller\Controller::getModelRegistry
+     * @covers  Molajo\Controller\Controller::getModelRegistryAll
+     * @covers  Molajo\Controller\Controller::getModelRegistryByKey
+     * @covers  Molajo\Controller\Controller::setModelRegistry
+     * @covers  Molajo\Controller\Controller::setModelProperties
+     * @covers  Molajo\Controller\Controller::setModelRegistryDefaults
+     * @covers  Molajo\Controller\Controller::setDateProperties
+     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
+     *
+     * @covers  Molajo\Controller\ModelRegistry::__construct
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsGroup
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryCriteriaValues
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsFields
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsTableName
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsPrimaryPrefix
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsQueryObject
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsCriteriaArray
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsJoins
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultLimits
+     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryPaginationCrossEdits
+     * @covers  Molajo\Controller\ModelRegistry::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistry::setProperty
+     *
+     * @return void
+     * @since   1.0
+     */
+    public function testGetModelRegistry()
+    {
+        $model_registry = $this->controller->getModelRegistry();
+
+        $this->assertEquals(1, $model_registry['process_events']);
+        $this->assertEquals('', $model_registry['criteria_status']);
+        $this->assertEquals(0, $model_registry['criteria_source_id']);
+        $this->assertEquals(0, $model_registry['criteria_catalog_type_id']);
+        $this->assertEquals(0, $model_registry['catalog_type_id']);
+        $this->assertEquals(0, $model_registry['menu_id']);
+        $this->assertEquals(0, $model_registry['criteria_extension_instance_id']);
+        $this->assertEquals('id', $model_registry['primary_key']);
+        $this->assertEquals(null, $model_registry['name_key_value']);
+        $this->assertEquals(array(), $model_registry['fields']);
+        $this->assertEquals('a', $model_registry['primary_prefix']);
+        $this->assertEquals('list', $model_registry['query_object']);
+        $this->assertEquals(array(), $model_registry['criteria']);
+        $this->assertEquals(0, $model_registry['use_special_joins']);
+        $this->assertEquals(array(), $model_registry['joins']);
+        $this->assertEquals(15, $model_registry['model_count']);
+        $this->assertEquals(1, $model_registry['use_pagination']);
+
+        return;
+    }
 
     /**
      * Tear down

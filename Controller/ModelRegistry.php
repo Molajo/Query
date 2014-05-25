@@ -139,7 +139,7 @@ class ModelRegistry
         }
 
         $this->setProperty('name_key', 'title');
-        $this->setProperty('name_key_value, null');
+        $this->setProperty('name_key_value', null);
 
         return $this;
     }
