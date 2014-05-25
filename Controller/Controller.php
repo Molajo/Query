@@ -142,49 +142,50 @@ abstract class Controller implements ControllerInterface
      * @var    object
      * @since  1.0
      */
-    protected $property_array = array(
-        'query',
-        'model',
-        'model_registry',
-        'runtime_data',
-        'plugin_data',
-        'schedule_event',
-        'sql',
-        'site',
-        'application',
-        'null_date',
-        'current_date',
-        'cache',
-        'query_results',
-        'row'
-    );
+    protected $property_array
+        = array(
+            'query',
+            'model',
+            'model_registry',
+            'runtime_data',
+            'plugin_data',
+            'schedule_event',
+            'sql',
+            'site',
+            'application',
+            'null_date',
+            'current_date',
+            'cache',
+            'query_results',
+            'row'
+        );
 
     /**
      * Class Constructor
      *
-     * @param  QueryInterface  $query
-     * @param  ModelInterface  $model
-     * @param  array           $model_registry
-     * @param  object          $runtime_data
-     * @param  object          $plugin_data
-     * @param  callable        $schedule_event
-     * @param  string          $sql
-     * @param  null|int        $site_id
-     * @param  null|int        $application_id
-     * @param  string          $null_date
-     * @param  string          $current_date
-     * @param  CacheInterface  $cache
+     * @param  QueryInterface $query
+     * @param  ModelInterface $model
+     * @param  array          $model_registry
+     * @param  object         $runtime_data
+     * @param  object         $plugin_data
+     * @param  callable       $schedule_event
+     * @param  string         $sql
+     * @param  null|int       $site_id
+     * @param  null|int       $application_id
+     * @param  string         $null_date
+     * @param  string         $current_date
+     * @param  CacheInterface $cache
      *
      * @since  1.0
      */
     public function __construct(
         QueryInterface $query,
         ModelInterface $model,
-        array $model_registry = array(),
+        array $model_registry,
         $runtime_data,
         $plugin_data,
         callable $schedule_event,
-        $sql = '',
+        $sql,
         $null_date,
         $current_date,
         CacheInterface $cache = null,
@@ -196,7 +197,7 @@ abstract class Controller implements ControllerInterface
         $this->model_registry = $model_registry;
         $this->runtime_data   = $runtime_data;
         $this->plugin_data    = $plugin_data;
-        $this->scheduleEvent  = $schedule_event;
+        $this->schedule_event = $schedule_event;
         $this->sql            = $sql;
 
         if ($this->sql === null || trim($this->sql) == '') {
@@ -223,15 +224,9 @@ abstract class Controller implements ControllerInterface
      *
      * @return  mixed
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function getValue($key, $default = null)
     {
-        if (in_array($key, $this->property_array)) {
-        } else {
-            throw new RuntimeException('Controller Get: Unknown key: ' . $key);
-        }
-
         if ($this->$key === null) {
             $this->$key = $default;
         }
@@ -247,17 +242,12 @@ abstract class Controller implements ControllerInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function setValue($key, $value = null)
     {
         if (in_array($key, $this->property_array)) {
-        } else {
-            throw new RuntimeException('Controller Set: Unknown key: ' . $key);
+            $this->$key = $value;
         }
-
-        $this->$key = $value;
-
         return $this;
     }
 
@@ -359,59 +349,12 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryCriteriaValues()
     {
-        /** Criteria Status */
-        if (isset($this->model_registry['criteria_status'])) {
-            $criteria_status = (int)$this->model_registry['criteria_status'];
-        } else {
-            $criteria_status = '';
-        }
-
-        $this->model_registry['criteria_status'] = trim($criteria_status);
-
-        /** Criteria Source ID */
-        if (isset($this->model_registry['criteria_source_id'])) {
-            $criteria_source_id = (int)$this->model_registry['criteria_source_id'];
-        } else {
-            $criteria_source_id = 0;
-        }
-
-        $this->model_registry['criteria_source_id'] = (int)$criteria_source_id;
-
-        /** Criteria Catalog Type ID */
-        if (isset($this->model_registry['criteria_catalog_type_id'])) {
-            $criteria_catalog_type_id = (int)$this->model_registry['criteria_catalog_type_id'];
-        } else {
-            $criteria_catalog_type_id = 0;
-        }
-
-        $this->model_registry['criteria_catalog_type_id'] = (int)$criteria_catalog_type_id;
-
-        /** Catalog Type ID */
-        if (isset($this->model_registry['catalog_type_id'])) {
-            $catalog_type_id = (int)$this->model_registry['catalog_type_id'];
-        } else {
-            $catalog_type_id = 0;
-        }
-
-        $this->model_registry['catalog_type_id'] = (int)$catalog_type_id;
-
-        /** Menu ID */
-        if (isset($this->model_registry['menu_id'])) {
-            $menu_id = (int)$this->model_registry['menu_id'];
-        } else {
-            $menu_id = 0;
-        }
-
-        $this->model_registry['menu_id'] = (int)$menu_id;
-
-        /** Extension Instance ID */
-        if (isset($this->model_registry['criteria_extension_instance_id'])) {
-            $criteria_extension_instance_id = (int)$this->model_registry['criteria_extension_instance_id'];
-        } else {
-            $criteria_extension_instance_id = 0;
-        }
-
-        $this->model_registry['criteria_extension_instance_id'] = (int)$criteria_extension_instance_id;
+        $this->setProperty('criteria_status', '');
+        $this->setProperty('criteria_source_id', 0);
+        $this->setProperty('criteria_catalog_type_id', 0);
+        $this->setProperty('catalog_type_id', 0);
+        $this->setProperty('menu_id', 0);
+        $this->setProperty('criteria_extension_instance_id', 0);
 
         return $this;
     }
@@ -424,13 +367,8 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryDefaultsKeys()
     {
-        if (isset($this->model_registry['primary_key'])) {
-            $primary_key = $this->model_registry['primary_key'];
-        } else {
-            $primary_key = 'id';
-        }
-
-        $this->model_registry['primary_key'] = $primary_key;
+        $this->setProperty('primary_key', 'id');
+        $this->setProperty('primary_key_value', 0);
 
         $key = 0;
 
@@ -438,7 +376,7 @@ abstract class Controller implements ControllerInterface
             $key = (int)$this->model_registry['primary_key_value'];
         }
 
-        if ($key === 0) {
+        if ((int)$this->model_registry['primary_key_value'] === 0) {
             if (isset($this->model_registry['criteria_source_id'])) {
                 $key = (int)$this->model_registry['criteria_source_id'];
             }
@@ -450,21 +388,8 @@ abstract class Controller implements ControllerInterface
             $this->model_registry['primary_key_value'] = $key;
         }
 
-        if (isset($this->model_registry['name_key'])) {
-            $name_key = $this->model_registry['name_key'];
-        } else {
-            $name_key = 'title';
-        }
-
-        $this->model_registry['name_key'] = $name_key;
-
-        if (isset($this->model_registry['name_key_value'])) {
-            $name_key_value = $this->model_registry['name_key_value'];
-        } else {
-            $name_key_value = null;
-        }
-
-        $this->model_registry['name_key_value'] = $name_key_value;
+        $this->setProperty('name_key', 'title');
+        $this->setProperty('name_key_value, null');
 
         return $this;
     }
@@ -477,18 +402,7 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryDefaultsFields()
     {
-        if (isset($this->model_registry['fields'])) {
-            $columns = $this->model_registry['fields'];
-        } else {
-            $columns = array();
-        }
-
-        if (is_array($columns)) {
-        } else {
-            $this->model_registry['fields'] = $columns;
-        }
-
-        return $this;
+        return $this->setPropertyArray('fields', array());
     }
 
     /**
@@ -499,15 +413,7 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryDefaultsTableName()
     {
-        if (isset($this->model_registry['table_name'])) {
-            $table_name = $this->model_registry['table_name'];
-        } else {
-            $table_name = '#__content';
-        }
-
-        $this->model_registry['table_name'] = $table_name;
-
-        return $this;
+        return $this->setProperty('table_name', '#__content');
     }
 
     /**
@@ -518,15 +424,7 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryDefaultsPrimaryPrefix()
     {
-        if (isset($this->model_registry['primary_prefix'])) {
-            $primary_prefix = $this->model_registry['primary_prefix'];
-        } else {
-            $primary_prefix = 'a';
-        }
-
-        $this->model_registry['primary_prefix'] = $primary_prefix;
-
-        return $this;
+        return $this->setProperty('primary_prefix', 'a');
     }
 
     /**
@@ -537,13 +435,9 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryDefaultsQueryObject()
     {
-        if (isset($this->model_registry['query_object'])) {
-            $query_object = $this->model_registry['query_object'];
-        } else {
-            $query_object = 'list';
-        }
+        $this->setProperty('query_object', 'list');
 
-        $query_object = strtolower($query_object);
+        $query_object = strtolower($this->model_registry['query_object']);
 
         if ($query_object == 'result'
             || $query_object == 'item'
@@ -567,15 +461,7 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryDefaultsCriteriaArray()
     {
-        if (isset($this->model_registry['criteria'])) {
-            $criteria_array = $this->model_registry['criteria'];
-        } else {
-            $criteria_array = array();
-        }
-
-        $this->model_registry['criteria'] = $criteria_array;
-
-        return $this;
+        return $this->setPropertyArray('criteria', array());
     }
 
     /**
@@ -586,26 +472,8 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryDefaultsJoins()
     {
-        if (isset($this->model_registry['use_special_joins'])) {
-            $use_special_joins = $this->model_registry['use_special_joins'];
-        } else {
-            $use_special_joins = 0;
-        }
-
-        $this->model_registry['use_special_joins'] = $use_special_joins;
-
-        if (isset($this->model_registry['joins'])) {
-            $joins = $this->model_registry['joins'];
-        } else {
-            $joins = array();
-        }
-
-        if (is_array($joins)) {
-        } else {
-            $joins = array();
-        }
-
-        $this->model_registry['joins'] = $joins;
+        $this->setProperty('use_special_joins', 0);
+        $this->setPropertyArray('joins', array());
 
         return $this;
     }
@@ -618,17 +486,13 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryDefaultLimits()
     {
-        if (isset($this->model_registry['model_offset'])) {
-            $model_offset = $this->model_registry['model_offset'];
-        } else {
-            $model_offset = 0;
-        }
+        $this->setProperty('model_offset', 0);
+        $this->setProperty('model_count', 15);
+        $this->setProperty('use_pagination', 1);
 
-        if (isset($this->model_registry['model_count'])) {
-            $model_count = $this->model_registry['model_count'];
-        } else {
-            $model_count = 15;
-        }
+        $use_pagination = $this->model_registry['use_pagination'];
+        $model_offset   = $this->model_registry['model_offset'];
+        $model_count    = $this->model_registry['model_count'];
 
         if (isset($this->model_registry['use_pagination'])) {
             $use_pagination = $this->model_registry['use_pagination'];
@@ -672,6 +536,49 @@ abstract class Controller implements ControllerInterface
         $this->model_registry['use_pagination'] = $use_pagination;
         $this->model_registry['model_offset']   = $model_offset;
         $this->model_registry['model_count']    = $model_count;
+
+        return $this;
+    }
+
+    /**
+     * Set Property
+     *
+     * @param   string $property
+     * @param   string $default
+     *
+     * @return  int|string
+     * @since   1.0.0
+     */
+    protected function setPropertyArray($property, $default = array())
+    {
+        $this->setProperty($property, $default);
+
+        if (is_array($this->model_registry[$property])) {
+        } else {
+            $this->model_registry[$property] = array();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set Property
+     *
+     * @param   string $property
+     * @param   string $default
+     *
+     * @return  int|string
+     * @since   1.0.0
+     */
+    protected function setProperty($property, $default = null)
+    {
+        if (isset($this->model_registry[$property])) {
+            $value = trim($this->model_registry[$property]);
+        } else {
+            $value = $default;
+        }
+
+        $this->model_registry[$property] = $value;
 
         return $this;
     }
