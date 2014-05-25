@@ -490,7 +490,6 @@ abstract class Controller implements ControllerInterface
         $this->setProperty('model_count', 15);
         $this->setProperty('use_pagination', 1);
 
-        $use_pagination = $this->model_registry['use_pagination'];
         $model_offset   = $this->model_registry['model_offset'];
         $model_count    = $this->model_registry['model_count'];
 
@@ -544,9 +543,9 @@ abstract class Controller implements ControllerInterface
      * Set Property
      *
      * @param   string $property
-     * @param   string $default
+     * @param   mixed $default
      *
-     * @return  int|string
+     * @return  $this
      * @since   1.0.0
      */
     protected function setPropertyArray($property, $default = array())
@@ -565,9 +564,9 @@ abstract class Controller implements ControllerInterface
      * Set Property
      *
      * @param   string $property
-     * @param   string $default
+     * @param   mixed $default
      *
-     * @return  int|string
+     * @return  $this
      * @since   1.0.0
      */
     protected function setProperty($property, $default = null)
