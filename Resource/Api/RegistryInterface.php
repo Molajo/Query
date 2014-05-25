@@ -8,8 +8,6 @@
  */
 namespace Molajo\Resource\Api;
 
-use CommonApi\Exception\RuntimeException;
-
 /**
  * Registry Interface
  *
@@ -202,8 +200,8 @@ interface RegistryInterface
      * @param   string $namespace
      * @param   string $key
      *
-     * @return  object
-     * @return  array|$this
+     * @return  \Molajo\Resource\Configuration\Registry
+     * @return  \Molajo\Resource\Configuration\Registry
      * @since   1.0
      */
     public function delete($namespace, $key = null);

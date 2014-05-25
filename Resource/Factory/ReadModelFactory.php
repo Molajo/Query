@@ -9,12 +9,8 @@
 namespace Molajo\Resource\Factory;
 
 use Exception;
-use CommonApi\Authorisation\AuthorisationInterface;
-use CommonApi\Cache\CacheInterface;
 use CommonApi\Database\DatabaseInterface;
 use CommonApi\Exception\RuntimeException;
-use CommonApi\Model\FieldhandlerInterface;
-use CommonApi\Query\QueryInterface;
 
 /**
  * Read Model Factory

@@ -113,7 +113,6 @@ class CreateModel extends Model implements CreateModelInterface
      *
      * @param     $name
      * @param     $type
-     * @param int $identity
      * @param     $data
      *
      * @return string - data element value

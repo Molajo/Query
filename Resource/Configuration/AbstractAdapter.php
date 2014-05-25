@@ -106,7 +106,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
      *
      * @param   string $xml
      *
-     * @return  mixed
+     * @return  \SimpleXMLElement
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -131,9 +131,8 @@ abstract class AbstractAdapter implements ConfigurationInterface
     /**
      * Parse xml recursively, processing all include statements
      *
-     * @param   string $xml
      *
-     * @return  mixed
+     * @return  string
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -403,7 +402,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
     /**
      * Load Custom Fields for a specific Group -- this is called once for each custom field type for a Model
      *
-     * @param   $model_registry
+     * @param   string $model_registry
      * @param   $customfield
      *
      * @return  array|bool
@@ -460,7 +459,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
     /**
      * Inherited fields are merged in with those specifically defined in model
      *
-     * @param   $model_registry
+     * @param   string $model_registry
      * @param   $name
      * @param   $fieldArray
      * @param   $fieldNames
@@ -509,7 +508,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
     /**
      * Inheritance checking and setup  <model name="XYZ" extends="ThisTable"/>
      *
-     * @param   $model_registry
+     * @param   string $model_registry
      * @param   $xml
      *
      * @return  $this

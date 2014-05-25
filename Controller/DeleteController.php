@@ -98,7 +98,7 @@ class DeleteController extends ReadController implements DeleteControllerInterfa
     /**
      * Retrieve data to be deleted
      *
-     * @return bool|mixed
+     * @return boolean
      * @since  1.0
      */
     public function getDeleteData()

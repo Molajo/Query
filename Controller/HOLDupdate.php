@@ -21,7 +21,7 @@ class HOLDupdate extends Controller
      *
      * Tasks: cancel and close
      *
-     * @return Boolean
+     * @return boolean|null
      * @since    1.0
      */
     public function cancel()
@@ -158,6 +158,7 @@ class HOLDupdate extends Controller
      *
      * Method called by apply, create, save, saveascopy and saveandnew actions
      *
+     * @param string $action
      * @return Boolean
      * @since    1.0
      */

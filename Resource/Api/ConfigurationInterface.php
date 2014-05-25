@@ -25,7 +25,7 @@ interface ConfigurationInterface
      * @param   string $model_name
      * @param   object $xml
      *
-     * @return  array
+     * @return  string
      * @since   1.0
      */
     public function getConfiguration($model_type, $model_name, $xml);

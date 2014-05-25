@@ -34,7 +34,6 @@ class Datalist implements DatalistInterface
     /**
      * Constructor
      *
-     * @param  int $length
      *
      * @since  1.0
      */

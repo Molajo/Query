@@ -115,7 +115,6 @@ class UpdateModel extends Model implements UpdateModelInterface
      *
      * @param     $name
      * @param     $type
-     * @param int $identity
      * @param     $data
      *
      * @return string - data element value

@@ -131,7 +131,7 @@ class ReadControllerFactory implements FactoryInterface
      * @param  object         $plugin_data
      * @param  callback       $schedule_event
      * @param  string         $sql
-     * @param  object         $cache
+     * @param  CacheInterface         $cache
      * @param  int            $site_id
      * @param  int            $application_id
      * @param  string         $null_date

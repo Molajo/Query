@@ -181,6 +181,7 @@ class UpdateController extends ReadController implements UpdateControllerInterfa
      *
      * called by single item methods to loop through the ids and processed by processItem
      *
+     * @param string $column
      * @return Boolean
      * @since    1.0
      */

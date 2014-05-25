@@ -745,7 +745,7 @@ abstract class AbstractAdapter implements QueryInterface
      *
      * @param   string $column_name
      *
-     * @return  $this
+     * @return  string
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -783,8 +783,9 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Process Array of Values for IN condition
      *
-     * @param array $values
-     * @param       $filter
+     * @param       string $filter
+     * @param string $name
+     * @param string $value_string
      */
     protected function processInArray($name, $value_string, $filter)
     {
@@ -969,7 +970,7 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Generate SQL for Update
      *
-     * @return  $this
+     * @return  string
      * @since   1.0
      */
     protected function setSQLUpdate()
@@ -1261,10 +1262,10 @@ abstract class AbstractAdapter implements QueryInterface
      * Filter Input
      *
      * @param   string $key
-     * @param   mixed  $value
+     * @param   null|string  $value
      * @param   string $data_type
      *
-     * @return  mixed
+     * @return  string
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */

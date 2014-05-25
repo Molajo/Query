@@ -391,7 +391,7 @@ class Registry implements RegistryInterface
      * @param   string $target_registry
      * @param   null   $filter
      *
-     * @return  void|Registry
+     * @return  Registry
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
@@ -592,8 +592,8 @@ class Registry implements RegistryInterface
      * @param   string $namespace
      * @param   string $key
      *
-     * @return  object
-     * @return  array|Registry
+     * @return  Registry
+     * @return  Registry
      * @throws  \CommonApi\Exception\RuntimeException
      * @since   1.0
      */
@@ -859,7 +859,7 @@ class Registry implements RegistryInterface
      *
      * $this->registry->get('Name Space');
      *
-     * @param   $namespace
+     * @param   string $namespace
      *
      * @return array
      * @since   1.0
@@ -881,7 +881,7 @@ class Registry implements RegistryInterface
      *
      * @param   string $namespace
      *
-     * @return  array
+     * @return  Registry
      * @since   1.0
      */
     protected function deleteRegistry($namespace)

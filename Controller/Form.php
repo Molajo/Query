@@ -188,7 +188,6 @@ class Form
      * Extract Fieldset Fields
      *
      * @param   string  $field_mask
-     * @param   object  $model_registry
      * @param   bool    $map_to_actual
      *
      * @return  array

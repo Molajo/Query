@@ -10,7 +10,6 @@ namespace Molajo\Controller;
 
 use Exception;
 use CommonApi\Controller\CreateControllerInterface;
-use CommonApi\Exception\RuntimeException;
 
 /**
  * The create controller uses model registry data and HTTP post variables to edit, filter, and save
@@ -159,7 +158,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
      *
      * Runs custom validation methods
      *
-     * @return  object
+     * @return  boolean
      * @since   1.0
      */
     protected function checkFields()
@@ -222,7 +221,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
      * @param        $userHTMLFilter
      * @param string $customFieldName
      *
-     * @return bool
+     * @return null|boolean
      * @since  1.0
      */
     protected function processFieldGroup($fields, $userHTMLFilter, $customFieldName = '')
@@ -324,7 +323,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
     /**
      * checkForeignKeys - validates the existence of all foreign keys
      *
-     * @return  object
+     * @return  boolean|null
      * @since   1.0
      */
     protected function checkForeignKeys()

@@ -162,7 +162,7 @@ class Model extends AbstractAdapter implements ConfigurationInterface
      * @param   string $model_registry
      * @param   object $xml
      *
-     * @return  bool
+     * @return  null|Model
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
