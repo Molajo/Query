@@ -19,7 +19,7 @@ use CommonApi\Query\QueryInterface;
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-class Postgresql extends AbstractAdapter implements QueryInterface
+class Postgresql extends AbstractConstruct implements QueryInterface
 {
     /**
      * Constructor
