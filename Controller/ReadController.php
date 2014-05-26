@@ -54,83 +54,65 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
      */
     protected function runQuery()
     {
-        $this->query_results = $this->model->getData(
-            $this->getModelRegistry('query_object'),
-            $this->sql
-        );
+        //todo cache
 
-        if ($this->getModelRegistry('query_object') == 'result'
-            || $this->getModelRegistry('query_object') == 'distinct'
-        ) {
+        $this->executeQuery();
+
+        if ($this->query_object === 'result' || $this->query_object === 'distinct') {
             return $this;
         }
 
-        return $this;
-
-//        if (is_object($this->cache)) {
-//            $cache_key = $this->__toString();
-//            $results   = $this->cache->get(serialize($cache_key));
-//            if ($results->isHit() === true) {
-//                $cached_output = $results->value;
-//            } else {
-        //               $cached_output = false;
-        //           }
-        //      } else {
-        $cached_output = false;
-        //    }
-
-        if ($cached_output === false) {
-
-            if ($query_object == 'result') {
-                $query_results = $this->database->loadResult($this->sql);
-            } else {
-                $query_results = $this->database->loadObjectList($this->sql);
-            }
-
-            if ($count < count($query_results)) {
-                $hold = $this->query;
-                $this->clear('select');
-                $this->select('count(*)');
-                $this->model_registry['total_items'] = $this->database->loadResult($this->getSQL());
-                $this->query                         = $hold;
-            } else {
-                $this->model_registry['total_items'] = count($query_results);
-            }
-
-//            if (is_object($this->cache)) {
-//                $this->cache->set('Query', $cache_key, $query_results);
-//            }
-        } else {
-            $query_results = $cached_output;
-        }
-
-        $total = count($query_results);
-
-        if ($offset > $total) {
-            $offset = 0;
-        }
-
-        if ($use_pagination === 0
-            || (int)$total === 0
+        if ($this->use_pagination === 0
+            || (int)$this->total === 0
         ) {
-            $this->query_results = $query_results;
-
-            return $total;
+            return $this->total;
         }
 
-        $offset_count  = 0;
-        $results_count = 0;
+        $this->processPagination();
 
-        foreach ($query_results as $item) {
+        return $this;
+    }
 
-            /** Read past offset */
-            if ($offset_count < $offset) {
-                $offset_count++;
-                /** Collect next set for pagination */
-            } elseif ($results_count < $count) {
-                $this->query_results[] = $item;
-                $results_count++;
-                /** Offset and Results set collected. Exit. */
+    /**
+     * Execute the Query
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function executeQuery()
+    {
+        $this->query_results = $this->model->getData($this->query_object, $this->sql);
+        $this->total         = count($this->query_results);
+
+        if ($this->offset > $this->total) {
+            $this->offset = 0;
+        }
+    }
+
+    /**
+     * Process Pagination Requirements
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function processPagination()
+    {
+        $this->offset_count  = 0;
+        $query_results = array();
+        $process_rows_count = 0;
+
+        foreach ($this->query_results as $item) {
+
+            /** Previous Data: Read past offset */
+            if ($this->offset_count < $this->offset) {
+                $this->offset_count++;
+
+                /** Current Data: Collect this data for display */
+            } elseif ($process_rows_count < $this->count) {
+                $query_results = $item;
+                $process_rows_count++;
+
+                /** Next Data: Offset and Results set collected. Exit. */
             } else {
                 break;
             }
@@ -329,8 +311,8 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
      */
     protected function returnQueryResults()
     {
-        if ($this->getModelRegistry('query_object') == 'result'
-            || $this->getModelRegistry('query_object') == 'distinct'
+        if ($this->query_object == 'result'
+            || $this->query_object == 'distinct'
         ) {
             return $this->query_results;
         }
@@ -342,7 +324,7 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
             $this->query_results = array();
         }
 
-        if ($this->getModelRegistry('query_object') == 'item') {
+        if ($this->query_object == 'item') {
             $result              = $this->query_results[0];
             $this->query_results = $result;
         }

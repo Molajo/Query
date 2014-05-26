@@ -21,6 +21,56 @@ use CommonApi\Exception\RuntimeException;
 class ModelRegistryQueryController extends QueryController
 {
     /**
+     * Query Object
+     *
+     * List, Item, Result, Distinct
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $query_object;
+
+    /**
+     * Use Pagination
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $use_pagination;
+
+    /**
+     * Offset
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $offset;
+
+    /**
+     * Count
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $count;
+
+    /**
+     * Offset Count
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $offset_count;
+
+    /**
+     * Total
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $total;
+
+    /**
      * DRIVER: SELECT, FROM and WHERE clauses for Query based on Model Registry
      *
      * @return  $this
@@ -43,6 +93,11 @@ class ModelRegistryQueryController extends QueryController
         $this->setSpecialJoins();
         $this->setModelRegistryCriteria();
         $this->setModelRegistryCriteriaArrayCriteria();
+
+        $this->query_object   = $this->getModelRegistry('query_object');
+        $this->use_pagination = $this->getModelRegistry('use_pagination');
+        $this->offset         = $this->getModelRegistry('offset');
+        $this->count          = $this->getModelRegistry('count');
 
         return $this;
     }
@@ -443,6 +498,7 @@ class ModelRegistryQueryController extends QueryController
         $where_right_filter
     ) {
         if ($where_left === null || $where_right === null) {
+
         } else {
 
             if ($join_table === null) {
