@@ -211,7 +211,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
 
         $connector = $this->editConnector($connector);
 
-        $left  = $this->setOrFilterColumn($left_filter, $left);
+        $left = $this->setOrFilterColumn($left_filter, $left);
 
         if (strtolower($condition) == 'in') {
             $right = $this->processInArray('Right', $right, $right_filter);
@@ -244,11 +244,6 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $this->editRequired('group by column_name', $column_name);
 
         $column = $this->setColumnName($column_name);
-
-        if ($alias === null || trim($alias) == '') {
-        } else {
-            $column = $this->quoteName($alias) . '.' . $column;
-        }
 
         $this->group_by[] = $column;
 
@@ -298,8 +293,8 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $right_filter = 'column',
         $right = '',
         $connector = 'AND',
-        $group = null)
-    {
+        $group = null
+    ) {
         $this->editWhere($left_filter, $condition, $right);
 
         if ($group === null) {
@@ -389,30 +384,10 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     protected function setColumnName($column_name)
     {
         if (strpos($column_name, '.')) {
-
             $temp = explode('.', $column_name);
-
-            if (count($temp) == 2) {
-                $prefix = $this->quoteName($temp[0]);
-
-                if (trim($temp[1]) == '*') {
-                    $column = $prefix . '.*';
-                } else {
-                    $column = $prefix . '.' . $this->quoteName($temp[1]);
-                }
-
-            } else {
-                throw new RuntimeException(
-                    'Query-setColumnName Method: Illegal Value for $column_name: ' . $column_name
-                );
-            }
-
+            $column = $this->quoteNameAndAlias($temp[1], $temp[0]);
         } else {
-            if (trim($column_name) == '*') {
-                $column = '*';
-            } else {
-                $column = $this->quoteName($column_name);
-            }
+            $column = $this->quoteName($column_name);
         }
 
         return $column;

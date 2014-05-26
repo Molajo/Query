@@ -406,6 +406,62 @@ abstract class AbstractAdapter implements QueryInterface
     }
 
     /**
+     * Quote Value
+     *
+     * @param   string $value
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function quoteValue($value)
+    {
+        return $this->quote_value . $value . $this->quote_value;
+    }
+
+    /**
+     * Quote Name
+     *
+     * @param   string $value
+     * @param   string $alias
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function quoteNameAndAlias($value, $alias = null)
+    {
+        if ($alias === null | trim($alias) === '') {
+            $return_alias = '';
+        } else {
+            $alias = $this->quoteName($alias);
+            $return_alias = $alias . '.';
+        }
+
+        if (trim($value) === '*') {
+        } else {
+            $value = $this->quoteName($value);
+        }
+
+        return $return_alias . $value;
+    }
+
+    /**
+     * Quote Name
+     *
+     * @param   string $value
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function quoteName($value)
+    {
+        if (trim($value) === '*') {
+            return $value;
+        }
+
+        return $this->name_quote_start . $value . $this->name_quote_end;
+    }
+    
+    /**
      * Filter Input
      *
      * @param   string       $key

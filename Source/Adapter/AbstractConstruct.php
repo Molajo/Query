@@ -490,30 +490,4 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     {
         return str_replace('#__', $this->database_prefix, $query);
     }
-
-    /**
-     * Quote Value
-     *
-     * @param   string $value
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function quoteValue($value)
-    {
-        return $this->quote_value . $value . $this->quote_value;
-    }
-
-    /**
-     * Quote Name
-     *
-     * @param   string $value
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function quoteName($value)
-    {
-        return $this->name_quote_start . $value . $this->name_quote_end;
-    }
 }
