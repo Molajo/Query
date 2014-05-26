@@ -429,7 +429,7 @@ abstract class AbstractAdapter implements QueryInterface
      */
     protected function quoteNameAndAlias($value, $alias = null)
     {
-        if ($alias === null | trim($alias) === '') {
+        if ($alias === null || trim($alias) === '') {
             $return_alias = '';
         } else {
             $alias = $this->quoteName($alias);
@@ -460,7 +460,7 @@ abstract class AbstractAdapter implements QueryInterface
 
         return $this->name_quote_start . $value . $this->name_quote_end;
     }
-    
+
     /**
      * Filter Input
      *

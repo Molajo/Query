@@ -93,18 +93,9 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setModelRegistrySQL()
     {
-        if (count($this->get('columns', array())) === 0) {
-            $this->setSelectColumns();
-        }
-
-        if (count($this->get('from', array())) === 0) {
-            $this->setFromTable();
-        }
-
-        if (count($this->get('where', array())) === 0) {
-            $this->setWhereStatements();
-        }
-
+        $this->setSelectColumns();
+        $this->setFromTable();
+        $this->setWhereStatements();
         $this->setSpecialJoins();
         $this->setModelRegistryCriteria();
         $this->setModelRegistryCriteriaArrayCriteria();
@@ -127,6 +118,10 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setSelectColumns()
     {
+        if (count($this->get('columns', array())) > 0) {
+            return $this;
+        }
+
         if ($this->model_registry['query_object'] == 'result') {
             return $this->setSelectColumnsResultQuery();
         }
@@ -197,6 +192,10 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setFromTable()
     {
+        if (count($this->get('from', array())) > 0) {
+            return $this;
+        }
+
         $primary_prefix = $this->model_registry['primary_prefix'];
         $table_name     = $this->model_registry['table_name'];
 
@@ -216,6 +215,10 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setWhereStatements()
     {
+        if (count($this->get('where', array())) > 0) {
+            return $this;
+        }
+
         if ((int)$this->model_registry['id'] > 0) {
             $this->setWhereStatementsIDSpecified();
 
@@ -348,22 +351,22 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setSpecialJoinsItemColumns($select, $alias)
     {
-        if (trim($select) == '') {
-            $select_array = array();
-        } else {
-            $select_array = explode(',', $select);
+        if ($this->model_registry['query_object'] === 'result') {
+            return $this;
         }
 
-        if ($this->model_registry['query_object'] == 'result') {
-        } else {
+        if (trim($select) == '') {
+            return $this;
+        }
 
-            if (count($select_array) > 0) {
-                foreach ($select_array as $select_item) {
-                    $this->select(
-                        trim($alias) . '.' . trim($select_item),
-                        trim($alias) . '_' . trim($select_item)
-                    );
-                }
+        $select_array = explode(',', $select);
+
+        if (count($select_array) > 0) {
+            foreach ($select_array as $select_item) {
+                $this->select(
+                    trim($alias) . '.' . trim($select_item),
+                    trim($alias) . '_' . trim($select_item)
+                );
             }
         }
 
@@ -489,23 +492,20 @@ class ModelRegistryQueryController extends QueryController
         $where_right_filter
     ) {
         if ($where_left === null || $where_right === null) {
-
-        } else {
-
-            if ($join_table === null) {
-            } else {
-                $this->from($join_table, $alias);
-                $join_table = null;
-            }
-
-            $this->where(
-                $where_left_filter,
-                $where_left,
-                $operator,
-                $where_right_filter,
-                $where_right
-            );
+            return $this;
         }
+
+        $this->from($join_table, $alias);
+
+        $this->where(
+            $where_left_filter,
+            $where_left,
+            $operator,
+            $where_right_filter,
+            $where_right
+        );
+
+        return $this;
     }
 
     /**
@@ -516,7 +516,7 @@ class ModelRegistryQueryController extends QueryController
      * @return  array
      * @since   1.0
      */
-    protected function  setWhereElement($join_item)
+    protected function setWhereElement($join_item)
     {
         if (isset($this->query_where_property_array[$join_item])) {
             $key = $this->property_array[$join_item];
@@ -528,7 +528,6 @@ class ModelRegistryQueryController extends QueryController
             }
 
             return array('integer', $value);
-
         }
 
         if (is_numeric($join_item)) {
@@ -545,7 +544,6 @@ class ModelRegistryQueryController extends QueryController
             $to_join = trim($join_item);
         }
 
-
         return array('column', $to_join);
     }
 
@@ -560,30 +558,15 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setModelRegistryCriteria()
     {
-        if ($this->model_registry['criteria_status'] === '') {
-        } else {
-            $this->setModelRegistryCriteriaBuildWhere('status', 'IN', 'integer', 'criteria_status');
-        }
-
-        if ((int)$this->model_registry['criteria_catalog_type_id'] === 0) {
-        } else {
-            $this->setModelRegistryCriteriaBuildWhere('catalog_type_id', '=', 'integer', 'criteria_catalog_type_id');
-        }
-
-        if ((int)$this->model_registry['criteria_extension_instance_id'] === 0) {
-        } else {
-            $this->setModelRegistryCriteriaBuildWhere(
-                'extension_instance_id',
-                '=',
-                'integer',
-                'criteria_extension_instance_id'
-            );
-        }
-
-        if ((int)$this->model_registry['criteria_menu_id'] === 0) {
-        } else {
-            $this->setModelRegistryCriteriaBuildWhere('menu_id', '=', 'integer', 'criteria_menu_id');
-        }
+        $this->setModelRegistryCriteriaBuildWhere('status', 'IN', 'integer', 'criteria_status');
+        $this->setModelRegistryCriteriaBuildWhere('catalog_type_id', '=', 'integer', 'criteria_catalog_type_id');
+        $this->setModelRegistryCriteriaBuildWhere(
+            'extension_instance_id',
+            '=',
+            'integer',
+            'criteria_extension_instance_id'
+        );
+        $this->setModelRegistryCriteriaBuildWhere('menu_id', '=', 'integer', 'criteria_menu_id');
 
         return $this;
     }
@@ -601,6 +584,12 @@ class ModelRegistryQueryController extends QueryController
         $filter,
         $model_registry_property
     ) {
+        if ($this->model_registry[$column_name] === ''
+            || (int)$this->model_registry[$column_name] === 0
+        ) {
+            return $this;
+        }
+
         $this->where(
             'column',
             $this->model_registry['primary_prefix'] . '.' . $column_name,
@@ -629,15 +618,8 @@ class ModelRegistryQueryController extends QueryController
         }
 
         foreach ($this->model_registry['criteria'] as $item) {
-
             if ($this->SetModelRegistryCriteriaArrayUse($item) === true) {
-
-                if (isset($item['value'])) {
-                    $this->where('column', $item['name'], $item['connector'], 'integer', (int)$item['value']);
-
-                } elseif (isset($item['name2'])) {
-                    $this->where('column', $item['name'], $item['connector'], 'column', $item['name2']);
-                }
+                $this->SetModelRegistryCriteriaArrayProcess($item);
             }
         }
 
@@ -659,6 +641,26 @@ class ModelRegistryQueryController extends QueryController
         }
 
         return $this->SetModelRegistryCriteriaArrayUseItem($item);
+    }
+
+    /**
+     * Model Registry Criteria Array: Use or Don't Use
+     *
+     * @param   array $item
+     *
+     * @return  boolean
+     * @since   1.0.0
+     */
+    protected function SetModelRegistryCriteriaArrayProcess($item)
+    {
+        if (isset($item['value'])) {
+            $this->where('column', $item['name'], $item['connector'], 'integer', (int)$item['value']);
+
+        } elseif (isset($item['name2'])) {
+            $this->where('column', $item['name'], $item['connector'], 'column', $item['name2']);
+        }
+
+        return $this;
     }
 
     /**
