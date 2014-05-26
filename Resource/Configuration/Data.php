@@ -136,7 +136,7 @@ class Data implements ConfigurationDataInterface
     /**
      * List of Properties
      *
-     * @var    object
+     * @var    array
      * @since  1.0
      */
     protected $property_array = array(

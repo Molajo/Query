@@ -196,7 +196,7 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * List of Controller Properties
      *
-     * @var    object
+     * @var    array
      * @since  1.0
      */
     protected $property_array = array(

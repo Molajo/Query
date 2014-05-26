@@ -27,6 +27,40 @@ class ModelRegistryDefaults
     protected $model_registry = null;
 
     /**
+     * List of Valid Values for Query Object
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $valid_query_object_values = array(
+        'result',
+        'item',
+        'list',
+        'distinct'
+    );
+
+    /**
+     * List of Controller Methods
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $method_array = array(
+        'setModelRegistryBase',
+        'setModelRegistryDefaultsGroup',
+        'setModelRegistryCriteriaValues',
+        'setModelRegistryDefaultsKeys',
+        'setModelRegistryDefaultsFields',
+        'setModelRegistryDefaultsTableName',
+        'setModelRegistryDefaultsPrimaryPrefix',
+        'setModelRegistryDefaultsQueryObject',
+        'setModelRegistryDefaultsCriteriaArray',
+        'setModelRegistryDefaultsJoins',
+        'setModelRegistryDefaultLimits',
+        'setModelRegistryPaginationCrossEdits'
+    );
+
+    /**
      * Class Constructor
      *
      * @param  array          $model_registry
@@ -47,18 +81,9 @@ class ModelRegistryDefaults
      */
     public function setModelRegistryDefaults()
     {
-        $this->setModelRegistryBase();
-        $this->setModelRegistryDefaultsGroup();
-        $this->setModelRegistryCriteriaValues();
-        $this->setModelRegistryDefaultsKeys();
-        $this->setModelRegistryDefaultsFields();
-        $this->setModelRegistryDefaultsTableName();
-        $this->setModelRegistryDefaultsPrimaryPrefix();
-        $this->setModelRegistryDefaultsQueryObject();
-        $this->setModelRegistryDefaultsCriteriaArray();
-        $this->setModelRegistryDefaultsJoins();
-        $this->setModelRegistryDefaultLimits();
-        $this->setModelRegistryPaginationCrossEdits();
+        foreach ($this->method_array as $method) {
+            $this->$method();
+        }
 
         return $this->model_registry;
     }
@@ -227,18 +252,10 @@ class ModelRegistryDefaults
      */
     protected function setModelRegistryDefaultsQueryObject()
     {
-        $query_object = strtolower($this->model_registry['query_object']);
-
-        if ($query_object == 'result'
-            || $query_object == 'item'
-            || $query_object == 'list'
-            || $query_object == 'distinct'
-        ) {
+        if (in_array(strtolower($this->model_registry['query_object']), $this->valid_query_object_values)) {
         } else {
-            $query_object = 'list';
+            $this->model_registry['query_object'] = 'list';
         }
-
-        $this->model_registry['query_object'] = $query_object;
 
         return $this;
     }
