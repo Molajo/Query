@@ -9,7 +9,6 @@
 namespace Molajo\Controller;
 
 use CommonApi\Controller\ReadControllerInterface;
-use CommonApi\Exception\RuntimeException;
 
 /**
  * Read Controller
@@ -97,8 +96,8 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
      */
     protected function processPagination()
     {
-        $this->offset_count  = 0;
-        $query_results = array();
+        $this->offset_count = 0;
+        $query_results      = array();
         $process_rows_count = 0;
 
         foreach ($this->query_results as $item) {
@@ -119,186 +118,6 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
         }
 
         $this->query_results = $query_results;
-
-        return $this;
-    }
-
-    /**
-     * Schedule onBeforeRead Event
-     *
-     * - Model Query has been developed and is passed into the event, along with runtime_data and registry data
-     *
-     * - Good event for modifying selection criteria, like adding tag selectivity, or setting publishing criteria
-     *
-     * - Examples: Publishedstatus
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function triggerOnBeforeReadEvent()
-    {
-        if ($this->getModelRegistry('process_event') == 0) {
-            return $this;
-        }
-
-        $schedule_event = $this->schedule_event;
-
-        $options                   = array();
-        $options['runtime_data']   = $this->runtime_data;
-        $options['plugin_data']    = $this->plugin_data;
-        $options['query']          = $this->query;
-        $options['model_registry'] = $this->model_registry;
-        $options['rendered_view']  = null;
-        $options['rendered_page']  = null;
-        $options['query_results']  = null;
-        $options['row']            = null;
-        $options['parameters']     = null;
-
-        $results = $schedule_event($event_name = 'onBeforeRead', $options);
-
-        if (is_array($results)) {
-
-            if (isset($results['runtime_data'])) {
-                $this->runtime_data = $results['runtime_data'];
-            }
-            if (isset($results['plugin_data'])) {
-                $this->runtime_data = $results['plugin_data'];
-            }
-            if (isset($results['query'])) {
-                $this->query = $results['query'];
-            }
-            if (isset($results['model_registry'])) {
-                $this->model_registry = $results['model_registry'];
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Schedule Event onAfterRead Event
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function triggerOnAfterReadEvent()
-    {
-        if ($this->getModelRegistry('process_events') == 0) {
-            return $this;
-        }
-
-        $schedule_event = $this->schedule_event;
-
-        $rows                = $this->query_results;
-        $this->query_results = array();
-
-        $first = true;
-
-        if (count($rows) == 0) {
-        } else {
-
-            $i = 0;
-            foreach ($rows as $row) {
-
-                $this->runtime_data->first = $first;
-
-                $options                   = array();
-                $options['runtime_data']   = $this->runtime_data;
-                $options['plugin_data']    = $this->plugin_data;
-                $options['query']          = $this->query;
-                $options['model_registry'] = $this->model_registry;
-                $options['rendered_view']  = null;
-                $options['rendered_page']  = null;
-                $options['query_results']  = null;
-                $options['row']            = $row;
-                $options['parameters']     = $row->parameters;
-
-                $results = $schedule_event($event_name = 'onAfterRead', $options);
-
-                if (is_array($results)) {
-
-                    if (isset($results['runtime_data'])) {
-                        $this->runtime_data = $results['runtime_data'];
-                    }
-                    if (isset($results['plugin_data'])) {
-                        $this->runtime_data = $results['plugin_data'];
-                    }
-                    if (isset($results['query'])) {
-                        $this->query = $results['query'];
-                    }
-                    if (isset($results['row'])) {
-                        $row = $results['row'];
-                    }
-                    if (isset($results['parameters'])) {
-                        // already in $row->parameters
-                        $parameters = $results['parameters'];
-                        if (count($parameters) > 0 && is_array($parameters)) {
-                            $row->parameters = $parameters;
-                        }
-                    }
-                    if (isset($results['model_registry'])) {
-                        $this->model_registry = $results['model_registry'];
-                    }
-                } else {
-                    break;
-                };
-                $first = false;
-            }
-        }
-
-        unset($this->runtime_data->first);
-
-        $this->query_results = $rows;
-
-        return $this;
-    }
-
-    /**
-     * Schedule Event onAfterRead Event
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function triggerOnAfterReadallEvent()
-    {
-        if ($this->getModelRegistry('process_events') == 0) {
-            return $this;
-        }
-
-        $schedule_event = $this->schedule_event;
-
-        $options                   = array();
-        $options['runtime_data']   = $this->runtime_data;
-        $options['plugin_data']    = $this->plugin_data;
-        $options['query']          = $this->query;
-        $options['model_registry'] = $this->model_registry;
-        $options['rendered_view']  = null;
-        $options['rendered_page']  = null;
-        $options['query']          = $this->query;
-        $options['query_results']  = $this->query_results;
-        $options['row']            = null;
-        $options['parameters']     = null;
-
-        $results = $schedule_event($event_name = 'onAfterReadall', $options);
-
-        if (is_array($results)) {
-
-            if (isset($results['runtime_data'])) {
-                $this->runtime_data = $results['runtime_data'];
-            }
-            if (isset($results['plugin_data'])) {
-                $this->runtime_data = $results['plugin_data'];
-            }
-            if (isset($results['query'])) {
-                $this->query = $results['query'];
-            }
-            if (isset($results['query_results'])) {
-                $this->query_results = $results['query_results'];
-            }
-            if (isset($results['model_registry'])) {
-                $this->model_registry = $results['model_registry'];
-            }
-        }
 
         return $this;
     }
@@ -330,5 +149,142 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
         }
 
         return $this->query_results;
+    }
+
+    /**
+     * Schedule onBeforeRead Event
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function triggerOnBeforeReadEvent()
+    {
+        return $this->triggerEvent('onBeforeRead');
+    }
+
+    /**
+     * Schedule onAfterRead Event
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function triggerOnAfterReadEvent()
+    {
+        $rows                = $this->query_results;
+        $this->query_results = array();
+        $first               = true;
+
+        if (count($rows) == 0) {
+        } else {
+            foreach ($rows as $this->row) {
+                $this->runtime_data->first = $first;
+                $this->triggerEvent('onAfterRead');
+                $first = false;
+            }
+        }
+
+        unset($this->runtime_data->first);
+        $this->query_results = $rows;
+
+        return $this;
+    }
+
+    /**
+     * Schedule Event onAfterReadAll Event
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function triggerOnAfterReadallEvent()
+    {
+        return $this->triggerEvent('onAfterReadall');
+    }
+
+    /**
+     * Trigger Event
+     *
+     * @param  string $event_name
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function triggerEvent($event_name)
+    {
+        if ($this->getModelRegistry('process_event') == 0) {
+            return $this;
+        }
+
+        $schedule_event = $this->schedule_event;
+        $options        = $this->prepareEventInput();
+        $results        = $schedule_event($event_name, $options);
+
+        $this->processEventResults($results);
+
+        return $this;
+    }
+
+    /**
+     * Prepare Event Input
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function prepareEventInput()
+    {
+        $options                   = array();
+        $options['runtime_data']   = $this->runtime_data;
+        $options['plugin_data']    = $this->plugin_data;
+        $options['query']          = $this->query;
+        $options['model_registry'] = $this->model_registry;
+        $options['rendered_view']  = null;
+        $options['rendered_page']  = null;
+        $options['rendered_page']  = $this->query;
+        $options['query_results']  = $this->query_results;;
+        $options['row']        = $this->row;
+        $options['parameters'] = $this->row->parameters;
+
+        return $options;
+    }
+
+    /**
+     * Process Event Results
+     *
+     * @param   array  $results
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function processEventResults($results)
+    {
+        if (is_array($results)) {
+
+            if (isset($results['runtime_data'])) {
+                $this->runtime_data = $results['runtime_data'];
+            }
+            if (isset($results['plugin_data'])) {
+                $this->runtime_data = $results['plugin_data'];
+            }
+            if (isset($results['query'])) {
+                $this->query = $results['query'];
+            }
+            if (isset($results['query_results'])) {
+                $this->query_results = $results['query_results'];
+            }
+            if (isset($results['row'])) {
+                $this->row = $results['row'];
+            }
+            if (isset($results['parameters'])) {
+                // already in $row->parameters
+                $parameters = $results['parameters'];
+                if (count($parameters) > 0 && is_array($parameters)) {
+                    $this->row->parameters = $parameters;
+                }
+            }
+            if (isset($results['model_registry'])) {
+                $this->model_registry = $results['model_registry'];
+            }
+        }
+
+        return $results;
     }
 }
