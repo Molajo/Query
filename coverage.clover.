@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1401064190">
-  <project timestamp="1401064190">
+<coverage generated="1401064573">
+  <project timestamp="1401064573">
     <file name="/Users/amystephen/Sites/Molajo/Query/.dev/Bootstrap.php">
       <line num="37" type="stmt" count="0"/>
       <line num="38" type="stmt" count="0"/>
@@ -729,8 +729,8 @@
         <line num="1323" type="stmt" count="0"/>
         <metrics loc="1325" ncloc="894" classes="1" methods="35" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="433" coveredstatements="0" elements="468" coveredelements="0"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/Query/Source/Adapter/MySql.php">
-        <class name="MySql" namespace="Molajo\Query\Adapter" fullPackage="Molajo" package="Molajo">
+      <file name="/Users/amystephen/Sites/Molajo/Query/Source/Adapter/Mysql.php">
+        <class name="Mysql" namespace="Molajo\Query\Adapter" fullPackage="Molajo" package="Molajo">
           <metrics methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="8" coveredelements="0"/>
         </class>
         <line num="29" type="method" name="__construct" crap="2" count="0"/>

@@ -16,7 +16,7 @@ use CommonApi\Query\QueryInterface;
 
 use Molajo\Model\ReadModel;
 use Molajo\Query\Driver as QueryDriver;
-use Molajo\Query\Adapter\MySql as MySQLQueryAdapter;
+use Molajo\Query\Adapter\Mysql as MySQLQueryAdapter;
 use Molajo\Fieldhandler\Request as FieldhandlerRequest;
 
 use PHPUnit_Framework_TestCase;
