@@ -8,7 +8,6 @@
  */
 namespace Molajo\Controller;
 
-use CommonApi\Cache\CacheInterface;
 use CommonApi\Controller\ControllerInterface;
 use CommonApi\Model\ModelInterface;
 use CommonApi\Query\QueryInterface;
@@ -128,14 +127,6 @@ abstract class Controller implements ControllerInterface
     protected $current_date;
 
     /**
-     * Cache
-     *
-     * @var    object  CommonApi\Cache\CacheInterface
-     * @since  1.0
-     */
-    protected $cache;
-
-    /**
      * List of Controller Properties
      *
      * @var    object
@@ -163,42 +154,29 @@ abstract class Controller implements ControllerInterface
      *
      * @param  QueryInterface $query
      * @param  ModelInterface $model
-     * @param  array          $model_registry
      * @param  object         $runtime_data
      * @param  object         $plugin_data
      * @param  callable       $schedule_event
-     * @param  string         $sql
-     * @param  integer        $site_id
-     * @param  integer        $application_id
-     * @param  string         $null_date
-     * @param  string         $current_date
-     * @param  CacheInterface $cache
+     * @param  array          $model_registry
      *
      * @since  1.0
      */
     public function __construct(
         QueryInterface $query,
         ModelInterface $model,
-        array $model_registry,
         $runtime_data,
         $plugin_data,
         callable $schedule_event,
-        $sql,
-        $null_date,
-        $current_date,
-        CacheInterface $cache = null,
-        $site_id = 0,
-        $application_id = 0
+        array $model_registry
     ) {
+        $this->query          = $query;
+        $this->model          = $model;
         $this->runtime_data   = $runtime_data;
         $this->plugin_data    = $plugin_data;
         $this->schedule_event = $schedule_event;
-        $this->cache          = $cache;
 
-        $this->setDateProperties($null_date, $current_date);
-        $this->setModelProperties($query, $model, $sql);
-        $this->setSiteApplicationProperties($site_id, $application_id);
         $this->setModelRegistryDefaults($model_registry);
+        $this->setSiteApplicationProperties();
     }
 
     /**
@@ -302,30 +280,6 @@ abstract class Controller implements ControllerInterface
     }
 
     /**
-     * Set Default Values for SQL
-     *
-     * @param   QueryInterface $query ,
-     * @param   ModelInterface $model ,
-     * @param   string         $sql
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setModelProperties(QueryInterface $query, ModelInterface $model, $sql)
-    {
-        $this->query = $query;
-        $this->model = $model;
-
-        $this->sql = $sql;
-
-        if ($this->sql === null || trim($this->sql) == '') {
-            $this->sql = '';
-        }
-
-        return $this;
-    }
-
-    /**
      * Set Default Values for Model Registry
      *
      * @return  $this
@@ -343,33 +297,18 @@ abstract class Controller implements ControllerInterface
     /**
      * Set Default Values for SQL
      *
-     * @param   string $null_date
-     * @param   string $current_date
-     *
      * @return  $this
      * @since   1.0
      */
-    protected function setDateProperties($null_date, $current_date)
+    protected function setSiteApplicationProperties()
     {
-        $this->null_date    = $null_date;
-        $this->current_date = $current_date;
+        if (isset($this->runtime_data->application->id)) {
+            $this->application_id = $this->runtime_data->application->id;
+        }
 
-        return $this;
-    }
-
-    /**
-     * Set Default Values for SQL
-     *
-     * @param   integer $site_id
-     * @param   integer $application_id
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setSiteApplicationProperties($site_id, $application_id)
-    {
-        $this->site_id        = (int)$site_id;
-        $this->application_id = (int)$application_id;
+        if (isset($this->runtime_data->site->id)) {
+            $this->site_id = $this->runtime_data->site->id;
+        }
 
 //todo: FIX
         $this->site_id        = 2;

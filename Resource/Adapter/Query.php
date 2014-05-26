@@ -9,7 +9,6 @@
 namespace Molajo\Resource\Adapter;
 
 use Exception;
-use CommonApi\Cache\CacheInterface;
 use CommonApi\Database\DatabaseInterface;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\Query\QueryInterface;
@@ -33,30 +32,6 @@ class Query extends Xml implements AdapterInterface
      * @since  1.0
      */
     protected $database;
-
-    /**
-     * Used in queries to determine date validity
-     *
-     * @var    string
-     * @since  1.0
-     */
-    protected $null_date;
-
-    /**
-     * Today's CCYY-MM-DD 00:00:00 formatted for query
-     *
-     * @var    string
-     * @since  1.0
-     */
-    protected $current_date;
-
-    /**
-     * Cache
-     *
-     * @var    object  CommonApi\Cache\CacheInterface
-     * @since  1.0
-     */
-    protected $cache;
 
     /**
      * Query Object
@@ -115,9 +90,6 @@ class Query extends Xml implements AdapterInterface
      * @param  array             $valid_file_extensions
      * @param  DatabaseInterface $database
      * @param  QueryInterface    $query
-     * @param  string            $null_date
-     * @param  string            $current_date
-     * @param  CacheInterface    $cache
      * @param  callback          $schedule_event
      *
      * @since  1.0
@@ -129,9 +101,6 @@ class Query extends Xml implements AdapterInterface
         array $valid_file_extensions = array(),
         DatabaseInterface $database,
         $query,
-        $null_date,
-        $current_date,
-        CacheInterface $cache = null,
         callable $schedule_event
     ) {
         parent::__construct(
@@ -143,9 +112,6 @@ class Query extends Xml implements AdapterInterface
 
         $this->database       = $database;
         $this->query          = $query;
-        $this->null_date      = $null_date;
-        $this->current_date   = $current_date;
-        $this->cache          = $cache;
         $this->schedule_event = $schedule_event;
         $this->runtime_data   = new stdClass();
         $this->plugin_data    = new stdClass();
@@ -262,18 +228,6 @@ class Query extends Xml implements AdapterInterface
      */
     public function createController($type, $model)
     {
-        $application_id = 0;
-        if (isset($this->runtime_data->application->id)) {
-            $application_id = $this->runtime_data->application->id;
-        }
-
-        $site_id = 0;
-        if (isset($this->runtime_data->site->id)) {
-            $site_id = $this->runtime_data->site->id;
-        }
-
-        $site_id = 2;
-
         $class = 'Molajo\\Resource\\Factory\\' . $type . 'ControllerFactory';
 
         try {
@@ -284,12 +238,7 @@ class Query extends Xml implements AdapterInterface
                 $this->runtime_data,
                 $this->plugin_data,
                 $this->schedule_event,
-                $this->sql,
-                $this->cache,
-                $site_id,
-                $application_id,
-                $this->null_date,
-                $this->current_date
+                $this->sql
 
             );
         } catch (Exception $e) {

@@ -8,8 +8,7 @@
  */
 namespace Molajo\Controller;
 
-use Exception;
-use CommonApi\Exception\RuntimeException;
+use CommonApi\Model\ModelInterface;
 use CommonApi\Query\QueryInterface;
 
 /**
@@ -22,6 +21,50 @@ use CommonApi\Query\QueryInterface;
  */
 abstract class QueryController extends Controller implements QueryInterface
 {
+    /**
+     * Class Constructor
+     *
+     * @param  QueryInterface $query
+     * @param  ModelInterface $model
+     * @param  object         $runtime_data
+     * @param  object         $plugin_data
+     * @param  callable       $schedule_event
+     * @param  array          $model_registry
+     *
+     * @since  1.0
+     */
+    public function __construct(
+        QueryInterface $query,
+        ModelInterface $model,
+        $runtime_data,
+        $plugin_data,
+        callable $schedule_event,
+        array $model_registry
+    ) {
+        parent::__construct(
+            $query, $model, $runtime_data, $plugin_data, $schedule_event, $model_registry
+        );
+
+        $this->setDateProperties();
+    }
+
+    /**
+     * Set Default Values for SQL
+     *
+     * @param   string $null_date
+     * @param   string $current_date
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setDateProperties()
+    {
+        $this->null_date    = $this->getNullDate();
+        $this->current_date = $this->getDate();
+
+        return $this;
+    }
+
     /**
      * Get the current value (or default) of the specified property
      *

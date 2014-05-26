@@ -8,7 +8,6 @@
  */
 namespace Molajo\Controller;
 
-use CommonApi\Cache\CacheInterface;
 use CommonApi\Controller\ControllerInterface;
 use CommonApi\Model\ModelInterface;
 use CommonApi\Query\QueryInterface;
@@ -128,14 +127,6 @@ abstract class Controller implements ControllerInterface
     protected $current_date;
 
     /**
-     * Cache
-     *
-     * @var    object  CommonApi\Cache\CacheInterface
-     * @since  1.0
-     */
-    protected $cache;
-
-    /**
      * List of Controller Properties
      *
      * @var    object
@@ -172,7 +163,6 @@ abstract class Controller implements ControllerInterface
      * @param  integer        $application_id
      * @param  string         $null_date
      * @param  string         $current_date
-     * @param  CacheInterface $cache
      *
      * @since  1.0
      */
@@ -186,14 +176,12 @@ abstract class Controller implements ControllerInterface
         $sql,
         $null_date,
         $current_date,
-        CacheInterface $cache = null,
         $site_id = 0,
         $application_id = 0
     ) {
         $this->runtime_data   = $runtime_data;
         $this->plugin_data    = $plugin_data;
         $this->schedule_event = $schedule_event;
-        $this->cache          = $cache;
 
         $this->setDateProperties($null_date, $current_date);
         $this->setModelProperties($query, $model, $sql);

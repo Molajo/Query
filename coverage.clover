@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1401108268">
-  <project timestamp="1401108268">
+<coverage generated="1401117795">
+  <project timestamp="1401117795">
     <file name="/Users/amystephen/Sites/Molajo/Query/.dev/Bootstrap.php">
       <line num="37" type="stmt" count="0"/>
       <line num="38" type="stmt" count="0"/>
@@ -37,70 +37,61 @@
     <package name="Molajo\Controller">
       <file name="/Users/amystephen/Sites/Molajo/Query/Controller/Controller.php">
         <class name="Controller" namespace="Molajo\Controller">
-          <metrics methods="11" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="45" coveredstatements="42" elements="56" coveredelements="53"/>
+          <metrics methods="9" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="38" coveredstatements="31" elements="47" coveredelements="40"/>
         </class>
         <line num="0" type="stmt" count="0"/>
-        <line num="179" type="method" name="__construct" crap="1" count="4"/>
-        <line num="193" type="stmt" count="4"/>
-        <line num="194" type="stmt" count="4"/>
-        <line num="195" type="stmt" count="4"/>
-        <line num="196" type="stmt" count="4"/>
-        <line num="198" type="stmt" count="4"/>
-        <line num="199" type="stmt" count="4"/>
-        <line num="200" type="stmt" count="4"/>
-        <line num="201" type="stmt" count="4"/>
-        <line num="202" type="stmt" count="4"/>
-        <line num="213" type="method" name="getValue" crap="2.50" count="1"/>
+        <line num="164" type="method" name="__construct" crap="1" count="4"/>
+        <line num="172" type="stmt" count="4"/>
+        <line num="173" type="stmt" count="4"/>
+        <line num="174" type="stmt" count="4"/>
+        <line num="175" type="stmt" count="4"/>
+        <line num="176" type="stmt" count="4"/>
+        <line num="178" type="stmt" count="4"/>
+        <line num="179" type="stmt" count="4"/>
+        <line num="180" type="stmt" count="4"/>
+        <line num="191" type="method" name="getValue" crap="2.50" count="1"/>
+        <line num="193" type="stmt" count="1"/>
+        <line num="194" type="stmt" count="0"/>
+        <line num="195" type="stmt" count="0"/>
+        <line num="197" type="stmt" count="1"/>
+        <line num="209" type="method" name="setValue" crap="2" count="1"/>
+        <line num="211" type="stmt" count="1"/>
+        <line num="212" type="stmt" count="1"/>
+        <line num="213" type="stmt" count="1"/>
         <line num="215" type="stmt" count="1"/>
-        <line num="216" type="stmt" count="0"/>
-        <line num="217" type="stmt" count="0"/>
-        <line num="219" type="stmt" count="1"/>
-        <line num="231" type="method" name="setValue" crap="2" count="1"/>
-        <line num="233" type="stmt" count="1"/>
-        <line num="234" type="stmt" count="1"/>
-        <line num="235" type="stmt" count="1"/>
-        <line num="237" type="stmt" count="1"/>
-        <line num="249" type="method" name="getModelRegistry" crap="4" count="3"/>
-        <line num="251" type="stmt" count="3"/>
-        <line num="252" type="stmt" count="1"/>
-        <line num="255" type="stmt" count="2"/>
-        <line num="264" type="method" name="getModelRegistryAll" crap="1" count="1"/>
-        <line num="266" type="stmt" count="1"/>
-        <line num="278" type="method" name="getModelRegistryByKey" crap="2.06" count="2"/>
-        <line num="280" type="stmt" count="2"/>
-        <line num="281" type="stmt" count="2"/>
-        <line num="282" type="stmt" count="0"/>
-        <line num="285" type="stmt" count="2"/>
-        <line num="297" type="method" name="setModelRegistry" crap="1" count="1"/>
-        <line num="299" type="stmt" count="1"/>
-        <line num="301" type="stmt" count="1"/>
-        <line num="314" type="method" name="setModelProperties" crap="3" count="4"/>
-        <line num="316" type="stmt" count="4"/>
+        <line num="227" type="method" name="getModelRegistry" crap="4" count="3"/>
+        <line num="229" type="stmt" count="3"/>
+        <line num="230" type="stmt" count="1"/>
+        <line num="233" type="stmt" count="2"/>
+        <line num="242" type="method" name="getModelRegistryAll" crap="1" count="1"/>
+        <line num="244" type="stmt" count="1"/>
+        <line num="256" type="method" name="getModelRegistryByKey" crap="2.06" count="2"/>
+        <line num="258" type="stmt" count="2"/>
+        <line num="259" type="stmt" count="2"/>
+        <line num="260" type="stmt" count="0"/>
+        <line num="263" type="stmt" count="2"/>
+        <line num="275" type="method" name="setModelRegistry" crap="1" count="1"/>
+        <line num="277" type="stmt" count="1"/>
+        <line num="279" type="stmt" count="1"/>
+        <line num="288" type="method" name="setModelRegistryDefaults" crap="1" count="4"/>
+        <line num="290" type="stmt" count="4"/>
+        <line num="292" type="stmt" count="4"/>
+        <line num="294" type="stmt" count="4"/>
+        <line num="303" type="method" name="setSiteApplicationProperties" crap="3.79" count="4"/>
+        <line num="305" type="stmt" count="4"/>
+        <line num="306" type="stmt" count="0"/>
+        <line num="307" type="stmt" count="0"/>
+        <line num="309" type="stmt" count="4"/>
+        <line num="310" type="stmt" count="0"/>
+        <line num="311" type="stmt" count="0"/>
+        <line num="314" type="stmt" count="4"/>
+        <line num="315" type="stmt" count="4"/>
         <line num="317" type="stmt" count="4"/>
-        <line num="319" type="stmt" count="4"/>
-        <line num="321" type="stmt" count="4"/>
-        <line num="322" type="stmt" count="4"/>
-        <line num="323" type="stmt" count="4"/>
-        <line num="325" type="stmt" count="4"/>
-        <line num="334" type="method" name="setModelRegistryDefaults" crap="1" count="4"/>
-        <line num="336" type="stmt" count="4"/>
-        <line num="338" type="stmt" count="4"/>
-        <line num="340" type="stmt" count="4"/>
-        <line num="352" type="method" name="setDateProperties" crap="1" count="4"/>
-        <line num="354" type="stmt" count="4"/>
-        <line num="355" type="stmt" count="4"/>
-        <line num="357" type="stmt" count="4"/>
-        <line num="369" type="method" name="setSiteApplicationProperties" crap="1" count="4"/>
-        <line num="371" type="stmt" count="4"/>
-        <line num="372" type="stmt" count="4"/>
-        <line num="375" type="stmt" count="4"/>
-        <line num="376" type="stmt" count="4"/>
-        <line num="378" type="stmt" count="4"/>
-        <metrics loc="380" ncloc="170" classes="1" methods="11" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="45" coveredstatements="42" elements="56" coveredelements="51"/>
+        <metrics loc="319" ncloc="143" classes="1" methods="9" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="38" coveredstatements="31" elements="47" coveredelements="37"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Query/Controller/ModelRegistryDefaults.php">
         <class name="ModelRegistryDefaults" namespace="Molajo\Controller">
-          <metrics methods="18" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="85" coveredstatements="52" elements="103" coveredelements="67"/>
+          <metrics methods="18" coveredmethods="18" conditionals="0" coveredconditionals="0" statements="85" coveredstatements="71" elements="103" coveredelements="89"/>
         </class>
         <line num="70" type="method" name="__construct" crap="1" count="4"/>
         <line num="73" type="stmt" count="4"/>
@@ -110,14 +101,14 @@
         <line num="85" type="stmt" count="4"/>
         <line num="86" type="stmt" count="4"/>
         <line num="88" type="stmt" count="4"/>
-        <line num="97" type="method" name="setModelRegistryBase" crap="12" count="0"/>
-        <line num="99" type="stmt" count="0"/>
-        <line num="100" type="stmt" count="0"/>
+        <line num="97" type="method" name="setModelRegistryBase" crap="3.21" count="4"/>
+        <line num="99" type="stmt" count="4"/>
+        <line num="100" type="stmt" count="4"/>
         <line num="101" type="stmt" count="0"/>
-        <line num="104" type="stmt" count="0"/>
+        <line num="104" type="stmt" count="4"/>
         <line num="105" type="stmt" count="0"/>
-        <line num="106" type="stmt" count="0"/>
-        <line num="109" type="stmt" count="0"/>
+        <line num="106" type="stmt" count="4"/>
+        <line num="109" type="stmt" count="4"/>
         <line num="118" type="method" name="setModelRegistryDefaultsGroup" crap="3.33" count="4"/>
         <line num="120" type="stmt" count="4"/>
         <line num="121" type="stmt" count="0"/>
@@ -144,23 +135,23 @@
         <line num="168" type="stmt" count="4"/>
         <line num="169" type="stmt" count="4"/>
         <line num="171" type="stmt" count="4"/>
-        <line num="180" type="method" name="getModelRegistryPrimaryKeyValue" crap="20" count="0"/>
-        <line num="182" type="stmt" count="0"/>
-        <line num="184" type="stmt" count="0"/>
-        <line num="185" type="stmt" count="0"/>
-        <line num="186" type="stmt" count="0"/>
-        <line num="188" type="stmt" count="0"/>
-        <line num="189" type="stmt" count="0"/>
-        <line num="190" type="stmt" count="0"/>
-        <line num="191" type="stmt" count="0"/>
-        <line num="192" type="stmt" count="0"/>
-        <line num="194" type="stmt" count="0"/>
-        <line num="203" type="method" name="setModelRegistryPrimaryKeyValue" crap="6" count="0"/>
-        <line num="205" type="stmt" count="0"/>
-        <line num="206" type="stmt" count="0"/>
-        <line num="207" type="stmt" count="0"/>
+        <line num="180" type="method" name="getModelRegistryPrimaryKeyValue" crap="4" count="4"/>
+        <line num="182" type="stmt" count="4"/>
+        <line num="184" type="stmt" count="4"/>
+        <line num="185" type="stmt" count="4"/>
+        <line num="186" type="stmt" count="4"/>
+        <line num="188" type="stmt" count="4"/>
+        <line num="189" type="stmt" count="4"/>
+        <line num="190" type="stmt" count="4"/>
+        <line num="191" type="stmt" count="4"/>
+        <line num="192" type="stmt" count="4"/>
+        <line num="194" type="stmt" count="4"/>
+        <line num="203" type="method" name="setModelRegistryPrimaryKeyValue" crap="2.03" count="4"/>
+        <line num="205" type="stmt" count="4"/>
+        <line num="206" type="stmt" count="4"/>
+        <line num="207" type="stmt" count="4"/>
         <line num="208" type="stmt" count="0"/>
-        <line num="211" type="stmt" count="0"/>
+        <line num="211" type="stmt" count="4"/>
         <line num="220" type="method" name="setModelRegistryDefaultsFields" crap="1" count="4"/>
         <line num="222" type="stmt" count="4"/>
         <line num="231" type="method" name="setModelRegistryDefaultsTableName" crap="1" count="4"/>
@@ -206,7 +197,57 @@
         <line num="362" type="stmt" count="4"/>
         <line num="364" type="stmt" count="4"/>
         <line num="367" type="stmt" count="0"/>
-        <metrics loc="366" ncloc="218" classes="1" methods="18" coveredmethods="10" conditionals="0" coveredconditionals="0" statements="85" coveredstatements="52" elements="103" coveredelements="62"/>
+        <metrics loc="366" ncloc="218" classes="1" methods="18" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="85" coveredstatements="71" elements="103" coveredelements="82"/>
+      </file>
+      <file name="/Users/amystephen/Sites/Molajo/Query/Controller/QueryController.php">
+        <class name="QueryController" namespace="Molajo\Controller" fullPackage="Molajo" package="Molajo">
+          <metrics methods="19" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="0" elements="44" coveredelements="0"/>
+        </class>
+        <line num="36" type="method" name="__construct" crap="2" count="0"/>
+        <line num="44" type="stmt" count="0"/>
+        <line num="45" type="stmt" count="0"/>
+        <line num="46" type="stmt" count="0"/>
+        <line num="48" type="stmt" count="0"/>
+        <line num="49" type="stmt" count="0"/>
+        <line num="60" type="method" name="setDateProperties" crap="2" count="0"/>
+        <line num="62" type="stmt" count="0"/>
+        <line num="63" type="stmt" count="0"/>
+        <line num="65" type="stmt" count="0"/>
+        <line num="78" type="method" name="get" crap="2" count="0"/>
+        <line num="80" type="stmt" count="0"/>
+        <line num="89" type="method" name="clearQuery" crap="2" count="0"/>
+        <line num="91" type="stmt" count="0"/>
+        <line num="102" type="method" name="setType" crap="2" count="0"/>
+        <line num="104" type="stmt" count="0"/>
+        <line num="113" type="method" name="getDateFormat" crap="2" count="0"/>
+        <line num="115" type="stmt" count="0"/>
+        <line num="124" type="method" name="getDate" crap="2" count="0"/>
+        <line num="126" type="stmt" count="0"/>
+        <line num="135" type="method" name="getNullDate" crap="2" count="0"/>
+        <line num="137" type="stmt" count="0"/>
+        <line num="148" type="method" name="setDistinct" crap="2" count="0"/>
+        <line num="150" type="stmt" count="0"/>
+        <line num="166" type="method" name="select" crap="2" count="0"/>
+        <line num="168" type="stmt" count="0"/>
+        <line num="181" type="method" name="from" crap="2" count="0"/>
+        <line num="183" type="stmt" count="0"/>
+        <line num="196" type="method" name="whereGroup" crap="2" count="0"/>
+        <line num="198" type="stmt" count="0"/>
+        <line num="216" type="method" name="where" crap="2" count="0"/>
+        <line num="225" type="stmt" count="0"/>
+        <line num="239" type="method" name="groupBy" crap="2" count="0"/>
+        <line num="241" type="stmt" count="0"/>
+        <line num="254" type="method" name="havingGroup" crap="2" count="0"/>
+        <line num="256" type="stmt" count="0"/>
+        <line num="274" type="method" name="having" crap="2" count="0"/>
+        <line num="283" type="stmt" count="0"/>
+        <line num="295" type="method" name="orderBy" crap="2" count="0"/>
+        <line num="297" type="stmt" count="0"/>
+        <line num="309" type="method" name="setOffsetAndLimit" crap="2" count="0"/>
+        <line num="311" type="stmt" count="0"/>
+        <line num="323" type="method" name="getSQL" crap="2" count="0"/>
+        <line num="325" type="stmt" count="0"/>
+        <metrics loc="327" ncloc="131" classes="1" methods="19" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="25" coveredstatements="0" elements="44" coveredelements="0"/>
       </file>
     </package>
     <package name="Molajo\Model">
@@ -1127,6 +1168,6 @@
         <metrics loc="560" ncloc="228" classes="1" methods="18" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="73" coveredstatements="0" elements="91" coveredelements="0"/>
       </file>
     </package>
-    <metrics files="18" loc="3914" ncloc="2215" classes="12" methods="124" coveredmethods="19" conditionals="0" coveredconditionals="0" statements="892" coveredstatements="94" elements="1016" coveredelements="113"/>
+    <metrics files="19" loc="4180" ncloc="2319" classes="13" methods="141" coveredmethods="17" conditionals="0" coveredconditionals="0" statements="910" coveredstatements="102" elements="1051" coveredelements="119"/>
   </project>
 </coverage>

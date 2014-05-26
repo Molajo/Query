@@ -9,7 +9,6 @@
 namespace Molajo\Resource\Factory;
 
 use Exception;
-use CommonApi\Cache\CacheInterface;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\Model\ModelInterface;
 use CommonApi\Query\QueryInterface;
@@ -82,46 +81,6 @@ class ReadControllerFactory implements FactoryInterface
     protected $sql;
 
     /**
-     * Cache
-     *
-     * @var    object  CommonApi\Cache\CacheInterface
-     * @since  1.0
-     */
-    protected $cache;
-
-    /**
-     * Site ID
-     *
-     * @var    int
-     * @since  1.0
-     */
-    protected $site_id = null;
-
-    /**
-     * Application ID
-     *
-     * @var    int
-     * @since  1.0
-     */
-    protected $application_id = null;
-
-    /**
-     * Used in queries to determine date validity
-     *
-     * @var    string
-     * @since  1.0
-     */
-    protected $null_date;
-
-    /**
-     * Today's CCYY-MM-DD 00:00:00 formatted for query
-     *
-     * @var    string
-     * @since  1.0
-     */
-    protected $current_date;
-
-    /**
      * Constructor
      *
      * @param  QueryInterface $query
@@ -131,11 +90,6 @@ class ReadControllerFactory implements FactoryInterface
      * @param  object         $plugin_data
      * @param  callback       $schedule_event
      * @param  string         $sql
-     * @param  CacheInterface         $cache
-     * @param  int            $site_id
-     * @param  int            $application_id
-     * @param  string         $null_date
-     * @param  string         $current_date
      *
      * @since  1.0
      */
@@ -146,12 +100,7 @@ class ReadControllerFactory implements FactoryInterface
         $runtime_data,
         $plugin_data,
         callable $schedule_event,
-        $sql = '',
-        CacheInterface $cache,
-        $site_id = 0,
-        $application_id = 0,
-        $null_date = '',
-        $current_date = ''
+        $sql = ''
     ) {
         $this->query          = $query;
         $this->model          = $model;
@@ -160,11 +109,6 @@ class ReadControllerFactory implements FactoryInterface
         $this->plugin_data    = $plugin_data;
         $this->schedule_event = $schedule_event;
         $this->sql            = $sql;
-        $this->cache          = $cache;
-        $this->site_id        = $site_id;
-        $this->application_id = $application_id;
-        $this->null_date      = $null_date;
-        $this->current_date   = $current_date;
 
         $this->query->clearQuery();
     }
@@ -181,23 +125,24 @@ class ReadControllerFactory implements FactoryInterface
         $class = 'Molajo\\Controller\\ReadController';
 
         try {
-            return new $class (
+            $instance = new $class (
                 $this->query,
                 $this->model,
-                $this->model_registry,
                 $this->runtime_data,
                 $this->plugin_data,
                 $this->schedule_event,
-                $this->sql,
-                $this->cache,
-                $this->site_id,
-                $this->application_id,
-                $this->null_date,
-                $this->current_date
+                $this->model_registry
             );
         } catch (Exception $e) {
             throw new RuntimeException
             ('Resource Factory ReadControllerFactory failed in instantiateClass Method.' . $e->getMessage());
         }
+
+        if (trim($this->sql) === '') {
+        } else {
+            $instance->setSQL($this->sql);
+        }
+
+        return $instance;
     }
 }

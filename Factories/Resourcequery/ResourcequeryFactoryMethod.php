@@ -82,8 +82,6 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
         )->include_file_extensions;
 
         $this->dependencies['query']          = $this->dependencies['Query'];
-        $this->dependencies['null_date']      = $this->dependencies['Query']->getNullDate();
-        $this->dependencies['current_date']   = $this->dependencies['Query']->getDate();
         $this->dependencies['schedule_event'] = $this->dependencies['Eventcallback'];
 
         return $this->dependencies;

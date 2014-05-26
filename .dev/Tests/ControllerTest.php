@@ -8,7 +8,6 @@
  */
 namespace Molajo\Controller;
 
-use CommonApi\Cache\CacheInterface;
 use CommonApi\Controller\ControllerInterface;
 use CommonApi\Database\DatabaseInterface;
 use CommonApi\Model\ModelInterface;
@@ -33,6 +32,44 @@ class ControllerTest extends PHPUnit_Framework_TestCase
 {
     protected $controller;
 
+    /**
+     * Test Get Method
+     *
+     * @covers  Molajo\Controller\Controller::__construct
+     * @covers  Molajo\Controller\Controller::getValue
+     * @covers  Molajo\Controller\Controller::setValue
+     * @covers  Molajo\Controller\Controller::getModelRegistry
+     * @covers  Molajo\Controller\Controller::getModelRegistryAll
+     * @covers  Molajo\Controller\Controller::getModelRegistryByKey
+     * @covers  Molajo\Controller\Controller::setModelRegistry
+     * @covers  Molajo\Controller\Controller::setModelRegistryDefaults
+     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
+     *
+     * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryBase
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistryDefaults::getModelRegistryPrimaryKeyValue
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPrimaryKeyValue
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsFields
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsTableName
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsPrimaryPrefix
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsQueryObject
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsCriteriaArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsJoins
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultLimits
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
+     *
+     * @covers  Molajo\Controller\QueryController::__construct
+     * @covers  Molajo\Controller\QueryController::setDateProperties
+     *
+     * @return void
+     * @since   1.0
+     */
     public function setup()
     {
         $field_handler = new FieldhandlerRequest();
@@ -42,32 +79,19 @@ class ControllerTest extends PHPUnit_Framework_TestCase
         $query = new MockQueryforController($query_adapter);
 
         $model = new ReadModel($database);
-        $cache = null;
 
         $model_registry = array();
         $runtime_data = array();
         $plugin_data = array();
         $schedule_event = 'strtolower';
-        $sql = '';
-        $null_date = '0000/00/00 00:00:00';
-        $current_date = '2014/06/01 12:30:00';
-        $cache = null;
-        $site_id = 0;
-        $application_id = 0;
 
         $this->controller = new MockController(
             $query,
             $model,
-            $model_registry,
             $runtime_data,
             $plugin_data,
             $schedule_event,
-            $sql,
-            $null_date,
-            $current_date,
-            $cache,
-            $site_id,
-            $application_id
+            $model_registry
         );
     }
 
@@ -81,16 +105,17 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::getModelRegistryAll
      * @covers  Molajo\Controller\Controller::getModelRegistryByKey
      * @covers  Molajo\Controller\Controller::setModelRegistry
-     * @covers  Molajo\Controller\Controller::setModelProperties
      * @covers  Molajo\Controller\Controller::setModelRegistryDefaults
-     * @covers  Molajo\Controller\Controller::setDateProperties
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
      * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryBase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistryDefaults::getModelRegistryPrimaryKeyValue
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPrimaryKeyValue
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsFields
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsTableName
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsPrimaryPrefix
@@ -101,6 +126,9 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
      * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
+     *
+     * @covers  Molajo\Controller\QueryController::__construct
+     * @covers  Molajo\Controller\QueryController::setDateProperties
      *
      * @return void
      * @since   1.0
@@ -122,16 +150,17 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::getModelRegistryAll
      * @covers  Molajo\Controller\Controller::getModelRegistryByKey
      * @covers  Molajo\Controller\Controller::setModelRegistry
-     * @covers  Molajo\Controller\Controller::setModelProperties
      * @covers  Molajo\Controller\Controller::setModelRegistryDefaults
-     * @covers  Molajo\Controller\Controller::setDateProperties
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
      * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryBase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistryDefaults::getModelRegistryPrimaryKeyValue
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPrimaryKeyValue
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsFields
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsTableName
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsPrimaryPrefix
@@ -142,6 +171,9 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
      * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
+     *
+     * @covers  Molajo\Controller\QueryController::__construct
+     * @covers  Molajo\Controller\QueryController::setDateProperties
      *
      * @return void
      * @since   1.0
@@ -165,16 +197,17 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::getModelRegistryAll
      * @covers  Molajo\Controller\Controller::getModelRegistryByKey
      * @covers  Molajo\Controller\Controller::setModelRegistry
-     * @covers  Molajo\Controller\Controller::setModelProperties
      * @covers  Molajo\Controller\Controller::setModelRegistryDefaults
-     * @covers  Molajo\Controller\Controller::setDateProperties
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
      * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryBase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistryDefaults::getModelRegistryPrimaryKeyValue
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPrimaryKeyValue
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsFields
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsTableName
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsPrimaryPrefix
@@ -185,6 +218,9 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
      * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
+     *
+     * @covers  Molajo\Controller\QueryController::__construct
+     * @covers  Molajo\Controller\QueryController::setDateProperties
      *
      * @return void
      * @since   1.0
@@ -207,16 +243,17 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::getModelRegistryAll
      * @covers  Molajo\Controller\Controller::getModelRegistryByKey
      * @covers  Molajo\Controller\Controller::setModelRegistry
-     * @covers  Molajo\Controller\Controller::setModelProperties
      * @covers  Molajo\Controller\Controller::setModelRegistryDefaults
-     * @covers  Molajo\Controller\Controller::setDateProperties
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
      * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryBase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistryDefaults::getModelRegistryPrimaryKeyValue
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPrimaryKeyValue
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsFields
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsTableName
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsPrimaryPrefix
@@ -227,6 +264,9 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
      * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
+     *
+     * @covers  Molajo\Controller\QueryController::__construct
+     * @covers  Molajo\Controller\QueryController::setDateProperties
      *
      * @return void
      * @since   1.0
