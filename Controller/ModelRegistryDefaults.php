@@ -346,19 +346,13 @@ class ModelRegistryDefaults
      * Set Property
      *
      * @param   string $property
-     * @param   mixed $default
+     * @param   mixed  $default
      *
      * @return  $this
      * @since   1.0.0
      */
-    protected function setProperty($property, $default = null)
+    protected function setProperty($property, $value = null)
     {
-        if (isset($this->model_registry[$property])) {
-            $value = trim($this->model_registry[$property]);
-        } else {
-            $value = $default;
-        }
-
         $this->model_registry[$property] = $value;
 
         return $this;

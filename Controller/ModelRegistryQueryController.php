@@ -386,7 +386,7 @@ class ModelRegistryQueryController extends QueryController
     protected function setSpecialJoinsItemWhere(
         $join_to_item,
         $where_left_alias,
-        $join_with_item,
+        $operator,
         $where_right_alias,
         $join_table,
         $alias
@@ -524,7 +524,7 @@ class ModelRegistryQueryController extends QueryController
             if (isset($this->model_registry[$key])) {
                 $value = $this->model_registry[$key];
             } else {
-                $value = $this->$property;
+                $value = $this->$key;
             }
 
             return array('integer', $value);

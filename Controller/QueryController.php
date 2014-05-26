@@ -228,7 +228,6 @@ abstract class QueryController extends Controller implements QueryInterface
         $group = null
     ) {
         return $this->query->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
-
     }
 
     /**
