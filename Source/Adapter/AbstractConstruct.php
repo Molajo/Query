@@ -479,32 +479,6 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     }
 
     /**
-     * Filter Input
-     *
-     * @param   string $key
-     * @param   null|string  $value
-     * @param   string $data_type
-     *
-     * @return  string
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    protected function filter($key, $value = null, $data_type)
-    {
-        try {
-            $results = $this->fieldhandler->sanitize($key, $value, $data_type);
-
-            $value = $results->getFieldValue();
-
-        } catch (Exception $e) {
-            throw new RuntimeException
-            ('Request: Filter class Failed for Key: ' . $key . ' Filter: ' . $data_type . ' ' . $e->getMessage());
-        }
-
-        return $this->quoteValue($this->database->escape($value));
-    }
-
-    /**
      * Set Database Prefix
      *
      * @param   string $query

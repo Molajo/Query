@@ -211,7 +211,7 @@ class Query extends Xml implements AdapterInterface
                 $this->database
             );
         } catch (Exception $e) {
-            throw new RuntimeException ('Resource Query Handler Failed Instantiating Controller: '
+            throw new RuntimeException('Resource Query Handler Failed Instantiating Controller: '
             . $e->getMessage());
         }
     }
@@ -242,7 +242,7 @@ class Query extends Xml implements AdapterInterface
 
             );
         } catch (Exception $e) {
-            throw new RuntimeException ('Resource Query Handler Failed Instantiating Controller: '
+            throw new RuntimeException('Resource Query Handler Failed Instantiating Controller: '
             . $e->getMessage());
         }
     }

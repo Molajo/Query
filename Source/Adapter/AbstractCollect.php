@@ -8,12 +8,8 @@
  */
 namespace Molajo\Query\Adapter;
 
-use CommonApi\Database\DatabaseInterface;
 use CommonApi\Exception\RuntimeException;
-use CommonApi\Model\FieldhandlerInterface;
 use CommonApi\Query\QueryInterface;
-use DateTime;
-use Exception;
 use stdClass;
 
 /**
@@ -25,6 +21,7 @@ use stdClass;
  */
 abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
 {
+
     /**
      * Set Query Type
      *
@@ -82,13 +79,10 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws \CommonApi\Exception\RuntimeException
      */
     public function select($column_name, $alias = null, $value = null, $data_type = null)
     {
-        if (trim($column_name) == '') {
-            throw new RuntimeException ('Query-Select Method: Value required for $column_name.');
-        }
+        $this->editRequired('column_name', $column_name);
 
         if ($data_type === 'special') {
             $column = $column_name;
@@ -96,18 +90,35 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
             $column = $this->setColumnName($column_name);
         }
 
-        $item            = new stdClass();
-        $item->column    = $column;
+        $item         = new stdClass();
+        $item->column = $column;
 
         if ($alias === null || trim($alias) == '') {
             $item->alias = null;
         } else {
-            $item->alias     = $this->quoteName($alias);
+            $item->alias = $this->quoteName($alias);
         }
 
-        $item->value     = $value;
-        $item->data_type = $data_type;
+        $item = $this->selectDataType($item, $data_type, $value);
 
+        $item = $this->select($item, $data_type);
+
+        $this->columns[$column_name] = $item;
+
+        return $this;
+    }
+
+    /**
+     * Select Data Type
+     *
+     * @param   string $data_type
+     * @param   object $item
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function selectDataType($item, $data_type, $value)
+    {
         if ($data_type === null || trim($data_type) == '') {
             $item->data_type = null;
             $item->value     = null;
@@ -121,9 +132,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
             $item->value     = $this->filter($item->column, $value, $item->data_type);
         }
 
-        $this->columns[$column_name] = $item;
-
-        return $this;
+        return $item;
     }
 
     /**
@@ -134,13 +143,10 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws \CommonApi\Exception\RuntimeException
      */
     public function from($table_name, $alias = null)
     {
-        if (trim($table_name) == '') {
-            throw new RuntimeException ('Query-From Method: Value required for $table_name.');
-        }
+        $this->editRequired('table_name', $table_name);
 
         $table = $this->quoteName($table_name);
 
@@ -162,22 +168,12 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function whereGroup($group, $group_connector = 'AND')
     {
-        if ($group === null || trim($group) == '') {
-            throw new RuntimeException
-            ('Query Adapter WhereGroup Method Exception');
-        }
+        $this->editRequired('where group name', $group);
 
-        $group_connector = strtoupper($group_connector);
-
-        if ($group_connector == 'OR') {
-            $group_connector = 'OR';
-        } else {
-            $group_connector = 'AND';
-        }
+        $group_connector = $this->editConnector($group_connector);
 
         $this->where_group[$group] = $group_connector;
 
@@ -197,56 +193,30 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function where(
         $left_filter = 'column',
-        $left,
-        $condition,
+        $left = '',
+        $condition = '=',
         $right_filter = 'column',
-        $right,
+        $right = '',
         $connector = 'AND',
         $group = null
     ) {
-        if (trim($left_filter) == ''
-            || trim($condition) == ''
-            || trim($right_filter) == ''
-        ) {
-            throw new RuntimeException
-            ('Query-Where Method: Value required for '
-            . ' $left_filter: ' . $left_filter
-            . ' $left: ' . $left
-            . ' $condition: ' . $condition
-            . ' $right_filter: ' . $right_filter
-            . ' $right: ' . $right);
-        }
+        $this->editWhere($left_filter, $condition, $right);
 
         if ($group === null) {
             $group = '';
         }
 
-        $connector = strtoupper($connector);
+        $connector = $this->editConnector($connector);
 
-        if ($connector == 'OR') {
-            $connector = 'OR';
-        } else {
-            $connector = 'AND';
-        }
+        $left  = $this->setOrFilterColumn($left_filter, $left);
 
-        if (strtolower($left_filter) == 'column') {
-            $left = $this->setColumnName($left);
+        if (strtolower($condition) == 'in') {
+            $right = $this->processInArray('Right', $right, $right_filter);
         } else {
-            $left = $this->filter('Left', $left, $left_filter);
-        }
-
-        if (strtolower($right_filter) == 'column') {
-            $right = $this->setColumnName($right);
-        } else {
-            if (strtolower($condition) == 'in') {
-                $right = $this->processInArray('Right', $right, $right_filter);
-            } else {
-                $right = $this->filter('Right', $right, $right_filter);
-            }
+            $right = $this->setOrFilterColumn($right_filter, $right);
         }
 
         $item            = new stdClass();
@@ -268,13 +238,10 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function groupBy($column_name, $alias = null)
     {
-        if (trim($column_name) == '') {
-            throw new RuntimeException ('Query-Group By Method: Value required for $column_name.');
-        }
+        $this->editRequired('group by column_name', $column_name);
 
         $column = $this->setColumnName($column_name);
 
@@ -300,18 +267,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      */
     public function havingGroup($group, $group_connector = 'AND')
     {
-        if ($group === null || trim($group) == '') {
-            throw new RuntimeException
-            ('Query Adapter WhereGroup Method Exception');
-        }
+        $this->editRequired('group by group name', $group);
 
-        $group_connector = strtoupper($group_connector);
-
-        if ($group_connector == 'OR') {
-            $group_connector = 'OR';
-        } else {
-            $group_connector = 'AND';
-        }
+        $group_connector = $this->editConnector($group_connector);
 
         $this->having_group[$group] = $group_connector;
 
@@ -335,49 +293,23 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      */
     public function having(
         $left_filter = 'column',
-        $left,
-        $condition,
+        $left = '',
+        $condition = '=',
         $right_filter = 'column',
-        $right,
+        $right = '',
         $connector = 'AND',
-        $group = null
-    ) {
-        if (trim($left_filter) == ''
-            || trim($condition) == ''
-            || trim($right_filter) == ''
-        ) {
-            throw new RuntimeException
-            ('Query-Having Method: Value required for '
-            . ' $left_filter: ' . $left_filter
-            . ' $left: ' . $left
-            . ' $condition: ' . $condition
-            . ' $right_filter: ' . $right_filter
-            . ' $right: ' . $right);
-        }
+        $group = null)
+    {
+        $this->editWhere($left_filter, $condition, $right);
 
         if ($group === null) {
             $group = '';
         }
 
-        $connector = strtoupper($connector);
+        $connector = $this->editConnector($connector);
 
-        if ($connector == 'OR') {
-            $connector = 'OR';
-        } else {
-            $connector = 'AND';
-        }
-
-        if (strtolower($left_filter) == 'column') {
-            $left = $this->setColumnName($left);
-        } else {
-            $left = $this->filter('Left', $left, $left_filter);
-        }
-
-        if (strtolower($left_filter) == 'column') {
-            $right = $this->setColumnName($right);
-        } else {
-            $right = $this->filter('Right', $right, $right_filter);
-        }
+        $left  = $this->setOrFilterColumn($left_filter, $left);
+        $right = $this->setOrFilterColumn($right_filter, $right);
 
         $item            = new stdClass();
         $item->left      = $left;
@@ -401,9 +333,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      */
     public function orderBy($column_name, $direction = 'ASC')
     {
-        if (trim($column_name) == '') {
-            throw new RuntimeException ('Query-Order By Method: Value required for $column_name.');
-        }
+        $this->editRequired('order by column_name', $column_name);
 
         $column = $this->setColumnName($column_name);
 
@@ -472,8 +402,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
                 }
 
             } else {
-                throw new RuntimeException
-                ('Query-setColumnName Method: Illegal Value for $column_name: ' . $column_name);
+                throw new RuntimeException(
+                    'Query-setColumnName Method: Illegal Value for $column_name: ' . $column_name
+                );
             }
 
         } else {
@@ -491,8 +422,8 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * Process Array of Values for IN condition
      *
      * @param       string $filter
-     * @param string $name
-     * @param string $value_string
+     * @param string       $name
+     * @param string       $value_string
      */
     protected function processInArray($name, $value_string, $filter)
     {

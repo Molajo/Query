@@ -194,6 +194,14 @@ abstract class AbstractAdapter implements QueryInterface
     protected $quote_value = '"';
 
     /**
+     * Connectors
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $connector = array('OR', 'AND');
+
+    /**
      * List of Controller Properties
      *
      * @var    array
@@ -316,5 +324,110 @@ abstract class AbstractAdapter implements QueryInterface
     public function getNullDate()
     {
         return $this->null_date;
+    }
+
+    /**
+     * Tests if a required value has been provided
+     *
+     * @return  string
+     * @since   1.0
+     */
+    public function editRequired($column_name, $value = null)
+    {
+        if (trim($value) == '' || $value === null) {
+            throw new RuntimeException('Query: Value required for: ' . $column_name);
+        }
+    }
+
+    /**
+     * Edit Connector
+     *
+     * @param   string  $connector
+     *
+     * @return  string
+     * @since   1.0
+     */
+    public function editConnector($connector)
+    {
+        $connector = strtoupper($connector);
+
+        if (in_array($connector, $this->connector)) {
+        } else {
+            $connector = 'AND';
+        }
+
+        return $connector;
+    }
+
+    /**
+     * Edit Where
+     *
+     * @param   string  $left
+     * @param   string  $connector
+     * @param   string  $right
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function editWhere($left, $condition, $right)
+    {
+        if (trim($left) == ''
+            || trim($condition) == ''
+            || trim($right) == ''
+        ) {
+            throw new RuntimeException(
+                'Query-Where Method: Value required for ' . ' $left: ' . $left
+                . ' $condition: ' . $condition . ' $right: ' . $right
+            );
+        }
+
+        return $this;
+    }
+
+    /**
+     * Set or Filter Column
+     *
+     * @param   string      $filter
+     * @param   string      $column
+     *
+     * @return  $this
+     * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    public function setOrFilterColumn(
+        $filter = 'column',
+        $column = null
+    ) {
+        if (strtolower($filter) == 'column') {
+            return $this->setColumnName($column);
+        }
+
+        return $this->filter($filter, $column, $filter);
+    }
+
+    /**
+     * Filter Input
+     *
+     * @param   string       $key
+     * @param   null|string  $value
+     * @param   string       $data_type
+     *
+     * @return  string
+     * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    protected function filter($key, $value = null, $data_type)
+    {
+        try {
+            $results = $this->fieldhandler->sanitize($key, $value, $data_type);
+
+            $value = $results->getFieldValue();
+
+        } catch (Exception $e) {
+            throw new RuntimeException
+            ('Request: Filter class Failed for Key: ' . $key . ' Filter: ' . $data_type . ' ' . $e->getMessage());
+        }
+
+        return $this->quoteValue($this->database->escape($value));
     }
 }

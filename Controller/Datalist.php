@@ -161,7 +161,7 @@ class Datalist implements DatalistInterface
             return $controller->getData();
 
         } catch (Exception $e) {
-            throw new RuntimeException ($e->getMessage());
+            throw new RuntimeException($e->getMessage());
         }
     }
 
