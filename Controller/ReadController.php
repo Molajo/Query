@@ -19,7 +19,7 @@ use CommonApi\Exception\RuntimeException;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class ReadController extends QueryController implements ReadControllerInterface
+class ReadController extends ModelRegistryQueryController implements ReadControllerInterface
 {
     /**
      * Method to get retrieve data
@@ -43,450 +43,7 @@ class ReadController extends QueryController implements ReadControllerInterface
 
         $this->triggerOnAfterReadallEvent();
 
-        if ($this->getModelRegistry('query_object') == 'result'
-            || $this->getModelRegistry('query_object') == 'distinct'
-        ) {
-            return $this->query_results;
-        }
-
-        if (count($this->query_results) === 0
-            || $this->query_results === false
-        ) {
-            return array();
-        }
-
-        if (is_array($this->query_results)) {
-        } else {
-            $this->query_results = array();
-        }
-
-        if ($this->getModelRegistry('query_object') == 'item') {
-            $result              = $this->query_results[0];
-            $this->query_results = $result;
-        }
-
-        return $this->query_results;
-    }
-
-    /**
-     * Based on Model Registry, set default SELECT, FROM and WHERE clauses for query
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setModelRegistrySQL()
-    {
-        $select = $this->get('columns', array());
-
-        if (count($select) == 0) {
-            $this->setSelectColumns();
-        }
-
-        $from = $this->get('from', array());
-
-        if (count($from) == 0) {
-            $this->setFromTable();
-        }
-
-        $where = $this->get('where', array());
-
-        if (count($where) == 0) {
-            $this->setWhereStatements();
-        }
-
-        $this->setSpecialJoins();
-        $this->setModelRegistryCriteria();
-        $this->setModelRegistryCriteriaArrayCriteria();
-
-        return $this;
-    }
-
-    /**
-     * Uses joins defined in model registry to build SQL statements
-     *
-     * @return  $this
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    protected function setSelectColumns()
-    {
-        if ($this->model_registry['query_object'] == 'result') {
-
-            if ((int)$this->model_registry['id'] > 0) {
-                $this->select($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
-                return $this;
-            }
-
-            $this->select($this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key']);
-
-            return $this;
-        }
-
-        if ($this->model_registry['query_object'] == 'distinct') {
-            $this->setDistinct(true);
-        }
-
-        if (count($this->model_registry['columns']) === 0) {
-            $this->select($this->model_registry['primary_prefix'] . '.' . '*');
-
-        } else {
-            foreach ($this->model_registry['columns'] as $column) {
-                $this->select($this->model_registry['primary_prefix'] . '.' . $column['name']);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set From Table Value
-     *
-     * @return  $this
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    protected function setFromTable()
-    {
-        $primary_prefix = $this->model_registry['primary_prefix'];
-        $table_name     = $this->model_registry['table_name'];
-
-        $this->from($table_name, $primary_prefix);
-
-        return $this;
-    }
-
-    /**
-     * Set Where Statements
-     *
-     * @return  $this
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    protected function setWhereStatements()
-    {
-        if ((int)$this->model_registry['id'] > 0) {
-            $this->where(
-                'column',
-                $this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key'],
-                '=',
-                'integer',
-                $this->model_registry['primary_key_value']
-            );
-
-        } elseif (trim($this->model_registry['name_key_value']) == '') {
-
-        } else {
-            $this->where(
-                'column',
-                $this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key'],
-                '=',
-                'string',
-                $this->model_registry['name_key_value']
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Uses joins defined in model registry to build SQL statements
-     *
-     * @return  $this
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    protected function setSpecialJoins()
-    {
-        if ($this->model_registry['use_special_joins'] === 0
-            || count($this->model_registry['joins']) === 0
-        ) {
-            return $this;
-        }
-
-        $joins = $this->model_registry['joins'];
-
-        foreach ($joins as $join) {
-
-            $join_table = $join['table_name'];
-            $alias      = $join['alias'];
-            $select     = $join['select'];
-            $join_to    = $join['jointo'];
-            $join_with  = $join['joinwith'];
-
-            /* Select fields */
-            if (trim($select) == '') {
-                $select_array = array();
-            } else {
-                $select_array = explode(',', $select);
-            }
-
-            if ($this->model_registry['query_object'] == 'result') {
-            } else {
-
-                if (count($select_array) > 0) {
-                    foreach ($select_array as $select_item) {
-                        $this->select(
-                            trim($alias) . '.' . trim($select_item),
-                            trim($alias) . '_' . trim($select_item)
-                        );
-                    }
-                }
-            }
-
-            /* Join Tables */
-            $join_to_array     = explode(',', $join_to);
-            $join_with_array   = explode(',', $join_with);
-            $where_left        = null;
-            $where_left_alias  = $alias;
-            $where_right       = null;
-            $where_right_alias = $this->model_registry['primary_prefix'];
-
-            if (count($join_to_array) > 0) {
-
-                $i = 0;
-                foreach ($join_to_array as $join_to_item) {
-
-                    /** where THIS operator that */
-                    $results           = $this->setWhereElement($join_to_item, $where_left_alias);
-                    $where_left_filter = $results[0];
-                    $where_left        = $results[1];
-
-                    /** where this OPERATOR that */
-                    $with = $join_with_array[$i];
-
-                    $operator = '=';
-                    if (substr($with, 0, 2) == '>=') {
-                        $operator = '>=';
-                        $with     = substr($with, 2, strlen($with) - 2);
-
-                    } elseif (substr($with, 0, 1) == '>') {
-                        $operator = '>';
-                        $with     = substr($with, 0, strlen($with) - 1);
-
-                    } elseif (substr($with, 0, 2) == '<=') {
-                        $operator = '<=';
-                        $with     = substr($with, 2, strlen($with) - 2);
-
-                    } elseif (substr($with, 0, 1) == '<') {
-                        $operator = '<';
-                        $with     = substr($with, 0, strlen($with) - 1);
-                    }
-
-                    /** where this operator THAT */
-                    $results            = $this->setWhereElement($with, $where_right_alias);
-                    $where_right_filter = $results[0];
-                    $where_right        = $results[1];
-
-                    /** put the where together */
-                    if ($where_left === null || $where_right === null) {
-                    } else {
-
-                        if ($join_table === null) {
-                        } else {
-                            $this->from($join_table, $alias);
-                            $join_table = null;
-                        }
-
-                        $this->where(
-                            $where_left_filter,
-                            $where_left,
-                            $operator,
-                            $where_right_filter,
-                            $where_right
-                        );
-                    }
-
-                    $i ++;
-                }
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Add Model Registry Criteria to Query
-     *
-     * @param   string $join_item
-     *
-     * @return  array
-     * @since   1.0
-     */
-    protected function setWhereElement($join_item, $alias)
-    {
-        $filter     = 'column';
-        $where_part = null;
-
-        if ($join_item == 'APPLICATION_ID') {
-            if ((int)$this->application_id === 0) {
-            } else {
-                $where_part = $this->application_id;
-                $filter     = 'integer';
-            }
-
-        } elseif ($join_item == 'SITE_ID') {
-            if ((int)$this->site_id === 0) {
-            } else {
-                $where_part = $this->site_id;
-                $filter     = 'integer';
-            }
-
-        } elseif ($join_item == 'MENU_ID') {
-            $where_part = (int)$this->model_registry['criteria_menu_id'];
-            $filter     = 'integer';
-
-        } elseif ($join_item == 'CATALOG_TYPE_ID') {
-            $where_part = (int)$this->model_registry['catalog_type_id'];
-            $filter     = 'integer';
-
-        } elseif (is_numeric($join_item)) {
-            $where_part = (int)$join_item;
-            $filter     = 'integer';
-
-        } else {
-
-            $has_alias = explode('.', $join_item);
-
-            if (count($has_alias) > 1) {
-                $to_join = trim($has_alias[0]) . '.' . trim($has_alias[1]);
-            } else {
-                $to_join = trim($alias) . '.' . trim($join_item);
-            }
-
-            $where_part = $to_join;
-        }
-
-        return array($filter, $where_part);
-    }
-
-    /**
-     * Uses joins defined in model registry to build SQL statements
-     *
-     * @return  $this
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    protected function setModelRegistryCriteria()
-    {
-        if ($this->model_registry['criteria_status'] === '') {
-        } else {
-            $this->where(
-                'column',
-                $this->model_registry['primary_prefix'] . '.' . 'status',
-                'IN',
-                'integer',
-                $this->model_registry['criteria_status']
-            );
-        }
-
-        if ((int)$this->model_registry['criteria_catalog_type_id'] === 0) {
-        } else {
-            $this->where(
-                'column',
-                $this->model_registry['primary_prefix'] . '.' . 'catalog_type_id',
-                '=',
-                'integer',
-                (int)$this->model_registry['criteria_catalog_type_id']
-            );
-        }
-
-        if ((int)$this->model_registry['criteria_extension_instance_id'] === 0) {
-        } else {
-            $this->where(
-                'column',
-                $this->model_registry['primary_prefix'] . '.' . 'extension_instance_id',
-                '=',
-                'integer',
-                (int)$this->model_registry['criteria_extension_instance_id']
-            );
-        }
-
-        if ((int)$this->model_registry['criteria_menu_id'] === 0) {
-        } else {
-            $this->where(
-                'column',
-                $this->model_registry['primary_prefix'] . '.' . 'menu_id',
-                '=',
-                'integer',
-                (int)$this->model_registry['criteria_menu_id']
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set Criteria Statements
-     *
-     * @return  $this
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    protected function setModelRegistryCriteriaArrayCriteria()
-    {
-        if (count($this->model_registry['criteria']) > 0) {
-        } else {
-            return $this;
-        }
-
-        if ($this->model_registry['use_special_joins'] === 0
-            || count($this->model_registry['joins']) === 0
-        ) {
-            $use_special_joins = false;
-        } else {
-            $use_special_joins = true;
-        }
-
-        foreach ($this->model_registry['criteria'] as $item) {
-
-            $use = false;
-
-            if ($use_special_joins === true) {
-                $use = true;
-
-            } elseif (strpos($item['name'], '.') > 0) {
-                $parts = explode('.', $item['name']);
-                if ($parts[0] == $this->model_registry['primary_prefix']) {
-                    $use = true;
-                }
-            } else {
-                $use = true;
-            }
-
-            if ($use === true) {
-
-                if (isset($item['value'])) {
-                    $this->where('column', $item['name'], $item['connector'], 'integer', (int) $item['value']);
-
-                } elseif (isset($item['name2'])) {
-                    $this->where('column', $item['name'], $item['connector'], 'column', $item['name2']);
-                }
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set Model Registry Limits
-     *
-     * @return  $this
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    protected function setModelRegistryLimits()
-    {
-        if (count($this->model_registry['use_pagination']) == 0) {
-        } else {
-            return $this;
-        }
-
-        $this->setOffsetAndLimit(
-            $this->model_registry['offset'],
-            $this->model_registry['limit']
-        );
-
-        return $this;
+        return $this->returnQueryResults();
     }
 
     /**
@@ -568,11 +125,11 @@ class ReadController extends QueryController implements ReadControllerInterface
 
             /** Read past offset */
             if ($offset_count < $offset) {
-                $offset_count ++;
+                $offset_count++;
                 /** Collect next set for pagination */
             } elseif ($results_count < $count) {
                 $this->query_results[] = $item;
-                $results_count ++;
+                $results_count++;
                 /** Offset and Results set collected. Exit. */
             } else {
                 break;
@@ -602,7 +159,7 @@ class ReadController extends QueryController implements ReadControllerInterface
             return $this;
         }
 
-        $schedule_event = $this->scheduleEvent;
+        $schedule_event = $this->schedule_event;
 
         $options                   = array();
         $options['runtime_data']   = $this->runtime_data;
@@ -648,7 +205,7 @@ class ReadController extends QueryController implements ReadControllerInterface
             return $this;
         }
 
-        $schedule_event = $this->scheduleEvent;
+        $schedule_event = $this->schedule_event;
 
         $rows                = $this->query_results;
         $this->query_results = array();
@@ -726,7 +283,7 @@ class ReadController extends QueryController implements ReadControllerInterface
             return $this;
         }
 
-        $schedule_event = $this->scheduleEvent;
+        $schedule_event = $this->schedule_event;
 
         $options                   = array();
         $options['runtime_data']   = $this->runtime_data;
@@ -762,5 +319,34 @@ class ReadController extends QueryController implements ReadControllerInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Schedule Event onAfterRead Event
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function returnQueryResults()
+    {
+        if ($this->getModelRegistry('query_object') == 'result'
+            || $this->getModelRegistry('query_object') == 'distinct'
+        ) {
+            return $this->query_results;
+        }
+
+        if (count($this->query_results) === 0
+            || $this->query_results === false
+            || !is_array($this->query_results)
+        ) {
+            $this->query_results = array();
+        }
+
+        if ($this->getModelRegistry('query_object') == 'item') {
+            $result              = $this->query_results[0];
+            $this->query_results = $result;
+        }
+
+        return $this->query_results;
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1401050886">
-  <project timestamp="1401050886">
+<coverage generated="1401064190">
+  <project timestamp="1401064190">
     <file name="/Users/amystephen/Sites/Molajo/Query/.dev/Bootstrap.php">
       <line num="37" type="stmt" count="0"/>
       <line num="38" type="stmt" count="0"/>
@@ -98,8 +98,8 @@
         <line num="378" type="stmt" count="4"/>
         <metrics loc="380" ncloc="170" classes="1" methods="11" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="45" coveredstatements="42" elements="56" coveredelements="51"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/Query/Controller/ModelRegistry.php">
-        <class name="ModelRegistry" namespace="Molajo\Controller">
+      <file name="/Users/amystephen/Sites/Molajo/Query/Controller/ModelRegistryDefaults.php">
+        <class name="ModelRegistryDefaults" namespace="Molajo\Controller">
           <metrics methods="15" coveredmethods="15" conditionals="0" coveredconditionals="0" statements="93" coveredstatements="79" elements="108" coveredelements="94"/>
         </class>
         <line num="36" type="method" name="__construct" crap="1" count="4"/>

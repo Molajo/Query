@@ -86,21 +86,21 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::setDateProperties
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
-     * @covers  Molajo\Controller\ModelRegistry::__construct
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaults
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsGroup
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryCriteriaValues
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsKeys
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsFields
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsTableName
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsPrimaryPrefix
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsQueryObject
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsCriteriaArray
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsJoins
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultLimits
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryPaginationCrossEdits
-     * @covers  Molajo\Controller\ModelRegistry::setPropertyArray
-     * @covers  Molajo\Controller\ModelRegistry::setProperty
+     * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsFields
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsTableName
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsPrimaryPrefix
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsQueryObject
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsCriteriaArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsJoins
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultLimits
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
      *
      * @return void
      * @since   1.0
@@ -127,21 +127,21 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::setDateProperties
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
-     * @covers  Molajo\Controller\ModelRegistry::__construct
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaults
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsGroup
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryCriteriaValues
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsKeys
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsFields
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsTableName
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsPrimaryPrefix
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsQueryObject
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsCriteriaArray
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsJoins
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultLimits
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryPaginationCrossEdits
-     * @covers  Molajo\Controller\ModelRegistry::setPropertyArray
-     * @covers  Molajo\Controller\ModelRegistry::setProperty
+     * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsFields
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsTableName
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsPrimaryPrefix
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsQueryObject
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsCriteriaArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsJoins
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultLimits
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
      *
      * @return void
      * @since   1.0
@@ -170,21 +170,21 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::setDateProperties
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
-     * @covers  Molajo\Controller\ModelRegistry::__construct
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaults
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsGroup
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryCriteriaValues
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsKeys
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsFields
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsTableName
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsPrimaryPrefix
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsQueryObject
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsCriteriaArray
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsJoins
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultLimits
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryPaginationCrossEdits
-     * @covers  Molajo\Controller\ModelRegistry::setPropertyArray
-     * @covers  Molajo\Controller\ModelRegistry::setProperty
+     * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsFields
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsTableName
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsPrimaryPrefix
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsQueryObject
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsCriteriaArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsJoins
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultLimits
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
      *
      * @return void
      * @since   1.0
@@ -212,21 +212,21 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::setDateProperties
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
-     * @covers  Molajo\Controller\ModelRegistry::__construct
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaults
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsGroup
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryCriteriaValues
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsKeys
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsFields
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsTableName
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsPrimaryPrefix
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsQueryObject
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsCriteriaArray
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultsJoins
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryDefaultLimits
-     * @covers  Molajo\Controller\ModelRegistry::setModelRegistryPaginationCrossEdits
-     * @covers  Molajo\Controller\ModelRegistry::setPropertyArray
-     * @covers  Molajo\Controller\ModelRegistry::setProperty
+     * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsKeys
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsFields
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsTableName
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsPrimaryPrefix
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsQueryObject
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsCriteriaArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsJoins
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultLimits
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
      *
      * @return void
      * @since   1.0

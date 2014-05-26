@@ -168,8 +168,8 @@ abstract class Controller implements ControllerInterface
      * @param  object         $plugin_data
      * @param  callable       $schedule_event
      * @param  string         $sql
-     * @param  integer       $site_id
-     * @param  integer       $application_id
+     * @param  integer        $site_id
+     * @param  integer        $application_id
      * @param  string         $null_date
      * @param  string         $current_date
      * @param  CacheInterface $cache
@@ -304,8 +304,8 @@ abstract class Controller implements ControllerInterface
     /**
      * Set Default Values for SQL
      *
-     * @param   QueryInterface $query,
-     * @param   ModelInterface $model,
+     * @param   QueryInterface $query ,
+     * @param   ModelInterface $model ,
      * @param   string         $sql
      *
      * @return  $this
@@ -313,8 +313,8 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelProperties(QueryInterface $query, ModelInterface $model, $sql)
     {
-        $this->query          = $query;
-        $this->model          = $model;
+        $this->query = $query;
+        $this->model = $model;
 
         $this->sql = $sql;
 
@@ -333,7 +333,7 @@ abstract class Controller implements ControllerInterface
      */
     protected function setModelRegistryDefaults($model_registry)
     {
-        $defaults = new ModelRegistry($model_registry);
+        $defaults = new ModelRegistryDefaults($model_registry);
 
         $this->model_registry = $defaults->setModelRegistryDefaults();
 
@@ -343,8 +343,8 @@ abstract class Controller implements ControllerInterface
     /**
      * Set Default Values for SQL
      *
-     * @param   string  $null_date
-     * @param   string  $current_date
+     * @param   string $null_date
+     * @param   string $current_date
      *
      * @return  $this
      * @since   1.0
@@ -360,8 +360,8 @@ abstract class Controller implements ControllerInterface
     /**
      * Set Default Values for SQL
      *
-     * @param   integer  $site_id
-     * @param   integer  $application_id
+     * @param   integer $site_id
+     * @param   integer $application_id
      *
      * @return  $this
      * @since   1.0

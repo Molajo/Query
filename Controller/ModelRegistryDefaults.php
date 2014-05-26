@@ -16,7 +16,7 @@ namespace Molajo\Controller;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class ModelRegistry
+class ModelRegistryDefaults
 {
     /**
      * Model Registry
