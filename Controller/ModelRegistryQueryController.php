@@ -309,7 +309,7 @@ class ModelRegistryQueryController extends QueryController
                 $this->setSpecialJoinsItemWhere(
                     $join_to_item,
                     $where_left_alias,
-                    $join_with_array[$i],
+                    $join_with_array[0],
                     $where_right_alias,
                     $join_table,
                     $alias
@@ -360,7 +360,7 @@ class ModelRegistryQueryController extends QueryController
      *
      * @param   string $join_to_item
      * @param   string $where_left_alias
-     * @param   string $with
+     * @param   string $join_with_item
      * @param   string $where_right_alias
      * @param   string $join_table
      * @param   string $alias
@@ -371,22 +371,19 @@ class ModelRegistryQueryController extends QueryController
     protected function setSpecialJoinsItemWhere(
         $join_to_item,
         $where_left_alias,
-        $with,
+        $join_with_item,
         $where_right_alias,
         $join_table,
         $alias
     ) {
         /** Where Left */
-        list($where_left_filter, $where_left) = $this->setSpecialJoinsItemWhereLeft(
-            $join_to_item,
-            $where_left_alias
-        );
+        list($where_left_filter, $where_left) = $this->setSpecialJoinsItemWhereLR($where_left_alias. $join_to_item);
 
         /** Operator */
-        list($with, $operator) = $this->setSpecialJoinsItemWhereOperator($with);
+        list($join_with_item, $operator) = $this->setSpecialJoinsItemWhereOperator($operator);
 
         /** Right */
-        list($where_right_filter, $where_right) = $this->setSpecialJoinsItemWhereRight($where_right_alias, $with);
+        list($where_right_filter, $where_right) = $this->setSpecialJoinsItemWhereLR($where_right_alias, $join_with_item);
 
         /** Where Left Operator Right */
         $this->setSpecialJoinsItemWhereLeftOperatorRight(
@@ -403,22 +400,22 @@ class ModelRegistryQueryController extends QueryController
     }
 
     /**
-     * Set Special Joins Item - "Where Left"
+     * Set Special Joins Item - "Where Left" and "Where Right"
      *
-     * @param   string $join_to_item
-     * @param   string $where_left_alias
+     * @param   string $where_alias
+     * @param   string $join_item
      *
      * @return  array
      * @since   1.0
      */
-    protected function setSpecialJoinsItemWhereLeft($join_to_item, $where_left_alias)
+    protected function setSpecialJoinsItemWhereLR($where_left_alias, $join_to_item)
     {
-        $results = $this->setWhereElement($join_to_item, $where_left_alias);
+        $results = $this->setWhereElement($where_left_alias, $join_to_item);
 
-        $where_left_filter = $results[0];
-        $where_left        = $results[1];
+        $where_filter = $results[0];
+        $where        = $results[1];
 
-        return array($results, $where_left_filter, $where_left);
+        return array($results, $where_filter, $where);
     }
 
     /**
@@ -453,25 +450,6 @@ class ModelRegistryQueryController extends QueryController
             return array($with, $operator);
         }
         return array($with, $operator);
-    }
-
-    /**
-     * Set Special Joins Item - "Right"
-     *
-     * @param   string $where_right_alias
-     * @param   string $with
-     *
-     * @return  array
-     * @since   1.0
-     */
-    protected function setSpecialJoinsItemWhereRight($where_right_alias, $with)
-    {
-        $results = $this->setWhereElement($with, $where_right_alias);
-
-        $where_right_filter = $results[0];
-        $where_right        = $results[1];
-
-        return array($where_right_filter, $where_right);
     }
 
     /**

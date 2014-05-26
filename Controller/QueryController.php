@@ -122,14 +122,7 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function select($column_name, $alias = null, $value = null, $data_type = null)
     {
-        try {
-            return $this->query->select($column_name, $alias, $value, $data_type);
-
-        } catch (Exception $e) {
-
-            throw new RuntimeException
-            ('Query Adapter Select Method Exception: ' . $e->getMessage());
-        }
+        return $this->query->select($column_name, $alias, $value, $data_type);
     }
 
     /**
@@ -144,14 +137,7 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function from($table_name, $alias = null)
     {
-        try {
-            return $this->query->from($table_name, $alias);
-
-        } catch (Exception $e) {
-
-            throw new RuntimeException
-            ('Query Adapter From Method Exception: ' . $e->getMessage());
-        }
+        return $this->query->from($table_name, $alias);
     }
 
     /**
@@ -166,14 +152,7 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function whereGroup($group, $group_connector = 'and')
     {
-        try {
-            return $this->query->whereGroup($group, $group_connector);
-
-        } catch (Exception $e) {
-
-            throw new RuntimeException
-            ('Query Adapter WhereGroup Method Exception: ' . $e->getMessage());
-        }
+        return $this->query->whereGroup($group, $group_connector);
     }
 
     /**
@@ -200,14 +179,8 @@ abstract class QueryController extends Controller implements QueryInterface
         $connector = 'and',
         $group = null
     ) {
-        try {
-            return $this->query->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
+        return $this->query->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
 
-        } catch (Exception $e) {
-
-            throw new RuntimeException
-            ('Query Adapter Where Method Exception: ' . $e->getMessage());
-        }
     }
 
     /**
@@ -222,14 +195,7 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function groupBy($column_name, $alias = null)
     {
-        try {
-            return $this->query->groupBy($column_name, $alias);
-
-        } catch (Exception $e) {
-
-            throw new RuntimeException
-            ('Query Adapter GroupBy Method Exception: ' . $e->getMessage());
-        }
+        return $this->query->groupBy($column_name, $alias);
     }
 
     /**
@@ -244,14 +210,7 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function havingGroup($group, $group_connector = 'and')
     {
-        try {
-            return $this->query->havingGroup($group, $group_connector);
-
-        } catch (Exception $e) {
-
-            throw new RuntimeException
-            ('Query Adapter havingGroup Method Exception: ' . $e->getMessage());
-        }
+        return $this->query->havingGroup($group, $group_connector);
     }
 
     /**
@@ -278,14 +237,7 @@ abstract class QueryController extends Controller implements QueryInterface
         $connector = 'and',
         $group = ''
     ) {
-        try {
-            return $this->query->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
-
-        } catch (Exception $e) {
-
-            throw new RuntimeException
-            ('Query Adapter Having Method Exception: ' . $e->getMessage());
-        }
+        return $this->query->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
     }
 
     /**
@@ -299,14 +251,7 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function orderBy($column_name, $direction = 'ASC')
     {
-        try {
-            return $this->query->orderBy($column_name, $direction);
-
-        } catch (Exception $e) {
-
-            throw new RuntimeException
-            ('Query Adapter OrderBy Method Exception: ' . $e->getMessage());
-        }
+        return $this->query->orderBy($column_name, $direction);
     }
 
     /**
@@ -334,13 +279,6 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function getSQL($sql = null)
     {
-        try {
-            return $this->query->getSQL($sql);
-
-        } catch (Exception $e) {
-
-            throw new RuntimeException
-            ('Query Adapter getSQL Method Exception: ' . $e->getMessage());
-        }
+        return $this->query->getSQL($sql);
     }
 }

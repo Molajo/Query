@@ -84,15 +84,14 @@ abstract class Model implements ModelInterface
     public function get($key, $default = null)
     {
         if (in_array($key, $this->property_array)) {
-        } else {
-            throw new RuntimeException('Model Get: Unknown key: ' . $key);
+            if ($this->$key === null) {
+                $this->$key = $default;
+            }
+
+            return $this->$key;
         }
 
-        if ($this->$key === null) {
-            $this->$key = $default;
-        }
-
-        return $this->$key;
+        return null;
     }
 
     /**
@@ -108,11 +107,8 @@ abstract class Model implements ModelInterface
     public function set($key, $value = null)
     {
         if (in_array($key, $this->property_array)) {
-        } else {
-            throw new RuntimeException('Model Set: Unknown key: ' . $key);
+            $this->$key = $value;
         }
-
-        $this->$key = $value;
 
         return $this;
     }
