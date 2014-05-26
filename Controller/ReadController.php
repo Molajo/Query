@@ -63,7 +63,7 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
             return $this->total;
         }
 
-        $this->processPagination();
+        $this->processPagination($this->query_results);
 
         return $this;
     }
@@ -90,13 +90,13 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
      * @return  $this
      * @since   1.0
      */
-    protected function processPagination()
+    protected function processPagination($query_results)
     {
-        $this->offset_count = 0;
-        $query_results      = array();
-        $process_rows_count = 0;
+        $this->offset_count  = 0;
+        $this->query_results = array();
+        $process_rows_count  = 0;
 
-        foreach ($this->query_results as $item) {
+        foreach ($query_results as $item) {
 
             /** Previous Data: Read past offset */
             if ($this->offset_count < $this->offset) {
@@ -104,7 +104,7 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
 
                 /** Current Data: Collect this data for display */
             } elseif ($process_rows_count < $this->count) {
-                $query_results = $item;
+                $this->query_results[] = $item;
                 $process_rows_count++;
 
                 /** Next Data: Offset and Results set collected. Exit. */
@@ -112,8 +112,6 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
                 break;
             }
         }
-
-        $this->query_results = $query_results;
 
         return $this;
     }
@@ -130,13 +128,6 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
             || $this->query_object == 'distinct'
         ) {
             return $this->query_results;
-        }
-
-        if (count($this->query_results) === 0
-            || $this->query_results === false
-            || !is_array($this->query_results)
-        ) {
-            $this->query_results = array();
         }
 
         if ($this->query_object == 'item') {
