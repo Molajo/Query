@@ -47,11 +47,7 @@ class ModelRegistryDefaults
      */
     public function setModelRegistryDefaults()
     {
-        if (is_array($this->model_registry)) {
-        } else {
-            $this->model_registry = array();
-        }
-
+        $this->setModelRegistryBase();
         $this->setModelRegistryDefaultsGroup();
         $this->setModelRegistryCriteriaValues();
         $this->setModelRegistryDefaultsKeys();
@@ -63,6 +59,27 @@ class ModelRegistryDefaults
         $this->setModelRegistryDefaultsJoins();
         $this->setModelRegistryDefaultLimits();
         $this->setModelRegistryPaginationCrossEdits();
+
+        return $this->model_registry;
+    }
+
+    /**
+     * Set Default Values for Model Registry
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function setModelRegistryBase()
+    {
+        if (is_array($this->model_registry)) {
+        } else {
+            $this->model_registry = array();
+        }
+
+        if (isset($this->model_registry['query_object'])) {
+        } else {
+            $this->model_registry['query_object'] = 'list';
+        }
 
         return $this->model_registry;
     }
