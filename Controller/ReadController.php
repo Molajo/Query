@@ -21,6 +21,14 @@ use CommonApi\Controller\ReadControllerInterface;
 class ReadController extends ModelRegistryQueryController implements ReadControllerInterface
 {
     /**
+     * Process Rows Count
+     *
+     * @var    object
+     * @since  1.0
+     */
+    protected $process_rows_count;
+
+    /**
      * Method to get retrieve data
      *
      * @return  mixed
@@ -53,8 +61,6 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
      */
     protected function runQuery()
     {
-        //todo cache
-
         $this->executeQuery();
 
         if ($this->use_pagination === 0
@@ -94,26 +100,43 @@ class ReadController extends ModelRegistryQueryController implements ReadControl
     {
         $this->offset_count  = 0;
         $this->query_results = array();
-        $process_rows_count  = 0;
+        $this->process_rows_count  = 0;
 
         foreach ($query_results as $item) {
-
-            /** Previous Data: Read past offset */
-            if ($this->offset_count < $this->offset) {
-                $this->offset_count++;
-
-                /** Current Data: Collect this data for display */
-            } elseif ($process_rows_count < $this->count) {
-                $this->query_results[] = $item;
-                $process_rows_count++;
-
-                /** Next Data: Offset and Results set collected. Exit. */
-            } else {
+            $complete = $this->processPaginationItem($item);
+            if ($complete === true) {
                 break;
             }
         }
 
         return $this;
+    }
+
+    /**
+     * Process Pagination Item
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function processPaginationItem($item)
+    {
+        $complete = false;
+
+        /** Previous Data: Read past offset */
+        if ($this->offset_count < $this->offset) {
+            $this->offset_count++;
+
+            /** Current Data: Collect this data for display */
+        } elseif ($this->process_rows_count < $this->count) {
+            $this->query_results[] = $item;
+            $this->process_rows_count++;
+
+            /** Next Data: Offset and Results set collected. Exit. */
+        } else {
+            $complete = true;
+        }
+
+        return $complete;
     }
 
     /**

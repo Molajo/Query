@@ -42,7 +42,12 @@ abstract class QueryController extends Controller implements QueryInterface
         array $model_registry
     ) {
         parent::__construct(
-            $query, $model, $runtime_data, $plugin_data, $schedule_event, $model_registry
+            $query,
+            $model,
+            $runtime_data,
+            $plugin_data,
+            $schedule_event,
+            $model_registry
         );
 
         $this->setDateProperties();

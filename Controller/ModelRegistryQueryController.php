@@ -70,6 +70,21 @@ class ModelRegistryQueryController extends QueryController
      */
     protected $total;
 
+
+    /**
+     * Total
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $query_where_property_array
+        = array(
+            'APPLICATION_ID'  => 'application_id',
+            'SITE_ID'         => 'site_id',
+            'MENU_ID'         => 'criteria_menu_id',
+            'CATALOG_TYPE_ID' => 'catalog_type_id',
+        );
+
     /**
      * DRIVER: SELECT, FROM and WHERE clauses for Query based on Model Registry
      *
@@ -377,13 +392,16 @@ class ModelRegistryQueryController extends QueryController
         $alias
     ) {
         /** Where Left */
-        list($where_left_filter, $where_left) = $this->setSpecialJoinsItemWhereLR($where_left_alias. $join_to_item);
+        list($where_left_filter, $where_left) = $this->setSpecialJoinsItemWhereLR($where_left_alias, $join_to_item);
 
         /** Operator */
         list($join_with_item, $operator) = $this->setSpecialJoinsItemWhereOperator($operator);
 
         /** Right */
-        list($where_right_filter, $where_right) = $this->setSpecialJoinsItemWhereLR($where_right_alias, $join_with_item);
+        list($where_right_filter, $where_right) = $this->setSpecialJoinsItemWhereLR(
+            $where_right_alias,
+            $join_with_item
+        );
 
         /** Where Left Operator Right */
         $this->setSpecialJoinsItemWhereLeftOperatorRight(
@@ -402,15 +420,15 @@ class ModelRegistryQueryController extends QueryController
     /**
      * Set Special Joins Item - "Where Left" and "Where Right"
      *
-     * @param   string $where_alias
-     * @param   string $join_item
+     * @param   string $alias
+     * @param   string $join_to_item
      *
      * @return  array
      * @since   1.0
      */
-    protected function setSpecialJoinsItemWhereLR($where_left_alias, $join_to_item)
+    protected function setSpecialJoinsItemWhereLR($alias, $join_item)
     {
-        $results = $this->setWhereElement($where_left_alias, $join_to_item);
+        $results = $this->setWhereElement($join_item);
 
         $where_filter = $results[0];
         $where        = $results[1];
@@ -428,27 +446,22 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setSpecialJoinsItemWhereOperator($with)
     {
-        $operator = '=';
-        if (substr($with, 0, 2) == '>=') {
-            $operator = '>=';
+        $operator_array = array('=', '>=', '>', '<=', '<');
+        $operator       = '=';
+
+        $two = substr($with, 0, 2);
+        if (isset($operator_array[$two])) {
+            $operator = $operator_array[$two];
             $with     = substr($with, 2, strlen($with) - 2);
-            return array($with, $operator);
 
-        } elseif (substr($with, 0, 1) == '>') {
-            $operator = '>';
-            $with     = substr($with, 0, strlen($with) - 1);
-            return array($with, $operator);
-
-        } elseif (substr($with, 0, 2) == '<=') {
-            $operator = '<=';
-            $with     = substr($with, 2, strlen($with) - 2);
-            return array($with, $operator);
-
-        } elseif (substr($with, 0, 1) == '<') {
-            $operator = '<';
-            $with     = substr($with, 0, strlen($with) - 1);
-            return array($with, $operator);
+        } else {
+            $one = substr($with, 0, 1);
+            if (isset($operator_array[$one])) {
+                $operator = $operator_array[$one];
+            }
+            $with = substr($with, 0, strlen($with) - 1);
         }
+
         return array($with, $operator);
     }
 
@@ -503,65 +516,37 @@ class ModelRegistryQueryController extends QueryController
      * @return  array
      * @since   1.0
      */
-    protected function setWhereElement($join_item, $alias)
+    protected function  setWhereElement($join_item)
     {
-        $filter     = 'column';
-        $where_part = null;
+        if (isset($this->query_where_property_array[$join_item])) {
+            $key = $this->property_array[$join_item];
 
-        if ($join_item == 'APPLICATION_ID') {
-            if ((int)$this->application_id === 0) {
-
+            if (isset($this->model_registry[$key])) {
+                $value = $this->model_registry[$key];
             } else {
-                $where_part = $this->application_id;
-                $filter     = 'integer';
-
-                return array($filter, $where_part);
-            }
-        }
-
-        if ($join_item == 'SITE_ID') {
-            if ((int)$this->site_id === 0) {
-            } else {
-                $where_part = $this->site_id;
-                $filter     = 'integer';
+                $value = $this->$property;
             }
 
-            return array($filter, $where_part);
-        }
+            return array('integer', $value);
 
-        if ($join_item == 'MENU_ID') {
-            $where_part = (int)$this->model_registry['criteria_menu_id'];
-            $filter     = 'integer';
-
-            return array($filter, $where_part);
-        }
-
-        if ($join_item == 'CATALOG_TYPE_ID') {
-            $where_part = (int)$this->model_registry['catalog_type_id'];
-            $filter     = 'integer';
-
-            return array($filter, $where_part);
         }
 
         if (is_numeric($join_item)) {
-            $where_part = (int)$join_item;
-            $filter     = 'integer';
-
-            return array($filter, $where_part);
+            $value = $join_item;
+            return array('integer', $value);
         }
+
 
         $has_alias = explode('.', $join_item);
 
         if (count($has_alias) > 1) {
             $to_join = trim($has_alias[0]) . '.' . trim($has_alias[1]);
         } else {
-            $to_join = trim($alias) . '.' . trim($join_item);
+            $to_join = trim($join_item);
         }
 
-        $where_part = $to_join;
 
-
-        return array($filter, $where_part);
+        return array('column', $to_join);
     }
 
     /**
