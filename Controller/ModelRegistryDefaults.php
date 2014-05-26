@@ -120,6 +120,23 @@ class ModelRegistryDefaults
         $this->setProperty('primary_key', 'id');
         $this->setProperty('primary_key_value', 0);
 
+        $key = $this->getModelRegistryPrimaryKeyValue();
+        $this->setModelRegistryPrimaryKeyValue($key);
+
+        $this->setProperty('name_key', 'title');
+        $this->setProperty('name_key_value', null);
+
+        return $this;
+    }
+
+    /**
+     * Get the Primary Key Value for the Model Registry
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function getModelRegistryPrimaryKeyValue()
+    {
         $key = 0;
 
         if (isset($this->model_registry['primary_key_value'])) {
@@ -132,14 +149,22 @@ class ModelRegistryDefaults
             }
         }
 
+        return $key;
+    }
+
+    /**
+     * Get the Primary Key Value for the Model Registry
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setModelRegistryPrimaryKeyValue($key)
+    {
         if ($key === 0) {
             $this->model_registry['primary_key_value'] = null;
         } else {
             $this->model_registry['primary_key_value'] = $key;
         }
-
-        $this->setProperty('name_key', 'title');
-        $this->setProperty('name_key_value', null);
 
         return $this;
     }
@@ -185,11 +210,6 @@ class ModelRegistryDefaults
      */
     protected function setModelRegistryDefaultsQueryObject()
     {
-        if (isset($this->model_registry['query_object'])) {
-        } else {
-            $this->model_registry['query_object'] =  'list';
-        }
-
         $query_object = strtolower($this->model_registry['query_object']);
 
         if ($query_object == 'result'
