@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract Collect Query Elemenets
+ * Abstract Collect Query Elements
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -8,7 +8,6 @@
  */
 namespace Molajo\Query\Adapter;
 
-use CommonApi\Exception\RuntimeException;
 use CommonApi\Query\QueryInterface;
 use stdClass;
 
