@@ -354,6 +354,21 @@ abstract class AbstractAdapter implements QueryInterface
      * @return  string
      * @since   1.0
      */
+    public function editDataType($data_type = null, $column_name)
+    {
+        if ($data_type === null) {
+            throw new RuntimeException(
+                'Query-editDataType Method: No Datatype provided for Column: ' . $column_name
+            );
+        }
+    }
+
+    /**
+     * Tests if a required value has been provided
+     *
+     * @return  string
+     * @since   1.0
+     */
     public function editRequired($column_name, $value = null)
     {
         if (trim($value) == '' || $value === null) {

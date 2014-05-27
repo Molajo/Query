@@ -70,25 +70,8 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     public function getSQLGenerate()
     {
-        $this->query_type = strtolower($this->query_type);
-
-        if ($this->query_type == 'insert') {
-            $query = $this->setSQLInsert();
-
-        } elseif ($this->query_type == 'insert-from') {
-            $query = $this->setSQLInsertFrom();
-
-        } elseif ($this->query_type == 'update') {
-            $query = $this->setSQLUpdate();
-
-        } elseif ($this->query_type == 'delete') {
-            $query = $this->setSQLDelete();
-
-        } else {
-            $this->query_type = 'select';
-            $query            = $this->setSQLSelect();
-        }
-
+        $model     = 'setSQL' . ucfirst(strtolower($this->query_type));
+        $query     = $this->$model();
         $this->sql = $this->setDatabasePrefix($query);
 
         return $this;
@@ -143,7 +126,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      * @return  string
      * @since   1.0
      */
-    protected function setSQLInsertFrom()
+    protected function setSQLInsertfrom()
     {
         return '';
     }
@@ -157,14 +140,43 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelect()
     {
-        $this->editArray('columns', $this->columns, true);
+        $this->editArray($this->columns, 'columns', true);
+        
+        $string = $this->setSQLSelectDistinct();
+        $string .= $this->setSQLSelectColumns();
+        $query = $string . PHP_EOL;
+        $query .= $this->setSQLSelectFrom();
+        $query .= $this->setWhere($query);
+        $query .= $this->setSQLSelectGroupBy();
+        $query .= $this->setSQLSelectHaving();
+        $query .= $this->setSQLSelectOrderBy();
+        $query .= $this->setSQLSelectLimit();
 
+        return $query;
+    }
+
+    /**
+     * Generate SQL for Select
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLSelectDistinct()
+    {
         if ($this->distinct === true) {
-            $query = 'SELECT DISTINCT ';
-        } else {
-            $query = 'SELECT ';
+            return 'SELECT DISTINCT ';
         }
+        return 'SELECT ';
+    }
 
+    /**
+     * Generate SQL for Columns
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLSelectColumns()
+    {
         $string = '';
 
         foreach ($this->columns as $item) {
@@ -182,30 +194,79 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
             }
         }
 
-        $query .= $string . PHP_EOL;
+        return $string;
+    }
 
-        $query .= 'FROM ' . $this->setFromSQL() . PHP_EOL;
+    /**
+     * Generate SQL for From
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLSelectFrom()
+    {
+        return 'FROM ' . $this->setFromSQL() . PHP_EOL;
+    }
 
-        $query .= $this->setWhere($query);
-
+    /**
+     * Generate SQL for Group By
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLSelectGroupBy()
+    {
         if (is_array($this->group_by) && count($this->group_by) > 0) {
-            $query .= 'GROUP BY ' . $this->setGroupBySQL() . PHP_EOL;
+            return 'GROUP BY ' . $this->setGroupBySQL() . PHP_EOL;
         }
 
+        return '';
+    }
+
+    /**
+     * Generate SQL for Having
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLSelectHaving()
+    {
         if (count($this->having) > 0) {
-            $query .= 'HAVING ' . $this->setHavingSQL() . PHP_EOL;
+            return 'HAVING ' . $this->setHavingSQL() . PHP_EOL;
         }
 
+        return '';
+    }
+
+    /**
+     * Generate SQL for Order By
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLSelectOrderBy()
+    {
         if (is_array($this->order_by) && count($this->order_by) > 0) {
-            $query .= 'ORDER BY ' . $this->setOrderBySQL() . PHP_EOL;
+            return 'ORDER BY ' . $this->setOrderBySQL() . PHP_EOL;
         }
 
+        return '';
+    }
+
+    /**
+     * Generate SQL for Limit
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLSelectLimit()
+    {
         if ((int)$this->offset == 0 && (int)$this->limit == 0) {
         } else {
-            $query .= 'LIMIT ' . $this->setSQLLimit();
+            return 'LIMIT ' . $this->setSQLLimit();
         }
 
-        return $query;
+        return '';
     }
 
     /**
@@ -216,7 +277,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLUpdate()
     {
-        $this->editArray('columns', $this->columns, true);
+        $this->editArray($this->columns, 'columns', true);
 
         $query = 'UPDATE ' . $this->setFromSQL() . PHP_EOL;
 
@@ -226,14 +287,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
 
         foreach ($this->columns as $key => $item) {
 
-            if ($item->data_type === null) {
-                throw new RuntimeException
-                (
-                    'Query-setSQLUpdate Method: No Datatype provided for Column Filter '
-                    . ' Column: ' . $item->column
-                    . ' Update to: ' . $query
-                );
-            }
+            $this->editDataType($item->data_type, $item->column);
 
             if ($string == '') {
             } else {
@@ -290,7 +344,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setFromSQL()
     {
-        $this->editArray($this->from, 'from');
+        $this->editArray($this->from, 'from', true);
 
         return $this->setLoopSQL($this->from);
     }
@@ -303,7 +357,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setWhereSQL()
     {
-        if ($this->editArray('where', $this->where, false) === false) {
+        if ($this->editArray($this->where, 'where', false) === false) {
             return '';
         }
 
@@ -376,7 +430,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setGroupBySQL()
     {
-        if ($this->editArray('group_by', $this->group_by, false) === false) {
+        if ($this->editArray($this->group_by, 'group_by', false) === false) {
             return '';
         }
 
@@ -391,7 +445,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setHavingSQL()
     {
-        if ($this->editArray('having', $this->having, false) === false) {
+        if ($this->editArray($this->having, 'having', false) === false) {
             return '';
         };
 
@@ -446,7 +500,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setOrderBySQL()
     {
-        if ($this->editArray('order_by', $this->order_by, false) === false) {
+        if ($this->editArray($this->order_by, 'order_by', false) === false) {
             return '';
         };
 
