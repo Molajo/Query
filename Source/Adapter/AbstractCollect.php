@@ -31,16 +31,8 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      */
     public function setType($query_type = 'select')
     {
-        $query_type = strtolower($query_type);
-
-        if ($query_type == 'insert'
-            || $query_type == 'insert-from'
-            || $query_type == 'select'
-            || $query_type == 'update'
-            || $query_type == 'delete'
-            || $query_type == 'exec'
-        ) {
-            $this->query_type = $query_type;
+        if (in_array(strtolower($query_type), $this->query_type_array)) {
+            $this->query_type = strtolower($query_type);
         } else {
             $this->query_type = 'select';
         }
@@ -113,7 +105,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * @param   string $data_type
      * @param   object $item
      *
-     * @return  $this
+     * @return  object
      * @since   1.0
      */
     protected function selectDataType($item, $data_type, $value)
@@ -218,15 +210,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
             $right = $this->setOrFilterColumn($right_filter, $right);
         }
 
-        $item            = new stdClass();
-        $item->left      = $left;
-        $item->condition = $condition;
-        $item->right     = $right;
-        $item->connector = $connector;
-        $item->group     = $group;
-        $this->where[]   = $item;
-
-        return $this;
+        return $this->buildItem($left, $condition, $right, $connector, $group, 'where');
     }
 
     /**
@@ -305,17 +289,42 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $left  = $this->setOrFilterColumn($left_filter, $left);
         $right = $this->setOrFilterColumn($right_filter, $right);
 
+        return $this->buildItem($left, $condition, $right, $connector, $group, 'having');
+    }
+
+    /**
+     * Build Item for SQL Portions
+     *
+     * @param   string      $left
+     * @param   string      $condition
+     * @param   string      $right
+     * @param   string      $connector
+     * @param   null|string $group
+     * @param   string      $array_name
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function buildItem(
+        $left = '',
+        $condition = '=',
+        $right = '',
+        $connector = 'AND',
+        $group = null,
+        $array_name = ''
+    ) {
         $item            = new stdClass();
         $item->left      = $left;
         $item->condition = $condition;
         $item->right     = $right;
         $item->connector = $connector;
         $item->group     = $group;
-        $this->having[]  = $item;
+
+        $this->$array_name[]   = $item;
 
         return $this;
     }
-
+    
     /**
      * Order By column name and optional value for alias
      *

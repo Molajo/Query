@@ -202,6 +202,14 @@ abstract class AbstractAdapter implements QueryInterface
     protected $connector = array('OR', 'AND');
 
     /**
+     * QueryType
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $query_type_array = array('insert', 'insertfrom', 'selelct', 'update', 'delete', 'exec');
+
+    /**
      * List of Controller Properties
      *
      * @var    array
