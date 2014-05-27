@@ -427,34 +427,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
             $string = '';
 
             foreach ($this->where as $where) {
-
-                if (trim($where->group) == trim($where_group)) {
-
-                    if (trim($string) == '') {
-                    } else {
-                        $string .= PHP_EOL . $where->connector . ' ';
-                    }
-
-                    $string .= $where->left . ' ' . strtoupper($where->condition);
-
-                    if (strtolower($where->condition) == 'in') {
-                        $in_string = '';
-
-                        foreach ($where->right as $value) {
-
-                            if ($in_string == '') {
-                            } else {
-                                $in_string .= ', ';
-                            }
-
-                            $in_string .= $value;
-                        }
-
-                        $where->right = '(' . trim($in_string) . ')';
-                    }
-
-                    $string .= ' ' . $where->right;
-                }
+                $this->setSQLWhereGroup($string, $where, $where_group);
             }
 
             if ($group_string == '') {
@@ -472,6 +445,42 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
         }
 
         return $group_string;
+    }
+
+    /**
+     * Generate SQL for Having Group
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLWhereGroup($string, $where, $where_group)
+    {
+        if (trim($where->group) == trim($where_group)) {
+
+            $this->setSQLGroupBeginning($string, $where->connector);
+
+            $string .= $where->left . ' ' . strtoupper($where->condition);
+
+            if (strtolower($where->condition) == 'in') {
+                $in_string = '';
+
+                foreach ($where->right as $value) {
+
+                    if ($in_string == '') {
+                    } else {
+                        $in_string .= ', ';
+                    }
+
+                    $in_string .= $value;
+                }
+
+                $where->right = '(' . trim($in_string) . ')';
+            }
+
+            $string .= ' ' . $where->right;
+        }
+
+        return $string;
     }
 
     /**
@@ -515,16 +524,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
             $string = '';
 
             foreach ($this->having as $having) {
-
-                if (trim($having->group) == trim($having_group)) {
-
-                    if (trim($string) == '') {
-                    } else {
-                        $string .= PHP_EOL . $having->connector . ' ';
-                    }
-
-                    $string .= $having->left . ' ' . $having->condition . ' ' . $having->right;
-                }
+                $string .= $this->setSQLHavingGroup($string, $having, $having_group);
             }
 
             if ($group_string == '') {
@@ -542,6 +542,39 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
         }
 
         return $group_string;
+    }
+
+    /**
+     * Generate SQL for Having Group
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLHavingGroup($string, $having, $having_group)
+    {
+        if (trim($having->group) == trim($having_group)) {
+            $string .= $this->setSQLGroupBeginning($string, $having->connector);
+            $string .= $having->left . ' ' . $having->condition . ' ' . $having->right;
+        }
+
+        return $string;
+    }
+
+    /**
+     * Generate SQL for Having Group
+     *
+     * @return  string
+     * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    protected function setSQLGroupBeginning($string, $connector)
+    {
+        if (trim($string) == '') {
+        } else {
+            $string .= PHP_EOL . $connector . ' ';
+        }
+
+        return $string;
     }
 
     /**
