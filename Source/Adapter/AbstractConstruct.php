@@ -36,13 +36,40 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     public function getSQL($sql = null)
     {
         if ($sql === null || trim($sql) == '') {
+            $this->getSQLGenerate();
         } else {
-            $this->sql = $this->setDatabasePrefix($sql);
-            return $this->sql;
+            $this->sql = '';
+            $this->getSQLExternal($sql);
         }
 
-        $this->sql = '';
+        return $this->sql;
+    }
 
+    /**
+     * Get SQL (optionally setting the SQL)
+     *
+     * @param   null|string $sql
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function getSQLExternal($sql = null)
+    {
+        $this->sql = $this->setDatabasePrefix($sql);
+
+        return $this;
+    }
+
+    /**
+     * Generate SQL
+     *
+     * @param   null|string $sql
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function getSQLGenerate()
+    {
         $this->query_type = strtolower($this->query_type);
 
         if ($this->query_type == 'insert') {
@@ -64,7 +91,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
 
         $this->sql = $this->setDatabasePrefix($query);
 
-        return $this->sql;
+        return $this;
     }
 
     /**
@@ -130,11 +157,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelect()
     {
-        if (is_array($this->columns) && count($this->columns) > 0) {
-        } else {
-            throw new RuntimeException
-            ('Query-setColumnSQL Method No SET $column_names provided.');
-        }
+        $this->editArray('columns', $this->columns, true);
 
         if ($this->distinct === true) {
             $query = 'SELECT DISTINCT ';
@@ -163,9 +186,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
 
         $query .= 'FROM ' . $this->setFromSQL() . PHP_EOL;
 
-        if (count($this->where) > 0) {
-            $query .= 'WHERE ' . $this->setWhereSQL() . PHP_EOL;
-        }
+        $query .= $this->setWhere($query);
 
         if (is_array($this->group_by) && count($this->group_by) > 0) {
             $query .= 'GROUP BY ' . $this->setGroupBySQL() . PHP_EOL;
@@ -195,11 +216,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLUpdate()
     {
-        if (is_array($this->columns) && count($this->columns) > 0) {
-        } else {
-            throw new RuntimeException
-            ('Query AbstractUpdate-setSQLUpdate Method: No columns to update.');
-        }
+        $this->editArray('columns', $this->columns, true);
 
         $query = 'UPDATE ' . $this->setFromSQL() . PHP_EOL;
 
@@ -211,9 +228,11 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
 
             if ($item->data_type === null) {
                 throw new RuntimeException
-                ('Query-setSQLUpdate Method: No Datatype provided for Column Filter '
-                . ' Column: ' . $item->column
-                . ' Update to: ' . $query);
+                (
+                    'Query-setSQLUpdate Method: No Datatype provided for Column Filter '
+                    . ' Column: ' . $item->column
+                    . ' Update to: ' . $query
+                );
             }
 
             if ($string == '') {
@@ -226,9 +245,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
 
         $query .= $string . PHP_EOL;
 
-        if (count($this->where) > 0) {
-            $query .= 'WHERE ' . $this->setWhereSQL() . PHP_EOL;
-        }
+        $query .= $this->setWhere($query);
 
         return $query;
     }
@@ -242,12 +259,26 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     protected function setSQLDelete()
     {
         $query = 'DELETE FROM ' . $this->setFromSQL() . PHP_EOL;
-
-        if (count($this->where) > 0) {
-            $query .= 'WHERE ' . $this->setWhereSQL() . PHP_EOL;
-        }
+        $query .= $this->setWhere();
 
         return $query;
+    }
+
+    /**
+     * Generate SQL for Where
+     *
+     * @param   string $query
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setWhere()
+    {
+        if (count($this->where) > 0) {
+            return 'WHERE ' . $this->setWhereSQL() . PHP_EOL;
+        }
+
+        return '';
     }
 
     /**
@@ -259,26 +290,9 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setFromSQL()
     {
-        $string = '';
+        $this->editArray($this->from, 'from');
 
-        if (is_array($this->from) && count($this->from) > 0) {
-
-        } else {
-            throw new RuntimeException
-            ('Query-setFromSQL Method: Value required for table name.');
-        }
-
-        foreach ($this->from as $from) {
-
-            if ($string == '') {
-            } else {
-                $string .= ', ' . PHP_EOL;
-            }
-
-            $string .= trim($from);
-        }
-
-        return $string;
+        return $this->setLoopSQL($this->from);
     }
 
     /**
@@ -289,8 +303,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setWhereSQL()
     {
-        if (is_array($this->where) && count($this->where) > 0) {
-        } else {
+        if ($this->editArray('where', $this->where, false) === false) {
             return '';
         }
 
@@ -363,24 +376,11 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setGroupBySQL()
     {
-        $string = '';
-
-        if (is_array($this->group_by) && count($this->group_by) > 0) {
-        } else {
-            return $string;
+        if ($this->editArray('group_by', $this->group_by, false) === false) {
+            return '';
         }
 
-        foreach ($this->group_by as $group_by) {
-
-            if ($string == '') {
-            } else {
-                $string .= ', ' . PHP_EOL;
-            }
-
-            $string .= trim($group_by);
-        }
-
-        return $string;
+        return $this->setLoopSQL($this->group_by);
     }
 
     /**
@@ -391,10 +391,9 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setHavingSQL()
     {
-        if (is_array($this->having) && count($this->having) > 0) {
-        } else {
+        if ($this->editArray('having', $this->having, false) === false) {
             return '';
-        }
+        };
 
         if (count($this->having_group) > 0) {
         } else {
@@ -447,24 +446,11 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setOrderBySQL()
     {
-        $string = '';
+        if ($this->editArray('order_by', $this->order_by, false) === false) {
+            return '';
+        };
 
-        if (is_array($this->order_by) && count($this->order_by) > 0) {
-        } else {
-            return $string;
-        }
-
-        foreach ($this->order_by as $order_by) {
-
-            if ($string == '') {
-            } else {
-                $string .= ', ' . PHP_EOL;
-            }
-
-            $string .= trim($order_by);
-        }
-
-        return $string;
+        return $this->setLoopSQL($this->order_by);
     }
 
     /**
@@ -489,5 +475,29 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     protected function setDatabasePrefix($query)
     {
         return str_replace('#__', $this->database_prefix, $query);
+    }
+
+    /**
+     * Generate SQL for Loop
+     *
+     * @return  string
+     * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    protected function setLoopSQL($set)
+    {
+        $string = '';
+
+        foreach ($set as $value) {
+
+            if ($string == '') {
+            } else {
+                $string .= ', ' . PHP_EOL;
+            }
+
+            $string .= trim($value);
+        }
+
+        return $string;
     }
 }

@@ -327,6 +327,28 @@ abstract class AbstractAdapter implements QueryInterface
     }
 
     /**
+     * Edit Array
+     *
+     * @param   array  $columns
+     *
+     * @return  boolean
+     * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    public function editArray(array $columns = array(), $type = 'columns', $exception = true)
+    {
+        if (is_array($columns) && count($columns) > 0) {
+            return true;
+        }
+
+        if ($exception === true) {
+            throw new RuntimeException('Query-editColumnArray Method No ' . $type . ' provided.');
+        }
+
+        return false;
+    }
+
+    /**
      * Tests if a required value has been provided
      *
      * @return  string

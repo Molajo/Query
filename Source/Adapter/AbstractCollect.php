@@ -21,7 +21,6 @@ use stdClass;
  */
 abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
 {
-
     /**
      * Set Query Type
      *
@@ -396,9 +395,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     /**
      * Process Array of Values for IN condition
      *
-     * @param       string $filter
-     * @param string       $name
-     * @param string       $value_string
+     * @param string  $filter
+     * @param string  $name
+     * @param string  $value_string
      */
     protected function processInArray($name, $value_string, $filter)
     {
