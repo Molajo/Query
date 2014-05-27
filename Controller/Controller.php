@@ -129,7 +129,7 @@ abstract class Controller implements ControllerInterface
     /**
      * List of Controller Properties
      *
-     * @var    object
+     * @var    array
      * @since  1.0
      */
     protected $property_array
