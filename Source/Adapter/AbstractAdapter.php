@@ -438,7 +438,7 @@ abstract class AbstractAdapter implements QueryInterface
      * @param   string      $filter
      * @param   string      $column
      *
-     * @return  $this
+     * @return  string
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */

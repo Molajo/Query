@@ -75,11 +75,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     {
         $this->editRequired('column_name', $column_name);
 
-        if ($data_type === 'special') {
-            $column = $column_name;
-        } else {
-            $column = $this->setColumnName($column_name);
-        }
+        $column = $this->selectColumn($data_type, $column_name);
 
         $item         = new stdClass();
         $item->column = $column;
@@ -92,11 +88,29 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
 
         $item = $this->selectDataType($item, $data_type, $value);
 
-        $item = $this->select($item, $data_type);
-
         $this->columns[$column_name] = $item;
 
         return $this;
+    }
+
+    /**
+     * Select Column
+     *
+     * @param   string $data_type
+     * @param   string $column_name
+     *
+     * @return  object
+     * @since   1.0
+     */
+    protected function selectColumn($data_type, $column_name)
+    {
+        if ($data_type === 'special') {
+            $column = $column_name;
+        } else {
+            $column = $this->setColumnName($column_name);
+        }
+
+        return $column;
     }
 
     /**
@@ -324,7 +338,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
 
         return $this;
     }
-    
+
     /**
      * Order By column name and optional value for alias
      *
