@@ -58,9 +58,10 @@ class Model extends AbstractAdapter implements ConfigurationInterface
 
         $xml = $this->getIncludeCode($xml);
         if ($xml === false) {
-            throw new RuntimeException
-            ('Configuration: getDataobject cannot process XML file for Model Type: '
-            . $model_type . ' Model Name: ' . $model_name);
+            throw new RuntimeException(
+                'Configuration: getDataobject cannot process XML file for Model Type: '
+            . $model_type . ' Model Name: ' . $model_name
+            );
         }
 
         if (isset($xml->model)) {
@@ -183,8 +184,9 @@ class Model extends AbstractAdapter implements ConfigurationInterface
 
                 echo 'Going to throw Exception in ModelHandler setModelRegistry';
                 die;
-                throw new RuntimeException
-                ('Configuration: setModelRegistry encountered Invalid Model Attribute ' . $key);
+                throw new RuntimeException(
+                    'Configuration: setModelRegistry encountered Invalid Model Attribute ' . $key
+                );
             }
         }
 

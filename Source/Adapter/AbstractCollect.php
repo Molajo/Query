@@ -219,12 +219,15 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $left = $this->setOrFilterColumn($left_filter, $left);
 
         if (strtolower($condition) == 'in') {
-            $right = $this->processInArray('Right', $right, $right_filter);
+            $temp = $this->processInArray('Right', $right, $right_filter);
+            $right = explode(',', $temp);
         } else {
             $right = $this->setOrFilterColumn($right_filter, $right);
         }
 
-        return $this->buildItem($left, $condition, $right, $connector, $group, 'where');
+        $this->where[] = $this->buildItem($left, $condition, $right, $connector, $group);
+
+        return $this;
     }
 
     /**
@@ -303,7 +306,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $left  = $this->setOrFilterColumn($left_filter, $left);
         $right = $this->setOrFilterColumn($right_filter, $right);
 
-        return $this->buildItem($left, $condition, $right, $connector, $group, 'having');
+        $this->having[] = $this->buildItem($left, $condition, $right, $connector, $group);
+
+        return $this;
     }
 
     /**
@@ -316,7 +321,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * @param   null|string $group
      * @param   string      $array_name
      *
-     * @return  $this
+     * @return  stdClass
      * @since   1.0
      */
     public function buildItem(
@@ -324,8 +329,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $condition = '=',
         $right = '',
         $connector = 'AND',
-        $group = null,
-        $array_name = ''
+        $group = null
     ) {
         $item            = new stdClass();
         $item->left      = $left;
@@ -334,9 +338,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $item->connector = $connector;
         $item->group     = $group;
 
-        $this->$array_name[]   = $item;
-
-        return $this;
+        return $item;
     }
 
     /**
@@ -401,7 +403,6 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      *
      * @return  string
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function setColumnName($column_name)
     {
@@ -421,6 +422,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * @param string  $filter
      * @param string  $name
      * @param string  $value_string
+     *
+     * @return  string
+     * @since   1.0
      */
     protected function processInArray($name, $value_string, $filter)
     {

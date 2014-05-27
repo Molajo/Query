@@ -528,8 +528,9 @@ abstract class AbstractAdapter implements QueryInterface
             $value = $results->getFieldValue();
 
         } catch (Exception $e) {
-            throw new RuntimeException
-            ('Request: Filter class Failed for Key: ' . $key . ' Filter: ' . $data_type . ' ' . $e->getMessage());
+            throw new RuntimeException(
+                'Request: Filter class Failed for Key: ' . $key . ' Filter: ' . $data_type . ' ' . $e->getMessage()
+            );
         }
 
         return $this->quoteValue($this->database->escape($value));

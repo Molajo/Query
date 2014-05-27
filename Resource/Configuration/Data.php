@@ -231,8 +231,7 @@ class Data implements ConfigurationDataInterface
 
         if (in_array($key, $this->property_array)) {
         } else {
-            throw new RuntimeException
-            ('Configuration Data Object: Set invalid key: ' . $key);
+            throw new RuntimeException('Configuration Data Object: Set invalid key: ' . $key);
         }
 
         $this->$key = $value;
@@ -256,8 +255,7 @@ class Data implements ConfigurationDataInterface
 
         if (in_array($key, $this->property_array)) {
         } else {
-            throw new RuntimeException
-            ('Configuration Data Object: Set invalid key: ' . $key);
+            throw new RuntimeException('Configuration Data Object: Set invalid key: ' . $key);
         }
 
         if ($this->$key === null) {

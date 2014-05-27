@@ -132,16 +132,18 @@ class Query extends Xml implements AdapterInterface
     {
         if (isset($options['namespace'])) {
         } else {
-            throw new RuntimeException
-            ('Resource XmlHandler handlePath options array must have namespace entry.');
+            throw new RuntimeException(
+                'Resource XmlHandler handlePath options array must have namespace entry.'
+            );
         }
 
         $segments = explode('//', $options['namespace']);
         if (count($segments) > 2) {
         } else {
-            throw new RuntimeException
-            ('Resource XmlHandler Failure namespace must have at least 3 segments:  '
-            . $options['namespace']);
+            throw new RuntimeException(
+                'Resource XmlHandler Failure namespace must have at least 3 segments:  '
+            . $options['namespace']
+            );
         }
 
         $this->model_registry = $options['xml'];

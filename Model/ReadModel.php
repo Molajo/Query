@@ -42,11 +42,12 @@ class ReadModel extends Model implements ReadModelInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('ReadModel getData Method Exception for '
+            throw new RuntimeException(
+                'ReadModel getData Method Exception for '
             . ' Query Object: ' . $query_object
             . ' SQL: ' . $sql
-            . ' ' . $e->getMessage());
+            . ' ' . $e->getMessage()
+            );
         }
     }
 }

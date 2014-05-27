@@ -127,8 +127,7 @@ abstract class QueryController extends Controller implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter Select Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter Select Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -149,8 +148,7 @@ abstract class QueryController extends Controller implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter From Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter From Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -171,8 +169,7 @@ abstract class QueryController extends Controller implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter WhereGroup Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter WhereGroup Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -205,8 +202,7 @@ abstract class QueryController extends Controller implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter Where Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter Where Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -227,8 +223,7 @@ abstract class QueryController extends Controller implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter GroupBy Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter GroupBy Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -249,8 +244,7 @@ abstract class QueryController extends Controller implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter havingGroup Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter havingGroup Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -283,8 +277,7 @@ abstract class QueryController extends Controller implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter Having Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter Having Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -304,8 +297,7 @@ abstract class QueryController extends Controller implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter OrderBy Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter OrderBy Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -339,8 +331,7 @@ abstract class QueryController extends Controller implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter getSQL Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter getSQL Method Exception: ' . $e->getMessage());
         }
     }
 }

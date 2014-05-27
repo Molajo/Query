@@ -99,8 +99,7 @@ class QueryFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
             );
 
         } catch (Exception $e) {
-            throw new RuntimeException
-            ('Query Factory: Could not instantiate Driver: ' . $class);
+            throw new RuntimeException('Query Factory: Could not instantiate Driver: ' . $class);
         }
 
         return $this;
@@ -127,8 +126,7 @@ class QueryFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
             );
 
         } catch (Exception $e) {
-            throw new RuntimeException
-            ('Query: Could not instantiate Handler: ' . $class);
+            throw new RuntimeException('Query: Could not instantiate Handler: ' . $class);
         }
     }
 }

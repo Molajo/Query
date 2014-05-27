@@ -147,8 +147,7 @@ class Driver implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter Select Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter Select Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -169,8 +168,7 @@ class Driver implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter From Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter From Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -191,8 +189,7 @@ class Driver implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter WhereGroup Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter WhereGroup Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -213,20 +210,19 @@ class Driver implements QueryInterface
      */
     public function where(
         $left_filter = 'column',
-        $left,
-        $condition,
+        $left = '',
+        $condition = '=',
         $right_filter = 'column',
-        $right,
-        $connector = 'and',
-        $group = null
-    ) {
+        $right = '',
+        $connector = 'AND',
+        $group = null)
+    {
         try {
             return $this->adapter->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter Where Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter Where Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -247,8 +243,7 @@ class Driver implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter GroupBy Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter GroupBy Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -269,8 +264,7 @@ class Driver implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter havingGroup Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter havingGroup Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -291,20 +285,19 @@ class Driver implements QueryInterface
      */
     public function having(
         $left_filter = 'column',
-        $left,
-        $condition,
+        $left = '',
+        $condition = '=',
         $right_filter = 'column',
-        $right,
-        $connector = 'and',
-        $group = ''
-    ) {
+        $right = '',
+        $connector = 'AND',
+        $group = null)
+    {
         try {
             return $this->adapter->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter Having Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter Having Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -324,8 +317,7 @@ class Driver implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter OrderBy Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter OrderBy Method Exception: ' . $e->getMessage());
         }
     }
 
@@ -359,8 +351,7 @@ class Driver implements QueryInterface
 
         } catch (Exception $e) {
 
-            throw new RuntimeException
-            ('Query Adapter getSQL Method Exception: ' . $e->getMessage());
+            throw new RuntimeException('Query Adapter getSQL Method Exception: ' . $e->getMessage());
         }
     }
 }

@@ -134,8 +134,9 @@ class ReadControllerFactory implements FactoryInterface
                 $this->model_registry
             );
         } catch (Exception $e) {
-            throw new RuntimeException
-            ('Resource Factory ReadControllerFactory failed in instantiateClass Method.' . $e->getMessage());
+            throw new RuntimeException(
+                'Resource Factory ReadControllerFactory failed in instantiateClass Method.' . $e->getMessage()
+            );
         }
 
         if (trim($this->sql) === '') {

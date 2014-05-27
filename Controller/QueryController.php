@@ -220,11 +220,11 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function where(
         $left_filter = 'column',
-        $left,
-        $condition,
+        $left = '',
+        $condition = '=',
         $right_filter = 'column',
-        $right,
-        $connector = 'and',
+        $right = '',
+        $connector = 'AND',
         $group = null
     ) {
         return $this->query->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
@@ -277,12 +277,12 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function having(
         $left_filter = 'column',
-        $left,
-        $condition,
+        $left = '',
+        $condition = '=',
         $right_filter = 'column',
-        $right,
-        $connector = 'and',
-        $group = ''
+        $right = '',
+        $connector = 'AND',
+        $group = null
     ) {
         return $this->query->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
     }

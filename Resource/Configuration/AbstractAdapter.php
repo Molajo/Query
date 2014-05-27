@@ -81,8 +81,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
      */
     public function getConfiguration($model_type, $model_name, $xml)
     {
-        throw new RuntimeException
-        ('Configuration Xml Abstract Adapter - use subclass getConfiguration');
+        throw new RuntimeException('Configuration Xml Abstract Adapter - use subclass getConfiguration');
     }
 
     /**
@@ -97,8 +96,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
      */
     public function setModelRegistry($model_registry, $xml)
     {
-        throw new RuntimeException
-        ('Configuration Xml Abstract Adapter - use subclass setModelRegistry');
+        throw new RuntimeException('Configuration Xml Abstract Adapter - use subclass setModelRegistry');
     }
 
     /**
@@ -209,9 +207,10 @@ abstract class AbstractAdapter implements ConfigurationInterface
 
                         if (in_array($key, $valid_attributes)) {
                         } else {
-                            throw new RuntimeException
-                            ('Configuration: setElementsRegistry encountered Invalid Model Attribute '
-                            . $key . ' for ' . $model_registry);
+                            throw new RuntimeException(
+                                'Configuration: setElementsRegistry encountered Invalid Model Attribute '
+                            . $key . ' for ' . $model_registry
+                            );
                         }
 
                         $itemAttributesArray[$key] = $value;
@@ -428,9 +427,10 @@ abstract class AbstractAdapter implements ConfigurationInterface
                         if ($key2 == 'fieldset') {
                         } elseif (in_array($key2, $this->dataobject->get('valid_field_attributes'))) {
                         } else {
-                            throw new RuntimeException
-                            ('Configuration: getCustomFieldsSpecificGroup Invalid Field attribute '
-                            . $key2 . ':' . $value2 . ' for ' . $model_registry);
+                            throw new RuntimeException(
+                                'Configuration: getCustomFieldsSpecificGroup Invalid Field attribute '
+                            . $key2 . ':' . $value2 . ' for ' . $model_registry
+                            );
                         }
 
                         if ($key2 == 'name') {

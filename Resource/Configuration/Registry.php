@@ -108,8 +108,9 @@ class Registry implements RegistryInterface
 
         if ($this->exists($namespace)) {
         } else {
-            throw new RuntimeException
-            ('Registry: Namespace in Lock Request does not exist.');
+            throw new RuntimeException(
+                'Registry: Namespace in Lock Request does not exist.'
+            );
         }
 
         $this->registryLocks[$namespace] = true;
@@ -170,16 +171,18 @@ class Registry implements RegistryInterface
         if ($this->exists($namespace)) {
 
             if (isset($this->registryKeys[$namespace])) {
-                throw new RuntimeException
-                ('Registry: Cannot create Namespace ' . $namespace . ' because it already exists.');
+                throw new RuntimeException(
+                    'Registry: Cannot create Namespace ' . $namespace . ' because it already exists.'
+                );
             } else {
                 return $this->registry[$namespace];
             }
         }
 
         if ($namespace == 'db' || $namespace == '*') {
-            throw new RuntimeException
-            ('Registry: Namespace ' . $namespace . ' is a reserved word.');
+            throw new RuntimeException(
+                'Registry: Namespace ' . $namespace . ' is a reserved word.'
+            );
         }
 
         if (isset($this->registryKeys[$namespace])) {
@@ -340,20 +343,23 @@ class Registry implements RegistryInterface
         $namespace = $this->editNamespace($namespace);
 
         if ($this->checkLock($namespace)) {
-            throw new RuntimeException
-            ('Registry: Namespace is locked. Updates are not allowed.');
+            throw new RuntimeException(
+                'Registry: Namespace is locked. Updates are not allowed.'
+            );
         }
 
         $key = $this->editNamespaceKey($namespace, $key);
 
         if ($namespace == '') {
-            throw new RuntimeException
-            ('Registry: Namespace is required for Set.');
+            throw new RuntimeException(
+                'Registry: Namespace is required for Set.'
+            );
         }
 
         if ($key == '') {
-            throw new RuntimeException
-            ('Registry: Key is required for Set. Namespace: ' . $namespace);
+            throw new RuntimeException(
+                'Registry: Key is required for Set. Namespace: ' . $namespace
+            );
         }
 
         /** Match requirement for security to ensure only named parameters are updated */
@@ -401,8 +407,9 @@ class Registry implements RegistryInterface
         $target_registry = $this->editNamespace($target_registry);
 
         if ($this->checkLock($target_registry)) {
-            throw new RuntimeException
-            ('Registry: Target Namespace: ' . $target_registry . ' is locked. May not copy into it.');
+            throw new RuntimeException(
+                'Registry: Target Namespace: ' . $target_registry . ' is locked. May not copy into it.'
+            );
         }
 
         if ($this->exists($source_registry)) {

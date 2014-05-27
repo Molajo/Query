@@ -58,8 +58,7 @@ class Dataobject extends AbstractAdapter implements ConfigurationInterface
 
         $xml = $this->getIncludeCode($xml);
         if ($xml === false) {
-            throw new RuntimeException
-            ('Configuration: getDataobject cannot process XML file for Model Type: '
+            throw new RuntimeException('Configuration: getDataobject cannot process XML file for Model Type: '
             . $model_type . ' Model Name: ' . $model_name);
         }
 
@@ -94,8 +93,7 @@ class Dataobject extends AbstractAdapter implements ConfigurationInterface
             if (in_array((string)$key, $doArray)) {
                 $this->registry->set($model_registry, $key, (string)$value);
             } else {
-                throw new RuntimeException
-                ('Configuration: setDataobjectRegistry encountered Invalid Dataobject Attributes ' . $key);
+                throw new RuntimeException('Configuration: setDataobjectRegistry encountered Invalid Dataobject Attributes ' . $key);
             }
         }
 
