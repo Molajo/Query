@@ -86,9 +86,21 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     protected function setSQLInsert()
     {
         $query = 'INSERT INTO ' . $this->setFromSQL() . PHP_EOL;
+        $query .= $this->setSQLInsertColumns();
+        $query .= $this->setSQLInsertValues();
 
+        return $query;
+    }
+
+    /**
+     * Generate SQL for Insert Columns
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLInsertColumns()
+    {
         $string = '';
-
         foreach ($this->columns as $item) {
 
             if ($string == '') {
@@ -100,8 +112,17 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
             $string .= trim($item->column);
         }
 
-        $query .= $string . ')' . PHP_EOL;
+        return $string . ')' . PHP_EOL;
+    }
 
+    /**
+     * Generate SQL for Insert Column Values
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLInsertValues()
+    {
         $string = '';
 
         foreach ($this->columns as $item) {
@@ -115,9 +136,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
             $string .= $item->value;
         }
 
-        $query .= $string . ')' . PHP_EOL;
-
-        return $query;
+        return $string . ')' . PHP_EOL;
     }
 
     /**
@@ -141,12 +160,12 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     protected function setSQLSelect()
     {
         $this->editArray($this->columns, 'columns', true);
-        
+
         $string = $this->setSQLSelectDistinct();
         $string .= $this->setSQLSelectColumns();
         $query = $string . PHP_EOL;
         $query .= $this->setSQLSelectFrom();
-        $query .= $this->setWhere($query);
+        $query .= $this->setWhere();
         $query .= $this->setSQLSelectGroupBy();
         $query .= $this->setSQLSelectHaving();
         $query .= $this->setSQLSelectOrderBy();
@@ -180,21 +199,43 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
         $string = '';
 
         foreach ($this->columns as $item) {
-
-            if ($string == '') {
-            } else {
-                $string .= ', ' . PHP_EOL;
-            }
-
+            $string .= $this->setSQLSelectColumnsConnector($string);
             $string .= trim($item->column);
-
-            if ($item->alias === null || trim($item->alias) == '') {
-            } else {
-                $string .= ' AS ' . $item->alias;
-            }
+            $string .= $this->setSQLSelectColumnsAlias($item->alias);
         }
 
         return $string;
+    }
+
+    /**
+     * Generate SQL for Column Connector
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLSelectColumnsConnector($string)
+    {
+        if ($string == '') {
+        } else {
+            $string .= ', ' . PHP_EOL;
+        }
+
+        return $string;
+    }
+
+    /**
+     * Generate SQL for Column Alias
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLSelectColumnsAlias($alias)
+    {
+        if ($alias === null || trim($alias) == '') {
+            return '';
+        }
+
+        return ' AS ' . $alias;
     }
 
     /**
@@ -216,11 +257,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelectGroupBy()
     {
-        if (is_array($this->group_by) && count($this->group_by) > 0) {
-            return 'GROUP BY ' . $this->setGroupBySQL() . PHP_EOL;
-        }
-
-        return '';
+        return $this->setSQLSelectOrderGroupHaving($this->group_by, 'GROUP BY', 'setGroupBySQL');
     }
 
     /**
@@ -231,11 +268,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelectHaving()
     {
-        if (count($this->having) > 0) {
-            return 'HAVING ' . $this->setHavingSQL() . PHP_EOL;
-        }
-
-        return '';
+        return $this->setSQLSelectOrderGroupHaving($this->having, 'HAVING', 'setHavingSQL');
     }
 
     /**
@@ -246,8 +279,19 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelectOrderBy()
     {
-        if (is_array($this->order_by) && count($this->order_by) > 0) {
-            return 'ORDER BY ' . $this->setOrderBySQL() . PHP_EOL;
+        return $this->setSQLSelectOrderGroupHaving($this->order_by, 'ORDER BY', 'setOrderBySQL');
+    }
+
+    /**
+     * Generate SQL for Order By or Group By
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLSelectOrderGroupHaving($field_name, $literal, $method)
+    {
+        if (is_array($this->$field_name) && count($this->$field_name) > 0) {
+            return $literal . ' ' . $this->$method() . PHP_EOL;
         }
 
         return '';
@@ -277,11 +321,24 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLUpdate()
     {
-        $this->editArray($this->columns, 'columns', true);
-
         $query = 'UPDATE ' . $this->setFromSQL() . PHP_EOL;
-
         $query .= 'SET ';
+        $string = $this->setSQLUpdateColumns();
+        $query .= $string . PHP_EOL;
+        $query .= $this->setWhere();
+
+        return $query;
+    }
+
+    /**
+     * Generate SQL for Update
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLUpdateColumns()
+    {
+        $this->editArray($this->columns, 'columns', true);
 
         $string = '';
 
@@ -297,11 +354,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
             $string .= trim($item->column) . ' = ' . $item->value;
         }
 
-        $query .= $string . PHP_EOL;
-
-        $query .= $this->setWhere($query);
-
-        return $query;
+        return $string;
     }
 
     /**

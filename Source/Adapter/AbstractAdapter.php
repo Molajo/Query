@@ -351,10 +351,13 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Tests if a required value has been provided
      *
+     * @param   string  $data_type
+     * @param   string  $column_name
+     *
      * @return  string
      * @since   1.0
      */
-    public function editDataType($data_type = null, $column_name)
+    public function editDataType($data_type = null, $column_name = '')
     {
         if ($data_type === null) {
             throw new RuntimeException(
