@@ -93,7 +93,9 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setModelRegistrySQL()
     {
-        $this->setSelectColumns();
+        if (count($this->get('columns', array())) === 0) {
+            $this->setSelectColumns();
+        }
         $this->setFromTable();
         $this->setWhereStatements();
         $this->setSpecialJoins();
@@ -118,10 +120,6 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setSelectColumns()
     {
-        if (count($this->get('columns', array())) > 0) {
-            return $this;
-        }
-
         if ($this->model_registry['query_object'] == 'result') {
             return $this->setSelectColumnsResultQuery();
         }
@@ -130,11 +128,7 @@ class ModelRegistryQueryController extends QueryController
             $this->setSelectColumnsDistinctQuery();
         }
 
-        if (count($this->model_registry['columns']) === 0) {
-            $this->select($this->model_registry['primary_prefix'] . '.' . '*');
-        } else {
-            $this->setSelectColumnsModelRegistry();
-        }
+        $this->setSelectColumnsModelRegistry();
 
         return $this;
     }
@@ -166,6 +160,8 @@ class ModelRegistryQueryController extends QueryController
     protected function setSelectColumnsDistinctQuery()
     {
         $this->setDistinct(true);
+
+        return $this;
     }
 
     /**
@@ -176,9 +172,15 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setSelectColumnsModelRegistry()
     {
-        foreach ($this->model_registry['columns'] as $column) {
-            $this->select($this->model_registry['primary_prefix'] . '.' . $column['name']);
+        if (count($this->model_registry['columns']) === 0) {
+            $this->select($this->model_registry['primary_prefix'] . '.' . '*');
+        } else {
+            foreach ($this->model_registry['columns'] as $column) {
+                $this->select($this->model_registry['primary_prefix'] . '.' . $column['name']);
+            }
         }
+
+        return $this;
     }
 
     /**
@@ -324,14 +326,18 @@ class ModelRegistryQueryController extends QueryController
             $i = 0;
             foreach ($join_to_array as $join_to_item) {
 
-                $this->setSpecialJoinsItemWhere(
-                    $join_to_item,
-                    $where_left_alias,
-                    $join_with_array[0],
-                    $where_right_alias,
-                    $join_table,
-                    $alias
-                );
+                if ($where_left === null || $where_right === null) {
+                    return $this;
+                } else {
+                    $this->setSpecialJoinsItemWhere(
+                        $join_to_item,
+                        $where_left_alias,
+                        $join_with_array[0],
+                        $where_right_alias,
+                        $join_table,
+                        $alias
+                    );
+                }
 
                 $i++;
             }
@@ -351,26 +357,48 @@ class ModelRegistryQueryController extends QueryController
      */
     protected function setSpecialJoinsItemColumns($select, $alias)
     {
-        if ($this->model_registry['query_object'] === 'result') {
-            return $this;
-        }
-
-        if (trim($select) == '') {
+        if ($this->setSpecialJoinsItemColumnsEnable($select) === false) {
             return $this;
         }
 
         $select_array = explode(',', $select);
 
-        if (count($select_array) > 0) {
-            foreach ($select_array as $select_item) {
-                $this->select(
-                    trim($alias) . '.' . trim($select_item),
-                    trim($alias) . '_' . trim($select_item)
-                );
-            }
+        foreach ($select_array as $select_item) {
+            $this->select(
+                trim($alias) . '.' . trim($select_item),
+                trim($alias) . '_' . trim($select_item)
+            );
         }
 
         return $this;
+    }
+
+    /**
+     * Special Joins: Single Item Columns
+     *
+     * @param   string $select
+     * @param   string $alias
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    protected function setSpecialJoinsItemColumnsEnable($select)
+    {
+        if ($this->model_registry['query_object'] === 'result') {
+            return false;
+        }
+
+        if (trim($select) == '') {
+            return false;
+        }
+
+        $select_array = explode(',', $select);
+
+        if (count($select_array) === 0) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -491,10 +519,6 @@ class ModelRegistryQueryController extends QueryController
         $operator,
         $where_right_filter
     ) {
-        if ($where_left === null || $where_right === null) {
-            return $this;
-        }
-
         $this->from($join_table, $alias);
 
         $this->where(
@@ -519,23 +543,61 @@ class ModelRegistryQueryController extends QueryController
     protected function setWhereElement($join_item)
     {
         if (isset($this->query_where_property_array[$join_item])) {
-            $key = $this->property_array[$join_item];
-
-            if (isset($this->model_registry[$key])) {
-                $value = $this->model_registry[$key];
-            } else {
-                $value = $this->$key;
-            }
-
-            return array('integer', $value);
+            return $this->setWhereElementNamedProperty($join_item);
         }
 
         if (is_numeric($join_item)) {
-            $value = $join_item;
-            return array('integer', $value);
+            return $this->setWhereElementNumericValue($join_item);
         }
 
+        return $this->setWhereElementTableColumn($join_item);
+    }
 
+    /**
+     * Add Model Registry Criteria to Query for Named Property
+     *
+     * @param   string $join_item
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function setWhereElementNamedProperty($join_item)
+    {
+        $key = $this->property_array[$join_item];
+
+        if (isset($this->model_registry[$key])) {
+            $value = $this->model_registry[$key];
+        } else {
+            $value = $this->$key;
+        }
+
+        return array('integer', $value);
+    }
+
+    /**
+     * Add Model Registry Criteria to Query for Numeric Value
+     *
+     * @param   string $join_item
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function setWhereElementNumericValue($join_item)
+    {
+        $value = $join_item;
+        return array('integer', $value);
+    }
+
+    /**
+     * Add Model Registry Criteria to Query for Numeric Value
+     *
+     * @param   string $join_item
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function setWhereElementTableColumn($join_item)
+    {
         $has_alias = explode('.', $join_item);
 
         if (count($has_alias) > 1) {
