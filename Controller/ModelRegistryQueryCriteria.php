@@ -93,6 +93,9 @@ class ModelRegistryQueryCriteria extends QueryController
      */
     protected function setSpecialJoins()
     {
+        echo $this->model_registry['use_special_joins'];
+            echo count($this->model_registry['joins']);
+
         if ($this->model_registry['use_special_joins'] === 0
             || count($this->model_registry['joins']) === 0
         ) {
@@ -100,7 +103,9 @@ class ModelRegistryQueryCriteria extends QueryController
         }
 
         $joins = $this->model_registry['joins'];
-
+echo '<pre>';
+var_dump($joins);
+        die;
         foreach ($joins as $join) {
             $this->setSpecialJoinsItem($join);
         }
@@ -458,6 +463,11 @@ class ModelRegistryQueryCriteria extends QueryController
         $filter,
         $model_registry_property
     ) {
+        if (isset($this->model_registry[$column_name])) {
+        } else {
+            return $this;
+        }
+
         if ($this->model_registry[$column_name] === ''
             || (int)$this->model_registry[$column_name] === 0
         ) {

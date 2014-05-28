@@ -9,7 +9,7 @@
 namespace Molajo\Resource\Configuration;
 
 use CommonApi\Exception\RuntimeException;
-use CommonApi\Resource\AdapterInterface;
+use CommonApi\Resource\ResourceInterface;
 use Molajo\Resource\Api\ConfigurationDataInterface;
 use Molajo\Resource\Api\ConfigurationInterface;
 use Molajo\Resource\Api\RegistryInterface;
@@ -29,14 +29,14 @@ class Dataobject extends AbstractAdapter implements ConfigurationInterface
      *
      * @param ConfigurationDataInterface $dataobject
      * @param RegistryInterface          $registry
-     * @param AdapterInterface           $resource
+     * @param ResourceInterface           $resource
      *
      * @since  1.0
      */
     public function __construct(
         ConfigurationDataInterface $dataobject,
         RegistryInterface $registry,
-        AdapterInterface $resource
+        ResourceInterface $resource
     ) {
         parent::__construct($dataobject, $registry, $resource);
     }

@@ -46,7 +46,6 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
      * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
-     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryBase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
@@ -62,6 +61,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultLimits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::verifyPropertyExists
      * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
      *
      * @covers  Molajo\Controller\QueryController::__construct
@@ -109,7 +109,6 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
      * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
-     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryBase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
@@ -125,6 +124,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultLimits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::verifyPropertyExists
      * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
      *
      * @covers  Molajo\Controller\QueryController::__construct
@@ -154,7 +154,6 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
      * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
-     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryBase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
@@ -170,6 +169,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultLimits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::verifyPropertyExists
      * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
      *
      * @covers  Molajo\Controller\QueryController::__construct
@@ -201,7 +201,6 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
      * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
-     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryBase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
@@ -217,6 +216,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultLimits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::verifyPropertyExists
      * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
      *
      * @covers  Molajo\Controller\QueryController::__construct
@@ -247,7 +247,6 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
      * @covers  Molajo\Controller\ModelRegistryDefaults::__construct
-     * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaults
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryBase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultsGroup
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryCriteriaValues
@@ -263,6 +262,7 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryDefaultLimits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setModelRegistryPaginationCrossEdits
      * @covers  Molajo\Controller\ModelRegistryDefaults::setPropertyArray
+     * @covers  Molajo\Controller\ModelRegistryDefaults::verifyPropertyExists
      * @covers  Molajo\Controller\ModelRegistryDefaults::setProperty
      *
      * @covers  Molajo\Controller\QueryController::__construct

@@ -32,12 +32,13 @@ class ModelRegistryDefaults
      * @var    array
      * @since  1.0
      */
-    protected $valid_query_object_values = array(
-        'result',
-        'item',
-        'list',
-        'distinct'
-    );
+    protected $valid_query_object_values
+        = array(
+            'result',
+            'item',
+            'list',
+            'distinct'
+        );
 
     /**
      * List of Controller Methods
@@ -45,25 +46,26 @@ class ModelRegistryDefaults
      * @var    array
      * @since  1.0
      */
-    protected $method_array = array(
-        'setModelRegistryBase',
-        'setModelRegistryDefaultsGroup',
-        'setModelRegistryCriteriaValues',
-        'setModelRegistryDefaultsKeys',
-        'setModelRegistryDefaultsFields',
-        'setModelRegistryDefaultsTableName',
-        'setModelRegistryDefaultsPrimaryPrefix',
-        'setModelRegistryDefaultsQueryObject',
-        'setModelRegistryDefaultsCriteriaArray',
-        'setModelRegistryDefaultsJoins',
-        'setModelRegistryDefaultLimits',
-        'setModelRegistryPaginationCrossEdits'
-    );
+    protected $method_array
+        = array(
+            'setModelRegistryBase',
+            'setModelRegistryDefaultsGroup',
+            'setModelRegistryCriteriaValues',
+            'setModelRegistryDefaultsKeys',
+            'setModelRegistryDefaultsFields',
+            'setModelRegistryDefaultsTableName',
+            'setModelRegistryDefaultsPrimaryPrefix',
+            'setModelRegistryDefaultsQueryObject',
+            'setModelRegistryDefaultsCriteriaArray',
+            'setModelRegistryDefaultsJoins',
+            'setModelRegistryDefaultLimits',
+            'setModelRegistryPaginationCrossEdits'
+        );
 
     /**
      * Class Constructor
      *
-     * @param  array          $model_registry
+     * @param  array $model_registry
      *
      * @since  1.0
      */
@@ -106,7 +108,7 @@ class ModelRegistryDefaults
             $this->model_registry['query_object'] = 'list';
         }
 
-        return $this->model_registry;
+        return $this;
     }
 
     /**
@@ -141,12 +143,12 @@ class ModelRegistryDefaults
      */
     protected function setModelRegistryCriteriaValues()
     {
-        $this->setProperty('criteria_status', '');
-        $this->setProperty('criteria_source_id', 0);
-        $this->setProperty('criteria_catalog_type_id', 0);
-        $this->setProperty('catalog_type_id', 0);
-        $this->setProperty('menu_id', 0);
-        $this->setProperty('criteria_extension_instance_id', 0);
+        $this->verifyPropertyExists('criteria_status', '');
+        $this->verifyPropertyExists('criteria_source_id', 0);
+        $this->verifyPropertyExists('criteria_catalog_type_id', 0);
+        $this->verifyPropertyExists('catalog_type_id', 0);
+        $this->verifyPropertyExists('menu_id', 0);
+        $this->verifyPropertyExists('criteria_extension_instance_id', 0);
 
         return $this;
     }
@@ -159,14 +161,14 @@ class ModelRegistryDefaults
      */
     protected function setModelRegistryDefaultsKeys()
     {
-        $this->setProperty('primary_key', 'id');
-        $this->setProperty('primary_key_value', 0);
+        $this->verifyPropertyExists('primary_key', 'id');
+        $this->verifyPropertyExists('primary_key_value', 0);
 
         $key = $this->getModelRegistryPrimaryKeyValue();
         $this->setModelRegistryPrimaryKeyValue($key);
 
-        $this->setProperty('name_key', 'title');
-        $this->setProperty('name_key_value', null);
+        $this->verifyPropertyExists('name_key', 'title');
+        $this->verifyPropertyExists('name_key_value', null);
 
         return $this;
     }
@@ -230,7 +232,7 @@ class ModelRegistryDefaults
      */
     protected function setModelRegistryDefaultsTableName()
     {
-        return $this->setProperty('table_name', '#__content');
+        return $this->verifyPropertyExists('table_name', '#__content');
     }
 
     /**
@@ -241,7 +243,7 @@ class ModelRegistryDefaults
      */
     protected function setModelRegistryDefaultsPrimaryPrefix()
     {
-        return $this->setProperty('primary_prefix', 'a');
+        return $this->verifyPropertyExists('primary_prefix', 'a');
     }
 
     /**
@@ -252,7 +254,11 @@ class ModelRegistryDefaults
      */
     protected function setModelRegistryDefaultsQueryObject()
     {
-        if (in_array(strtolower($this->model_registry['query_object']), $this->valid_query_object_values)) {
+        if (in_array(
+            strtolower($this->model_registry['query_object']),
+            $this->valid_query_object_values
+        )
+        ) {
         } else {
             $this->model_registry['query_object'] = 'list';
         }
@@ -279,7 +285,7 @@ class ModelRegistryDefaults
      */
     protected function setModelRegistryDefaultsJoins()
     {
-        $this->setProperty('use_special_joins', 0);
+        $this->verifyPropertyExists('use_special_joins', 0);
         $this->setPropertyArray('joins', array());
 
         return $this;
@@ -293,9 +299,9 @@ class ModelRegistryDefaults
      */
     protected function setModelRegistryDefaultLimits()
     {
-        $this->setProperty('model_offset', 0);
-        $this->setProperty('model_count', 15);
-        $this->setProperty('use_pagination', 1);
+        $this->verifyPropertyExists('model_offset', 0);
+        $this->verifyPropertyExists('model_count', 15);
+        $this->verifyPropertyExists('use_pagination', 1);
 
         return $this;
     }
@@ -325,18 +331,37 @@ class ModelRegistryDefaults
      * Set Property
      *
      * @param   string $property
-     * @param   mixed $default
+     * @param   mixed  $default
      *
      * @return  $this
      * @since   1.0.0
      */
     protected function setPropertyArray($property, $default = array())
     {
-        $this->setProperty($property, $default);
+        $this->verifyPropertyExists($property, $default);
 
         if (is_array($this->model_registry[$property])) {
         } else {
             $this->model_registry[$property] = array();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Verify Property
+     *
+     * @param   string $property
+     * @param   mixed  $default
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    protected function verifyPropertyExists($property, $value = null)
+    {
+        if (isset($this->model_registry[$property])) {
+        } else {
+            $this->setProperty($property, $value);
         }
 
         return $this;

@@ -484,10 +484,7 @@ abstract class AbstractAdapter implements QueryInterface
             $return_alias = $alias . '.';
         }
 
-        if (trim($value) === '*') {
-        } else {
-            $value = $this->quoteName($value);
-        }
+        $value = $this->quoteName($value);
 
         return $return_alias . $value;
     }

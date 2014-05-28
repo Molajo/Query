@@ -18,7 +18,7 @@ use CommonApi\Controller\ReadControllerInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class ReadController extends ModelRegistryQueryColumns implements ReadControllerInterface
+class ReadController extends ModelRegistryQuery implements ReadControllerInterface
 {
     /**
      * Process Rows Count
@@ -43,7 +43,10 @@ class ReadController extends ModelRegistryQueryColumns implements ReadController
             $this->setModelRegistrySQL();
             $this->sql = $this->getSQL();
         }
-
+        echo $this->sql;
+        echo '<pre>';
+        var_dump($this->model_registry);
+        die;
         $this->runQuery();
 
         $this->triggerOnAfterReadEvent();
@@ -98,9 +101,9 @@ class ReadController extends ModelRegistryQueryColumns implements ReadController
      */
     protected function processPagination($query_results)
     {
-        $this->offset_count  = 0;
-        $this->query_results = array();
-        $this->process_rows_count  = 0;
+        $this->offset_count       = 0;
+        $this->query_results      = array();
+        $this->process_rows_count = 0;
 
         foreach ($query_results as $item) {
             $complete = $this->processPaginationItem($item);
@@ -245,13 +248,12 @@ class ReadController extends ModelRegistryQueryColumns implements ReadController
         $options['runtime_data']   = $this->runtime_data;
         $options['plugin_data']    = $this->plugin_data;
         $options['query']          = $this->query;
+        $options['query_results']  = $this->query_results;
+        $options['row']            = $this->row;
+        $options['parameters']     = $this->row->parameters;
         $options['model_registry'] = $this->model_registry;
         $options['rendered_view']  = null;
         $options['rendered_page']  = null;
-        $options['rendered_page']  = $this->query;
-        $options['query_results']  = $this->query_results;;
-        $options['row']        = $this->row;
-        $options['parameters'] = $this->row->parameters;
 
         return $options;
     }

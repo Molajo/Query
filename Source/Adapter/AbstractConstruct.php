@@ -8,13 +8,7 @@
  */
 namespace Molajo\Query\Adapter;
 
-use CommonApi\Database\DatabaseInterface;
-use CommonApi\Exception\RuntimeException;
-use CommonApi\Model\FieldhandlerInterface;
 use CommonApi\Query\QueryInterface;
-use DateTime;
-use Exception;
-use stdClass;
 
 /**
  * Abstract Construct Query
@@ -199,7 +193,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
         $string = '';
 
         foreach ($this->columns as $item) {
-            $string .= $this->setSQLSelectColumnsConnector($string);
+            $string = $this->setSQLSelectColumnsConnector($string);
             $string .= trim($item->column);
             $string .= $this->setSQLSelectColumnsAlias($item->alias);
         }
@@ -257,7 +251,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelectGroupBy()
     {
-        return $this->setSQLSelectOrderGroupHaving($this->group_by, 'GROUP BY', 'setGroupBySQL');
+        return $this->setSQLSelectOrderGroupHaving('group_by', 'GROUP BY', 'setGroupBySQL');
     }
 
     /**
@@ -268,7 +262,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelectHaving()
     {
-        return $this->setSQLSelectOrderGroupHaving($this->having, 'HAVING', 'setHavingSQL');
+        return $this->setSQLSelectOrderGroupHaving('having', 'HAVING', 'setHavingSQL');
     }
 
     /**
@@ -279,7 +273,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelectOrderBy()
     {
-        return $this->setSQLSelectOrderGroupHaving($this->order_by, 'ORDER BY', 'setOrderBySQL');
+        return $this->setSQLSelectOrderGroupHaving('order_by', 'ORDER BY', 'setOrderBySQL');
     }
 
     /**
@@ -427,7 +421,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
             $string = '';
 
             foreach ($this->where as $where) {
-                $this->setSQLWhereGroup($string, $where, $where_group);
+                $string = $this->setSQLWhereGroup($string, $where, $where_group);
             }
 
             if ($group_string == '') {
@@ -457,7 +451,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     {
         if (trim($where->group) == trim($where_group)) {
 
-            $this->setSQLGroupBeginning($string, $where->connector);
+            $string = $this->setSQLGroupBeginning($string, $where->connector);
 
             $string .= $where->left . ' ' . strtoupper($where->condition);
 

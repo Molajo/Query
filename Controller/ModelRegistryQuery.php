@@ -1,6 +1,6 @@
 <?php
 /**
- * Query Columns Controller
+ * Model Registry Query Controller
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -9,14 +9,14 @@
 namespace Molajo\Controller;
 
 /**
- * Model Registry Query Columns
+ * Model Registry Query
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class ModelRegistryQueryColumns extends ModelRegistryQueryCriteria
+class ModelRegistryQuery extends ModelRegistryQueryCriteria
 {
     /**
      * Query Object
@@ -170,10 +170,10 @@ class ModelRegistryQueryColumns extends ModelRegistryQueryCriteria
      */
     protected function setSelectColumnsModelRegistry()
     {
-        if (count($this->model_registry['columns']) === 0) {
+        if (count($this->model_registry['fields']) === 0) {
             $this->select($this->model_registry['primary_prefix'] . '.' . '*');
         } else {
-            foreach ($this->model_registry['columns'] as $column) {
+            foreach ($this->model_registry['fields'] as $column) {
                 $this->select($this->model_registry['primary_prefix'] . '.' . $column['name']);
             }
         }
