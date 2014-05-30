@@ -40,7 +40,7 @@ class HOLDupdate extends Controller
 //        JRequest::checkToken() or die;
 
         /** Check In Item **/
-        if ($this->get('id') == 0) {
+        if ($this->get('id') === 0) {
         } else {
             $results = parent::checkinItem();
         }
@@ -61,7 +61,7 @@ class HOLDupdate extends Controller
      */
     public function restore()
     {
-        if ($this->get('version_management', 1) == 1) {
+        if ($this->get('version_management', 1) === 1) {
         } else {
             $this->redirectClass->setRedirectMessage(
                 $this->language->translate('RESTORE_DISABLED_IN_CONFIGURATION')
@@ -99,7 +99,7 @@ class HOLDupdate extends Controller
         $results = parent::initialise('save');
 
         /** Model: Get Data for Copy ID **/
-        if ($action == 'copy') {
+        if ($action === 'copy') {
             $data = $this->model->copy($this->get('id'), $this->batch_category_id);
 
             /** reset ids to point to current row **/
@@ -173,7 +173,7 @@ class HOLDupdate extends Controller
         $data = JRequest::getVar('jform', array(), 'post', 'array');
 
         /** Preparation: save as copy id and action cleanup **/
-        if ($action == 'saveascopy') {
+        if ($action === 'saveascopy') {
             $this->set('id', 0);
             $data['id'] = 0;
             $action     = 'apply';
@@ -203,7 +203,7 @@ class HOLDupdate extends Controller
         JRequest::checkToken() or die;
 
         /** action **/
-        if ($action == null) {
+        if ($action === null) {
             $action = $this->getTask();
         }
 
@@ -218,19 +218,19 @@ class HOLDupdate extends Controller
         }
 
         /** Edit: check for valid status **/
-        if ($this->model->status == STATUS_ARCHIVED) {
+        if ($this->model->status === STATUS_ARCHIVED) {
             $this->redirectClass->setRedirectMessage($this->language->translate('ARCHIVED_ROW_CANNOT_BE_CHANGED'));
             $this->redirectClass->setRedirectMessageType($this->language->translate('error'));
 
             return $this->redirectClass->setSuccessIndicator(false);
         }
-        if ($this->model->status == STATUS_TRASHED) {
+        if ($this->model->status === STATUS_TRASHED) {
             $this->redirectClass->setRedirectMessage($this->language->translate('TRASHED_ROW_CANNOT_BE_CHANGED'));
             $this->redirectClass->setRedirectMessageType($this->language->translate('error'));
 
             return $this->redirectClass->setSuccessIndicator(false);
         }
-        if ($this->model->status == STATUS_VERSION) {
+        if ($this->model->status === STATUS_VERSION) {
             $this->redirectClass->setRedirectMessage(
                 $this->language->translate('MolajoVersion_ROW_CANNOT_BE_CHANGED')
             );
@@ -344,7 +344,7 @@ class HOLDupdate extends Controller
         $this->user->setUserState(JRequest::getInt('datakey'), null);
 
         /** Molajo_Note: Testing added to ensure status change before onContentChangeState event is plugined  **/
-        if ($this->existing_status == $validData->status || $this->isNew) {
+        if ($this->existing_status === $validData->status || $this->isNew) {
         } else {
             /** Event: onContentChangeState **/
             $this->dispatcher->plugin('onContentChangeState', array($context, $this->get('id'), $validData->status));
@@ -366,11 +366,11 @@ class HOLDupdate extends Controller
 //        $results = $this->cleanCache();
 
         /** success **/
-        if ($this->getTask() == 'copy' || $this->getTask() == 'move') {
+        if ($this->getTask() === 'copy' || $this->getTask() === 'move') {
             return true;
         }
 
-        if ($action == 'restore') {
+        if ($action === 'restore') {
             $this->redirectClass->setRedirectMessage($this->language->translate('RESTORE_SUCCESSFUL'));
         } else {
             $this->redirectClass->setRedirectMessage($this->language->translate('SAVE_SUCCESSFUL'));
@@ -406,7 +406,7 @@ class HOLDupdate extends Controller
             ) . '.' . 'delete';
 
         /** only trashed and version items can be deleted **/
-        if ($this->model->status == STATUS_TRASHED || $this->model->status == STATUS_VERSION) {
+        if ($this->model->status === STATUS_TRASHED || $this->model->status === STATUS_VERSION) {
         } else {
 //ERROR_VERSION_SAVE_FAILED
             return false;

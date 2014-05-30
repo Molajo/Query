@@ -116,7 +116,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
 
         while ($done === false) {
             $post_string = $this->getIncludeCodeLoop($pre_string);
-            if ($post_string == $pre_string) {
+            if ($post_string === $pre_string) {
                 $done = true;
             } else {
                 $pre_string = $post_string;
@@ -144,7 +144,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
         $type_array         = $matches[1];
         $include_name_array = $matches[2];
 
-        if (count($replace_this_array) == 0) {
+        if (count($replace_this_array) === 0) {
             return $xml_string;
         }
 
@@ -153,7 +153,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
             $replace_this = $replace_this_array[$i];
             $name         = $include_name_array[$i];
 
-            if (trim(strtolower($type_array[$i])) == 'field') {
+            if (trim(strtolower($type_array[$i])) === 'field') {
                 $model_name = 'xml:///Molajo//Model//Fields//' . $name . '.xml';
                 $with_this  = $this->resource->get($model_name);
             } else {
@@ -217,7 +217,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
                     }
                 }
 
-                if ($plural == 'plugins') {
+                if ($plural === 'plugins') {
                     if (count($itemAttributesArray) > 0) {
                         foreach ($itemAttributesArray as $plugin) {
                             $itemArray[] = $plugin;
@@ -229,7 +229,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
             }
         }
 
-        if ($plural == 'joins') {
+        if ($plural === 'joins') {
             $joins   = array();
             $selects = array();
 
@@ -243,7 +243,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
 
             $this->registry->set($model_registry, 'JoinFields', $selects);
 
-        } elseif ($plural == 'values') {
+        } elseif ($plural === 'values') {
 
             $valuesArray = array();
 
@@ -304,7 +304,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
         $joinArray['table_name'] = $table;
 
         $alias = (string)$modelJoinArray['alias'];
-        if (trim($alias) == '') {
+        if (trim($alias) === '') {
             $alias = substr($table, 3, strlen($table));
         }
         $joinArray['alias'] = trim($alias);
@@ -319,7 +319,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
             foreach ($selectArray as $s) {
 
                 foreach ($fields as $joinSelectArray) {
-                    if ($joinSelectArray['name'] == $s) {
+                    if ($joinSelectArray['name'] === $s) {
                         $joinSelectArray['as_name']    = trim($alias) . '_' . trim($s);
                         $joinSelectArray['alias']      = $alias;
                         $joinSelectArray['table_name'] = $table;
@@ -424,7 +424,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
                 if (count($fieldAttributes) > 0) {
                     foreach ($fieldAttributes as $key2 => $value2) {
 
-                        if ($key2 == 'fieldset') {
+                        if ($key2 === 'fieldset') {
                         } elseif (in_array($key2, $this->dataobject->get('valid_field_attributes'))) {
                         } else {
                             throw new RuntimeException(
@@ -433,7 +433,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
                             );
                         }
 
-                        if ($key2 == 'name') {
+                        if ($key2 === 'name') {
                         } else {
                             $fieldNames[] = $value2;
                         }
@@ -481,7 +481,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
 
                 foreach ($temp_row as $field => $fieldvalue) {
 
-                    if ($field == 'name') {
+                    if ($field === 'name') {
 
                         if (in_array($fieldvalue, $fieldNames)) {
                         } else {
@@ -494,7 +494,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
             }
         }
 
-        if (is_array($fieldArray) && count($fieldArray) == 0) {
+        if (is_array($fieldArray) && count($fieldArray) === 0) {
             $this->registry->set($model_registry, $name, array());
 
             return false;
@@ -525,7 +525,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
 
         if (count($xml->attributes()) > 0) {
             foreach ($xml->attributes() as $key => $value) {
-                if ($key == 'extends') {
+                if ($key === 'extends') {
                     $extends = (string)$value;
                 }
             }
@@ -543,7 +543,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
             foreach ($modelArray as $modeltype) {
                 if (ucfirst(
                         strtolower(substr($extends, strlen($extends) - strlen($modeltype), strlen($modeltype)))
-                    ) == $modeltype
+                    ) === $modeltype
                 ) {
                     $extends_model_name = ucfirst(
                         strtolower(substr($extends, 0, strlen($extends) - strlen($modeltype)))
@@ -554,7 +554,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
             }
         }
 
-        if ($extends_model_name == '') {
+        if ($extends_model_name === '') {
             $extends_model_name = ucfirst(strtolower($extends));
             $extends_model_type = 'Datasource';
         }
@@ -563,7 +563,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
 
         if ($this->registry->exists($inheritModelRegistry) === true) {
         } else {
-            if ($extends_model_type == 'Datasource') {
+            if ($extends_model_type === 'Datasource') {
                 $this->resource->get('xml:///Molajo//Model//Datasource//' . $extends_model_name . '.xml');
             } else {
                 $this->resource->get('xml:///Molajo//' . $extends_model_name . '//Configuration.xml');

@@ -160,7 +160,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     public function getModelRegistry($key = null, $default = null)
     {
-        if ($key == '*' || trim($key) == '' || $key === null) {
+        if ($key === '*' || trim($key) === '' || $key === null) {
             return $this->getModelRegistryAll();
         }
 
@@ -417,7 +417,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
         if ((int)$this->model_registry['primary_key_value'] > 0) {
             $this->setWhereStatementsKeyValue('primary_key', 'integer', 'primary_key_value');
 
-        } elseif (trim($this->model_registry['name_key_value']) == '') {
+        } elseif (trim($this->model_registry['name_key_value']) === '') {
 
         } else {
             $this->setWhereStatementsKeyValue('name_key', 'string', 'name_key_value');
@@ -591,7 +591,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function useJoinItemColumns($select = '')
     {
-        if (trim($select) == '') {
+        if (trim($select) === '') {
             return false;
         }
 
@@ -818,7 +818,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function setModelRegistryLimits()
     {
-        if (count($this->model_registry['use_pagination']) == 0) {
+        if (count($this->model_registry['use_pagination']) === 0) {
         } else {
             return $this;
         }

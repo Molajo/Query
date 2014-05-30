@@ -39,7 +39,7 @@ class ReadController extends ModelRegistryQuery implements ReadControllerInterfa
     {
         $this->triggerOnBeforeReadEvent();
 
-        if (trim($this->sql) == '') {
+        if (trim($this->sql) === '') {
             $this->sql = $this->getSQL();
         }
 
@@ -146,13 +146,13 @@ class ReadController extends ModelRegistryQuery implements ReadControllerInterfa
      */
     protected function returnQueryResults()
     {
-        if ($this->query_object == 'result'
-            || $this->query_object == 'distinct'
+        if ($this->query_object === 'result'
+            || $this->query_object === 'distinct'
         ) {
             return $this->query_results;
         }
 
-        if ($this->query_object == 'item') {
+        if ($this->query_object === 'item') {
             $result              = $this->query_results[0];
             $this->query_results = $result;
         }
@@ -183,7 +183,7 @@ class ReadController extends ModelRegistryQuery implements ReadControllerInterfa
         $this->query_results = array();
         $first               = true;
 
-        if (count($rows) == 0) {
+        if (count($rows) === 0) {
         } else {
             foreach ($rows as $this->row) {
                 $this->runtime_data->first = $first;
@@ -219,7 +219,7 @@ class ReadController extends ModelRegistryQuery implements ReadControllerInterfa
      */
     protected function triggerEvent($event_name)
     {
-        if ($this->getModelRegistry('process_event') == 0) {
+        if ($this->getModelRegistry('process_event') === 0) {
             return $this;
         }
 

@@ -75,20 +75,20 @@ class DeleteController extends ReadController implements DeleteControllerInterfa
 
         /** redirect */
         if ($valid === true) {
-            if ($this->get('redirect_on_success', '', 'parameters') == '') {
+            if ($this->get('redirect_on_success', '', 'parameters') === '') {
             } else {
                 Services::Redirect()->url
                     = Services::Url()->get(null, null, $this->get('redirect_on_success', '', 'parameters'));
 
-                Services::Redirect()->code == 303;
+                Services::Redirect()->code === 303;
             }
         } else {
-            if ($this->get('redirect_on_failure', '', 'parameters') == '') {
+            if ($this->get('redirect_on_failure', '', 'parameters') === '') {
             } else {
                 Services::Redirect()->url
                     = Services::Url()->get(null, null, $this->get('redirect_on_failure', '', 'parameters'));
 
-                Services::Redirect()->code == 303;
+                Services::Redirect()->code === 303;
             }
         }
 
@@ -153,14 +153,14 @@ class DeleteController extends ReadController implements DeleteControllerInterfa
         }
 
         $fields = $this->registry->get($this->model_registry, 'Fields');
-        if (count($fields) == 0 || $fields === null) {
+        if (count($fields) === 0 || $fields === null) {
             return false;
         }
 
         $this->row = new \stdClass();
         foreach ($fields as $f) {
             foreach ($f as $key => $value) {
-                if ($key == 'name') {
+                if ($key === 'name') {
                     if (isset($item->$value)) {
                         $this->row->$value = $item->$value;
                     } else {
@@ -214,8 +214,8 @@ class DeleteController extends ReadController implements DeleteControllerInterfa
      */
     protected function XonBeforeDeleteEvent()
     {
-        if (count($this->plugins) == 0
-            || (int)$this->get('process_events') == 0
+        if (count($this->plugins) === 0
+            || (int)$this->get('process_events') === 0
         ) {
             return true;
         }
@@ -262,8 +262,8 @@ class DeleteController extends ReadController implements DeleteControllerInterfa
      */
     protected function XonAfterDeleteEvent()
     {
-        if (count($this->plugins) == 0
-            || (int)$this->get('process_events') == 0
+        if (count($this->plugins) === 0
+            || (int)$this->get('process_events') === 0
         ) {
             return true;
         }

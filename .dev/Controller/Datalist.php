@@ -58,7 +58,7 @@ class Datalist implements DatalistInterface
         $model           = 'Molajo//Model//Datalist//' . $list . '.xml';
         $controller      = $this->resource->get('query:///' . $model);
 
-        if ($controller->getModelRegistry('data_object') == 'Database') {
+        if ($controller->getModelRegistry('data_object') === 'Database') {
             $results = $this->getDatalistDatabase($controller);
         } else {
             $results = $this->getDatalistValues($controller);
@@ -129,7 +129,7 @@ class Datalist implements DatalistInterface
             $catalog_type_id = 0;
         }
 
-        if ((string)$catalog_type_id == '*') {
+        if ((string)$catalog_type_id === '*') {
             if (isset($this->runtime_data->resource->data->parameters->criteria_catalog_type_id)) {
                 $catalog_type_id = $this->runtime_data->resource->data->parameters->criteria_catalog_type_id;
             }
@@ -141,7 +141,7 @@ class Datalist implements DatalistInterface
         foreach ($fields as $field) {
             $i++;
             $controller->select($controller->getModelRegistry('primary_prefix', 'a') . '.' . $field['name']);
-            if ($i == 2 && $count == 2) {
+            if ($i === 2 && $count === 2) {
                 $controller->setDistinct(true);
                 $controller->orderBy(
                     $controller->getModelRegistry('primary_prefix', 'a') . '.' . $field['name'],

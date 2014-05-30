@@ -29,7 +29,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     public function getSQL($sql = null)
     {
-        if ($sql === null || trim($sql) == '') {
+        if ($sql === null || trim($sql) === '') {
             $this->getSQLGenerate();
         } else {
             $this->sql = '';
@@ -96,7 +96,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
         $string = '';
         foreach ($this->columns as $item) {
 
-            if ($string == '') {
+            if ($string === '') {
                 $string = '(';
             } else {
                 $string .= ', ';
@@ -120,7 +120,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
 
         foreach ($this->columns as $item) {
 
-            if ($string == '') {
+            if ($string === '') {
                 $string = 'VALUES (';
             } else {
                 $string .= ', ';
@@ -211,7 +211,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelectColumnsConnector($string)
     {
-        if ($string == '') {
+        if ($string === '') {
         } else {
             $string .= ', ' . PHP_EOL;
         }
@@ -227,7 +227,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelectColumnsAlias($alias)
     {
-        if ($alias === null || trim($alias) == '') {
+        if ($alias === null || trim($alias) === '') {
             return '';
         }
 
@@ -305,7 +305,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLSelectLimit()
     {
-        if ((int)$this->offset == 0 && (int)$this->limit == 0) {
+        if ((int)$this->offset === 0 && (int)$this->limit === 0) {
         } else {
             return 'LIMIT ' . $this->setSQLLimit();
         }
@@ -346,7 +346,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
 
             $this->editDataType($item->data_type, $item->column);
 
-            if ($string == '') {
+            if ($string === '') {
             } else {
                 $string .= ', ' . PHP_EOL;
             }
@@ -488,8 +488,8 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
             $string = $this->$method($string, $value, $group);
         }
 
-        if ($group_string == '') {
-            if (trim($group) == '') {
+        if ($group_string === '') {
+            if (trim($group) === '') {
                 $group_string .= $string . PHP_EOL;
             } else {
                 $group_string = '(';
@@ -512,18 +512,18 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLWhereGroup($string, $where, $where_group)
     {
-        if (trim($where->group) == trim($where_group)) {
+        if (trim($where->group) === trim($where_group)) {
 
             $string = $this->setSQLGroupBeginning($string, $where->connector);
 
             $string .= $where->left . ' ' . strtoupper($where->condition);
 
-            if (strtolower($where->condition) == 'in') {
+            if (strtolower($where->condition) === 'in') {
                 $in_string = '';
 
                 foreach ($where->right as $value) {
 
-                    if ($in_string == '') {
+                    if ($in_string === '') {
                     } else {
                         $in_string .= ', ';
                     }
@@ -548,7 +548,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLHavingGroup($string, $having, $having_group)
     {
-        if (trim($having->group) == trim($having_group)) {
+        if (trim($having->group) === trim($having_group)) {
             $string .= $this->setSQLGroupBeginning($string, $having->connector);
             $string .= $having->left . ' ' . $having->condition . ' ' . $having->right;
         }
@@ -565,7 +565,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      */
     protected function setSQLGroupBeginning($string, $connector)
     {
-        if (trim($string) == '') {
+        if (trim($string) === '') {
         } else {
             $string .= PHP_EOL . $connector . ' ';
         }
@@ -626,7 +626,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
 
         foreach ($set as $value) {
 
-            if ($string == '') {
+            if ($string === '') {
             } else {
                 $string .= ', ' . PHP_EOL;
             }

@@ -272,10 +272,27 @@ abstract class AbstractAdapter implements QueryInterface
     public function get($key, $default = null)
     {
         if ($this->$key === null) {
-            $this->$key = $default;
+            $this->setDefault($key, $default);
         }
 
         return $this->$key;
+    }
+
+    /**
+     * Set default - this is to get around Scrutinizer duplicate code silliness
+     *
+     * @param   string $key
+     * @param   mixed  $default
+     *
+     * @return  mixed
+     * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    protected function setDefault($key, $default = null)
+    {
+        $this->$key = $default;
+
+        return $this;
     }
 
     /**
@@ -387,7 +404,7 @@ abstract class AbstractAdapter implements QueryInterface
      */
     public function editRequired($column_name, $value = null)
     {
-        if (trim($value) == '' || $value === null) {
+        if (trim($value) === '' || $value === null) {
             throw new RuntimeException('Query: Value required for: ' . $column_name);
         }
     }
@@ -453,7 +470,7 @@ abstract class AbstractAdapter implements QueryInterface
         $value,
         $filter
     ) {
-        if (strtolower($filter) == 'column') {
+        if (strtolower($filter) === 'column') {
             return $this->setColumnName($value);
         }
 

@@ -134,7 +134,7 @@ class Xml extends AbstractAdapter implements AdapterInterface
             );
         }
 
-        if (count($segments) == 3) {
+        if (count($segments) === 3) {
             $model_type = ucfirst(strtolower($segments[1]));
             $model_name = ucfirst(strtolower($segments[2]));
         } else {
@@ -142,7 +142,7 @@ class Xml extends AbstractAdapter implements AdapterInterface
             $model_name = ucfirst(strtolower($segments[3]));
         }
 
-        if (substr($model_name, strlen($model_name) - 4, 4) == '.xml') {
+        if (substr($model_name, strlen($model_name) - 4, 4) === '.xml') {
             $model_name = substr($model_name, 0, strlen($model_name) - 4); //remove .xml
         }
 
@@ -160,18 +160,18 @@ class Xml extends AbstractAdapter implements AdapterInterface
             $scheme     = strtolower(trim($scheme));
             $model_type = ucfirst(strtolower(trim($model_type)));
 
-            if ($scheme == 'query') {
+            if ($scheme === 'query') {
                 $xml = simplexml_load_string($contents);
                 return $this->model_handler->getConfiguration($model_type, $model_name, $xml);
 
-            } elseif ($model_type == 'Application') {
+            } elseif ($model_type === 'Application') {
                 $xml = simplexml_load_string($contents);
                 return $xml;
 
-            } elseif ($model_type == 'Fields' || $model_type == 'Include') {
+            } elseif ($model_type === 'Fields' || $model_type === 'Include') {
                 return $contents;
 
-            } elseif ($model_type == 'Dataobject') {
+            } elseif ($model_type === 'Dataobject') {
                 $xml = simplexml_load_string($contents);
                 return $this->dataobject_handler->getConfiguration($model_type, $model_name, $xml);
 

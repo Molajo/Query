@@ -57,7 +57,7 @@ class UpdateModel extends Model implements UpdateModelInterface
                     } else {
                         $identity = 0;
                     }
-                    if ($identity == 1) {
+                    if ($identity === 1) {
                         $type = 'identity';
                     }
 
@@ -124,28 +124,28 @@ class UpdateModel extends Model implements UpdateModelInterface
     {
         $value = '';
 
-        if ($type == 'identity') {
+        if ($type === 'identity') {
             $value = 'null';
         } elseif ($input === null) {
             $value = 'null';
-        } elseif ($type == 'integer'
-            || $type == 'binary'
-            || $type == 'catalog_id'
-            || $type == 'boolean'
+        } elseif ($type === 'integer'
+            || $type === 'binary'
+            || $type === 'catalog_id'
+            || $type === 'boolean'
         ) {
 
             $value = (int)$input;
-        } elseif ($type == 'string'
-            || $type == 'datetime'
-            || $type == 'url'
-            || $type == 'email'
-            || $type == 'text'
-            || $type == 'ip_address'
+        } elseif ($type === 'string'
+            || $type === 'datetime'
+            || $type === 'url'
+            || $type === 'email'
+            || $type === 'text'
+            || $type === 'ip_address'
         ) {
 
             $value = ($input);
-        } elseif ($type == 'password') {
-        } elseif ($type == 'customfield') {
+        } elseif ($type === 'password') {
+        } elseif ($type === 'customfield') {
             $value = (json_encode($input));
         } else {
             echo 'UNKNOWN TYPE ' . $type . ' in UpdateModel::prepareFieldValues <br />';

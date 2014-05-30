@@ -78,7 +78,7 @@ class Registry implements RegistryInterface
         }
 
         $thisNamespace = $this->registry[$namespace];
-        if (count($thisNamespace) == 0) {
+        if (count($thisNamespace) === 0) {
             return false;
         }
 
@@ -179,7 +179,7 @@ class Registry implements RegistryInterface
             }
         }
 
-        if ($namespace == 'db' || $namespace == '*') {
+        if ($namespace === 'db' || $namespace === '*') {
             throw new RuntimeException(
                 'Registry: Namespace ' . $namespace . ' is a reserved word.'
             );
@@ -233,32 +233,32 @@ class Registry implements RegistryInterface
 
         if ($this->exists($namespace) === true) {
         } else {
-            if ($namespace == '*') {
+            if ($namespace === '*') {
             } else {
                 return false;
             }
         }
 
-        if ($namespace == '*') {
+        if ($namespace === '*') {
             if ($key === null) {
                 return $this->listRegistry(false);
             } else {
                 return $this->listRegistry(true);
             }
-        } elseif ($key == null) {
+        } elseif ($key === null) {
             return $this->getRegistry($namespace);
-        } elseif ($key == '*' || strrpos($key, '*')) {
+        } elseif ($key === '*' || strrpos($key, '*')) {
             $sort = $this->getRegistry($namespace);
 
-            if ($key == '*') {
+            if ($key === '*') {
                 $selected = $sort;
             } else {
                 //@todo - combine all the wildcard logic
-                if (substr($key, 0, 1) == '*') {
+                if (substr($key, 0, 1) === '*') {
                     $selected  = array();
                     $searchfor = substr($key, 1, (strrpos($key, '*') - 1));
                     foreach ($sort as $key => $value) {
-                        if ($key == $searchfor) {
+                        if ($key === $searchfor) {
                             $match = true;
                         } else {
                             $match = strpos($key, $searchfor);
@@ -274,14 +274,14 @@ class Registry implements RegistryInterface
 
                     foreach ($sort as $key => $value) {
                         $match = substr($key, 0, strlen($searchfor));
-                        if (strtolower($match) == strtolower($searchfor)) {
+                        if (strtolower($match) === strtolower($searchfor)) {
                             $selected[$key] = $value;
                         }
                     }
                 }
             }
 
-            if ($key == '*') {
+            if ($key === '*') {
                 echo '<pre>';
                 var_dump($selected);
                 echo '</pre>';
@@ -350,13 +350,13 @@ class Registry implements RegistryInterface
 
         $key = $this->editNamespaceKey($namespace, $key);
 
-        if ($namespace == '') {
+        if ($namespace === '') {
             throw new RuntimeException(
                 'Registry: Namespace is required for Set.'
             );
         }
 
-        if ($key == '') {
+        if ($key === '') {
             throw new RuntimeException(
                 'Registry: Key is required for Set. Namespace: ' . $namespace
             );
@@ -422,7 +422,7 @@ class Registry implements RegistryInterface
 
         $copy = $this->getRegistry($source_registry);
 
-        if ($filter == null || $filter == '*') {
+        if ($filter === null || $filter === '*') {
             if (count($copy) > 0) {
                 foreach ($copy as $key => $value) {
                     $this->set($target_registry, $key, $value);
@@ -445,9 +445,9 @@ class Registry implements RegistryInterface
             foreach ($copy as $key => $value) {
                 $use  = false;
                 $test = substr($key, 0, strlen($searchfor));
-                if (strtolower($test) == strtolower($searchfor)) {
+                if (strtolower($test) === strtolower($searchfor)) {
                     if ($exactMatch === true) {
-                        if (strtolower($key) == strtolower($searchfor)) {
+                        if (strtolower($key) === strtolower($searchfor)) {
                             $use = true;
                         }
                     } else {
@@ -510,7 +510,7 @@ class Registry implements RegistryInterface
             );
         }
 
-        if ($remove_from_source == 1) {
+        if ($remove_from_source === 1) {
             if ($this->checkLock($source_registry)) {
                 throw new RuntimeException
                 (
@@ -528,7 +528,7 @@ class Registry implements RegistryInterface
         }
 
         $searchfor = '';
-        if ($filter == null || trim($filter) == '' || $filter == '*') {
+        if ($filter === null || trim($filter) === '' || $filter === '*') {
         } else {
             $searchfor = substr($filter, 0, strrpos($filter, '*'));
             $searchfor = strtolower(trim($searchfor));
@@ -542,13 +542,13 @@ class Registry implements RegistryInterface
 
             if (is_null($value)) {
                 //skip it.
-            } elseif ($searchfor == '') {
+            } elseif ($searchfor === '') {
                 $match = 1;
-            } elseif (trim(substr(strtolower($key), 0, strlen(strtolower($searchfor)))) == trim($searchfor)) {
+            } elseif (trim(substr(strtolower($key), 0, strlen(strtolower($searchfor)))) === trim($searchfor)) {
                 $match = 1;
             }
 
-            if ($match == 1) {
+            if ($match === 1) {
                 if (isset($target[$key])) {
                     if ($target[$key] === null) {
                         $this->set($target_registry, $key, $value);
@@ -558,7 +558,7 @@ class Registry implements RegistryInterface
                 }
             }
 
-            if ($remove_from_source == 1) {
+            if ($remove_from_source === 1) {
                 $this->delete($source_registry, $key);
             }
         }
@@ -633,12 +633,12 @@ class Registry implements RegistryInterface
         }
 
         $key = strtolower($key);
-        if ($key == '') {
+        if ($key === '') {
             return $this->deleteRegistry($namespace);
         }
 
         $searchfor = '';
-        if ($key == null || trim($key) == '' || $key == '*') {
+        if ($key === null || trim($key) === '' || $key === '*') {
         } else {
             $searchfor = substr($key, 0, strrpos($key, '*'));
             $searchfor = strtolower(trim($searchfor));
@@ -655,13 +655,13 @@ class Registry implements RegistryInterface
 
             $match = 0;
 
-            if ($searchfor == '') {
+            if ($searchfor === '') {
                 $match = 1;
-            } elseif (trim(substr(strtolower($key), 0, strlen(strtolower($searchfor)))) == trim($searchfor)) {
+            } elseif (trim(substr(strtolower($key), 0, strlen(strtolower($searchfor)))) === trim($searchfor)) {
                 $match = 1;
             }
 
-            if ($match == 1) {
+            if ($match === 1) {
             } else {
                 $new[$key] = $value;
             }
@@ -854,9 +854,9 @@ class Registry implements RegistryInterface
         $key           = strtolower($key);
         $query_results = array();
 
-        if ($key === null || $key == '*') {
+        if ($key === null || $key === '*') {
             $results = $this->get($registry);
-        } elseif ($query_object == 'result') {
+        } elseif ($query_object === 'result') {
             return $this->get($registry, $key);
         } else {
             $results = $this->get($registry, $key);

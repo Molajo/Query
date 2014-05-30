@@ -74,14 +74,14 @@ class CreateController extends ReadController implements CreateControllerInterfa
 
             $fields = $this->registry->get($this->model_registry, 'Fields');
 
-            if (count($fields) == 0 || $fields === null) {
+            if (count($fields) === 0 || $fields === null) {
                 return false;
             }
 
             $data = new \stdClass();
             foreach ($fields as $f) {
                 foreach ($f as $key => $value) {
-                    if ($key == 'name') {
+                    if ($key === 'name') {
                         if (isset($this->row->$value)) {
                             $data->$value = $this->row->$value;
                         } else {
@@ -107,18 +107,18 @@ class CreateController extends ReadController implements CreateControllerInterfa
 
         /** redirect */
         if ($valid === true) {
-            if ($this->get('redirect_on_success', '', 'parameters') == '') {
+            if ($this->get('redirect_on_success', '', 'parameters') === '') {
             } else {
                 Services::Redirect()->url
                     = Services::Url()->get(null, null, $this->get('redirect_on_success', '', 'parameters'));
-                Services::Redirect()->code == 303;
+                Services::Redirect()->code === 303;
             }
         } else {
-            if ($this->get('redirect_on_failure', '') == '') {
+            if ($this->get('redirect_on_failure', '') === '') {
             } else {
                 Services::Redirect()->url
                     = Services::Url()->get(null, null, $this->get('redirect_on_failure', '', 'parameters'));
-                Services::Redirect()->code == 303;
+                Services::Redirect()->code === 303;
             }
         }
 
@@ -199,7 +199,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
 
         /** Standard Field Group */
         $fields = $this->registry->get($this->model_registry, 'Fields');
-        if (count($fields) == 0 || $fields === null) {
+        if (count($fields) === 0 || $fields === null) {
             return false;
         }
 
@@ -228,7 +228,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
     {
         $valid = true;
 
-        if ($customFieldName == '') {
+        if ($customFieldName === '') {
         } else {
             $fieldArray = array();
             $inputArray = array();
@@ -269,7 +269,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
             }
 
             /** Retrieve value from data */
-            if ($customFieldName == '') {
+            if ($customFieldName === '') {
 
                 if (isset($this->row->$name)) {
                     $value = $this->row->$name;
@@ -285,16 +285,16 @@ class CreateController extends ReadController implements CreateControllerInterfa
                 }
             }
 
-            if ($type == null || $type == 'customfield' || $type == 'list') {
-            } elseif ($type == 'text' && $userHTMLFilter === false) {
-            } elseif ($identity == '1') {
+            if ($type === null || $type === 'customfield' || $type === 'list') {
+            } elseif ($type === 'text' && $userHTMLFilter === false) {
+            } elseif ($identity === '1') {
             } else {
 
                 try {
                     /** Filters, sets defaults, and validates */
                     $value = $this->fieldhandler->sanitize($name, $value, $type);
 
-                    if ($customFieldName == '') {
+                    if ($customFieldName === '') {
                         $this->row->$name = trim($value);
                     } else {
 
@@ -310,7 +310,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
             }
         }
 
-        if ($customFieldName == '') {
+        if ($customFieldName === '') {
         } else {
             ksort($fieldArray);
             $this->row->$customFieldName = $fieldArray;
@@ -331,7 +331,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
     {
         $foreignkeys = $this->registry->get($this->model_registry, 'foreignkeys');
 
-        if (count($foreignkeys) == 0 || $foreignkeys === null) {
+        if (count($foreignkeys) === 0 || $foreignkeys === null) {
             return false;
         }
 
@@ -370,7 +370,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
             /** Retrieve Model Foreign Key Definitions */
             if (isset($this->row->$name)) {
             } else {
-                if ((int)$required == 0) {
+                if ((int)$required === 0) {
                     return true;
                 }
 
@@ -405,7 +405,7 @@ class CreateController extends ReadController implements CreateControllerInterfa
                     return false;
                 }
             } else {
-                if ($required == 0) {
+                if ($required === 0) {
                 } else {
                     return false;
                 }
@@ -421,8 +421,8 @@ class CreateController extends ReadController implements CreateControllerInterfa
      */
     protected function xonBeforeCreateEvent()
     {
-        if (count($this->plugins) == 0
-            || (int)$this->get('process_events') == 0
+        if (count($this->plugins) === 0
+            || (int)$this->get('process_events') === 0
         ) {
             return true;
         }
@@ -471,8 +471,8 @@ class CreateController extends ReadController implements CreateControllerInterfa
      */
     protected function xonAfterCreateEvent($data)
     {
-        if (count($this->plugins) == 0
-            || (int)$this->get('process_events') == 0
+        if (count($this->plugins) === 0
+            || (int)$this->get('process_events') === 0
         ) {
             return true;
         }

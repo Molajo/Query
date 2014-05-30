@@ -221,9 +221,9 @@ class UpdateController extends ReadController implements UpdateControllerInterfa
         }
 
         /** target category **/
-        if ($action == 'copy' || $action == 'delete') {
+        if ($action === 'copy' || $action === 'delete') {
             $this->batch_category_id = JRequest::getInt('batch_category_id');
-            if ((int)$this->batch_category_id == 0) {
+            if ((int)$this->batch_category_id === 0) {
                 $this->redirectClass->setRedirectMessage(
                     $this->language->translate('BATCH_SELECT_CATEGORY_FOR_MOVE_OR_COPY')
                 );
@@ -248,7 +248,7 @@ class UpdateController extends ReadController implements UpdateControllerInterfa
             $this->table->load($this->mvc['id']);
 
             /** edit: valid id **/
-            if ((int)$this->table->id == 0) {
+            if ((int)$this->table->id === 0) {
                 $errorFoundForItem = true;
             }
 
@@ -267,7 +267,7 @@ class UpdateController extends ReadController implements UpdateControllerInterfa
             if ($errorFoundForItem === true) {
             } else {
                 /** Check In Item **/
-                if ($action == 'copy' || $action == 'checkin') {
+                if ($action === 'copy' || $action === 'checkin') {
                 } else {
                     $results = $this->checkoutItem();
                     if ($results === false) {
@@ -290,7 +290,7 @@ class UpdateController extends ReadController implements UpdateControllerInterfa
             if ($errorFoundForItem === true) {
             } else {
                 /** Check In Item **/
-                if ($action == 'copy' || $action == 'checkin') {
+                if ($action === 'copy' || $action === 'checkin') {
                 } else {
                     $results = $this->checkinItem();
                     if ($results === false) {
@@ -340,13 +340,13 @@ class UpdateController extends ReadController implements UpdateControllerInterfa
     public function processItem($action, $column = null)
     {
         /** full row **/
-        if ($action == 'copy' || $action == 'move' || $action == 'delete') {
+        if ($action === 'copy' || $action === 'move' || $action === 'delete') {
             $results = parent::saveItemBatch($action);
             if ($results === false) {
                 return false;
             }
             /** checking */
-        } elseif ($action == 'checkin') {
+        } elseif ($action === 'checkin') {
             $results = parent::checkinItem();
             if ($results === false) {
                 return false;
@@ -361,13 +361,13 @@ class UpdateController extends ReadController implements UpdateControllerInterfa
         }
 
         /** Molajo_Note: Testing added to ensure state change before onContentChangeState event is plugined  **/
-        if ($previous == $newValue || $this->isNew) {
+        if ($previous === $newValue || $this->isNew) {
         } else {
             /** Event: onContentChangeState **/
             $this->dispatcher->plugin('onContentChangeState', array($context, $this->mvc['id'], $validData->state));
         }
 
-        if ($column == 'state') {
+        if ($column === 'state') {
             if ($newValue) {
 //                $event = 'onContentChange' . ucfirst(strtolower($column));
 //                $this->dispatcher->plugin($event, array($context, $this->mvc['id'], $newValue));

@@ -80,7 +80,7 @@ class Model extends AbstractAdapter implements ConfigurationInterface
 
         $data_object = $this->registry->get($model_registry, 'data_object', '');
 
-        if ($data_object == '') {
+        if ($data_object === '') {
             $data_object = 'Database';
             $this->registry->set($model_registry, 'data_object', $data_object);
         }
