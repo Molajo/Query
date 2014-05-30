@@ -374,7 +374,7 @@
         <line num="453" type="stmt" count="0"/>
         <line num="464" type="method" name="quoteValue" crap="2" count="0"/>
         <line num="466" type="stmt" count="0"/>
-        <line num="478" type="method" name="quoteNameAndAlias" crap="12" count="0"/>
+        <line num="478" type="method" name="quoteNameAndPrefix" crap="12" count="0"/>
         <line num="480" type="stmt" count="0"/>
         <line num="481" type="stmt" count="0"/>
         <line num="482" type="stmt" count="0"/>

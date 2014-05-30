@@ -146,7 +146,7 @@ class ModelRegistryQueryTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\AbstractAdapter::editWhere
      * @covers  Molajo\Query\Adapter\AbstractAdapter::setOrFilterColumn
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteValue
-     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndAlias
+     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndPrefix
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteName
      * @covers  Molajo\Query\Adapter\AbstractAdapter::filter
      *
@@ -388,7 +388,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Query\Adapter\AbstractAdapter::editWhere
      * @covers  Molajo\Query\Adapter\AbstractAdapter::setOrFilterColumn
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteValue
-     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndAlias
+     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndPrefix
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteName
      * @covers  Molajo\Query\Adapter\AbstractAdapter::filter
      *
@@ -774,7 +774,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Query\Adapter\AbstractAdapter::editWhere
      * @covers  Molajo\Query\Adapter\AbstractAdapter::setOrFilterColumn
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteValue
-     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndAlias
+     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndPrefix
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteName
      * @covers  Molajo\Query\Adapter\AbstractAdapter::filter
      *
@@ -1202,7 +1202,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Query\Adapter\AbstractAdapter::editWhere
      * @covers  Molajo\Query\Adapter\AbstractAdapter::setOrFilterColumn
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteValue
-     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndAlias
+     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndPrefix
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteName
      * @covers  Molajo\Query\Adapter\AbstractAdapter::filter
      *
@@ -1464,7 +1464,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
      * @covers  Molajo\Query\Adapter\AbstractAdapter::editWhere
      * @covers  Molajo\Query\Adapter\AbstractAdapter::setOrFilterColumn
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteValue
-     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndAlias
+     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndPrefix
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteName
      * @covers  Molajo\Query\Adapter\AbstractAdapter::filter
      *
@@ -1716,7 +1716,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
      * @covers  Molajo\Query\Adapter\AbstractAdapter::editWhere
      * @covers  Molajo\Query\Adapter\AbstractAdapter::setOrFilterColumn
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteValue
-     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndAlias
+     * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteNameAndPrefix
      * @covers  Molajo\Query\Adapter\AbstractAdapter::quoteName
      * @covers  Molajo\Query\Adapter\AbstractAdapter::filter
      *

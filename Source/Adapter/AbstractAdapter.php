@@ -499,18 +499,18 @@ abstract class AbstractAdapter implements QueryInterface
      * @return  string
      * @since   1.0
      */
-    protected function quoteNameAndAlias($value, $alias = null)
+    protected function quoteNameAndPrefix($value, $prefix = null)
     {
-        if ($alias === null || trim($alias) === '') {
-            $return_alias = '';
+        if ($prefix === null || trim($prefix) === '') {
+            $return_prefix = '';
         } else {
-            $alias        = $this->quoteName($alias);
-            $return_alias = $alias . '.';
+            $prefix        = $this->quoteName($prefix);
+            $return_prefix = $prefix . '.';
         }
 
         $value = $this->quoteName($value);
 
-        return $return_alias . $value;
+        return $return_prefix . $value;
     }
 
     /**

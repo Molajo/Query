@@ -80,7 +80,7 @@ class MockQuery implements QueryInterface
     ) {
     }
 
-    public function groupBy($column_name, $alias = null)
+    public function groupBy($column_name)
     {
 
     }

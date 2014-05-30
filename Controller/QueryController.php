@@ -196,18 +196,16 @@ abstract class QueryController extends Controller implements QueryInterface
     }
 
     /**
-     * Set Group By column name and optional value for alias
+     * Group By column name
      *
      * @param   string      $column_name
-     * @param   null|string $alias
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function groupBy($column_name, $alias = null)
+    public function groupBy($column_name)
     {
-        return $this->query->groupBy($column_name, $alias);
+        return $this->query->groupBy($column_name);
     }
 
     /**

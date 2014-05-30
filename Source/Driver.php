@@ -196,17 +196,16 @@ class Driver implements QueryInterface
     }
 
     /**
-     * Set Group By column name and optional value for alias
+     * Group By column name
      *
      * @param   string      $column_name
-     * @param   null|string $alias
      *
      * @return  $this
      * @since   1.0
      */
-    public function groupBy($column_name, $alias = null)
+    public function groupBy($column_name)
     {
-        return $this->adapter->groupBy($column_name, $alias);
+        return $this->adapter->groupBy($column_name);
     }
 
     /**

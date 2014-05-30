@@ -396,17 +396,16 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     }
 
     /**
-     * Group By column name and optional value for alias
+     * Group By column name
      *
      * @param   string      $column_name
-     * @param   null|string $alias
      *
      * @return  $this
      * @since   1.0
      */
-    public function groupBy($column_name, $alias = null)
+    public function groupBy($column_name)
     {
-        return $this->setGroupByOrderBy($column_name, $alias, null, 'group_by');
+        return $this->setGroupByOrderBy($column_name, 'group_by');
     }
 
     /**
@@ -420,49 +419,30 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      */
     public function orderBy($column_name, $direction = 'ASC')
     {
-        $this->editRequired('order by column_name', $column_name);
-
-        $column = $this->setColumnName($column_name);
-
-        $direction = strtoupper(trim($direction));
-        if ($direction === 'DESC') {
-            $column = $column . ' ' . 'DESC';
-        } else {
-            $column = $column . ' ' . 'ASC';
-        }
-
-        $this->order_by[] = $column;
-
-        return $this;
+        return $this->setGroupByOrderBy($column_name, 'order_by', $direction);
     }
 
     /**
      * Order By column name and optional value for alias
      *
      * @param   string      $column_name
+     * @param   string      $type
      * @param   null|string $direction
      *
      * @return  $this
      * @since   1.0
      */
-    public function setGroupByOrderBy($column_name, $alias, $direction = 'ASC', $type)
+    public function setGroupByOrderBy($column_name, $type, $direction = 'ASC')
     {
-
-
         $this->editRequired('group by column_name', $column_name);
 
-        $column = $this->setColumnName($column_name);
+        $column_name = $this->setColumnName($column_name);
 
-        $this->group_by[] = $column;
+        if ($type === 'order_by') {
+            return $this->setGroupByOrderByFinishOrderBy($column_name, $direction);
+        }
 
-        return $this;
-
-        $this->editRequired('setGroupByOrderBy column_name', $column_name);
-
-        $column = $this->setColumnName($column_name);
-
-
-        return $this;
+        return $this->setGroupByOrderByFinishGroupBy($column_name);
     }
 
     /**
@@ -560,7 +540,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     {
         if (strpos($column_name, '.')) {
             $temp   = explode('.', $column_name);
-            $column = $this->quoteNameAndAlias($temp[1], $temp[0]);
+            $column = $this->quoteNameAndPrefix($temp[1], $temp[0]);
         } else {
             $column = $this->quoteName($column_name);
         }
