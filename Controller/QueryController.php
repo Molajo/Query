@@ -22,37 +22,6 @@ use CommonApi\Query\QueryInterface;
 abstract class QueryController extends Controller implements QueryInterface
 {
     /**
-     * Class Constructor
-     *
-     * @param  QueryInterface $query
-     * @param  ModelInterface $model
-     * @param  array          $runtime_data
-     * @param  array          $plugin_data
-     * @param  callable       $schedule_event
-     * @param  array          $model_registry
-     *
-     * @since  1.0
-     */
-    public function __construct(
-        QueryInterface $query,
-        ModelInterface $model = null,
-        $runtime_data = array(),
-        $plugin_data = array(),
-        callable $schedule_event = null,
-        array $model_registry = array()
-    ) {
-        parent::__construct(
-            $query,
-            $model,
-            $runtime_data,
-            $plugin_data,
-            $schedule_event
-        );
-
-        $this->setDateProperties();
-    }
-
-    /**
      * Set Default Values for SQL
      *
      * @param   string $null_date

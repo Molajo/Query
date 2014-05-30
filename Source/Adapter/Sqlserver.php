@@ -22,21 +22,42 @@ use CommonApi\Query\QueryInterface;
 class Sqlserver extends AbstractConstruct implements QueryInterface
 {
     /**
-     * Constructor
+     * Date Format
      *
+     * @var    string
      * @since  1.0
      */
-    public function __construct(
-        FieldhandlerInterface $fieldhandler,
-        $database_prefix = '',
-        DatabaseInterface $database
-    ) {
-        $this->name_quote_start = '[';
-        $this->name_quote_end   = ']';
-        $this->date_format      = 'Y-m-d H:i:s';
-        $this->null_date        = '0000-00-00 00:00:00';
-        $this->quote_value      = '"';
+    protected $date_format = 'Y-m-d H:i:s';
 
-        parent::__construct($fieldhandler, $database_prefix, $database);
-    }
+    /**
+     * Null Date
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $null_date = '0000-00-00 00:00:00';
+
+    /**
+     * Name quote start
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $name_quote_start = '[';
+
+    /**
+     * Name quote start
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $name_quote_end = ']';
+
+    /**
+     * Current Date
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $quote_value = '"';
 }

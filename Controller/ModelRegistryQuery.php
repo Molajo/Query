@@ -130,6 +130,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
             $schedule_event
         );
 
+        $this->setDateProperties();
         $this->setModelRegistryDefaults($model_registry);
     }
 
@@ -623,8 +624,8 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
     /**
      * Use Join Item Where Statements?
      *
-     * @param   string $join_to_array
-     * @param   string $join_with_array
+     * @param   array $join_to_array
+     * @param   array $join_with_array
      *
      * @return  boolean
      * @since   1.0
