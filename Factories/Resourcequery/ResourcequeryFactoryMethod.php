@@ -116,8 +116,10 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
         try {
             $scheme = new $class ($input);
         } catch (Exception $e) {
-            throw new RuntimeException('Resource Scheme ' . $class
-            . ' Exception during Instantiation: ' . $e->getMessage());
+            throw new RuntimeException(
+                'Resource Scheme ' . $class
+                . ' Exception during Instantiation: ' . $e->getMessage()
+            );
         }
 
         return $scheme;

@@ -139,23 +139,24 @@ class Data implements ConfigurationDataInterface
      * @var    array
      * @since  1.0
      */
-    protected $property_array = array(
-        'valid_dataobject_types',
-        'valid_dataobject_attributes',
-        'valid_model_types',
-        'valid_model_attributes',
-        'valid_data_types',
-        'valid_queryelements_attributes',
-        'valid_field_attributes',
-        'valid_join_attributes',
-        'valid_foreignkey_attributes',
-        'valid_criteria_attributes',
-        'valid_children_attributes',
-        'valid_plugin_attributes',
-        'valid_value_attributes',
-        'valid_field_attributes_default',
-        'valid_datalists'
-    );
+    protected $property_array
+        = array(
+            'valid_dataobject_types',
+            'valid_dataobject_attributes',
+            'valid_model_types',
+            'valid_model_attributes',
+            'valid_data_types',
+            'valid_queryelements_attributes',
+            'valid_field_attributes',
+            'valid_join_attributes',
+            'valid_foreignkey_attributes',
+            'valid_criteria_attributes',
+            'valid_children_attributes',
+            'valid_plugin_attributes',
+            'valid_value_attributes',
+            'valid_field_attributes_default',
+            'valid_datalists'
+        );
 
     /**
      * Constructor

@@ -142,7 +142,7 @@ class Query extends Xml implements AdapterInterface
         } else {
             throw new RuntimeException(
                 'Resource XmlHandler Failure namespace must have at least 3 segments:  '
-            . $options['namespace']
+                . $options['namespace']
             );
         }
 
@@ -213,8 +213,10 @@ class Query extends Xml implements AdapterInterface
                 $this->database
             );
         } catch (Exception $e) {
-            throw new RuntimeException('Resource Query Handler Failed Instantiating Controller: '
-            . $e->getMessage());
+            throw new RuntimeException(
+                'Resource Query Handler Failed Instantiating Controller: '
+                . $e->getMessage()
+            );
         }
     }
 
@@ -244,8 +246,10 @@ class Query extends Xml implements AdapterInterface
 
             );
         } catch (Exception $e) {
-            throw new RuntimeException('Resource Query Handler Failed Instantiating Controller: '
-            . $e->getMessage());
+            throw new RuntimeException(
+                'Resource Query Handler Failed Instantiating Controller: '
+                . $e->getMessage()
+            );
         }
     }
 

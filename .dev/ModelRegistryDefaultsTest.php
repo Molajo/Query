@@ -118,7 +118,7 @@ class ModelRegistryDefaultsTest extends PHPUnit_Framework_TestCase
         $model_registry = $mock->create();
 
         $this->controller = new MockModelRegistryDefaults($model_registry);
-        $model_registry = $this->controller->setModelRegistryDefaults();
+        $model_registry   = $this->controller->setModelRegistryDefaults();
 
         $this->assertEquals('Catalog', $model_registry['name']);
         $this->assertEquals('#__catalog', $model_registry['table_name']);
@@ -224,7 +224,10 @@ class ModelRegistryDefaultsTest extends PHPUnit_Framework_TestCase
         $this->assertTrue(is_array($model_registry['joins']['2']));
         $this->assertEquals('#__catalog_types', $model_registry['joins']['0']['table_name']);
         $this->assertEquals('b', $model_registry['joins']['0']['alias']);
-        $this->assertEquals('title,model_type,model_name,primary_category_id,alias', $model_registry['joins']['0']['select']);
+        $this->assertEquals(
+            'title,model_type,model_name,primary_category_id,alias',
+            $model_registry['joins']['0']['select']
+        );
         $this->assertEquals('id', $model_registry['joins']['0']['jointo']);
         $this->assertEquals('catalog_type_id', $model_registry['joins']['0']['joinwith']);
         $this->assertEquals('#__application_extension_instances', $model_registry['joins']['1']['table_name']);

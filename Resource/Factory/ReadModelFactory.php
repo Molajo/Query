@@ -61,7 +61,7 @@ class ReadModelFactory
         } catch (Exception $e) {
             throw new RuntimeException(
                 'Resource Query Handler Failed Instantiating Model: '
-            . $e->getMessage()
+                . $e->getMessage()
             );
         }
     }

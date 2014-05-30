@@ -19,7 +19,6 @@ use CommonApi\Query\QueryInterface;
  *
  * @package Molajo\Controller
  */
-
 class MockController extends Controller implements ControllerInterface
 {
     public function __construct(

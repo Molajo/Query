@@ -26,6 +26,14 @@ use stdClass;
 abstract class AbstractAdapter implements QueryInterface
 {
     /**
+     * Database
+     *
+     * @var    object  CommonApi\Database\DatabaseInterface
+     * @since  1.0
+     */
+    protected $database = '';
+
+    /**
      * Fieldhandler Instance
      *
      * @var    object  CommonApi\Query\FieldhandlerInterface
@@ -215,24 +223,25 @@ abstract class AbstractAdapter implements QueryInterface
      * @var    array
      * @since  1.0
      */
-    protected $property_array = array(
-        'database_prefix',
-        'query_type',
-        'distinct',
-        'columns',
-        'values',
-        'from',
-        'where_group',
-        'where',
-        'group_by',
-        'having_group',
-        'having',
-        'order_by',
-        'offset',
-        'limit',
-        'date_format',
-        'null_date'
-    );
+    protected $property_array
+        = array(
+            'database_prefix',
+            'query_type',
+            'distinct',
+            'columns',
+            'values',
+            'from',
+            'where_group',
+            'where',
+            'group_by',
+            'having_group',
+            'having',
+            'order_by',
+            'offset',
+            'limit',
+            'date_format',
+            'null_date'
+        );
 
     /**
      * Constructor
@@ -241,7 +250,7 @@ abstract class AbstractAdapter implements QueryInterface
      */
     public function __construct(
         FieldhandlerInterface $fieldhandler,
-        $database_prefix = '',
+        $database_prefix,
         DatabaseInterface $database
     ) {
         $this->fieldhandler    = $fieldhandler;
@@ -263,15 +272,11 @@ abstract class AbstractAdapter implements QueryInterface
      */
     public function get($key, $default = null)
     {
-        if (in_array($key, $this->property_array)) {
-            if ($this->$key === null) {
-                $this->$key = $default;
-            }
-
-            return $this->$key;
+        if ($this->$key === null) {
+            $this->$key = $default;
         }
 
-        return null;
+        return $this->$key;
     }
 
     /**
@@ -336,7 +341,7 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Edit Array
      *
-     * @param   array  $columns
+     * @param   array $columns
      *
      * @return  boolean
      * @since   1.0
@@ -358,8 +363,8 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Tests if a required value has been provided
      *
-     * @param   string  $data_type
-     * @param   string  $column_name
+     * @param   string $data_type
+     * @param   string $column_name
      *
      * @return  string
      * @since   1.0
@@ -389,7 +394,7 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Edit Connector
      *
-     * @param   string  $connector
+     * @param   string $connector
      *
      * @return  string
      * @since   1.0
@@ -409,9 +414,9 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Edit Where
      *
-     * @param   string  $left
-     * @param   string  $connector
-     * @param   string  $right
+     * @param   string $left
+     * @param   string $connector
+     * @param   string $right
      *
      * @return  $this
      * @since   1.0
@@ -434,9 +439,9 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Set or Filter Column
      *
-     * @param   string  $column_name
-     * @param   mixed   $value
-     * @param   string  $filter
+     * @param   string $column_name
+     * @param   mixed  $value
+     * @param   string $filter
      *
      * @return  mixed
      * @since   1.0
@@ -481,7 +486,7 @@ abstract class AbstractAdapter implements QueryInterface
         if ($alias === null || trim($alias) === '') {
             $return_alias = '';
         } else {
-            $alias = $this->quoteName($alias);
+            $alias        = $this->quoteName($alias);
             $return_alias = $alias . '.';
         }
 
@@ -510,15 +515,15 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Filter Input
      *
-     * @param   string       $key
-     * @param   null|string  $value
-     * @param   string       $data_type
+     * @param   string      $key
+     * @param   null|string $value
+     * @param   string      $data_type
      *
      * @return  string
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function filter($key, $value = null, $data_type)
+    protected function filter($key, $value = null, $data_type = 'string')
     {
         try {
             $results = $this->fieldhandler->sanitize($key, $value, $data_type);

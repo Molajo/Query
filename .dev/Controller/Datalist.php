@@ -139,11 +139,14 @@ class Datalist implements DatalistInterface
         $count  = count($fields);
         $i      = 0;
         foreach ($fields as $field) {
-            $i ++;
+            $i++;
             $controller->select($controller->getModelRegistry('primary_prefix', 'a') . '.' . $field['name']);
             if ($i == 2 && $count == 2) {
                 $controller->setDistinct(true);
-                $controller->orderBy($controller->getModelRegistry('primary_prefix', 'a') . '.' . $field['name'], 'ASC');
+                $controller->orderBy(
+                    $controller->getModelRegistry('primary_prefix', 'a') . '.' . $field['name'],
+                    'ASC'
+                );
             }
         }
 

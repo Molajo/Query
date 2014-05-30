@@ -182,6 +182,7 @@ class UpdateController extends ReadController implements UpdateControllerInterfa
      * called by single item methods to loop through the ids and processed by processItem
      *
      * @param string $column
+     *
      * @return Boolean
      * @since    1.0
      */
@@ -332,6 +333,7 @@ class UpdateController extends ReadController implements UpdateControllerInterfa
      * deleteItemBatch handles the delete processing
      *
      * @param string $column
+     *
      * @return Boolean
      * @since    1.0
      */

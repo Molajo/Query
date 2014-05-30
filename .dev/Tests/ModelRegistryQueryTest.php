@@ -263,7 +263,8 @@ class ModelRegistryQueryTest extends PHPUnit_Framework_TestCase
 
         $sql = $this->controller->getSQL();
 
-        $expected_sql = 'SELECT `a`.*
+        $expected_sql
+            = 'SELECT `a`.*
 FROM `molajo_content` AS `a`
 ';
         $this->assertEquals($expected_sql, $sql);
@@ -468,7 +469,7 @@ FROM `molajo_content` AS `a`
         $plugin_data    = array();
         $schedule_event = 'strtolower';
 
-        $mock = new MockModelRegistry();
+        $mock           = new MockModelRegistry();
         $model_registry = $mock->create();
 
         $this->controller = new ModelRegistryQuery(
@@ -586,7 +587,10 @@ FROM `molajo_content` AS `a`
         $this->assertTrue(is_array($model_registry['joins']['2']));
         $this->assertEquals('#__catalog_types', $model_registry['joins']['0']['table_name']);
         $this->assertEquals('b', $model_registry['joins']['0']['alias']);
-        $this->assertEquals('title,model_type,model_name,primary_category_id,alias', $model_registry['joins']['0']['select']);
+        $this->assertEquals(
+            'title,model_type,model_name,primary_category_id,alias',
+            $model_registry['joins']['0']['select']
+        );
         $this->assertEquals('id', $model_registry['joins']['0']['jointo']);
         $this->assertEquals('catalog_type_id', $model_registry['joins']['0']['joinwith']);
         $this->assertEquals('#__application_extension_instances', $model_registry['joins']['1']['table_name']);
@@ -849,7 +853,7 @@ FROM `molajo_content` AS `a`
         $plugin_data    = array();
         $schedule_event = 'strtolower';
 
-        $mock = new MockModelRegistry();
+        $mock           = new MockModelRegistry();
         $model_registry = $mock->create();
 
         $this->controller = new ModelRegistryQuery(
@@ -967,7 +971,10 @@ FROM `molajo_content` AS `a`
         $this->assertTrue(is_array($model_registry['joins']['2']));
         $this->assertEquals('#__catalog_types', $model_registry['joins']['0']['table_name']);
         $this->assertEquals('b', $model_registry['joins']['0']['alias']);
-        $this->assertEquals('title,model_type,model_name,primary_category_id,alias', $model_registry['joins']['0']['select']);
+        $this->assertEquals(
+            'title,model_type,model_name,primary_category_id,alias',
+            $model_registry['joins']['0']['select']
+        );
         $this->assertEquals('id', $model_registry['joins']['0']['jointo']);
         $this->assertEquals('catalog_type_id', $model_registry['joins']['0']['joinwith']);
         $this->assertEquals('#__application_extension_instances', $model_registry['joins']['1']['table_name']);

@@ -556,7 +556,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      * @return  boolean
      * @since   1.0
      */
-    protected function UseJoinItemColumns($select)
+    protected function useJoinItemColumns($select)
     {
         if ($this->model_registry['query_object'] === 'result') {
             return false;

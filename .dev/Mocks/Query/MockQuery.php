@@ -17,7 +17,6 @@ use CommonApi\Query\QueryInterface;
  *
  * @package Molajo\Controller
  */
-
 class MockQuery implements QueryInterface
 {
     public function get($key, $default = null)

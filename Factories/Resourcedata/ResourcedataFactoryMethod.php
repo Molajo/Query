@@ -275,8 +275,10 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
         } catch (Exception $e) {
 
             throw new RuntimeException
-            ('IoC Factory Method Adapter Instance Failed for ' . $this->product_namespace
-            . ' failed.' . $e->getMessage());
+            (
+                'IoC Factory Method Adapter Instance Failed for ' . $this->product_namespace
+                . ' failed.' . $e->getMessage()
+            );
         }
 
         return $this;
@@ -404,7 +406,9 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
             $dirRead->close();
         } catch (RuntimeException $e) {
             throw new RuntimeException
-            ('IoC Factory Method Configuration: loadDatalists cannot find Datalists file for folder: ' . $folder);
+            (
+                'IoC Factory Method Configuration: loadDatalists cannot find Datalists file for folder: ' . $folder
+            );
         }
 
         return $datalistsArray;
@@ -428,8 +432,10 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
                 $this->options['Resource']
             );
         } catch (Exception $e) {
-            throw new RuntimeException('Resource Data Factory Method createDataobject failed: '
-            . $e->getMessage());
+            throw new RuntimeException(
+                'Resource Data Factory Method createDataobject failed: '
+                . $e->getMessage()
+            );
         }
 
         return $handler;
@@ -454,8 +460,10 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
             );
 
         } catch (Exception $e) {
-            throw new RuntimeException('Resource Data Factory Method createModel failed: '
-            . $e->getMessage());
+            throw new RuntimeException(
+                'Resource Data Factory Method createModel failed: '
+                . $e->getMessage()
+            );
         }
 
         return $handler;
@@ -492,8 +500,10 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
                 $dataobject_handler
             );
         } catch (Exception $e) {
-            throw new RuntimeException('Resource Data Factory Method createXml failed: '
-            . $e->getMessage());
+            throw new RuntimeException(
+                'Resource Data Factory Method createXml failed: '
+                . $e->getMessage()
+            );
         }
 
         return $xml;
@@ -515,8 +525,10 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
         try {
             $scheme = new $class ($input);
         } catch (Exception $e) {
-            throw new RuntimeException('Resource Scheme ' . $class
-            . ' Exception during Instantiation: ' . $e->getMessage());
+            throw new RuntimeException(
+                'Resource Scheme ' . $class
+                . ' Exception during Instantiation: ' . $e->getMessage()
+            );
         }
 
         return $scheme;

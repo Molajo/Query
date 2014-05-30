@@ -117,7 +117,9 @@ class Xml extends AbstractAdapter implements AdapterInterface
         if (isset($options['namespace'])) {
         } else {
             throw new RuntimeException
-            ('Resource XmlHandler handlePath options array must have namespace entry.');
+            (
+                'Resource XmlHandler handlePath options array must have namespace entry.'
+            );
         }
 
         $segments = explode('//', $options['namespace']);
@@ -127,7 +129,9 @@ class Xml extends AbstractAdapter implements AdapterInterface
             echo '<pre>';
             var_dump($segments);
             throw new RuntimeException
-            ('Resource XmlHandler Failure namespace must have at least 3 segments:  ' . $options['namespace']);
+            (
+                'Resource XmlHandler Failure namespace must have at least 3 segments:  ' . $options['namespace']
+            );
         }
 
         if (count($segments) == 3) {
@@ -145,7 +149,9 @@ class Xml extends AbstractAdapter implements AdapterInterface
         if (file_exists($located_path)) {
         } else {
             throw new RuntimeException
-            ('Resource XmlHandler located_path not found: ' . $this->resource_namespace);
+            (
+                'Resource XmlHandler located_path not found: ' . $this->resource_namespace
+            );
         }
 
         try {
@@ -176,7 +182,9 @@ class Xml extends AbstractAdapter implements AdapterInterface
         } catch (Exception $e) {
 
             throw new RuntimeException
-            ('Resource XmlHandler Failure:  ' . $located_path . ' ' . $e->getMessage());
+            (
+                'Resource XmlHandler Failure:  ' . $located_path . ' ' . $e->getMessage()
+            );
         }
     }
 

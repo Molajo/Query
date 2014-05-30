@@ -148,7 +148,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
             return $xml_string;
         }
 
-        for ($i = 0; $i < count($replace_this_array); $i ++) {
+        for ($i = 0; $i < count($replace_this_array); $i++) {
 
             $replace_this = $replace_this_array[$i];
             $name         = $include_name_array[$i];
@@ -209,7 +209,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
                         } else {
                             throw new RuntimeException(
                                 'Configuration: setElementsRegistry encountered Invalid Model Attribute '
-                            . $key . ' for ' . $model_registry
+                                . $key . ' for ' . $model_registry
                             );
                         }
 
@@ -233,7 +233,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
             $joins   = array();
             $selects = array();
 
-            for ($i = 0; $i < count($itemArray); $i ++) {
+            for ($i = 0; $i < count($itemArray); $i++) {
                 $temp      = $this->setJoinFields($itemArray[$i]);
                 $joins[]   = $temp[0];
                 $selects[] = $temp[1];
@@ -402,7 +402,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
      * Load Custom Fields for a specific Group -- this is called once for each custom field type for a Model
      *
      * @param   string $model_registry
-     * @param   $customfield
+     * @param          $customfield
      *
      * @return  array|bool
      * @since   1.0
@@ -429,7 +429,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
                         } else {
                             throw new RuntimeException(
                                 'Configuration: getCustomFieldsSpecificGroup Invalid Field attribute '
-                            . $key2 . ':' . $value2 . ' for ' . $model_registry
+                                . $key2 . ':' . $value2 . ' for ' . $model_registry
                             );
                         }
 
@@ -460,9 +460,9 @@ abstract class AbstractAdapter implements ConfigurationInterface
      * Inherited fields are merged in with those specifically defined in model
      *
      * @param   string $model_registry
-     * @param   $name
-     * @param   $fieldArray
-     * @param   $fieldNames
+     * @param          $name
+     * @param          $fieldArray
+     * @param          $fieldNames
      *
      * @return array
      * @since   1.0
@@ -509,7 +509,7 @@ abstract class AbstractAdapter implements ConfigurationInterface
      * Inheritance checking and setup  <model name="XYZ" extends="ThisTable"/>
      *
      * @param   string $model_registry
-     * @param   $xml
+     * @param          $xml
      *
      * @return  $this
      * @since   1.0

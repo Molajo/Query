@@ -159,6 +159,7 @@ class HOLDupdate extends Controller
      * Method called by apply, create, save, saveascopy and saveandnew actions
      *
      * @param string $action
+     *
      * @return Boolean
      * @since    1.0
      */
@@ -192,6 +193,7 @@ class HOLDupdate extends Controller
      * Also batch-copy uses SaveItem, as well
      *
      * @param string $action
+     *
      * @return Boolean
      * @since    1.0
      */
@@ -267,7 +269,7 @@ class HOLDupdate extends Controller
 
             $errors = $this->model->getErrors();
 
-            for ($e = 0; $e < count($errors); $e ++) {
+            for ($e = 0; $e < count($errors); $e++) {
                 if (MolajoError::isError($errors[$e])) {
                     $this->message->set($errors[$e]->getMessage(), 'warning');
                 } else {

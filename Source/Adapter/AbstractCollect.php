@@ -205,28 +205,57 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $right_filter = 'column',
         $right = '',
         $connector = 'AND',
-        $group = null
+        $group = ''
     ) {
         $this->editWhere($left_filter, $condition, $right);
 
-        if ($group === null) {
-            $group = '';
-        }
-
         $connector = $this->editConnector($connector);
 
-        $left = $this->setOrFilterColumn('leftwhere', $left, $left_filter);
-
-        if (strtolower($condition) == 'in') {
-            $temp = $this->processInArray('rightwhere', $right, $right_filter);
-            $right = explode(',', $temp);
-        } else {
-            $right = $this->setOrFilterColumn('rightwhere', $right, $right_filter);
-        }
+        $left  = $this->whereLeft('leftwhere', $left, $left_filter);
+        $right = $this->whereLeft('rightwhere', $right, $right_filter, $connector);
 
         $this->where[] = $this->buildItem($left, $condition, $right, $connector, $group);
 
         return $this;
+    }
+
+    /**
+     * Set Where Conditions for Left
+     *
+     * @param   string $filter
+     * @param   string $column
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function whereLeft(
+        $filter = 'column',
+        $column = ''
+    ) {
+        return $this->setOrFilterColumn('leftwhere', $column, $filter);
+    }
+
+    /**
+     * Set Where Conditions for Right
+     *
+     * @param   string $filter
+     * @param   string $column
+     * @param   string $condition
+     *
+     * @return  mixed
+     * @since   1.0
+     */
+    public function whereRight(
+        $filter = 'column',
+        $column = '',
+        $condition = ''
+    ) {
+        if (strtolower($condition) == 'in') {
+            $temp = $this->processInArray('rightwhere', $column, $filter);
+            return explode(',', $temp);
+        }
+
+        return $this->setOrFilterColumn('rightwhere', $column, $filter);
     }
 
     /**
@@ -292,13 +321,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $right_filter = 'column',
         $right = '',
         $connector = 'AND',
-        $group = null
+        $group = ''
     ) {
         $this->editWhere($left_filter, $condition, $right);
-
-        if ($group === null) {
-            $group = '';
-        }
 
         $connector = $this->editConnector($connector);
 
@@ -406,7 +431,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     protected function setColumnName($column_name)
     {
         if (strpos($column_name, '.')) {
-            $temp = explode('.', $column_name);
+            $temp   = explode('.', $column_name);
             $column = $this->quoteNameAndAlias($temp[1], $temp[0]);
         } else {
             $column = $this->quoteName($column_name);
@@ -418,9 +443,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     /**
      * Process Array of Values for IN condition
      *
-     * @param string  $name
-     * @param string  $value_string
-     * @param string  $filter
+     * @param string $name
+     * @param string $value_string
+     * @param string $filter
      *
      * @return  string
      * @since   1.0

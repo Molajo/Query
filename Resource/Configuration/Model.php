@@ -29,7 +29,7 @@ class Model extends AbstractAdapter implements ConfigurationInterface
      *
      * @param ConfigurationDataInterface $dataobject
      * @param RegistryInterface          $registry
-     * @param ResourceInterface           $resource
+     * @param ResourceInterface          $resource
      *
      * @since  1.0
      */
@@ -60,7 +60,7 @@ class Model extends AbstractAdapter implements ConfigurationInterface
         if ($xml === false) {
             throw new RuntimeException(
                 'Configuration: getDataobject cannot process XML file for Model Type: '
-            . $model_type . ' Model Name: ' . $model_name
+                . $model_type . ' Model Name: ' . $model_name
             );
         }
 

@@ -52,11 +52,12 @@ abstract class Model implements ModelInterface
      * @var    array
      * @since  1.0
      */
-    protected $property_array = array(
-        'database',
-        'row',
-        'query_results'
-    );
+    protected $property_array
+        = array(
+            'database',
+            'row',
+            'query_results'
+        );
 
     /**
      * Constructor
@@ -83,11 +84,6 @@ abstract class Model implements ModelInterface
      */
     public function get($key, $default = null)
     {
-        if (in_array($key, $this->property_array)) {
-        } else {
-            return null;
-        }
-
         if ($this->$key === null) {
             $this->$key = $default;
         }

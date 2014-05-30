@@ -415,7 +415,9 @@ class Registry implements RegistryInterface
         if ($this->exists($source_registry)) {
         } else {
             throw new RuntimeException
-            ('Registry: Namespace ' . $source_registry . ' requested as source of copy does not exist.');
+            (
+                'Registry: Namespace ' . $source_registry . ' requested as source of copy does not exist.'
+            );
         }
 
         $copy = $this->getRegistry($source_registry);
@@ -495,26 +497,34 @@ class Registry implements RegistryInterface
         if ($this->exists($source_registry)) {
         } else {
             throw new RuntimeException
-            ('Registry: Namespace ' . $source_registry . ' requested as a source for merging does not exist.');
+            (
+                'Registry: Namespace ' . $source_registry . ' requested as a source for merging does not exist.'
+            );
         }
 
         if ($this->exists($target_registry)) {
         } else {
             throw new RuntimeException
-            ('Registry: Namespace ' . $target_registry . ' does not exist, was requested as target of merge.');
+            (
+                'Registry: Namespace ' . $target_registry . ' does not exist, was requested as target of merge.'
+            );
         }
 
         if ($remove_from_source == 1) {
             if ($this->checkLock($source_registry)) {
                 throw new RuntimeException
-                ('Registry: Source Namespace: ' . $target_registry . ' for Merge is locked. May not remove entries.');
+                (
+                    'Registry: Source Namespace: ' . $target_registry . ' for Merge is locked. May not remove entries.'
+                );
             }
         }
 
         $target_registry = $this->editNamespace($target_registry);
         if ($this->checkLock($target_registry)) {
             throw new RuntimeException
-            ('Registry: Target Namespace: ' . $target_registry . ' for Merge is locked. May not add entries.');
+            (
+                'Registry: Target Namespace: ' . $target_registry . ' for Merge is locked. May not add entries.'
+            );
         }
 
         $searchfor = '';
@@ -580,7 +590,9 @@ class Registry implements RegistryInterface
         if ($this->exists($namespace)) {
         } else {
             throw new RuntimeException
-            ('Registry: Cannot sort Namespace ' . $namespace . ' since it does not exist.');
+            (
+                'Registry: Cannot sort Namespace ' . $namespace . ' since it does not exist.'
+            );
         }
 
         $sort = $this->getRegistry($namespace);
@@ -615,7 +627,9 @@ class Registry implements RegistryInterface
 
         if ($this->checkLock($namespace)) {
             throw new RuntimeException
-            ('Registry: Cannot delete an entry from Namespace: ' . $namespace . ' since it has been locked.');
+            (
+                'Registry: Cannot delete an entry from Namespace: ' . $namespace . ' since it has been locked.'
+            );
         }
 
         $key = strtolower($key);
@@ -686,18 +700,24 @@ class Registry implements RegistryInterface
         if ($this->exists($namespace)) {
         } else {
             throw new RuntimeException
-            ('Registry: Cannot rename Namespace ' . $namespace . ' since it does not exist.');
+            (
+                'Registry: Cannot rename Namespace ' . $namespace . ' since it does not exist.'
+            );
         }
 
         if ($this->checkLock($namespace)) {
             throw new RuntimeException
-            ('Registry: Cannot rename Namespace: ' . $namespace . ' since it has been locked.');
+            (
+                'Registry: Cannot rename Namespace: ' . $namespace . ' since it has been locked.'
+            );
         }
 
         if ($this->exists($new_namespace)) {
         } else {
             throw new RuntimeException
-            ('Registry: Cannot rename ' . $namespace . ' to an existing registry ' . $new_namespace);
+            (
+                'Registry: Cannot rename ' . $namespace . ' to an existing registry ' . $new_namespace
+            );
         }
 
         $existing = $this->getRegistry($namespace);
@@ -765,7 +785,9 @@ class Registry implements RegistryInterface
         if (is_array($array) && count($array) > 0) {
         } else {
             throw new RuntimeException
-            ('Registry: Empty or missing input array provided to loadArray.');
+            (
+                'Registry: Empty or missing input array provided to loadArray.'
+            );
         }
 
         $namespace = $this->editNamespace($namespace);
@@ -950,7 +972,9 @@ class Registry implements RegistryInterface
             $namespace = trim($namespace);
         } else {
             throw new RuntimeException
-            ('Registry: Namespace: is not a string.');
+            (
+                'Registry: Namespace: is not a string.'
+            );
         }
 
         return $namespace;
@@ -976,7 +1000,9 @@ class Registry implements RegistryInterface
             var_dump($key);
             echo '</pre>';
             throw new RuntimeException
-            ('Registry: Key associated with Namespace: ' . $namespace . ' is not a string.');
+            (
+                'Registry: Key associated with Namespace: ' . $namespace . ' is not a string.'
+            );
         }
 
         return $key;
