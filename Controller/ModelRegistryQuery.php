@@ -601,12 +601,6 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
             return false;
         }
 
-        $select_array = explode(',', $select);
-
-        if (count($select_array) === 0) {
-            return false;
-        }
-
         return true;
     }
 
