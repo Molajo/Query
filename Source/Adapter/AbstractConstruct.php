@@ -416,26 +416,8 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
 
         $group_string = '';
 
-        foreach ($this->where_group as $where_group => $where_group_connector) {
-
-            $string = '';
-
-            foreach ($this->where as $where) {
-                $string = $this->setSQLWhereGroup($string, $where, $where_group);
-            }
-
-            if ($group_string == '') {
-                if (trim($where_group) == '') {
-                    $group_string .= $string . PHP_EOL;
-                } else {
-                    $group_string = '(';
-                    $group_string .= $string . ')' . PHP_EOL;
-                }
-
-            } else {
-                $group_string .= ' ' . $where_group_connector . ' (';
-                $group_string .= $string . ')' . PHP_EOL;
-            }
+        foreach ($this->where_group as $group => $group_connector) {
+            $group_string = $this->setSQLGroup($group_string, $group, $group_connector, 'where');
         }
 
         return $group_string;
@@ -513,26 +495,39 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
 
         $group_string = '';
 
-        foreach ($this->having_group as $having_group => $having_group_connector) {
+        foreach ($this->having_group as $group => $group_connector) {
+            $group_string = $this->setSQLGroup($group_string, $group, $group_connector, 'having');
+        }
 
-            $string = '';
+        return $group_string;
+    }
 
-            foreach ($this->having as $having) {
-                $string .= $this->setSQLHavingGroup($string, $having, $having_group);
-            }
+    /**
+     * Generate SQL for Where Conditions
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLGroup($group_string, $group, $where_group_connector, $data = 'where')
+    {
+        $string = '';
 
-            if ($group_string == '') {
-                if (trim($having_group) == '') {
-                    $group_string .= $string . PHP_EOL;
-                } else {
-                    $group_string = '(';
-                    $group_string .= $string . ')' . PHP_EOL;
-                }
+        foreach ($this->$data as $value) {
+            $method = 'setSQL' . ucfirst(strtolower($data)) . 'Group';
+            $string = $this->$method($string, $value, $group);
+        }
 
+        if ($group_string == '') {
+            if (trim($group) == '') {
+                $group_string .= $string . PHP_EOL;
             } else {
-                $group_string .= ' ' . $having_group_connector . ' (';
+                $group_string = '(';
                 $group_string .= $string . ')' . PHP_EOL;
             }
+
+        } else {
+            $group_string .= ' ' . $where_group_connector . ' (';
+            $group_string .= $string . ')' . PHP_EOL;
         }
 
         return $group_string;

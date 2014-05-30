@@ -84,14 +84,15 @@ abstract class Model implements ModelInterface
     public function get($key, $default = null)
     {
         if (in_array($key, $this->property_array)) {
-            if ($this->$key === null) {
-                $this->$key = $default;
-            }
-
-            return $this->$key;
+        } else {
+            return null;
         }
 
-        return null;
+        if ($this->$key === null) {
+            $this->$key = $default;
+        }
+
+        return $this->$key;
     }
 
     /**

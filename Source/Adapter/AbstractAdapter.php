@@ -264,15 +264,14 @@ abstract class AbstractAdapter implements QueryInterface
     public function get($key, $default = null)
     {
         if (in_array($key, $this->property_array)) {
-        } else {
-            throw new RuntimeException('Controller Get: Unknown key: ' . $key);
+            if ($this->$key === null) {
+                $this->$key = $default;
+            }
+
+            return $this->$key;
         }
 
-        if ($this->$key === null) {
-            $this->$key = $default;
-        }
-
-        return $this->$key;
+        return null;
     }
 
     /**
