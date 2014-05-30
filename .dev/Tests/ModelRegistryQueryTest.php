@@ -212,13 +212,13 @@ class ModelRegistryQueryTest extends PHPUnit_Framework_TestCase
      * @return  void
      * @since   1.0
      */
-    public function xxxtestDefaultModelRegistry()
+    public function testDefaultModelRegistry()
     {
         $fieldhandler    = new Request();
         $database_prefix = 'molajo_';
         $database        = new MockDatabase();
 
-        $mysql = new MySQL(
+        $mysql = new Mysql(
             $fieldhandler,
             $database_prefix,
             $database
@@ -460,7 +460,7 @@ FROM `molajo_content` AS `a`
         $database_prefix = 'molajo_';
         $database        = new MockDatabase();
 
-        $mysql = new MySQL(
+        $mysql = new Mysql(
             $fieldhandler,
             $database_prefix,
             $database
@@ -846,7 +846,7 @@ FROM `molajo_content` AS `a`
         $database_prefix = 'molajo_';
         $database        = new MockDatabase();
 
-        $mysql = new MySQL(
+        $mysql = new Mysql(
             $fieldhandler,
             $database_prefix,
             $database
@@ -1274,7 +1274,7 @@ FROM `molajo_content` AS `a`
         $database_prefix = 'molajo_';
         $database        = new MockDatabase();
 
-        $mysql = new MySQL(
+        $mysql = new Mysql(
             $fieldhandler,
             $database_prefix,
             $database
@@ -1536,7 +1536,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
         $database_prefix = 'molajo_';
         $database        = new MockDatabase();
 
-        $mysql = new MySQL(
+        $mysql = new Mysql(
             $fieldhandler,
             $database_prefix,
             $database
@@ -1788,7 +1788,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
         $database_prefix = 'molajo_';
         $database        = new MockDatabase();
 
-        $mysql = new MySQL(
+        $mysql = new Mysql(
             $fieldhandler,
             $database_prefix,
             $database
