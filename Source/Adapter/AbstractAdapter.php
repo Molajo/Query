@@ -527,7 +527,7 @@ abstract class AbstractAdapter implements QueryInterface
     protected function filter($key, $value = null, $data_type = 'string')
     {
         try {
-            $results = $this->fieldhandler->sanitize($key, $value, $data_type);
+            $results = $this->fieldhandler->sanitize($key, $value, ucfirst(strtolower($data_type)));
 
             $value = $results->getFieldValue();
 
