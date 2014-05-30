@@ -39,14 +39,6 @@ abstract class Controller implements ControllerInterface
     protected $model;
 
     /**
-     * Model Registry
-     *
-     * @var    object
-     * @since  1.0
-     */
-    protected $model_registry = null;
-
-    /**
      * Stores an array of key/value runtime_data settings
      *
      * @var    object
@@ -145,8 +137,7 @@ abstract class Controller implements ControllerInterface
             'query_results',
             'row',
             'null_date',
-            'current_date',
-            'cache'
+            'current_date'
         );
 
     /**
@@ -154,20 +145,18 @@ abstract class Controller implements ControllerInterface
      *
      * @param  QueryInterface $query
      * @param  ModelInterface $model
-     * @param  object         $runtime_data
-     * @param  object         $plugin_data
+     * @param  array          $runtime_data
+     * @param  array          $plugin_data
      * @param  callable       $schedule_event
-     * @param  array          $model_registry
      *
      * @since  1.0
      */
     public function __construct(
         QueryInterface $query,
-        ModelInterface $model,
-        $runtime_data,
-        $plugin_data,
-        callable $schedule_event,
-        array $model_registry
+        ModelInterface $model = null,
+        $runtime_data = array(),
+        $plugin_data = array(),
+        callable $schedule_event = null
     ) {
         $this->query          = $query;
         $this->model          = $model;
@@ -175,7 +164,6 @@ abstract class Controller implements ControllerInterface
         $this->plugin_data    = $plugin_data;
         $this->schedule_event = $schedule_event;
 
-        $this->setModelRegistryDefaults($model_registry);
         $this->setSiteApplicationProperties();
     }
 
@@ -215,86 +203,7 @@ abstract class Controller implements ControllerInterface
         return $this;
     }
 
-    /**
-     * Get the value of a specified Model Registry Key
-     *
-     * @param   string $key
-     * @param   mixed  $default
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    public function getModelRegistry($key = null, $default = null)
-    {
-        if ($key == '*' || trim($key) == '' || $key === null) {
-            return $this->getModelRegistryAll();
-        }
-
-        return $this->getModelRegistryByKey($key, $default);
-    }
-
-    /**
-     * Get the full contents of the Model Registry
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    protected function getModelRegistryAll()
-    {
-        return $this->model_registry;
-    }
-
-    /**
-     * Get the value of a specified Model Registry Key
-     *
-     * @param   string $key
-     * @param   mixed  $default
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    protected function getModelRegistryByKey($key = null, $default = null)
-    {
-        if (isset($this->model_registry[$key])) {
-        } else {
-            $this->model_registry[$key] = $default;
-        }
-
-        return $this->model_registry[$key];
-    }
-
-    /**
-     * Get the value of a specified Model Registry Key
-     *
-     * @param   string $key
-     * @param   string $value
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function setModelRegistry($key, $value = null)
-    {
-        $this->model_registry[$key] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Set Default Values for Model Registry
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setModelRegistryDefaults($model_registry)
-    {
-        $defaults = new ModelRegistryDefaults($model_registry);
-
-        $this->model_registry = $defaults->setModelRegistryDefaults();
-
-        return $this;
-    }
-
-    /**
+     /**
      * Set Default Values for SQL
      *
      * @return  $this

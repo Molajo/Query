@@ -28,6 +28,15 @@ $results  = createClassMap($base . '/Resource/Factory', 'Molajo\\Resource\\Facto
 $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/Source/Adapter', 'Molajo\\Query\\Adapter\\');
 $classmap = array_merge($classmap, $results);
+$results  = createClassMap($base . '/.dev/Mocks/Controller', 'Molajo\\Controller\\');
+$classmap = array_merge($classmap, $results);
+$results  = createClassMap($base . '/.dev/Mocks/Fieldhandler', 'Molajo\\Fieldhandler\\');
+$classmap = array_merge($classmap, $results);
+$results  = createClassMap($base . '/.dev/Mocks/Database', 'Molajo\\Database\\');
+$classmap = array_merge($classmap, $results);
+$results  = createClassMap($base . '/.dev/Mocks/Query', 'Molajo\\Query\\');
+$classmap = array_merge($classmap, $results);
+
 $classmap['Molajo\\Query\\Driver'] = $base . '/Source/Driver.php';
 
 ksort($classmap);

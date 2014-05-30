@@ -79,7 +79,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $item         = new stdClass();
         $item->column = $column;
 
-        if ($alias === null || trim($alias) == '') {
+        if ($alias === null || trim($alias) === '') {
             $item->alias = null;
         } else {
             $item->alias = $this->quoteName($alias);
@@ -215,13 +215,13 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
 
         $connector = $this->editConnector($connector);
 
-        $left = $this->setOrFilterColumn($left_filter, $left);
+        $left = $this->setOrFilterColumn('leftwhere', $left, $left_filter);
 
         if (strtolower($condition) == 'in') {
-            $temp = $this->processInArray('Right', $right, $right_filter);
+            $temp = $this->processInArray('rightwhere', $right, $right_filter);
             $right = explode(',', $temp);
         } else {
-            $right = $this->setOrFilterColumn($right_filter, $right);
+            $right = $this->setOrFilterColumn('rightwhere', $right, $right_filter);
         }
 
         $this->where[] = $this->buildItem($left, $condition, $right, $connector, $group);
@@ -302,8 +302,8 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
 
         $connector = $this->editConnector($connector);
 
-        $left  = $this->setOrFilterColumn($left_filter, $left);
-        $right = $this->setOrFilterColumn($right_filter, $right);
+        $left  = $this->setOrFilterColumn('HavingLeft', $left, $left_filter);
+        $right = $this->setOrFilterColumn('HavingRight', $right, $right_filter);
 
         $this->having[] = $this->buildItem($left, $condition, $right, $connector, $group);
 
@@ -418,9 +418,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     /**
      * Process Array of Values for IN condition
      *
-     * @param string  $filter
      * @param string  $name
      * @param string  $value_string
+     * @param string  $filter
      *
      * @return  string
      * @since   1.0

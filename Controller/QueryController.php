@@ -26,8 +26,8 @@ abstract class QueryController extends Controller implements QueryInterface
      *
      * @param  QueryInterface $query
      * @param  ModelInterface $model
-     * @param  object         $runtime_data
-     * @param  object         $plugin_data
+     * @param  array          $runtime_data
+     * @param  array          $plugin_data
      * @param  callable       $schedule_event
      * @param  array          $model_registry
      *
@@ -35,19 +35,18 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function __construct(
         QueryInterface $query,
-        ModelInterface $model,
-        $runtime_data,
-        $plugin_data,
-        callable $schedule_event,
-        array $model_registry
+        ModelInterface $model = null,
+        $runtime_data = array(),
+        $plugin_data = array(),
+        callable $schedule_event = null,
+        array $model_registry = array()
     ) {
         parent::__construct(
             $query,
             $model,
             $runtime_data,
             $plugin_data,
-            $schedule_event,
-            $model_registry
+            $schedule_event
         );
 
         $this->setDateProperties();

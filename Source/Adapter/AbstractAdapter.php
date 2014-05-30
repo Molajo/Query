@@ -419,9 +419,9 @@ abstract class AbstractAdapter implements QueryInterface
      */
     public function editWhere($left, $condition, $right)
     {
-        if (trim($left) == ''
-            || trim($condition) == ''
-            || trim($right) == ''
+        if (trim($left) === ''
+            || trim($condition) === ''
+            || trim($right) === ''
         ) {
             throw new RuntimeException(
                 'Query-Where Method: Value required for ' . ' $left: ' . $left
@@ -435,22 +435,24 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Set or Filter Column
      *
-     * @param   string      $filter
-     * @param   string      $column
+     * @param   string  $column_name
+     * @param   mixed   $value
+     * @param   string  $filter
      *
-     * @return  string
+     * @return  mixed
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function setOrFilterColumn(
-        $filter = 'column',
-        $column = null
+        $column_name,
+        $value,
+        $filter
     ) {
         if (strtolower($filter) == 'column') {
-            return $this->setColumnName($column);
+            return $this->setColumnName($value);
         }
 
-        return $this->filter($filter, $column, $filter);
+        return $this->filter($column_name, $value, $filter);
     }
 
     /**
@@ -530,6 +532,6 @@ abstract class AbstractAdapter implements QueryInterface
             );
         }
 
-        return $this->quoteValue($this->database->escape($value));
+        return $this->quoteValue($value);
     }
 }

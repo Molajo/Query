@@ -1,0 +1,32 @@
+SELECT `a`.`id`, 
+`a`.`application_id`, 
+`a`.`catalog_type_id`, 
+`a`.`source_id`, 
+`a`.`enabled`, 
+`a`.`redirect_to_id`, 
+`a`.`sef_request`, 
+`a`.`page_type`, 
+`a`.`extension_instance_id`, 
+`a`.`view_group_id`, 
+`a`.`primary_category_id`, 
+`b`.`title` AS `b_title`, 
+`b`.`model_type` AS `b_model_type`, 
+`b`.`model_name` AS `b_model_name`, 
+`b`.`primary_category_id` AS `b_primary_category_id`, 
+`b`.`alias` AS `b_alias`
+FROM `molajo_catalog` AS `a`, 
+`molajo_catalog_types` AS `b`, 
+`molajo_application_extension_instances` AS `application_extension_instances`, 
+`molajo_site_extension_instances` AS `site_extension_instances`
+WHERE `a`.`sef_request` = 'articles'
+AND `a`.`page_type` <> 'link'
+AND `a`.`enabled` = '1'
+AND `a`.`application_id` = '2'
+AND `b`.`id` = `a`.`catalog_type_id`
+AND `application_extension_instances`.`application_id` = '2'
+AND `application_extension_instances`.`extension_instance_id` = `a`.`extension_instance_id`
+AND `site_extension_instances`.`site_id` = '2'
+AND `site_extension_instances`.`extension_instance_id` = `a`.`extension_instance_id`
+AND `a`.`enabled` = '1'
+AND `a`.`redirect_to_id` = ''
+

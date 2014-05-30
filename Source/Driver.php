@@ -146,7 +146,9 @@ class Driver implements QueryInterface
             return $this->adapter->select($column_name, $alias, $value, $data_type);
 
         } catch (Exception $e) {
-
+            echo '<pre>';
+            var_dump(array($column_name, $alias, $value, $data_type));
+            echo '</pre>';
             throw new RuntimeException('Query Adapter Select Method Exception: ' . $e->getMessage());
         }
     }

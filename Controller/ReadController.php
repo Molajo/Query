@@ -40,13 +40,9 @@ class ReadController extends ModelRegistryQuery implements ReadControllerInterfa
         $this->triggerOnBeforeReadEvent();
 
         if (trim($this->sql) == '') {
-            $this->setModelRegistrySQL();
             $this->sql = $this->getSQL();
         }
-        echo $this->sql;
-        echo '<pre>';
-        var_dump($this->model_registry);
-        die;
+
         $this->runQuery();
 
         $this->triggerOnAfterReadEvent();
