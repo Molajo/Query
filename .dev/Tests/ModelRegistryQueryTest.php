@@ -14,7 +14,7 @@ use CommonApi\Model\ModelInterface;
 use CommonApi\Query\QueryInterface;
 use Molajo\Database\MockDatabase;
 use Molajo\Model\ReadModel;
-use Molajo\Query\Adapter\MySQL;
+use Molajo\Query\Adapter\Mysql;
 use Molajo\Fieldhandler\Request;
 use Molajo\Query\Driver as Query;
 
@@ -216,7 +216,7 @@ class ModelRegistryQueryTest extends PHPUnit_Framework_TestCase
         $database_prefix = 'molajo_';
         $database        = new MockDatabase();
 
-        $mysql = new MySQL(
+        $mysql = new Mysql(
             $fieldhandler,
             $database_prefix,
             $database
@@ -456,7 +456,7 @@ FROM `molajo_content` AS `a`
         $database_prefix = 'molajo_';
         $database        = new MockDatabase();
 
-        $mysql = new MySQL(
+        $mysql = new Mysql(
             $fieldhandler,
             $database_prefix,
             $database
@@ -840,7 +840,7 @@ FROM `molajo_content` AS `a`
         $database_prefix = 'molajo_';
         $database        = new MockDatabase();
 
-        $mysql = new MySQL(
+        $mysql = new Mysql(
             $fieldhandler,
             $database_prefix,
             $database
