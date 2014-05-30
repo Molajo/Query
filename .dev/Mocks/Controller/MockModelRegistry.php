@@ -25,6 +25,7 @@ class MockModelRegistry
         $model_registry['name']                             = 'Catalog';
         $model_registry['table_name']                       = '#__catalog';
         $model_registry['primary_key']                      = 'id';
+        $model_registry['name_key']                         = 'sef_request';
         $model_registry['primary_prefix']                   = 'a';
         $model_registry['get_customfields']                 = 0;
         $model_registry['get_item_children']                = 0;

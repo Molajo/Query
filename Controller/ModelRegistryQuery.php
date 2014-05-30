@@ -236,6 +236,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function setModelRegistrySQL()
     {
+        $this->setSelectDistinct();
         $this->setSelectColumns();
         $this->setFromTable();
         $this->setKeyCriteria();
@@ -254,6 +255,21 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
     /**
      * I. COLUMNS
      *
+     * Distinct Keyword - columns are added in setSelectColumns, if needed
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setSelectDistinct()
+    {
+        if ($this->model_registry['query_object'] === 'distinct') {
+            $this->setDistinct(true);
+        }
+
+        return $this;
+    }
+
+    /**
      * Create "select columns" statements when no columns have been specified
      *
      * @return  $this
@@ -261,16 +277,16 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function setSelectColumns()
     {
-        if ($this->useSelectColumns() === 0) {
+        if ($this->useSelectColumns() === false) {
             return $this;
         }
 
-        if ($this->model_registry['query_object'] == 'result') {
+        if ($this->model_registry['query_object'] === 'result') {
             return $this->setSelectColumnsResultQuery();
         }
 
-        if ($this->model_registry['query_object'] == 'distinct') {
-            $this->setSelectColumnsDistinctQuery();
+        if ($this->model_registry['query_object'] === 'distinct') {
+            return $this->setSelectColumnsDistinctQuery();
         }
 
         $this->setSelectColumnsModelRegistry();
@@ -286,11 +302,11 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function useSelectColumns()
     {
-        if (count($this->get('columns', array())) === 0) {
-            return false;
+        if (count($this->get('columns')) === 0) {
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -301,8 +317,9 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function setSelectColumnsResultQuery()
     {
-        if ((int)$this->model_registry['id'] > 0) {
+        if ((int)$this->model_registry['primary_key_value'] > 0) {
             $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
+
             return $this;
         }
 
@@ -319,7 +336,9 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function setSelectColumnsDistinctQuery()
     {
-        $this->setDistinct(true);
+        $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key']);
+
+        $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
 
         return $this;
     }
@@ -354,7 +373,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function setFromTable()
     {
-        if (count($this->get('from', array())) > 0) {
+        if ($this->useFromTable() === false) {
             return $this;
         }
 
@@ -364,6 +383,21 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
         $this->setFrom($table_name, $primary_prefix);
 
         return $this;
+    }
+
+    /**
+     * Determine whether or not to use the From Table Value
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    protected function useFromTable()
+    {
+        if (count($this->get('from', array())) > 0) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -558,7 +592,8 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function useJoinItemColumns($select)
     {
-        if ($this->model_registry['query_object'] === 'result') {
+        if ($this->model_registry['query_object'] === 'result'
+        || $this->model_registry['query_object'] === 'distinct') {
             return false;
         }
 

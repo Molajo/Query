@@ -178,6 +178,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
         if ($this->distinct === true) {
             return 'SELECT DISTINCT ';
         }
+
         return 'SELECT ';
     }
 
@@ -204,6 +205,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      * Generate SQL for Column Connector
      *
      * @param string $string
+     *
      * @return  string
      * @since   1.0
      */
@@ -282,6 +284,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      * @param string $field_name
      * @param string $literal
      * @param string $method
+     *
      * @return  string
      * @since   1.0
      */
@@ -472,6 +475,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
      * Generate SQL for Where Conditions
      *
      * @param string $group_string
+     *
      * @return  string
      * @since   1.0
      */

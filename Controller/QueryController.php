@@ -117,7 +117,7 @@ abstract class QueryController extends Controller implements QueryInterface
      */
     public function setDistinct($distinct = false)
     {
-        return $this->query->setDistinct($distinct);
+        $this->query->setDistinct($distinct);
     }
 
     /**

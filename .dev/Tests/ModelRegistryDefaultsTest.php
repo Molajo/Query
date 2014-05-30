@@ -57,7 +57,7 @@ class ModelRegistryDefaultsTest extends PHPUnit_Framework_TestCase
     {
         $model_registry = array();
 
-        $this->controller = new MockModelRegistryDefaults($model_registry);
+        $this->controller = new ModelRegistryDefaults($model_registry);
 
         $model_registry = $this->controller->setModelRegistryDefaults();
 

@@ -1,0 +1,9 @@
+SELECT `a`.`id`
+FROM `molajo_catalog` AS `a`
+WHERE `a`.`sef_request` = 'articles'
+AND `a`.`page_type` <> 'link'
+AND `a`.`enabled` = '1'
+AND `a`.`application_id` = '2'
+AND `a`.`enabled` = '1'
+AND `a`.`redirect_to_id` = ''
+
