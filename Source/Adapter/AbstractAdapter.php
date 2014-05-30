@@ -14,7 +14,6 @@ use CommonApi\Model\FieldhandlerInterface;
 use CommonApi\Query\QueryInterface;
 use DateTime;
 use Exception;
-use stdClass;
 
 /**
  * Abstract Query Adapter
@@ -381,6 +380,8 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Tests if a required value has been provided
      *
+     * @param string $column_name
+     * @param string $value
      * @return  string
      * @since   1.0
      */
@@ -415,8 +416,8 @@ abstract class AbstractAdapter implements QueryInterface
      * Edit Where
      *
      * @param   string $left
-     * @param   string $connector
      * @param   string $right
+     * @param string $condition
      *
      * @return  $this
      * @since   1.0
@@ -440,10 +441,10 @@ abstract class AbstractAdapter implements QueryInterface
      * Set or Filter Column
      *
      * @param   string $column_name
-     * @param   mixed  $value
+     * @param   string  $value
      * @param   string $filter
      *
-     * @return  mixed
+     * @return  null|string
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */

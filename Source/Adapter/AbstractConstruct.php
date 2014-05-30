@@ -57,7 +57,6 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     /**
      * Generate SQL
      *
-     * @param   null|string $sql
      *
      * @return  $this
      * @since   1.0
@@ -204,6 +203,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     /**
      * Generate SQL for Column Connector
      *
+     * @param string $string
      * @return  string
      * @since   1.0
      */
@@ -279,6 +279,9 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     /**
      * Generate SQL for Order By or Group By
      *
+     * @param string $field_name
+     * @param string $literal
+     * @param string $method
      * @return  string
      * @since   1.0
      */
@@ -368,7 +371,6 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     /**
      * Generate SQL for Where
      *
-     * @param   string $query
      *
      * @return  string
      * @since   1.0
@@ -469,6 +471,7 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     /**
      * Generate SQL for Where Conditions
      *
+     * @param string $group_string
      * @return  string
      * @since   1.0
      */

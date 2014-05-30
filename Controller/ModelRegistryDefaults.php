@@ -21,10 +21,10 @@ class ModelRegistryDefaults
     /**
      * Model Registry
      *
-     * @var    object
+     * @var    array
      * @since  1.0
      */
-    protected $model_registry = null;
+    protected $model_registry = array();
 
     /**
      * List of Valid Values for Query Object
@@ -70,7 +70,7 @@ class ModelRegistryDefaults
      * @since  1.0
      */
     public function __construct(
-        array $model_registry
+        array $model_registry = array()
     ) {
         $this->model_registry = $model_registry;
     }
@@ -98,11 +98,6 @@ class ModelRegistryDefaults
      */
     public function setModelRegistryBase()
     {
-        if (is_array($this->model_registry)) {
-        } else {
-            $this->model_registry = array();
-        }
-
         if (isset($this->model_registry['query_object'])) {
         } else {
             $this->model_registry['query_object'] = 'list';
@@ -176,7 +171,7 @@ class ModelRegistryDefaults
     /**
      * Get the Primary Key Value for the Model Registry
      *
-     * @return  $this
+     * @return  integer
      * @since   1.0
      */
     protected function getModelRegistryPrimaryKeyValue()
@@ -199,6 +194,7 @@ class ModelRegistryDefaults
     /**
      * Get the Primary Key Value for the Model Registry
      *
+     * @param integer $key
      * @return  $this
      * @since   1.0
      */
@@ -352,7 +348,6 @@ class ModelRegistryDefaults
      * Verify Property
      *
      * @param   string $property
-     * @param   mixed  $default
      *
      * @return  $this
      * @since   1.0.0
@@ -371,7 +366,6 @@ class ModelRegistryDefaults
      * Set Property
      *
      * @param   string $property
-     * @param   mixed  $default
      *
      * @return  $this
      * @since   1.0.0

@@ -98,7 +98,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * @param   string $data_type
      * @param   string $column_name
      *
-     * @return  object
+     * @return  string
      * @since   1.0
      */
     protected function selectColumn($data_type, $column_name)
@@ -115,8 +115,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     /**
      * Select Data Type
      *
-     * @param   string $data_type
-     * @param   object $item
+     * @param   string    $data_type
+     * @param   stdClass  $item
+     * @param null|string $value
      *
      * @return  object
      * @since   1.0
@@ -207,13 +208,11 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $connector = 'AND',
         $group = ''
     ) {
-        $this->editWhere($left_filter, $condition, $right);
+        $this->editWhere($left, $condition, $right);
 
-        $connector = $this->editConnector($connector);
-
-        $left  = $this->whereLeft('leftwhere', $left, $left_filter);
-        $right = $this->whereLeft('rightwhere', $right, $right_filter, $connector);
-
+        $connector     = $this->editConnector($connector);
+        $left          = $this->whereLeft($left, $left_filter);
+        $right         = $this->whereRight($right, $right_filter, $connector);
         $this->where[] = $this->buildItem($left, $condition, $right, $connector, $group);
 
         return $this;
@@ -222,17 +221,17 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     /**
      * Set Where Conditions for Left
      *
+     * @param   string $value
      * @param   string $filter
-     * @param   string $column
      *
-     * @return  $this
+     * @return  null|string
      * @since   1.0
      */
     public function whereLeft(
-        $filter = 'column',
-        $column = ''
+        $value,
+        $filter = 'column'
     ) {
-        return $this->setOrFilterColumn('leftwhere', $column, $filter);
+        return $this->setOrFilterColumn('leftwhere', $value, $filter);
     }
 
     /**
@@ -246,16 +245,16 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * @since   1.0
      */
     public function whereRight(
+        $value,
         $filter = 'column',
-        $column = '',
-        $condition = ''
+        $condition = '='
     ) {
         if (strtolower($condition) == 'in') {
-            $temp = $this->processInArray('rightwhere', $column, $filter);
+            $temp = $this->processInArray('rightwhere', $value, $filter);
             return explode(',', $temp);
         }
 
-        return $this->setOrFilterColumn('rightwhere', $column, $filter);
+        return $this->setOrFilterColumn('rightwhere', $value, $filter);
     }
 
     /**
@@ -343,7 +342,6 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * @param   string      $right
      * @param   string      $connector
      * @param   null|string $group
-     * @param   string      $array_name
      *
      * @return  stdClass
      * @since   1.0

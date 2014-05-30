@@ -25,7 +25,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
     /**
      * Model Registry
      *
-     * @var    object
+     * @var    array
      * @since  1.0
      */
     protected $model_registry = null;
@@ -231,7 +231,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
     /**
      * Build SQL from Model Registry
      *
-     * @return  string
+     * @return  ModelRegistryQuery
      * @since   1.0
      */
     protected function setModelRegistrySQL()
@@ -416,7 +416,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      *
      * @param   string               $key
      * @param   string               $filter
-     * @param   mixed|integer|string $key_value
+     * @param   string $key_value
      *
      * @return  $this
      * @since   1.0
@@ -766,7 +766,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      *
      * @param   array $item
      *
-     * @return  boolean
+     * @return  ModelRegistryQuery
      * @since   1.0.0
      */
     protected function setModelRegistryCriteriaArrayItem($item)
@@ -843,7 +843,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      *
      * @param   string $operator
      *
-     * @return  $this
+     * @return  string
      * @since   1.0
      */
     protected function setWhereOperator($operator)
@@ -905,7 +905,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      *
      * @param   string $join_item
      *
-     * @return  array
+     * @return  string[]
      * @since   1.0
      */
     protected function setWhereElementNumericValue($join_item)
@@ -919,7 +919,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      * @param   string $join_with_item_alias
      * @param   string $join_item
      *
-     * @return  array
+     * @return  string[]
      * @since   1.0
      */
     protected function setWhereElementTableColumn($join_with_item_alias, $join_item)

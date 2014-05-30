@@ -114,7 +114,7 @@ class ReadController extends ModelRegistryQuery implements ReadControllerInterfa
     /**
      * Process Pagination Item
      *
-     * @return  $this
+     * @return  boolean
      * @since   1.0
      */
     protected function processPaginationItem($item)
@@ -214,7 +214,7 @@ class ReadController extends ModelRegistryQuery implements ReadControllerInterfa
      *
      * @param  string $event_name
      *
-     * @return  array
+     * @return  ReadController
      * @since   1.0
      */
     protected function triggerEvent($event_name)

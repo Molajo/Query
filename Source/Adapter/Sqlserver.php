@@ -8,8 +8,6 @@
  */
 namespace Molajo\Query\Adapter;
 
-use CommonApi\Database\DatabaseInterface;
-use CommonApi\Model\FieldhandlerInterface;
 use CommonApi\Query\QueryInterface;
 
 /**

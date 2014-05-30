@@ -8,9 +8,7 @@
  */
 namespace Molajo\Model;
 
-use Exception;
 use CommonApi\Model\ReadModelInterface;
-use CommonApi\Exception\RuntimeException;
 
 /**
  * Read Model Class

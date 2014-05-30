@@ -8,7 +8,6 @@
  */
 namespace Molajo\Controller;
 
-use CommonApi\Model\ModelInterface;
 use CommonApi\Query\QueryInterface;
 
 /**
@@ -24,8 +23,6 @@ abstract class QueryController extends Controller implements QueryInterface
     /**
      * Set Default Values for SQL
      *
-     * @param   string $null_date
-     * @param   string $current_date
      *
      * @return  $this
      * @since   1.0
