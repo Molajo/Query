@@ -52,6 +52,7 @@ class ModelRegistryQueryTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItem
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemColumns
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhere
+     * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhereLoop
      * @covers  Molajo\Controller\ModelRegistryQuery::useJoinItemWhere
      * @covers  Molajo\Controller\ModelRegistryQuery::setModelCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::useModelCriteriaWhere
@@ -294,6 +295,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItem
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemColumns
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhere
+     * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhereLoop
      * @covers  Molajo\Controller\ModelRegistryQuery::useJoinItemWhere
      * @covers  Molajo\Controller\ModelRegistryQuery::setModelCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::useModelCriteriaWhere
@@ -680,6 +682,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItem
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemColumns
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhere
+     * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhereLoop
      * @covers  Molajo\Controller\ModelRegistryQuery::useJoinItemWhere
      * @covers  Molajo\Controller\ModelRegistryQuery::setModelCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::useModelCriteriaWhere
@@ -1108,6 +1111,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItem
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemColumns
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhere
+     * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhereLoop
      * @covers  Molajo\Controller\ModelRegistryQuery::useJoinItemWhere
      * @covers  Molajo\Controller\ModelRegistryQuery::setModelCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::useModelCriteriaWhere
@@ -1370,6 +1374,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItem
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemColumns
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhere
+     * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhereLoop
      * @covers  Molajo\Controller\ModelRegistryQuery::useJoinItemWhere
      * @covers  Molajo\Controller\ModelRegistryQuery::setModelCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::useModelCriteriaWhere
@@ -1622,6 +1627,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItem
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemColumns
      * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhere
+     * @covers  Molajo\Controller\ModelRegistryQuery::setJoinItemWhereLoop
      * @covers  Molajo\Controller\ModelRegistryQuery::useJoinItemWhere
      * @covers  Molajo\Controller\ModelRegistryQuery::setModelCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::useModelCriteriaWhere

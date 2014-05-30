@@ -620,17 +620,37 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function setJoinItemWhere($join_to, $join_with, $alias)
     {
-        $join_to_array   = explode(',', $join_to);
-        $join_with_array = explode(',', $join_with);
-
-        if ($this->useJoinItemWhere($join_to_array, $join_with_array) === false) {
+        if ($this->useJoinItemWhere($join_to, $join_with) === false) {
             return $this;
         }
 
-        $join_to_item_alias   = $alias;
-        $join_with_item_alias = $this->model_registry['primary_prefix'];
-        $operator             = '=';
+        $this->setJoinItemWhereLoop(
+            explode(',', $join_to),
+            $alias,
+            explode(',', $join_with),
+            $this->model_registry['primary_prefix'],
+            '='
+        );
 
+        return $this;
+    }
+
+    /**
+     * Process each Join Item Piar
+     *
+     * @param   string $join_to
+     * @param   string $join_with
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    protected function setJoinItemWhereLoop(
+        $join_to_array,
+        $join_to_item_alias,
+        $join_with_array,
+        $join_with_item_alias,
+        $operator)
+    {
         $i = 0;
         foreach ($join_to_array as $join_to_item) {
 
@@ -646,21 +666,22 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
 
             $i++;
         }
-
-        return $this;
     }
 
     /**
      * Use Join Item Where Statements?
      *
-     * @param   array $join_to_array
-     * @param   array $join_with_array
+     * @param   string $join_to
+     * @param   string $join_with
      *
      * @return  boolean
      * @since   1.0
      */
-    protected function useJoinItemWhere($join_to_array, $join_with_array)
+    protected function useJoinItemWhere($join_to, $join_with)
     {
+        $join_to_array   = explode(',', $join_to);
+        $join_with_array = explode(',', $join_with);
+
         if (count($join_to_array) === 0) {
             return false;
         }
