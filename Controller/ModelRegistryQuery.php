@@ -434,22 +434,21 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      */
     protected function useKeyCriteria()
     {
-        if ((int)$this->model_registry['primary_key_value'] > 0) {
+        $id   = $this->model_registry['primary_key_value'];
+        $name = $this->model_registry['name_key_value'];
+
+        if ((int)$id > 0 || trim($name) !== '') {
             return true;
         }
 
-        if (trim($this->model_registry['name_key_value']) == '') {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**
      * Set Where Statements: Key Provided
      *
-     * @param   string               $key
-     * @param   string               $filter
+     * @param   string $key
+     * @param   string $filter
      * @param   string $key_value
      *
      * @return  $this
@@ -590,14 +589,15 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      * @return  boolean
      * @since   1.0
      */
-    protected function useJoinItemColumns($select)
+    protected function useJoinItemColumns($select = '')
     {
-        if ($this->model_registry['query_object'] === 'result'
-        || $this->model_registry['query_object'] === 'distinct') {
+        if (trim($select) == '') {
             return false;
         }
 
-        if (trim($select) == '') {
+        if ($this->model_registry['query_object'] === 'result'
+            || $this->model_registry['query_object'] === 'distinct'
+        ) {
             return false;
         }
 

@@ -84,11 +84,14 @@ abstract class Model implements ModelInterface
      */
     public function get($key, $default = null)
     {
-        if ($this->$key === null) {
+        $value = $this->$key;
+
+        if ($value === null) {
             $this->$key = $default;
+            $value      = $this->$key;
         }
 
-        return $this->$key;
+        return $value;
     }
 
     /**

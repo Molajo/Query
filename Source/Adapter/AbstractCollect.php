@@ -119,7 +119,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * @param   stdClass  $item
      * @param null|string $value
      *
-     * @return  object
+     * @return  stdClass
      * @since   1.0
      */
     protected function selectDataType($item, $data_type, $value)
@@ -238,10 +238,10 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * Set Where Conditions for Right
      *
      * @param   string $filter
-     * @param   string $column
      * @param   string $condition
+     * @param string $value
      *
-     * @return  mixed
+     * @return  null|string
      * @since   1.0
      */
     public function whereRight(
