@@ -14,7 +14,7 @@ use CommonApi\Model\ModelInterface;
 use CommonApi\Query\QueryInterface;
 use Molajo\Database\MockDatabase;
 use Molajo\Model\ReadModel;
-use Molajo\Query\Adapter\MySql;
+use Molajo\Query\Adapter\Mysql;
 use Molajo\Fieldhandler\Request;
 use Molajo\Query\Driver as Query;
 
