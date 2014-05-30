@@ -424,42 +424,6 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
     }
 
     /**
-     * Generate SQL for Having Group
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function setSQLWhereGroup($string, $where, $where_group)
-    {
-        if (trim($where->group) == trim($where_group)) {
-
-            $string = $this->setSQLGroupBeginning($string, $where->connector);
-
-            $string .= $where->left . ' ' . strtoupper($where->condition);
-
-            if (strtolower($where->condition) == 'in') {
-                $in_string = '';
-
-                foreach ($where->right as $value) {
-
-                    if ($in_string == '') {
-                    } else {
-                        $in_string .= ', ';
-                    }
-
-                    $in_string .= $value;
-                }
-
-                $where->right = '(' . trim($in_string) . ')';
-            }
-
-            $string .= ' ' . $where->right;
-        }
-
-        return $string;
-    }
-
-    /**
      * Generate SQL for Group By
      *
      * @return  string
@@ -531,6 +495,42 @@ abstract class AbstractConstruct extends AbstractCollect implements QueryInterfa
         }
 
         return $group_string;
+    }
+
+    /**
+     * Generate SQL for Having Group
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setSQLWhereGroup($string, $where, $where_group)
+    {
+        if (trim($where->group) == trim($where_group)) {
+
+            $string = $this->setSQLGroupBeginning($string, $where->connector);
+
+            $string .= $where->left . ' ' . strtoupper($where->condition);
+
+            if (strtolower($where->condition) == 'in') {
+                $in_string = '';
+
+                foreach ($where->right as $value) {
+
+                    if ($in_string == '') {
+                    } else {
+                        $in_string .= ', ';
+                    }
+
+                    $in_string .= $value;
+                }
+
+                $where->right = '(' . trim($in_string) . ')';
+            }
+
+            $string .= ' ' . $where->right;
+        }
+
+        return $string;
     }
 
     /**
