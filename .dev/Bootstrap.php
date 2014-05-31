@@ -19,8 +19,10 @@ require_once $base . '/Source/QueryBuilderTrait.php';
 $classmap = array();
 $results  = createClassMap($base . '/Controller', 'Molajo\\Controller\\');
 $classmap = array_merge($classmap, $results);
-$results  = createClassMap($base . '/Model', 'Molajo\\Model\\');
+
+$results  = createClassMap($base . '/Source/Model', 'Molajo\\Query\\Model\\');
 $classmap = array_merge($classmap, $results);
+
 $results  = createClassMap($base . '/Resource/Adapter', 'Molajo\\Resource\\Adapter\\');
 $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/Resource/Api', 'Molajo\\Resource\\Api\\');
@@ -29,17 +31,24 @@ $results  = createClassMap($base . '/Resource/Configuration', 'Molajo\\Resource\
 $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/Resource/Factory', 'Molajo\\Resource\\Factory\\');
 $classmap = array_merge($classmap, $results);
+
 $results  = createClassMap($base . '/Source/Adapter', 'Molajo\\Query\\Adapter\\');
+$classmap = array_merge($classmap, $results);
+$results  = createClassMap($base . '/Source/Builder', 'Molajo\\Query\\Builder\\');
 $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/Source/Model', 'Molajo\\Query\\Model\\');
 $classmap = array_merge($classmap, $results);
-$results  = createClassMap($base . '/Source/Adapter', 'Molajo\\Query\\Sql\\');
-$classmap = array_merge($classmap, $results);
+
+$classmap['Molajo\\Query\\Builder'] = $base . '/Source/Builder.php';
+$classmap['Molajo\\Query\\ModelRegistryTrait'] = $base . '/Source/ModelRegistryTrait.php';
+$classmap['Molajo\\Query\\QueryBuilderTrait'] = $base . '/Source/QueryBuilderTrait.php';
+$classmap['Molajo\\Query\\Registry'] = $base . '/Source/Registry.php';
+
 $results  = createClassMap($base . '/.dev/Mocks/Controller', 'Molajo\\Controller\\');
 $classmap = array_merge($classmap, $results);
-$results  = createClassMap($base . '/.dev/Mocks/Fieldhandler', 'Molajo\\Fieldhandler\\');
-$classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/.dev/Mocks/Database', 'Molajo\\Database\\');
+$classmap = array_merge($classmap, $results);
+$results  = createClassMap($base . '/.dev/Mocks/Fieldhandler', 'Molajo\\Fieldhandler\\');
 $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/.dev/Mocks/Query', 'Molajo\\Query\\');
 $classmap = array_merge($classmap, $results);
