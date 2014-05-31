@@ -214,7 +214,7 @@ abstract class AbstractAdapter implements QueryInterface
      * @var    array
      * @since  1.0
      */
-    protected $query_type_array = array('insert', 'insertfrom', 'selelct', 'update', 'delete', 'exec');
+    protected $query_type_array = array('insert', 'insertfrom', 'select', 'update', 'delete', 'exec');
 
     /**
      * List of Controller Properties
@@ -355,25 +355,132 @@ abstract class AbstractAdapter implements QueryInterface
     }
 
     /**
+     * Generate array of column names, values, or name-value pairs
+     *
+     * @param   array   $input array of objects
+     * @param   boolean $get_value
+     * @param   boolean $get_column
+     * @param   boolean $use_alias
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getElementsArray(array $input, $get_value = true, $get_column = true, $use_alias = true)
+    {
+        $array = array();
+
+        foreach ($input as $item) {
+
+            $column_name = '';
+            $value       = 0;
+
+            if ($get_column === true) {
+                $column_name = $this->setColumnName($item->name);
+                $column_name .= $this->setColumnAlias($use_alias, $item->alias);
+            }
+
+            if ($get_value === true) {
+                $value = $this->setColumnValue($item->name, $item->value, $item->data_type);
+            }
+
+            if ($get_value === true && $get_column === true) {
+                $array[$column_name] = $value;
+
+            } elseif ($get_value === true) {
+                $array[] = $value;
+
+            } else {
+                $array[] = $column_name;
+            }
+        }
+
+        return $array;
+    }
+
+    /**
+     * Set Column Name
+     *
+     * @param   string $column_name
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setColumnName($column_name)
+    {
+        if (strpos($column_name, '.')) {
+            $temp   = explode('.', $column_name);
+            $column = $this->quoteNameAndPrefix($temp[1], $temp[0]);
+        } else {
+            $column = $this->quoteName($column_name);
+        }
+
+        return $column;
+    }
+
+    /**
+     * Set Column Alias
+     *
+     * @param   boolean $use_alias
+     * @param   string  $alias
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setColumnAlias($use_alias = false, $alias = null)
+    {
+        if ($alias === null) {
+            return '';
+        }
+
+        if ($use_alias === false) {
+            return '';
+        }
+
+        return ' AS ' . $this->quoteName($alias);
+    }
+
+    /**
+     * Prepare Column Value by filtering and escaping
+     *
+     * @param   string $column_name
+     * @param   mixed  $value
+     * @param   string $data_type
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setColumnValue($column_name, $value, $data_type)
+    {
+        $value = $this->setOrFilterColumn($column_name, $value, $data_type);
+
+        if (is_numeric($value)) {
+            return $value;
+        }
+
+        return $this->quoteValue($value);
+    }
+
+    /**
      * Edit Array
      *
-     * @param   array $columns
+     * @param   mixed   $array
+     * @param   string  $type
+     * @param   boolean $exception
      *
-     * @return  boolean
+     * @return  array
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function editArray(array $columns = array(), $type = 'columns', $exception = true)
+    protected function editArray($array, $type = 'columns', $exception = true)
     {
-        if (is_array($columns) && count($columns) > 0) {
-            return true;
+        if (is_array($array) && count($array) > 0) {
+            return $array;
         }
 
         if ($exception === true) {
-            throw new RuntimeException('Query-editColumnArray Method No ' . $type . ' provided.');
+            throw new RuntimeException('editArray Method: ' . $type . ' does not have data.');
         }
 
-        return false;
+        return array();
     }
 
     /**
@@ -384,8 +491,9 @@ abstract class AbstractAdapter implements QueryInterface
      *
      * @return  string
      * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function editDataType($data_type = null, $column_name = '')
+    protected function editDataType($data_type = null, $column_name = '')
     {
         if ($data_type === null) {
             throw new RuntimeException(
@@ -397,12 +505,14 @@ abstract class AbstractAdapter implements QueryInterface
     /**
      * Tests if a required value has been provided
      *
-     * @param string $column_name
-     * @param string $value
+     * @param   string $column_name
+     * @param   string $value
+     *
      * @return  string
      * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function editRequired($column_name, $value = null)
+    protected function editRequired($column_name, $value = null)
     {
         if (trim($value) === '' || $value === null) {
             throw new RuntimeException('Query: Value required for: ' . $column_name);
@@ -417,7 +527,7 @@ abstract class AbstractAdapter implements QueryInterface
      * @return  string
      * @since   1.0
      */
-    public function editConnector($connector)
+    protected function editConnector($connector = null)
     {
         $connector = strtoupper($connector);
 
@@ -430,16 +540,17 @@ abstract class AbstractAdapter implements QueryInterface
     }
 
     /**
-     * Edit Where
+     * Edit WHERE
      *
      * @param   string $left
      * @param   string $right
-     * @param string $condition
+     * @param   string $condition
      *
      * @return  $this
      * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function editWhere($left, $condition, $right)
+    protected function editWhere($left, $condition, $right)
     {
         if (trim($left) === ''
             || trim($condition) === ''
@@ -458,18 +569,14 @@ abstract class AbstractAdapter implements QueryInterface
      * Set or Filter Column
      *
      * @param   string $column_name
-     * @param   string  $value
+     * @param   string $value
      * @param   string $filter
      *
      * @return  null|string
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function setOrFilterColumn(
-        $column_name,
-        $value,
-        $filter
-    ) {
+    protected function setOrFilterColumn($column_name, $value, $filter)
+    {
         if (strtolower($filter) === 'column') {
             return $this->setColumnName($value);
         }
@@ -503,6 +610,7 @@ abstract class AbstractAdapter implements QueryInterface
     {
         if ($prefix === null || trim($prefix) === '') {
             $return_prefix = '';
+
         } else {
             $prefix        = $this->quoteName($prefix);
             $return_prefix = $prefix . '.';

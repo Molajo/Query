@@ -17,7 +17,7 @@ use CommonApi\Query\QueryInterface;
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-class Postgresql extends AbstractConstruct implements QueryInterface
+class Postgresql extends AbstractCollect implements QueryInterface
 {
     /**
      * Date Format

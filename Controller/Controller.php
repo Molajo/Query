@@ -23,14 +23,6 @@ use CommonApi\Query\QueryInterface;
 abstract class Controller implements ControllerInterface
 {
     /**
-     * Query Instance  CommonApi\Query\QueryInterface
-     *
-     * @var    object
-     * @since  1.0
-     */
-    protected $query;
-
-    /**
      * Model Instance  CommonApi\Model\ModelInterface
      *
      * @var    object
@@ -143,7 +135,6 @@ abstract class Controller implements ControllerInterface
     /**
      * Class Constructor
      *
-     * @param  QueryInterface $query
      * @param  ModelInterface $model
      * @param  array          $runtime_data
      * @param  array          $plugin_data
@@ -152,13 +143,11 @@ abstract class Controller implements ControllerInterface
      * @since  1.0
      */
     public function __construct(
-        QueryInterface $query,
         ModelInterface $model = null,
         $runtime_data = array(),
         $plugin_data = array(),
         callable $schedule_event = null
     ) {
-        $this->query          = $query;
         $this->model          = $model;
         $this->runtime_data   = $runtime_data;
         $this->plugin_data    = $plugin_data;

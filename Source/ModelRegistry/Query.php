@@ -1,28 +1,27 @@
 <?php
 /**
- * Query Controller Proxy
+ * Query Proxy
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Controller;
+namespace Molajo\ModelRegistry;
 
 use CommonApi\Query\QueryInterface;
 
 /**
- * Query Controller Proxy
+ * Query Proxy
  *
- * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class QueryController extends Controller implements QueryInterface
+abstract class Query extends Base implements QueryInterface
 {
     /**
      * Set Default Values for SQL
-     *
      *
      * @return  $this
      * @since   1.0

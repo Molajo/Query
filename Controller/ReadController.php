@@ -18,7 +18,7 @@ use CommonApi\Controller\ReadControllerInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class ReadController extends ModelRegistryQuery implements ReadControllerInterface
+class ReadController extends QueryBuilder implements ReadControllerInterface
 {
     /**
      * Process Rows Count

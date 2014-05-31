@@ -6,7 +6,7 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Controller;
+namespace Molajo\ModelRegistry;
 
 /**
  * Model Registry Defaults
@@ -16,16 +16,8 @@ namespace Molajo\Controller;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class ModelRegistryDefaults
+abstract class Defaults extends Columns
 {
-    /**
-     * Model Registry
-     *
-     * @var    array
-     * @since  1.0
-     */
-    protected $model_registry = array();
-
     /**
      * List of Valid Values for Query Object
      *
@@ -63,19 +55,6 @@ class ModelRegistryDefaults
         );
 
     /**
-     * Class Constructor
-     *
-     * @param  array $model_registry
-     *
-     * @since  1.0
-     */
-    public function __construct(
-        array $model_registry = array()
-    ) {
-        $this->model_registry = $model_registry;
-    }
-
-    /**
      * Set Default Values for Model Registry
      *
      * @return  $this
@@ -87,7 +66,7 @@ class ModelRegistryDefaults
             $this->$method();
         }
 
-        return $this->model_registry;
+        return $this;
     }
 
     /**
@@ -96,7 +75,7 @@ class ModelRegistryDefaults
      * @return  $this
      * @since   1.0
      */
-    public function setModelRegistryBase()
+    protected function setModelRegistryBase()
     {
         if (isset($this->model_registry['query_object'])) {
         } else {

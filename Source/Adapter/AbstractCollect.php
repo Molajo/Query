@@ -18,7 +18,7 @@ use stdClass;
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
+abstract class AbstractCollect extends AbstractConstruct implements QueryInterface
 {
     /**
      * Set Query Type
@@ -73,71 +73,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     public function select($column_name, $alias = null, $value = null, $data_type = null)
     {
         $this->editRequired('column_name', $column_name);
-
-        $column = $this->selectColumn($data_type, $column_name);
-
-        $item         = new stdClass();
-        $item->column = $column;
-
-        if ($alias === null || trim($alias) === '') {
-            $item->alias = null;
-        } else {
-            $item->alias = $this->quoteName($alias);
-        }
-
-        $item = $this->selectDataType($item, $data_type, $value);
-
-        $this->columns[$column_name] = $item;
+        $this->columns[$column_name] = $this->setItem($column_name, $data_type, $value, $alias);
 
         return $this;
-    }
-
-    /**
-     * Select Column
-     *
-     * @param   string $data_type
-     * @param   string $column_name
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function selectColumn($data_type, $column_name)
-    {
-        if ($data_type === 'special') {
-            $column = $column_name;
-        } else {
-            $column = $this->setColumnName($column_name);
-        }
-
-        return $column;
-    }
-
-    /**
-     * Select Data Type
-     *
-     * @param   string    $data_type
-     * @param   stdClass  $item
-     * @param null|string $value
-     *
-     * @return  stdClass
-     * @since   1.0
-     */
-    protected function selectDataType($item, $data_type, $value)
-    {
-        if ($data_type === null || trim($data_type) === '') {
-            $item->data_type = null;
-            $item->value     = null;
-
-        } elseif ($data_type === 'special') {
-            $item->data_type = $data_type;
-            $item->value     = $value;
-
-        } else {
-            $item->data_type = $data_type;
-            $item->value     = $this->filter($item->column, $value, $item->data_type);
-        }
-
-        return $item;
     }
 
     /**
@@ -152,36 +90,13 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     public function from($table_name, $alias = null)
     {
         $this->editRequired('table_name', $table_name);
-
-        $table = $this->quoteName($table_name);
-
-        if ($alias === null || trim($alias) === '') {
-        } else {
-            $table .= ' AS ' . $this->quoteName($alias);
-        }
-
-        $this->from[] = $table;
+        $this->from[$table_name] = $this->setItem($table_name, 'string', $table_name, $alias);
 
         return $this;
     }
 
     /**
-     * Create a grouping for having statements for 'and' or 'or' treatment between groups of conditions
-     *
-     * @param   string $group
-     * @param   string $group_connector
-     *
-     * @return  $this
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    public function havingGroup($group, $group_connector = 'AND')
-    {
-        return $this->setHavingWhereGroup($group, $group_connector, 'having');
-    }
-
-    /**
-     * Create a grouping for conditions for 'and' or 'or' treatment between groups of conditions
+     * Create a grouping for 'and' or 'or' groups of where conditions
      *
      * @param   string $group
      * @param   string $group_connector
@@ -191,28 +106,84 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      */
     public function whereGroup($group, $group_connector = 'AND')
     {
-        return $this->setHavingWhereGroup($group, $group_connector, 'where');
+        $this->where_group = $this->setGroup($group, $group_connector, 'where', $this->where_group);
+
+        return $this;
     }
 
     /**
-     * Create a grouping for having statements for 'and' or 'or' treatment between groups of conditions
+     * Create a grouping for 'and' or 'or' groups of having conditions
+     *
+     * @param   string $group
+     * @param   string $group_connector
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function havingGroup($group, $group_connector = 'AND')
+    {
+        $this->having_group = $this->setGroup($group, $group_connector, 'having', $this->having_group);
+
+        return $this;
+    }
+
+    /**
+     * Groups for 'and' or 'or' groups for both where and having
      *
      * @param   string $group
      * @param   string $group_connector
      * @param   string $type
+     * @param   array  $group_array
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function setGroup($group, $group_connector = 'AND', $type = 'where', array $group_array = array())
+    {
+        $this->editRequired('group', $group);
+
+        $group               = $this->filter($type, $group, 'string');
+        $group_connector     = $this->editConnector($group_connector);
+        $group_array[$group] = $group_connector;
+
+        return $group_array;
+    }
+
+    /**
+     * Set Where Conditions for Query
+     *
+     * @param   string      $left_filter
+     * @param   string      $left
+     * @param   string      $condition
+     * @param   string      $right_filter
+     * @param   string      $right
+     * @param   string      $connector
+     * @param   string|null $group
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function setHavingWhereGroup($group, $group_connector = 'AND', $type = 'where')
-    {
-        $this->editRequired('setHavingWhereGroup', $group);
+    public function where(
+        $left_filter = 'column',
+        $left = '',
+        $condition = '=',
+        $right_filter = 'column',
+        $right = '',
+        $connector = 'AND',
+        $group = ''
+    ) {
+        $item = $this->setLeftRightConditionals(
+            $left_filter,
+            $left,
+            $condition,
+            $right_filter,
+            $right,
+            $connector,
+            $group,
+            'where'
+        );
 
-        $group_connector = $this->editConnector($group_connector);
-
-        $property = $type . '_group';
-        $this->$property[$group] = $group_connector;
+        $this->where[] = $item;
 
         return $this;
     }
@@ -230,7 +201,6 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function having(
         $left_filter = 'column',
@@ -241,7 +211,7 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $connector = 'AND',
         $group = ''
     ) {
-        $this->having = $this->setWhereHaving(
+        $item = $this->setLeftRightConditionals(
             $left_filter,
             $left,
             $condition,
@@ -249,14 +219,16 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
             $right,
             $connector,
             $group,
-            $this->having
+            'having'
         );
+
+        $this->having[] = $item;
 
         return $this;
     }
 
     /**
-     * Set Where Conditions for Query
+     * Set Conditions for Query - used for Where and Having
      *
      * @param   string      $left_filter
      * @param   string      $left
@@ -264,13 +236,12 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * @param   string      $right_filter
      * @param   string      $right
      * @param   string      $connector
-     * @param   string|null $group
+     * @param   null|string $group
      *
-     * @return  $this
+     * @return  stdClass
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function where(
+    protected function setLeftRightConditionals(
         $left_filter = 'column',
         $left = '',
         $condition = '=',
@@ -279,118 +250,14 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $connector = 'AND',
         $group = ''
     ) {
-        $this->where = $this->setWhereHaving(
-            $left_filter,
-            $left,
-            $condition,
-            $right_filter,
-            $right,
-            $connector,
-            $group,
-            $this->where
-        );
-
-        return $this;
-    }
-
-    /**
-     * Set Where Conditions for Query (also used for having)
-     *
-     * @param   string      $left_filter
-     * @param   string      $left
-     * @param   string      $condition
-     * @param   string      $right_filter
-     * @param   string      $right
-     * @param   string      $connector
-     * @param   null|string $group
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function setWhereHaving(
-        $left_filter = 'column',
-        $left = '',
-        $condition = '=',
-        $right_filter = 'column',
-        $right = '',
-        $connector = 'AND',
-        $group = '',
-        array $type_array = array()
-    ) {
         $this->editWhere($left, $condition, $right);
 
-        $connector     = $this->editConnector($connector);
-        $left          = $this->setWhereHavingLeft($left, $left_filter);
-        $right         = $this->setWhereHavingRight($right, $right_filter, $connector);
-        $type_array[]  = $this->buildItem($left, $condition, $right, $connector, $group);
-
-        return $type_array;
-    }
-
-    /**
-     * Set Where Conditions for Left
-     *
-     * @param   mixed $value
-     * @param   string $filter
-     *
-     * @return  null|string
-     * @since   1.0
-     */
-    public function setWhereHavingLeft(
-        $value,
-        $filter = 'column'
-    ) {
-        return $this->setOrFilterColumn('leftwhere', $value, $filter);
-    }
-
-    /**
-     * Set Where Conditions for Right
-     *
-     * @param   mixed  $value
-     * @param   string $filter
-     * @param   string $condition
-     *
-     * @return  null|string
-     * @since   1.0
-     */
-    public function setWhereHavingRight(
-        $value,
-        $filter = 'column',
-        $condition = '='
-    ) {
-        if (strtolower($condition) === 'in') {
-            $temp = $this->processInArray('rightwhere', $value, $filter);
-            return explode(',', $temp);
-        }
-
-        return $this->setOrFilterColumn('rightwhere', $value, $filter);
-    }
-
-    /**
-     * Build Item for SQL Portions
-     *
-     * @param   mixed       $left
-     * @param   string      $condition
-     * @param   mixed       $right
-     * @param   string      $connector
-     * @param   null|string $group
-     *
-     * @return  stdClass
-     * @since   1.0
-     */
-    public function buildItem(
-        $left = '',
-        $condition = '=',
-        $right = '',
-        $connector = 'AND',
-        $group = null
-    ) {
-        $item            = new stdClass();
-        $item->left      = $left;
-        $item->condition = $condition;
-        $item->right     = $right;
-        $item->connector = $connector;
-        $item->group     = $group;
+        $item             = new stdClass();
+        $item->group      = (string) trim($group);
+        $item->left_item  = $this->setItem($left, $left_filter, $left);
+        $item->condition  = $condition;
+        $item->right_item = $this->setItem($right, $right_filter, $right, null, $condition);
+        $item->connector  = $this->editConnector($connector);
 
         return $item;
     }
@@ -398,18 +265,20 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     /**
      * Group By column name
      *
-     * @param   string      $column_name
+     * @param   string $column_name
      *
      * @return  $this
      * @since   1.0
      */
     public function groupBy($column_name)
     {
-        return $this->setGroupByOrderBy($column_name, 'group_by');
+        $this->group_by[] = $this->setGroupByOrderBy($column_name, 'group by');
+
+        return $this;
     }
 
     /**
-     * Order By column name and optional value for alias
+     * Order By column name
      *
      * @param   string      $column_name
      * @param   null|string $direction
@@ -419,7 +288,9 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      */
     public function orderBy($column_name, $direction = 'ASC')
     {
-        return $this->setGroupByOrderBy($column_name, 'order_by', $direction);
+        $this->order_by[] = $this->setGroupByOrderBy($column_name, 'order by', $direction);
+
+        return $this;
     }
 
     /**
@@ -429,59 +300,141 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
      * @param   string      $type
      * @param   null|string $direction
      *
-     * @return  $this
+     * @return  stdClass
      * @since   1.0
      */
-    public function setGroupByOrderBy($column_name, $type, $direction = 'ASC')
+    protected function setGroupByOrderBy($column_name, $type, $direction = 'ASC')
     {
         $this->editRequired('group by column_name', $column_name);
 
-        $column_name = $this->setColumnName($column_name);
+        $name_and_prefix = $this->setItemName($column_name);
 
-        if ($type === 'order_by') {
-            return $this->setGroupByOrderByFinishOrderBy($column_name, $direction);
+        $item         = new stdClass();
+        $item->name   = (string)$name_and_prefix['name'];
+        $item->prefix = (string)$name_and_prefix['prefix'];
+
+        if ($type === 'order by') {
+            $item->direction = $this->setDirection($direction);
         }
 
-        return $this->setGroupByOrderByFinishGroupBy($column_name);
+        return $item;
     }
 
     /**
-     * Finish Group By
+     * Set Direction
      *
-     * @param   string $column
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function setGroupByOrderByFinishGroupBy($column)
-    {
-        $this->group_by[] = $column;
-
-        return $this;
-    }
-
-    /**
-     * Finish Order By
-     *
-     * @param   string $column
      * @param   string $direction
      *
      * @return  $this
      * @since   1.0
      */
-    public function setGroupByOrderByFinishOrderBy($column, $direction)
+    protected function setDirection($direction = 'DESC')
     {
-        $direction = strtoupper(trim($direction));
+        $direction = strtoupper($direction);
 
-        if ($direction === 'DESC') {
-            $column = $column . ' ' . 'DESC';
-        } else {
-            $column = $column . ' ' . 'ASC';
+        if ($direction === 'ASC') {
+            return 'ASC';
         }
 
-        $this->order_by[] = $column;
+        return 'DESC';
+    }
 
-        return $this;
+    /**
+     * Set Item Object with Data
+     *
+     * @param   string      $name
+     * @param   null|string $data_type
+     * @param   null|string $value
+     * @param   null|string $alias
+     * @param   null|string $condition
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setItem($name, $data_type, $value = null, $alias = null, $condition = null)
+    {
+        $this->editRequired('name', $name);
+
+        $name_and_prefix = $this->setItemName($name);
+
+        $item            = new stdClass();
+        $item->name      = (string)$name_and_prefix['name'];
+        $item->prefix    = (string)$name_and_prefix['prefix'];
+        $item->data_type = (string)$this->setItemDataType($data_type);
+
+        if ($condition === 'in') {
+            $item->value = $this->setItemValueInDataType($value, $data_type);
+        } else {
+            $item->value = $this->filter($item->name, $value, $data_type);
+        }
+
+        if ($alias === null || trim($alias) === '') {
+            $item->alias = null;
+        } else {
+            $item->alias = (string)$alias;
+        }
+
+        return $item;
+    }
+
+    /**
+     * Set Item Column Name and Prefix
+     *
+     * @param   string $column_name
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setItemName($column_name)
+    {
+        if (strpos($column_name, '.')) {
+            $temp   = explode('.', $column_name);
+            $prefix = (string)$temp[0];
+            $prefix .= '.';
+            $column_name = (string)$temp[1];
+        } else {
+            $prefix = null;
+        }
+
+        return array('prefix' => $prefix, 'name' => $column_name);
+    }
+
+    /**
+     * Set the Item data type
+     *
+     * @param   string  $data_type
+     *
+     * @return  stdClass
+     * @since   1.0
+     */
+    protected function setItemDataType($data_type)
+    {
+        if ($data_type === null || trim($data_type) === '') {
+            $data_type = 'string';
+        }
+
+        return $data_type;
+    }
+
+    /**
+     * Set the Item Value for "In" Condition
+     *
+     * @param   null|string $value
+     * @param   string      $data_type
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function setItemValueInDataType($value, $data_type)
+    {
+        $in_array = explode(',', $value);
+        $value    = array();
+
+        foreach ($in_array as $value) {
+            $value[] = $this->filter('In array value', $value, $data_type);
+        }
+
+        return $value;
     }
 
     /**
@@ -504,13 +457,13 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
     /**
      * Set Offset or Limit
      *
-     * @param   int $offset
-     * @param   int $limit
+     * @param   integer $value
+     * @param   string  $type
      *
      * @return  $this
      * @since   1.0
      */
-    public function setOffsetorLimit($value, $type = 'offset')
+    protected function setOffsetorLimit($value, $type = 'offset')
     {
         if ((int)$value > 0) {
         } else {
@@ -526,53 +479,5 @@ abstract class AbstractCollect extends AbstractAdapter implements QueryInterface
         $this->$type = $value;
 
         return $this;
-    }
-
-    /**
-     * Handle Column Name
-     *
-     * @param   string $column_name
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function setColumnName($column_name)
-    {
-        if (strpos($column_name, '.')) {
-            $temp   = explode('.', $column_name);
-            $column = $this->quoteNameAndPrefix($temp[1], $temp[0]);
-        } else {
-            $column = $this->quoteName($column_name);
-        }
-
-        return $column;
-    }
-
-    /**
-     * Process Array of Values for IN condition
-     *
-     * @param string $name
-     * @param string $value_string
-     * @param string $filter
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function processInArray($name, $value_string, $filter)
-    {
-        if (is_array($value_string) && count($value_string) > 0) {
-            $temp         = implode(',', $value_string);
-            $value_string = $temp;
-        }
-
-        $filtered_array = array();
-
-        $temp = explode(',', $value_string);
-
-        foreach ($temp as $value) {
-            $filtered_array[] = $this->filter($name, trim($value), $filter);
-        }
-
-        return $filtered_array;
     }
 }

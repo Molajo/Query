@@ -1,407 +1,26 @@
 <?php
 /**
- * Model Registry Interface
+ * Model Registry Criteria Class
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Controller;
+namespace Molajo\ModelRegistry;
 
-use CommonApi\Controller\ModelRegistryInterface;
-use CommonApi\Model\ModelInterface;
-use CommonApi\Query\QueryInterface;
 
 /**
- * Model Registry Interface
+ * Model Registry Criteria Class
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class ModelRegistryQuery extends QueryController implements ModelRegistryInterface
+abstract class Criteria extends Query
 {
     /**
-     * Model Registry
-     *
-     * @var    array
-     * @since  1.0
-     */
-    protected $model_registry = null;
-
-    /**
-     * Query Object
-     *
-     * List, Item, Result, Distinct
-     *
-     * @var    string
-     * @since  1.0
-     */
-    protected $query_object;
-
-    /**
-     * Use Pagination
-     *
-     * @var    integer
-     * @since  1.0
-     */
-    protected $use_pagination;
-
-    /**
-     * Offset
-     *
-     * @var    integer
-     * @since  1.0
-     */
-    protected $offset;
-
-    /**
-     * Count
-     *
-     * @var    integer
-     * @since  1.0
-     */
-    protected $count;
-
-    /**
-     * Offset Count
-     *
-     * @var    integer
-     * @since  1.0
-     */
-    protected $offset_count;
-
-    /**
-     * Total
-     *
-     * @var    integer
-     * @since  1.0
-     */
-    protected $total;
-
-    /**
-     * Property Array
-     *
-     * @var    array
-     * @since  1.0
-     */
-    protected $query_where_property_array
-        = array(
-            'APPLICATION_ID'  => 'application_id',
-            'SITE_ID'         => 'site_id',
-            'MENU_ID'         => 'criteria_menu_id',
-            'CATALOG_TYPE_ID' => 'catalog_type_id',
-        );
-
-    /**
-     * Operator Array
-     *
-     * @var    array
-     * @since  1.0
-     */
-    protected $operator_array = array('=', '>=', '>', '<=', '<', '<>');
-
-    /**
-     * Class Constructor
-     *
-     * @param  QueryInterface $query
-     * @param  ModelInterface $model
-     * @param  array          $runtime_data
-     * @param  array          $plugin_data
-     * @param  callable       $schedule_event
-     * @param  array          $model_registry
-     *
-     * @since  1.0
-     */
-    public function __construct(
-        QueryInterface $query,
-        ModelInterface $model = null,
-        $runtime_data = array(),
-        $plugin_data = array(),
-        callable $schedule_event = null,
-        array $model_registry = array()
-    ) {
-        parent::__construct(
-            $query,
-            $model,
-            $runtime_data,
-            $plugin_data,
-            $schedule_event
-        );
-
-        $this->setDateProperties();
-        $this->setModelRegistryDefaults($model_registry);
-    }
-
-    /**
-     * Set Default Values for Model Registry
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setModelRegistryDefaults($model_registry)
-    {
-        $defaults = new ModelRegistryDefaults($model_registry);
-
-        $this->model_registry = $defaults->setModelRegistryDefaults();
-
-        return $this;
-    }
-
-    /**
-     * Get the value of a specified Model Registry Key
-     *
-     * @param   string $key
-     * @param   mixed  $default
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    public function getModelRegistry($key = null, $default = null)
-    {
-        if ($key === '*' || trim($key) === '' || $key === null) {
-            return $this->getModelRegistryAll();
-        }
-
-        return $this->getModelRegistryByKey($key, $default);
-    }
-
-    /**
-     * Get the value of a specified Model Registry Key
-     *
-     * @param   string $key
-     * @param   string $value
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function setModelRegistry($key, $value = null)
-    {
-        $this->model_registry[$key] = $value;
-
-        return $this;
-    }
-
-    /**
-     * Get the full contents of the Model Registry
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    protected function getModelRegistryAll()
-    {
-        return $this->model_registry;
-    }
-
-    /**
-     * Get the value of a specified Model Registry Key
-     *
-     * @param   string $key
-     * @param   mixed  $default
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    protected function getModelRegistryByKey($key = null, $default = null)
-    {
-        if (isset($this->model_registry[$key])) {
-        } else {
-            $this->model_registry[$key] = $default;
-        }
-
-        return $this->model_registry[$key];
-    }
-
-    /**
-     * Build SQL from Model Registry
-     *
-     * @return  string
-     * @since   1.0
-     */
-    public function getSQL($sql = null)
-    {
-        if ($sql === null) {
-            $this->setModelRegistrySQL();
-        }
-
-        return parent::getSQL($sql);
-    }
-
-    /**
-     * Build SQL from Model Registry
-     *
-     * @return  ModelRegistryQuery
-     * @since   1.0
-     */
-    protected function setModelRegistrySQL()
-    {
-        $this->setSelectDistinct();
-        $this->setSelectColumns();
-        $this->setFromTable();
-        $this->setKeyCriteria();
-        $this->setJoins();
-        $this->setModelCriteria();
-        $this->setModelCriteriaArrayCriteria();
-
-        $this->query_object   = $this->getModelRegistry('query_object');
-        $this->use_pagination = $this->getModelRegistry('use_pagination');
-        $this->offset         = $this->getModelRegistry('offset');
-        $this->count          = $this->getModelRegistry('count');
-
-        return $this;
-    }
-
-    /**
-     * I. COLUMNS
-     *
-     * Distinct Keyword - columns are added in setSelectColumns, if needed
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setSelectDistinct()
-    {
-        if ($this->model_registry['query_object'] === 'distinct') {
-            $this->setDistinct(true);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Create "select columns" statements when no columns have been specified
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setSelectColumns()
-    {
-        if ($this->useSelectColumns() === false) {
-            return $this;
-        }
-
-        if ($this->model_registry['query_object'] === 'result') {
-            return $this->setSelectColumnsResultQuery();
-        }
-
-        if ($this->model_registry['query_object'] === 'distinct') {
-            return $this->setSelectColumnsDistinctQuery();
-        }
-
-        $this->setSelectColumnsModelRegistry();
-
-        return $this;
-    }
-
-    /**
-     * Should Columns be used for Select List?
-     *
-     * @return  boolean
-     * @since   1.0
-     */
-    protected function useSelectColumns()
-    {
-        if (count($this->get('columns')) === 0) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Create "select columns" statements: Result Query
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setSelectColumnsResultQuery()
-    {
-        if ((int)$this->model_registry['primary_key_value'] > 0) {
-            $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
-
-            return $this;
-        }
-
-        $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key']);
-
-        return $this;
-    }
-
-    /**
-     * Create "select columns" statements: Distinct Query
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setSelectColumnsDistinctQuery()
-    {
-        $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key']);
-
-        $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
-
-        return $this;
-    }
-
-    /**
-     * Create "select columns" statements: Model Registry Columns
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setSelectColumnsModelRegistry()
-    {
-        if (count($this->model_registry['fields']) === 0) {
-            $this->setSelect($this->model_registry['primary_prefix'] . '.' . '*');
-
-        } else {
-            foreach ($this->model_registry['fields'] as $column) {
-                $this->setSelect($this->model_registry['primary_prefix'] . '.' . $column['name']);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * II. FROM TABLE
-     *
-     * Set From Table Value
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setFromTable()
-    {
-        if ($this->useFromTable() === false) {
-            return $this;
-        }
-
-        $primary_prefix = $this->model_registry['primary_prefix'];
-        $table_name     = $this->model_registry['table_name'];
-
-        $this->setFrom($table_name, $primary_prefix);
-
-        return $this;
-    }
-
-    /**
-     * Determine whether or not to use the From Table Value
-     *
-     * @return  boolean
-     * @since   1.0
-     */
-    protected function useFromTable()
-    {
-        if (count($this->get('from', array())) > 0) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * III. KEY CRITERIA
+     * I. KEY CRITERIA
      *
      * Set Where Statements for ID or Name Keys
      *
@@ -463,6 +82,8 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
             $filter,
             $this->model_registry[$key_value]
         );
+
+        return $this;
     }
 
     /**
@@ -816,7 +437,7 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
      *
      * @param   array $item
      *
-     * @return  ModelRegistryQuery
+     * @return  $this
      * @since   1.0.0
      */
     protected function setModelRegistryCriteriaArrayItem($item)
@@ -827,27 +448,6 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
         } elseif (isset($item['name2'])) {
             $this->setWhere('column', $item['name'], $item['connector'], 'column', $item['name2']);
         }
-
-        return $this;
-    }
-
-    /**
-     * Set Model Registry Limits
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setModelRegistryLimits()
-    {
-        if (count($this->model_registry['use_pagination']) === 0) {
-        } else {
-            return $this;
-        }
-
-        $this->setOffsetAndLimit(
-            $this->model_registry['offset'],
-            $this->model_registry['limit']
-        );
 
         return $this;
     }
@@ -975,64 +575,5 @@ class ModelRegistryQuery extends QueryController implements ModelRegistryInterfa
     protected function setWhereElementTableColumn($join_with_item_alias, $join_item)
     {
         return array('column', $join_with_item_alias . '.' . $join_item);
-    }
-
-    /**
-     * INTERACT WITH QUERY CLASS
-     *
-     * Used for select, insert, and update to specify column name, alias (optional)
-     *  For Insert and Update, only, value and data_type
-     *
-     * @param   string      $column_name
-     * @param   null|string $alias
-     * @param   null|string $value
-     * @param   null|string $data_type
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setSelect($column_name, $alias = null, $value = null, $data_type = null)
-    {
-        return $this->select($column_name, $alias, $value, $data_type);
-    }
-
-    /**
-     * Set From
-     *
-     * @param   string $table_name
-     * @param   mixed  $primary_prefix
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setFrom($table_name, $primary_prefix)
-    {
-        $this->from($table_name, $primary_prefix);
-
-        return $this;
-    }
-
-    /**
-     * Set Where Statement
-     *
-     * @param   string $join_to_filter
-     * @param   mixed  $join_to_value
-     * @param   string $operator
-     * @param   string $join_with_filter
-     * @param   mixed  $join_with_value
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setWhere(
-        $join_to_filter,
-        $join_to_value,
-        $operator,
-        $join_with_filter,
-        $join_with_value
-    ) {
-        $this->where($join_to_filter, $join_to_value, $operator, $join_with_filter, $join_with_value);
-
-        return $this;
     }
 }
