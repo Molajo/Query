@@ -18,7 +18,7 @@ use CommonApi\Controller\ReadControllerInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class ReadController extends QueryBuilder implements ReadControllerInterface
+class ReadController extends QueryController implements ReadControllerInterface
 {
     /**
      * Process Rows Count
@@ -40,7 +40,7 @@ class ReadController extends QueryBuilder implements ReadControllerInterface
         $this->triggerOnBeforeReadEvent();
 
         if (trim($this->sql) === '') {
-            $this->sql = $this->getSQL();
+            $this->sql = $this->getSql();
         }
 
         $this->runQuery();
@@ -92,6 +92,8 @@ class ReadController extends QueryBuilder implements ReadControllerInterface
     /**
      * Process Pagination Requirements
      *
+     * @param   array  $query_results
+     *
      * @return  $this
      * @since   1.0
      */
@@ -113,6 +115,8 @@ class ReadController extends QueryBuilder implements ReadControllerInterface
 
     /**
      * Process Pagination Item
+     *
+     * @param   object  $item
      *
      * @return  boolean
      * @since   1.0

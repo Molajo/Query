@@ -9,7 +9,7 @@
 namespace Molajo\Query\Adapter;
 
 use CommonApi\Query\QueryInterface;
-
+use Molajo\Query\Builder\Sql;
 /**
  * Sqlserver Query Handler
  *
@@ -17,7 +17,7 @@ use CommonApi\Query\QueryInterface;
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-class Sqlserver extends AbstractCollect implements QueryInterface
+class Sqlserver extends Sql implements QueryInterface
 {
     /**
      * Date Format

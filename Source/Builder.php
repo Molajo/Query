@@ -1,37 +1,99 @@
 <?php
 /**
- * Query Proxy
+ * Query Builder
  *
  * @package    Molajo
- * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
-namespace Molajo\ModelRegistry;
+namespace Molajo\Query;
 
 use CommonApi\Query\QueryInterface;
+use CommonApi\Query\ModelRegistryInterface;
 
 /**
- * Query Proxy
+ * Query Builder and Model Registry
  *
- * @author     Amy Stephen
- * @license    http://www.opensource.org/licenses/mit-license.html MIT License
+ * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
+ * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-abstract class Query extends Base implements QueryInterface
+trait Builder
 {
+    use Molajo\Query\RegistryTrait;
+
     /**
-     * Set Default Values for SQL
+     * Query Adapter
      *
-     * @return  $this
+     * @var     object  CommonApi\Query\QueryInterface
      * @since   1.0
      */
-    protected function setDateProperties()
-    {
-        $this->null_date    = $this->getNullDate();
-        $this->current_date = $this->getDate();
+    protected $qb;
 
-        return $this;
+    /**
+     * Model Registry
+     *
+     * @var     object  CommonApi\Query\ModelRegistryInterface
+     * @since   1.0
+     */
+    protected $mr;
+
+    /**
+     * Constructor
+     *
+     * @param  QueryInterface         $qb
+     * @param  ModelRegistryInterface $mr
+     *
+     * @since  1.0
+     */
+    public function __construct(
+        QueryInterface $qb,
+        ModelRegistryInterface $mr
+    ) {
+        $this->qb  = $qb;
+        $this->mr = $mr;
+    }
+
+    /**
+     * Get SQL (optionally setting the SQL)
+     *
+     * @param   null|string $sql
+     *
+     * @return  string
+     * @since   1.0
+     */
+    public function getSql($sql = null)
+    {
+        return $this->mr->getSql($sql);
+    }
+
+    /**
+     * Get the current value (or default) of the Model Registry
+     *
+     * @param   string $key
+     * @param   mixed  $default
+     *
+     * @return  mixed
+     * @since   1.0.0
+     */
+    public function getModelRegistry($key, $default = null)
+    {
+        return $this->mr->getSql($key, $default);
+    }
+
+    /**
+     * Set the value of the specified Model Registry
+     *
+     * @param   string $key
+     * @param   mixed  $value
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    public function setModelRegistry($key, $value = null)
+    {
+        return $this->mr->getSql($key, $value);
     }
 
     /**
@@ -42,11 +104,10 @@ abstract class Query extends Base implements QueryInterface
      *
      * @return  mixed
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function get($key, $default = null)
     {
-        return $this->query->get($key, $default);
+        return $this->qb->get($key, $default);
     }
 
     /**
@@ -57,7 +118,7 @@ abstract class Query extends Base implements QueryInterface
      */
     public function clearQuery()
     {
-        return $this->query->clearQuery();
+        return $this->qb->clearQuery();
     }
 
     /**
@@ -70,7 +131,7 @@ abstract class Query extends Base implements QueryInterface
      */
     public function setType($query_type = 'select')
     {
-        return $this->query->setType($query_type);
+        return $this->qb->setType($query_type);
     }
 
     /**
@@ -81,7 +142,7 @@ abstract class Query extends Base implements QueryInterface
      */
     public function getDateFormat()
     {
-        return $this->query->getDateFormat();
+        return $this->qb->getDateFormat();
     }
 
     /**
@@ -92,7 +153,7 @@ abstract class Query extends Base implements QueryInterface
      */
     public function getDate()
     {
-        return $this->query->getDate();
+        return $this->qb->getDate();
     }
 
     /**
@@ -103,7 +164,7 @@ abstract class Query extends Base implements QueryInterface
      */
     public function getNullDate()
     {
-        return $this->query->getNullDate();
+        return $this->qb->getNullDate();
     }
 
     /**
@@ -116,7 +177,7 @@ abstract class Query extends Base implements QueryInterface
      */
     public function setDistinct($distinct = false)
     {
-        $this->query->setDistinct($distinct);
+        return $this->qb->setDistinct($distinct);
     }
 
     /**
@@ -130,11 +191,10 @@ abstract class Query extends Base implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws \CommonApi\Exception\RuntimeException
      */
     public function select($column_name, $alias = null, $value = null, $data_type = null)
     {
-        return $this->query->select($column_name, $alias, $value, $data_type);
+        return $this->qb->select($column_name, $alias, $value, $data_type);
     }
 
     /**
@@ -145,11 +205,10 @@ abstract class Query extends Base implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function from($table_name, $alias = null)
     {
-        return $this->query->from($table_name, $alias);
+        return $this->qb->from($table_name, $alias);
     }
 
     /**
@@ -160,11 +219,10 @@ abstract class Query extends Base implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function whereGroup($group, $group_connector = 'and')
     {
-        return $this->query->whereGroup($group, $group_connector);
+        return $this->qb->whereGroup($group, $group_connector);
     }
 
     /**
@@ -180,7 +238,6 @@ abstract class Query extends Base implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function where(
         $left_filter = 'column',
@@ -191,20 +248,20 @@ abstract class Query extends Base implements QueryInterface
         $connector = 'AND',
         $group = null
     ) {
-        return $this->query->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
+        return $this->qb->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
     }
 
     /**
      * Group By column name
      *
-     * @param   string      $column_name
+     * @param   string $column_name
      *
      * @return  $this
      * @since   1.0
      */
     public function groupBy($column_name)
     {
-        return $this->query->groupBy($column_name);
+        return $this->qb->groupBy($column_name);
     }
 
     /**
@@ -215,11 +272,10 @@ abstract class Query extends Base implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function havingGroup($group, $group_connector = 'and')
     {
-        return $this->query->havingGroup($group, $group_connector);
+        return $this->qb->havingGroup($group, $group_connector);
     }
 
     /**
@@ -235,7 +291,6 @@ abstract class Query extends Base implements QueryInterface
      *
      * @return  $this
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     public function having(
         $left_filter = 'column',
@@ -246,7 +301,7 @@ abstract class Query extends Base implements QueryInterface
         $connector = 'AND',
         $group = null
     ) {
-        return $this->query->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
+        return $this->qb->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
     }
 
     /**
@@ -260,7 +315,7 @@ abstract class Query extends Base implements QueryInterface
      */
     public function orderBy($column_name, $direction = 'ASC')
     {
-        return $this->query->orderBy($column_name, $direction);
+        return $this->qb->orderBy($column_name, $direction);
     }
 
     /**
@@ -274,20 +329,6 @@ abstract class Query extends Base implements QueryInterface
      */
     public function setOffsetAndLimit($offset = 0, $limit = 15)
     {
-        return $this->query->setOffsetAndLimit($offset, $limit);
-    }
-
-    /**
-     * Get SQL (optionally setting the SQL)
-     *
-     * @param   null|string $sql
-     *
-     * @return  string
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    public function getSQL($sql = null)
-    {
-        return $this->query->getSQL($sql);
+        return $this->qb->setOffsetAndLimit($offset, $limit);
     }
 }

@@ -6,8 +6,7 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\ModelRegistry;
-
+namespace Molajo\Query\Model;
 
 /**
  * Model Registry Criteria Class
@@ -17,7 +16,7 @@ namespace Molajo\ModelRegistry;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class Criteria extends Query
+abstract class Criteria extends Columns
 {
     /**
      * I. KEY CRITERIA
@@ -29,38 +28,20 @@ abstract class Criteria extends Query
      */
     protected function setKeyCriteria()
     {
-        if ($this->useKeyCriteria() === false) {
+        $primary_key = $this->model_registry['primary_key_value'];
+        $name_key    = $this->model_registry['name_key_value'];
+
+        if ((int)$primary_key > 0) {
+            return $this->setWhereStatementsKeyValue('primary_key', 'integer', $primary_key);
+        }
+
+        if (trim($name_key) === '') {
             return $this;
         }
 
-        if ((int)$this->model_registry['primary_key_value'] > 0) {
-            $this->setWhereStatementsKeyValue('primary_key', 'integer', 'primary_key_value');
-
-        } elseif (trim($this->model_registry['name_key_value']) === '') {
-
-        } else {
-            $this->setWhereStatementsKeyValue('name_key', 'string', 'name_key_value');
-        }
+        $this->setWhereStatementsKeyValue('name_key', 'string', $name_key);
 
         return $this;
-    }
-
-    /**
-     * Use Key Values to set criteria?
-     *
-     * @return  boolean
-     * @since   1.0
-     */
-    protected function useKeyCriteria()
-    {
-        $id   = $this->model_registry['primary_key_value'];
-        $name = $this->model_registry['name_key_value'];
-
-        if ((int)$id > 0 || trim($name) !== '') {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -80,7 +61,7 @@ abstract class Criteria extends Query
             $this->model_registry['primary_prefix'] . '.' . $this->model_registry[$key],
             '=',
             $filter,
-            $this->model_registry[$key_value]
+            $key_value
         );
 
         return $this;

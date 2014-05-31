@@ -9,6 +9,7 @@
 namespace Molajo\Query\Adapter;
 
 use CommonApi\Query\QueryInterface;
+use Molajo\Query\Builder\Sql;
 
 /**
  * Sqllite Query Handler
@@ -17,7 +18,7 @@ use CommonApi\Query\QueryInterface;
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-class Sqllite extends AbstractCollect implements QueryInterface
+class Sqllite extends Sql implements QueryInterface
 {
     /**
      * Date Format

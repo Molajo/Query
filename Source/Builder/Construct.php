@@ -1,23 +1,21 @@
 <?php
 /**
- * Abstract Construct Query
+ * Abstract Construct Query Builder - SQL Class
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
-namespace Molajo\Query\Adapter;
-
-use CommonApi\Query\QueryInterface;
+namespace Molajo\Query\Builder;
 
 /**
- * Abstract Construct Query
+ * Abstract Construct Query Builder - SQL Class
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class AbstractConstruct extends AbstractGroups implements QueryInterface
+abstract class Sql extends Groups
 {
     /**
      * Get SQL - all values have been filtered and set, generate the full SQL statement, escaping data
@@ -27,7 +25,7 @@ abstract class AbstractConstruct extends AbstractGroups implements QueryInterfac
      * @return  string
      * @since   1.0
      */
-    public function getSQL($sql = null)
+    public function getSql($sql = null)
     {
         if ($sql === null || trim($sql) === '') {
             $this->generateSql();

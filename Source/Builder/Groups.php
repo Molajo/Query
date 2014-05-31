@@ -1,21 +1,21 @@
 <?php
 /**
- * Abstract Query Group Class
+ * Abstract Query Builder - Groups
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
-namespace Molajo\Query\Adapter;
+namespace Molajo\Query\Builder;
 
 /**
- * Abstract Query Group Class
+ * Abstract Query Builder - Groups
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class AbstractGroups extends AbstractAdapter
+abstract class Groups extends Collect
 {
     /**
      * Generate SQL for Group Elements: where and having
@@ -74,7 +74,9 @@ abstract class AbstractGroups extends AbstractAdapter
             return $type_group_array;
         }
 
-        return $this->setGroup('', 'AND', $type, $type_group_array);
+        $type_group_array[''] = 'AND';
+
+        return $type_group_array;
     }
 
     /**
@@ -125,7 +127,7 @@ abstract class AbstractGroups extends AbstractAdapter
         $sql .= ' ' . strtoupper($item->condition);
 
         if (strtolower($item->condition) === 'in') {
-            $sql .= ' ' . $this->getGroupItemInCondition($item->right_item);
+            $sql .= ' (' .  $this->getLoop($item->right_item, 0, 2) . ')';
         } else {
             $sql .= ' ' . $this->quoteValue($item->right_item);
         }
@@ -134,101 +136,58 @@ abstract class AbstractGroups extends AbstractAdapter
     }
 
     /**
-     * Generate SQL for IN (condition)
+     * Generate Data needed for SQL List
      *
-     * @param   array $values
+     * @param   array   $value_array
+     * @param   string  $key_value
+     * @param   string  $option
      *
      * @return  string
      * @since   1.0
      */
-    protected function getGroupItemInCondition(array $values = array())
+    protected function getLoop(array $value_array = array(), $key_value = 0, $option = 0)
     {
         $sql = '';
 
-        foreach ($values as $value) {
-            if ($sql === '') {
-            } else {
-                $sql .= ', ';
+        if ($key_value === 0) {
+            foreach ($value_array as $value) {
+                $sql .= $this->getLoopList($option, $sql, $value);
             }
+        } else {
+            foreach ($value_array as $key => $value) {
+                $sql .= $this->getLoopList($option, $sql, $value, $key);
+            }
+        }
 
+        return $sql;
+    }
+
+    /**
+     * Render the SQL
+     *
+     * @param   string  $option 1: comma delimited list 2: comma delimited quoted list 3: key=value
+     * @param   string  $sql
+     * @param   string  $value
+     * @param   string  $key
+     *
+     * @return  string
+     * @since   1.0.0
+     */
+    protected function getLoopList($option, $sql, $value, $key = null)
+    {
+        if ($sql === '') {
+        } else {
+            $sql .= ', ' . PHP_EOL;
+        }
+
+        if ($option === 1) {
+            $sql .= trim($value);
+        } elseif ($option === 2) {
             $sql .= $this->quoteValue($value);
+        } else {
+            $sql .= trim($key) . ' = ' . $value;
         }
 
-        return ' (' . trim($sql) . ')';
-    }
-
-    /**
-     * Generate SQL for Loop
-     *
-     * @param   array   $value_array
-     * @param   string  $type
-     * @param   bool    $exception
-     * @param   integer $template
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getLoop(array $value_array = array(), $type = 'where', $exception = false, $template = 1)
-    {
-        if ($this->editArray($value_array, $type, $exception) === false) {
-            return '';
-        };
-
-        if ($template === 1) {
-            return $this->getLoopCommaDelimitedList($value_array);
-        }
-
-        return $this->getLoopKeyEqualValuePairs($value_array);
-    }
-
-    /**
-     * Creates a comma delimited list of already escaped or filtered values
-     *  used for 'select', 'from', 'group by' and 'order by'
-     *
-     * @param   array $value_array
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getLoopCommaDelimitedList(array $value_array = array())
-    {
-        $query_string = '';
-
-        foreach ($value_array as $value) {
-
-            if ($query_string === '') {
-            } else {
-                $query_string .= ', ' . PHP_EOL;
-            }
-
-            $query_string .= trim($value);
-        }
-
-        return $query_string;
-    }
-
-    /**
-     * Creates a comma delimited list of already escaped and filtered values - used with Update
-     *
-     * @param   array $value_array
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getLoopKeyEqualValuePairs(array $value_array = array())
-    {
-        $query_string = '';
-
-        foreach ($value_array as $key => $value) {
-
-            if ($query_string === '') {
-            } else {
-                $query_string .= ', ' . PHP_EOL;
-            }
-
-            $query_string .= trim($key) . ' = ' . $value;
-        }
-
-        return $query_string;
+        return $sql;
     }
 }

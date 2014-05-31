@@ -145,7 +145,7 @@ class MockQueryController implements QueryInterface
 
     }
 
-    public function getSQL($sql = null)
+    public function getSql($sql = null)
     {
 
     }

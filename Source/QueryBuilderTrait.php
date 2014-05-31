@@ -1,6 +1,6 @@
 <?php
 /**
- * Query Driver
+ * Query Builder
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -8,36 +8,109 @@
  */
 namespace Molajo\Query;
 
-use CommonApi\Query\QueryInterface;
-
 /**
- * Adapter for Query
+ * Query Builder
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-class Driver implements QueryInterface
+trait QueryBuilderTrait
 {
     /**
-     * Query Adapter
+     * Query Builder
      *
      * @var     object  CommonApi\Query\QueryInterface
      * @since   1.0
      */
-    protected $adapter;
+    protected $qb;
 
     /**
-     * Constructor
+     * Query Object
      *
-     * @param  QueryInterface $adapter
+     * List, Item, Result, Distinct
      *
+     * @var    string
      * @since  1.0
      */
-    public function __construct(QueryInterface $adapter)
+    protected $query_object;
+
+    /**
+     * Use Pagination
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $use_pagination;
+
+    /**
+     * Offset
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $offset;
+
+    /**
+     * Limit
+     *
+     * @var    int
+     * @since  1.0
+     */
+    protected $limit = 0;
+
+    /**
+     * Offset Count
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $offset_count;
+
+    /**
+     * Total
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $total;
+
+    /**
+     * Date Format
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $date_format = '';
+
+    /**
+     * Null Date
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $null_date = '';
+
+    /**
+     * SQL
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $sql = '';
+
+    /**
+     * Get SQL (optionally setting the SQL)
+     *
+     * @param   null|string $sql
+     *
+     * @return  string
+     * @since   1.0
+     */
+    public function getSql($sql = null)
     {
-        $this->adapter = $adapter;
+        return $this->qb->getSql($sql);
     }
 
     /**
@@ -51,7 +124,7 @@ class Driver implements QueryInterface
      */
     public function get($key, $default = null)
     {
-        return $this->adapter->get($key, $default);
+        return $this->qb->get($key, $default);
     }
 
     /**
@@ -62,7 +135,7 @@ class Driver implements QueryInterface
      */
     public function clearQuery()
     {
-        return $this->adapter->clearQuery();
+        return $this->qb->clearQuery();
     }
 
     /**
@@ -75,7 +148,7 @@ class Driver implements QueryInterface
      */
     public function setType($query_type = 'select')
     {
-        return $this->adapter->setType($query_type);
+        return $this->qb->setType($query_type);
     }
 
     /**
@@ -86,7 +159,7 @@ class Driver implements QueryInterface
      */
     public function getDateFormat()
     {
-        return $this->adapter->getDateFormat();
+        return $this->qb->getDateFormat();
     }
 
     /**
@@ -97,7 +170,7 @@ class Driver implements QueryInterface
      */
     public function getDate()
     {
-        return $this->adapter->getDate();
+        return $this->qb->getDate();
     }
 
     /**
@@ -108,7 +181,7 @@ class Driver implements QueryInterface
      */
     public function getNullDate()
     {
-        return $this->adapter->getNullDate();
+        return $this->qb->getNullDate();
     }
 
     /**
@@ -121,7 +194,7 @@ class Driver implements QueryInterface
      */
     public function setDistinct($distinct = false)
     {
-        return $this->adapter->setDistinct($distinct);
+        return $this->qb->setDistinct($distinct);
     }
 
     /**
@@ -138,7 +211,7 @@ class Driver implements QueryInterface
      */
     public function select($column_name, $alias = null, $value = null, $data_type = null)
     {
-        return $this->adapter->select($column_name, $alias, $value, $data_type);
+        return $this->qb->select($column_name, $alias, $value, $data_type);
     }
 
     /**
@@ -152,7 +225,7 @@ class Driver implements QueryInterface
      */
     public function from($table_name, $alias = null)
     {
-        return $this->adapter->from($table_name, $alias);
+        return $this->qb->from($table_name, $alias);
     }
 
     /**
@@ -166,7 +239,7 @@ class Driver implements QueryInterface
      */
     public function whereGroup($group, $group_connector = 'and')
     {
-        return $this->adapter->whereGroup($group, $group_connector);
+        return $this->qb->whereGroup($group, $group_connector);
     }
 
     /**
@@ -192,20 +265,20 @@ class Driver implements QueryInterface
         $connector = 'AND',
         $group = null
     ) {
-        return $this->adapter->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
+        return $this->qb->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
     }
 
     /**
      * Group By column name
      *
-     * @param   string      $column_name
+     * @param   string $column_name
      *
      * @return  $this
      * @since   1.0
      */
     public function groupBy($column_name)
     {
-        return $this->adapter->groupBy($column_name);
+        return $this->qb->groupBy($column_name);
     }
 
     /**
@@ -219,7 +292,7 @@ class Driver implements QueryInterface
      */
     public function havingGroup($group, $group_connector = 'and')
     {
-        return $this->adapter->havingGroup($group, $group_connector);
+        return $this->qb->havingGroup($group, $group_connector);
     }
 
     /**
@@ -245,7 +318,7 @@ class Driver implements QueryInterface
         $connector = 'AND',
         $group = null
     ) {
-        return $this->adapter->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
+        return $this->qb->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
     }
 
     /**
@@ -259,7 +332,7 @@ class Driver implements QueryInterface
      */
     public function orderBy($column_name, $direction = 'ASC')
     {
-        return $this->adapter->orderBy($column_name, $direction);
+        return $this->qb->orderBy($column_name, $direction);
     }
 
     /**
@@ -273,19 +346,6 @@ class Driver implements QueryInterface
      */
     public function setOffsetAndLimit($offset = 0, $limit = 15)
     {
-        return $this->adapter->setOffsetAndLimit($offset, $limit);
-    }
-
-    /**
-     * Get SQL (optionally setting the SQL)
-     *
-     * @param   null|string $sql
-     *
-     * @return  string
-     * @since   1.0
-     */
-    public function getSQL($sql = null)
-    {
-        return $this->adapter->getSQL($sql);
+        return $this->qb->setOffsetAndLimit($offset, $limit);
     }
 }

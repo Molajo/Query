@@ -6,7 +6,7 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\ModelRegistry;
+namespace Molajo\Query\Model;
 
 use CommonApi\Query\QueryInterface;
 use CommonApi\Query\ModelRegistryInterface;
@@ -19,29 +19,8 @@ use CommonApi\Query\ModelRegistryInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class Builder extends Defaults implements ModelRegistryInterface
+class Registry extends Criteria implements ModelRegistryInterface
 {
-    /**
-     * Class Constructor
-     *
-     * @param  QueryInterface $query
-     * @param  array          $model_registry
-     *
-     * @since  1.0.0
-     */
-    public function __construct(
-        QueryInterface $query,
-        array $model_registry = array()
-    ) {
-        parent::__construct(
-            $query
-        );
-
-        $this->setDateProperties();
-
-        $this->setModelRegistryDefaults($model_registry);
-    }
-
     /**
      * Build SQL from Model Registry
      *
@@ -50,13 +29,37 @@ class Builder extends Defaults implements ModelRegistryInterface
      * @return  string
      * @since   1.0.0
      */
-    public function getSQL($sql = null)
+    public function getSql($sql = null)
     {
         if ($sql === null) {
             $this->setModelRegistrySQL();
         }
 
         return $sql;
+    }
+
+    /**
+     * Build SQL from Model Registry
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setModelRegistrySQL()
+    {
+        $this->setSelectDistinct();
+        $this->setSelectColumns();
+        $this->setFromTable();
+        $this->setKeyCriteria();
+        $this->setJoins();
+        $this->setModelCriteria();
+        $this->setModelCriteriaArrayCriteria();
+
+        $this->query_object   = $this->getModelRegistry('query_object');
+        $this->use_pagination = $this->getModelRegistry('use_pagination');
+        $this->offset         = $this->getModelRegistry('offset');
+        $this->count          = $this->getModelRegistry('count');
+
+        return $this;
     }
 
     /**
@@ -94,47 +97,32 @@ class Builder extends Defaults implements ModelRegistryInterface
     }
 
     /**
-     * Build SQL from Model Registry
+     * Get the full contents of the Model Registry
      *
-     * @return  $this
+     * @return  mixed
      * @since   1.0
      */
-    protected function setModelRegistrySQL()
+    protected function getModelRegistryAll()
     {
-        $this->setSelectDistinct();
-        $this->setSelectColumns();
-        $this->setFromTable();
-        $this->setKeyCriteria();
-        $this->setJoins();
-        $this->setModelCriteria();
-        $this->setModelCriteriaArrayCriteria();
-
-        $this->query_object   = $this->getModelRegistry('query_object');
-        $this->use_pagination = $this->getModelRegistry('use_pagination');
-        $this->offset         = $this->getModelRegistry('offset');
-        $this->count          = $this->getModelRegistry('count');
-
-        return $this;
+        return $this->model_registry;
     }
 
     /**
-     * Set Model Registry Limits
+     * Get the value of a specified Model Registry Key
      *
-     * @return  $this
+     * @param   string $key
+     * @param   mixed  $default
+     *
+     * @return  mixed
      * @since   1.0
      */
-    protected function setModelRegistryLimits()
+    protected function getModelRegistryByKey($key = null, $default = null)
     {
-        if (count($this->model_registry['use_pagination']) === 0) {
+        if (isset($this->model_registry[$key])) {
         } else {
-            return $this;
+            $this->model_registry[$key] = $default;
         }
 
-        $this->setOffsetAndLimit(
-            $this->model_registry['offset'],
-            $this->model_registry['limit']
-        );
-
-        return $this;
+        return $this->model_registry[$key];
     }
 }

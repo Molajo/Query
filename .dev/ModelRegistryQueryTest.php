@@ -104,7 +104,7 @@ class ModelRegistryQueryTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\QueryController::having
      * @covers  Molajo\Controller\QueryController::orderBy
      * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
-     * @covers  Molajo\Controller\QueryController::getSQL
+     * @covers  Molajo\Controller\QueryController::getSql
      *
      * @covers  Molajo\Controller\Controller::__construct
      * @covers  Molajo\Controller\Controller::getValue
@@ -128,7 +128,7 @@ class ModelRegistryQueryTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Driver::having
      * @covers  Molajo\Query\Driver::orderBy
      * @covers  Molajo\Query\Driver::setOffsetAndLimit
-     * @covers  Molajo\Query\Driver::getSQL
+     * @covers  Molajo\Query\Driver::getSql
      *
      * @covers  Molajo\Query\Adapter\AbstractAdapter::__construct
      * @covers  Molajo\Query\Adapter\AbstractAdapter::get
@@ -166,8 +166,8 @@ class ModelRegistryQueryTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\AbstractCollect::processInArray
      *
      * @covers  Molajo\Query\Adapter\AbstractConstruct::__construct
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQL
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQLExternal
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSql
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSqlExternal
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsert
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertColumns
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertValues
@@ -260,7 +260,7 @@ class ModelRegistryQueryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(15, $model_registry['model_count']);
         $this->assertEquals(1, $model_registry['use_pagination']);
 
-        $sql = $this->controller->getSQL();
+        $sql = $this->controller->getSql();
 
         $expected_sql
             = 'SELECT `a`.*
@@ -347,7 +347,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\QueryController::having
      * @covers  Molajo\Controller\QueryController::orderBy
      * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
-     * @covers  Molajo\Controller\QueryController::getSQL
+     * @covers  Molajo\Controller\QueryController::getSql
      *
      * @covers  Molajo\Controller\Controller::__construct
      * @covers  Molajo\Controller\Controller::getValue
@@ -371,7 +371,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Query\Driver::having
      * @covers  Molajo\Query\Driver::orderBy
      * @covers  Molajo\Query\Driver::setOffsetAndLimit
-     * @covers  Molajo\Query\Driver::getSQL
+     * @covers  Molajo\Query\Driver::getSql
      *
      * @covers  Molajo\Query\Adapter\AbstractAdapter::__construct
      * @covers  Molajo\Query\Adapter\AbstractAdapter::get
@@ -409,8 +409,8 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Query\Adapter\AbstractCollect::processInArray
      *
      * @covers  Molajo\Query\Adapter\AbstractConstruct::__construct
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQL
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQLExternal
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSql
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSqlExternal
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsert
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertColumns
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertValues
@@ -650,7 +650,7 @@ FROM `molajo_content` AS `a`
         $this->assertEquals('Datasource', $model_registry['children']['1']['type']);
         $this->assertEquals('catalog_id', $model_registry['children']['1']['join']);
 
-        $sql = $this->controller->getSQL();
+        $sql = $this->controller->getSql();
 //file_put_contents(__DIR__ . '/expected.txt', $sql);
 
         $this->assertEquals(file_get_contents(__DIR__ . '/expected.txt'), $sql);
@@ -734,7 +734,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\QueryController::having
      * @covers  Molajo\Controller\QueryController::orderBy
      * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
-     * @covers  Molajo\Controller\QueryController::getSQL
+     * @covers  Molajo\Controller\QueryController::getSql
      *
      * @covers  Molajo\Controller\Controller::__construct
      * @covers  Molajo\Controller\Controller::getValue
@@ -758,7 +758,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Query\Driver::having
      * @covers  Molajo\Query\Driver::orderBy
      * @covers  Molajo\Query\Driver::setOffsetAndLimit
-     * @covers  Molajo\Query\Driver::getSQL
+     * @covers  Molajo\Query\Driver::getSql
      *
      * @covers  Molajo\Query\Adapter\AbstractAdapter::__construct
      * @covers  Molajo\Query\Adapter\AbstractAdapter::get
@@ -796,8 +796,8 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Query\Adapter\AbstractCollect::processInArray
      *
      * @covers  Molajo\Query\Adapter\AbstractConstruct::__construct
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQL
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQLExternal
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSql
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSqlExternal
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsert
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertColumns
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertValues
@@ -1079,7 +1079,7 @@ FROM `molajo_content` AS `a`
 //todo: fix application issue
         );
 
-        $sql = $this->controller->getSQL();
+        $sql = $this->controller->getSql();
 //file_put_contents(__DIR__ . '/expectedRoute.txt', $sql);
 
         $this->assertEquals(file_get_contents(__DIR__ . '/expectedRoute.txt'), $sql);
@@ -1163,7 +1163,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\QueryController::having
      * @covers  Molajo\Controller\QueryController::orderBy
      * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
-     * @covers  Molajo\Controller\QueryController::getSQL
+     * @covers  Molajo\Controller\QueryController::getSql
      *
      * @covers  Molajo\Controller\Controller::__construct
      * @covers  Molajo\Controller\Controller::getValue
@@ -1187,7 +1187,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Query\Driver::having
      * @covers  Molajo\Query\Driver::orderBy
      * @covers  Molajo\Query\Driver::setOffsetAndLimit
-     * @covers  Molajo\Query\Driver::getSQL
+     * @covers  Molajo\Query\Driver::getSql
      *
      * @covers  Molajo\Query\Adapter\AbstractAdapter::__construct
      * @covers  Molajo\Query\Adapter\AbstractAdapter::get
@@ -1225,8 +1225,8 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Query\Adapter\AbstractCollect::processInArray
      *
      * @covers  Molajo\Query\Adapter\AbstractConstruct::__construct
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQL
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQLExternal
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSql
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSqlExternal
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsert
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertColumns
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertValues
@@ -1341,7 +1341,7 @@ FROM `molajo_content` AS `a`
         $model_registry = $this->controller->getModelRegistry();
         $this->assertEquals('result', $model_registry['query_object']);
 
-        $sql = $this->controller->getSQL();
+        $sql = $this->controller->getSql();
 file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
 
         $this->assertEquals(file_get_contents(__DIR__ . '/expectedResult.txt'), $sql);
@@ -1426,7 +1426,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
      * @covers  Molajo\Controller\QueryController::having
      * @covers  Molajo\Controller\QueryController::orderBy
      * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
-     * @covers  Molajo\Controller\QueryController::getSQL
+     * @covers  Molajo\Controller\QueryController::getSql
      *
      * @covers  Molajo\Controller\Controller::__construct
      * @covers  Molajo\Controller\Controller::getValue
@@ -1450,7 +1450,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
      * @covers  Molajo\Query\Driver::having
      * @covers  Molajo\Query\Driver::orderBy
      * @covers  Molajo\Query\Driver::setOffsetAndLimit
-     * @covers  Molajo\Query\Driver::getSQL
+     * @covers  Molajo\Query\Driver::getSql
      *
      * @covers  Molajo\Query\Adapter\AbstractAdapter::__construct
      * @covers  Molajo\Query\Adapter\AbstractAdapter::get
@@ -1488,8 +1488,8 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
      * @covers  Molajo\Query\Adapter\AbstractCollect::processInArray
      *
      * @covers  Molajo\Query\Adapter\AbstractConstruct::__construct
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQL
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQLExternal
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSql
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSqlExternal
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsert
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertColumns
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertValues
@@ -1595,7 +1595,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
         $model_registry = $this->controller->getModelRegistry();
         $this->assertEquals('distinct', $model_registry['query_object']);
 
-        $sql = $this->controller->getSQL();
+        $sql = $this->controller->getSql();
 //file_put_contents(__DIR__ . '/expectedDistinct.txt', $sql);
 
         $this->assertEquals(file_get_contents(__DIR__ . '/expectedDistinct.txt'), $sql);
@@ -1679,7 +1679,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
      * @covers  Molajo\Controller\QueryController::having
      * @covers  Molajo\Controller\QueryController::orderBy
      * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
-     * @covers  Molajo\Controller\QueryController::getSQL
+     * @covers  Molajo\Controller\QueryController::getSql
      *
      * @covers  Molajo\Controller\Controller::__construct
      * @covers  Molajo\Controller\Controller::getValue
@@ -1703,7 +1703,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
      * @covers  Molajo\Query\Driver::having
      * @covers  Molajo\Query\Driver::orderBy
      * @covers  Molajo\Query\Driver::setOffsetAndLimit
-     * @covers  Molajo\Query\Driver::getSQL
+     * @covers  Molajo\Query\Driver::getSql
      *
      * @covers  Molajo\Query\Adapter\AbstractAdapter::__construct
      * @covers  Molajo\Query\Adapter\AbstractAdapter::get
@@ -1741,8 +1741,8 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
      * @covers  Molajo\Query\Adapter\AbstractCollect::processInArray
      *
      * @covers  Molajo\Query\Adapter\AbstractConstruct::__construct
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQL
-     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSQLExternal
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSql
+     * @covers  Molajo\Query\Adapter\AbstractConstruct::getSqlExternal
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsert
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertColumns
      * @covers  Molajo\Query\Adapter\AbstractConstruct::setSQLInsertValues
@@ -1840,7 +1840,7 @@ file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
         $model_registry = $this->controller->getModelRegistry();
         $this->assertEquals('distinct', $model_registry['query_object']);
 
-        $sql = $this->controller->getSQL();
+        $sql = $this->controller->getSql();
 //file_put_contents(__DIR__ . '/expectedNoColumns.txt', $sql);
 
         $this->assertEquals(file_get_contents(__DIR__ . '/expectedNoColumns.txt'), $sql);

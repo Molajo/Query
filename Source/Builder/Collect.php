@@ -1,12 +1,12 @@
 <?php
 /**
- * Abstract Collect Query Elements
+ * Abstract Query Builder Collect
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
-namespace Molajo\Query\Adapter;
+namespace Molajo\Query\Builder;
 
 use CommonApi\Query\QueryInterface;
 use stdClass;
@@ -18,8 +18,26 @@ use stdClass;
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class AbstractCollect extends AbstractConstruct implements QueryInterface
+abstract class Collect extends Edits implements QueryInterface
 {
+    /**
+     * Get SQL (optionally setting the SQL)
+     *
+     * @param   null|string $sql
+     *
+     * @return  string
+     * @since   1.0
+     */
+    public function getSql($sql = null)
+    {
+        if ($sql === null) {
+        } else {
+            $this->sql = $sql;
+        }
+
+        return $this->sql;
+    }
+
     /**
      * Set Query Type
      *

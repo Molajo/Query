@@ -1,23 +1,56 @@
 <?php
 /**
- * Model Registry Defaults
+ * Model Registry Base
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\ModelRegistry;
+namespace Molajo\Query\Model;
+
+use CommonApi\Query\ModelRegistryInterface;
 
 /**
- * Model Registry Defaults
+ * Model Registry Base
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class Defaults extends Columns
+abstract class Base
 {
+    /**
+     * Model Registry
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $model_registry = null;
+
+    /**
+     * Property Array
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $query_where_property_array
+        = array(
+            'APPLICATION_ID'  => 'application_id',
+            'SITE_ID'         => 'site_id',
+            'MENU_ID'         => 'criteria_menu_id',
+            'CATALOG_TYPE_ID' => 'catalog_type_id',
+        );
+
+    /**
+     * Operator Array
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $operator_array = array('=', '>=', '>', '<=', '<', '<>');
+
+
     /**
      * List of Valid Values for Query Object
      *
@@ -55,13 +88,30 @@ abstract class Defaults extends Columns
         );
 
     /**
+     * Class Constructor
+     *
+     * @param  array  $model_registry
+     *
+     * @since  1.0.0
+     */
+    public function __construct(
+        array $model_registry = array()
+    ) {
+        $this->setModelRegistryDefaults($model_registry);
+    }
+
+    /**
      * Set Default Values for Model Registry
      *
+     * @param   array  $model_registry
+     *
      * @return  $this
-     * @since   1.0
+     * @since   1.0.0
      */
-    public function setModelRegistryDefaults()
+    public function setModelRegistryDefaults($model_registry)
     {
+        $this->model_registry = $model_registry;
+
         foreach ($this->method_array as $method) {
             $this->$method();
         }

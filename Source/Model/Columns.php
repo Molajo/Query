@@ -6,7 +6,7 @@
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  */
-namespace Molajo\ModelRegistry;
+namespace Molajo\Query\Model;
 
 /**
  * Model Registry Columns
@@ -16,7 +16,7 @@ namespace Molajo\ModelRegistry;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class Columns extends Criteria
+abstract class Columns extends Query
 {
     /**
      * Create "select columns" statements when no columns have been specified
@@ -147,5 +147,23 @@ abstract class Columns extends Criteria
         }
 
         return true;
+    }
+
+    /**
+     * Set Model Registry Limits
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setModelRegistryLimits()
+    {
+        if (count($this->model_registry['use_pagination']) === 0) {
+        } else {
+            return $this;
+        }
+
+        $this->setOffsetAndLimit($this->model_registry['offset'], $this->model_registry['limit']);
+
+        return $this;
     }
 }

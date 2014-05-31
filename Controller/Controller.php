@@ -10,7 +10,6 @@ namespace Molajo\Controller;
 
 use CommonApi\Controller\ControllerInterface;
 use CommonApi\Model\ModelInterface;
-use CommonApi\Query\QueryInterface;
 
 /**
  * Abstract Controller Class
