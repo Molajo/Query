@@ -27,7 +27,7 @@ class QueryController extends ReadController implements QueryInterface, ModelReg
      * @var     object  Molajo\Query\QueryBuilderTrait
      * @since   1.0.0
      */
-    use Molajo\Query\QueryBuilderTrait;
+    use \Molajo\Query\QueryBuilderTrait;
 
     /**
      * Model Registry Trait
@@ -35,7 +35,7 @@ class QueryController extends ReadController implements QueryInterface, ModelReg
      * @var     object  Molajo\Query\ModelRegistryTrait
      * @since   1.0.0
      */
-    use Molajo\Query\ModelRegistryTrait;
+    use \Molajo\Query\ModelRegistryTrait;
 
     /**
      * Class Constructor

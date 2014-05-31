@@ -20,7 +20,7 @@ use CommonApi\Query\QueryInterface;
  */
 abstract class Query extends Base implements QueryInterface
 {
-    use Molajo\Query\QueryBuilderTrait;
+    use \Molajo\Query\QueryBuilderTrait;
 
     /**
      * Class Constructor

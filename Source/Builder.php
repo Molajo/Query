@@ -21,7 +21,7 @@ use CommonApi\Query\ModelRegistryInterface;
  */
 trait Builder
 {
-    use Molajo\Query\RegistryTrait;
+    use \Molajo\Query\RegistryTrait;
 
     /**
      * Query Adapter

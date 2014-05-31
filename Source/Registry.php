@@ -26,7 +26,7 @@ class Registry
      * @var     object  Molajo\Query\ModelRegistryTrait
      * @since   1.0
      */
-    use ModelRegistryTrait;
+    use \Molajo\Query\ModelRegistryTrait;
 
     /**
      * Constructor
