@@ -9,7 +9,6 @@
 namespace Molajo\Model;
 
 use CommonApi\Database\DatabaseInterface;
-use CommonApi\Exception\RuntimeException;
 use CommonApi\Model\ModelInterface;
 
 /**
