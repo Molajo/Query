@@ -19,7 +19,7 @@ use CommonApi\Query\QueryInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class QueryController extends ReadController implements QueryInterface, ModelRegistryInterface
+class QueryController extends Controller implements QueryInterface, ModelRegistryInterface
 {
     /**
      * Query Builder Trait
