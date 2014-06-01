@@ -14,6 +14,8 @@ use CommonApi\Query\ModelRegistryInterface;
 /**
  * Model Registry Query Builder
  *
+ * Base - Query - Filters - Utilities - Defaults - Columns - Criteria - Registry
+ *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -22,44 +24,18 @@ use CommonApi\Query\ModelRegistryInterface;
 class Registry extends Criteria implements ModelRegistryInterface
 {
     /**
-     * Build SQL from Model Registry
+     * Class Constructor
      *
-     * @param   string $sql
+     * @param  QueryInterface $qb
+     * @param  array          $model_registry
      *
-     * @return  string
-     * @since   1.0.0
+     * @since  1.0.0
      */
-    public function getSql($sql = null)
+    public function __construct(
+        QueryInterface $qb,
+        $model_registry)
     {
-        if ($sql === null) {
-            $this->setModelRegistrySQL();
-        }
-
-        return $sql;
-    }
-
-    /**
-     * Build SQL from Model Registry
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setModelRegistrySQL()
-    {
-        $this->setSelectDistinct();
-        $this->setSelectColumns();
-        $this->setFromTable();
-        $this->setKeyCriteria();
-        $this->setJoins();
-        $this->setModelCriteria();
-        $this->setModelCriteriaArrayCriteria();
-
-        $this->query_object   = $this->getModelRegistry('query_object');
-        $this->use_pagination = $this->getModelRegistry('use_pagination');
-        $this->offset         = $this->getModelRegistry('offset');
-        $this->count          = $this->getModelRegistry('count');
-
-        return $this;
+        parent::__construct($qb, $model_registry);
     }
 
     /**
@@ -97,32 +73,19 @@ class Registry extends Criteria implements ModelRegistryInterface
     }
 
     /**
-     * Get the full contents of the Model Registry
+     * Build SQL from Model Registry
      *
-     * @return  mixed
-     * @since   1.0
+     * @param   string $sql
+     *
+     * @return  string
+     * @since   1.0.0
      */
-    protected function getModelRegistryAll()
+    public function getSql($sql = null)
     {
-        return $this->model_registry;
-    }
-
-    /**
-     * Get the value of a specified Model Registry Key
-     *
-     * @param   string $key
-     * @param   mixed  $default
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    protected function getModelRegistryByKey($key = null, $default = null)
-    {
-        if (isset($this->model_registry[$key])) {
-        } else {
-            $this->model_registry[$key] = $default;
+        if ($sql === null) {
+            $this->setModelRegistrySQL();
         }
 
-        return $this->model_registry[$key];
+        return $sql;
     }
 }

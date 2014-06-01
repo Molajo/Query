@@ -13,6 +13,8 @@ use CommonApi\Query\QueryInterface;
 /**
  * Query Proxy
  *
+ * Base - Query - Filters - Utilities - Defaults - Columns - Criteria - Registry
+ *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -20,24 +22,18 @@ use CommonApi\Query\QueryInterface;
  */
 abstract class Query extends Base implements QueryInterface
 {
-    use \Molajo\Query\QueryBuilderTrait;
+    use \Molajo\Query\QueryTrait;
 
     /**
      * Class Constructor
      *
      * @param  QueryInterface $qb
-     * @param  array          $model_registry
      *
      * @since  1.0.0
      */
     public function __construct(
-        QueryInterface $qb,
-        array $model_registry = array()
-    ) {
-        parent::__construct(
-            $model_registry
-        );
-
+        QueryInterface $qb)
+    {
         $this->qb = $qb;
         $this->setDateProperties();
     }

@@ -11,6 +11,8 @@ namespace Molajo\Query\Model;
 /**
  * Model Registry Criteria Class
  *
+ * Base - Query - Filters - Utilities - Defaults - Columns - Criteria - Registry
+ *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -18,6 +20,29 @@ namespace Molajo\Query\Model;
  */
 abstract class Criteria extends Columns
 {
+    /**
+     * Build SQL from Model Registry
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setModelRegistrySQL()
+    {
+        $this->setSelectColumns();
+        $this->setFrom();
+        $this->setKeyCriteria();
+        $this->setJoins();
+        $this->setModelCriteria();
+        $this->setModelCriteriaArrayCriteria();
+
+        $this->query_object   = $this->getModelRegistry('query_object');
+        $this->use_pagination = $this->getModelRegistry('use_pagination');
+        $this->offset         = $this->getModelRegistry('offset');
+        $this->count          = $this->getModelRegistry('count');
+
+        return $this;
+    }
+
     /**
      * I. KEY CRITERIA
      *

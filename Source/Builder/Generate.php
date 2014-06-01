@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract Construct Query Builder - SQL Class
+ * Query Builder Generate
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -9,34 +9,16 @@
 namespace Molajo\Query\Builder;
 
 /**
- * Abstract Construct Query Builder - SQL Class
+ * Query Builder Generate
+ *
+ * Base - Filters - Utilities - Groups - Generate - Sql
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class Sql extends Groups
+abstract class Generate extends Groups
 {
-    /**
-     * Get SQL - all values have been filtered and set, generate the full SQL statement, escaping data
-     *
-     * @param   null|string $sql
-     *
-     * @return  string
-     * @since   1.0
-     */
-    public function getSql($sql = null)
-    {
-        if ($sql === null || trim($sql) === '') {
-            $this->generateSql();
-        } else {
-            $this->sql = '';
-            $this->getExternalSql($sql);
-        }
-
-        return $this->sql;
-    }
-
     /**
      * Use externally provided SQL
      *
@@ -165,7 +147,6 @@ abstract class Sql extends Groups
      *
      * @return  string
      * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function getSelect()
     {
@@ -179,19 +160,6 @@ abstract class Sql extends Groups
         $query .= $this->getLimit();
 
         return $query;
-    }
-
-    /**
-     * Set Database Prefix
-     *
-     * @param   string $query
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getDatabasePrefix($query)
-    {
-        return str_replace('#__', $this->database_prefix, $query);
     }
 
     /**
@@ -301,5 +269,18 @@ abstract class Sql extends Groups
         }
 
         return '';
+    }
+
+    /**
+     * Set Database Prefix
+     *
+     * @param   string $query
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getDatabasePrefix($query)
+    {
+        return str_replace('#__', $this->database_prefix, $query);
     }
 }

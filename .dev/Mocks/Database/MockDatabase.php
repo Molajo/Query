@@ -8,7 +8,6 @@
  */
 namespace Molajo\Database;
 
-use CommonApi\Controller\ControllerInterface;
 use CommonApi\Database\DatabaseInterface;
 
 /**

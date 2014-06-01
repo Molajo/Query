@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract Query Builder
+ * Query Builder Base
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -8,12 +8,10 @@
  */
 namespace Molajo\Query\Builder;
 
-use CommonApi\Database\DatabaseInterface;
-use CommonApi\Model\FieldhandlerInterface;
-use DateTime;
-
 /**
- * Query Builder Builder
+ * Query Builder Base
+ *
+ * Base - Filters - Edits - Elements - Groups - Generate - Sql
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
@@ -256,114 +254,4 @@ abstract class Base
             'date_format',
             'null_date'
         );
-
-    /**
-     * Constructor
-     *
-     * @since  1.0.0
-     */
-    public function __construct(
-        FieldhandlerInterface $fieldhandler,
-        $database_prefix,
-        DatabaseInterface $database
-    ) {
-        $this->fieldhandler    = $fieldhandler;
-        $this->database_prefix = $database_prefix;
-        $this->database        = $database;
-
-        $this->clearQuery();
-    }
-
-    /**
-     * Get the current value (or default) of the specified property
-     *
-     * @param   string $key
-     * @param   mixed  $default
-     *
-     * @return  mixed
-     * @since   1.0.0
-     */
-    public function get($key, $default = null)
-    {
-        if ($this->$key === null) {
-            $this->setDefault($key, $default);
-        }
-
-        return $this->$key;
-    }
-
-    /**
-     * Set default - this is to get around Scrutinizer duplicate code silliness
-     *
-     * @param   string $key
-     * @param   mixed  $default
-     *
-     * @return  mixed
-     * @since   1.0.0
-     */
-    protected function setDefault($key, $default = null)
-    {
-        $this->$key = $default;
-
-        return $this;
-    }
-
-    /**
-     * Clear Query String
-     *
-     * @return  $this
-     * @since   1.0.0
-     */
-    public function clearQuery()
-    {
-        $this->query_type = 'select';
-        $this->distinct   = false;
-        $this->columns    = array();
-        $this->values     = array();
-        $this->from       = array();
-        $this->where      = array();
-        $this->group_by   = array();
-        $this->having     = array();
-        $this->order_by   = array();
-        $this->offset     = 0;
-        $this->limit      = 0;
-        $this->sql        = '';
-
-        return $this;
-    }
-
-    /**
-     * Retrieves the PHP date format compliant with the database driver
-     *
-     * @return  string
-     * @since   1.0.0
-     */
-    public function getDateFormat()
-    {
-        return $this->date_format;
-    }
-
-    /**
-     * Retrieves the current date and time formatted in a manner compliant with the database driver
-     *
-     * @return  string
-     * @since   1.0.0
-     */
-    public function getDate()
-    {
-        $date = new DateTime();
-
-        return $date->format($this->date_format);
-    }
-
-    /**
-     * Returns a value for null date that is compliant with the database driver
-     *
-     * @return  string
-     * @since   1.0.0
-     */
-    public function getNullDate()
-    {
-        return $this->null_date;
-    }
 }

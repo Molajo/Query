@@ -1,6 +1,6 @@
 <?php
 /**
- * Query Builder
+ * Query Interface
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -8,25 +8,25 @@
  */
 namespace Molajo\Query;
 
-use CommonApi\Query\QueryBuilderInterface;
+use CommonApi\Query\QueryInterface;
 
 /**
- * Query Builder
+ * Query Proxy
  *
- * Injected with Molajo\Query\Model\Registry (which extends Molajo\Query\Model\Query,
- *  a proxy to Molajo\Query\Builder\Driver)
+ * Injected into Molajo\Query\Model\Registry for use as child object Molajo\Query\Model\Query
  *
- * Injected into the Molajo\Controller\Query class
+ * The Registry object is then injected into the Molajo\Controller\Query class using
+ *  Molajo\Query\QueryBuilder
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-class QueryBuilder implements QueryBuilderInterface
+class QueryProxy implements QueryInterface
 {
     /**
-     * Query Builder Trait
+     * Query Proxy Trait
      *
      * @var     object  Molajo\Query\QueryTrait
      * @since   1.0.0
@@ -34,22 +34,14 @@ class QueryBuilder implements QueryBuilderInterface
     use \Molajo\Query\QueryTrait;
 
     /**
-     * Model Registry Trait
-     *
-     * @var     object  Molajo\Query\ModelRegistryTrait
-     * @since   1.0.0
-     */
-    use \Molajo\Query\ModelRegistryTrait;
-
-    /**
      * Constructor
      *
-     * @param  QueryBuilderInterface  $qb
+     * @param  QueryProxy  $qb
      *
      * @since  1.0
      */
     public function __construct(
-        QueryBuilderInterface $qb
+        QueryInterface $qb
     ) {
         $this->qb  = $qb;
     }

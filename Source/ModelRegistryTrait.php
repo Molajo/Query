@@ -4,6 +4,13 @@ namespace Molajo\Query;
 /**
  * Model Registry Trait
  *
+ * The Model Registry Trait is designed to be used with the Query Trait.
+ * when the Molajo\Query\Model\Registry class is injected into the Molajo\Controller\Query class
+ * Access to the Molajo\Query\Builder\Driver is indirectly accessible via the Registry class
+ * using the Molajo\Query\Model\Query class (and the Query Trait code) as a Proxy.
+ *
+ * The instance property $qb is defined within the Query Trait.
+ *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -11,14 +18,6 @@ namespace Molajo\Query;
  */
 trait ModelRegistryTrait
 {
-    /**
-     * Model Registry Instance
-     *
-     * @var     object  CommonApi\Query\ModelRegistryInterface
-     * @since   1.0
-     */
-    protected $mr;
-
     /**
      * Model Registry
      *
@@ -37,7 +36,7 @@ trait ModelRegistryTrait
      */
     public function getSql($sql = null)
     {
-        return $this->mr->getSql($sql);
+        return $this->qb->getSql($sql);
     }
 
     /**
@@ -51,7 +50,7 @@ trait ModelRegistryTrait
      */
     public function getModelRegistry($key, $default = null)
     {
-        return $this->mr->getModelRegistry($key, $default);
+        return $this->qb->getModelRegistry($key, $default);
     }
 
     /**
@@ -65,6 +64,6 @@ trait ModelRegistryTrait
      */
     public function setModelRegistry($key, $value = null)
     {
-        return $this->mr->setModelRegistry($key, $value);
+        return $this->qb->setModelRegistry($key, $value);
     }
 }

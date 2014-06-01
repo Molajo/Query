@@ -1,6 +1,6 @@
 <?php
 /**
- * Abstract Query Builder - Groups
+ * Query Builder Groups
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -9,14 +9,38 @@
 namespace Molajo\Query\Builder;
 
 /**
- * Abstract Query Builder - Groups
+ * Query Builder Groups
+ *
+ * Base - Filters - Edits - Elements - Groups - Generate - Sql
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class Groups extends Collect
+abstract class Groups extends Elements
 {
+    /**
+     * Groups for 'AND' or 'OR' groups for both where and having
+     *
+     * @param   string $group
+     * @param   string $group_connector
+     * @param   string $type
+     * @param   array  $group_array
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function setGroup($group, $group_connector = 'AND', $type = 'WHERE', array $group_array = array())
+    {
+        $this->editRequired('group', $group);
+
+        $group               = $this->filter($type, $group, 'string');
+        $group_connector     = $this->editConnector($group_connector);
+        $group_array[$group] = $group_connector;
+
+        return $group_array;
+    }
+
     /**
      * Generate SQL for Group Elements: where and having
      *
@@ -30,27 +54,19 @@ abstract class Groups extends Collect
     protected function getGroups(
         array $type_group_array = array(),
         array $type_array = array(),
-        $type = 'where'
+        $type = 'WHERE'
     ) {
         $group_and_element_string = '';
 
         foreach ($this->initialiseGroups($type_group_array, $type) as $group => $group_connector) {
-
-            // Begin Group
             $group_string = '';
-
             if (trim($group_string) === '') {
             } else {
                 $group_string = strtoupper($group_connector);
             }
 
             $group_string .= ' (';
-            $first_group_item = true;
-
-            // Group Item Loop
             $group_string .= $this->getGroupItemsLoop($type_array, $group);
-
-            // End Group
             $group_and_element_string .= $group_string . ')';
         }
 
@@ -126,7 +142,7 @@ abstract class Groups extends Collect
 
         $sql .= ' ' . strtoupper($item->condition);
 
-        if (strtolower($item->condition) === 'in') {
+        if (strtoupper($item->condition) === 'IN') {
             $sql .= ' (' .  $this->getLoop($item->right_item, 0, 2) . ')';
         } else {
             $sql .= ' ' . $this->quoteValue($item->right_item);
@@ -165,7 +181,9 @@ abstract class Groups extends Collect
     /**
      * Render the SQL
      *
-     * @param   string  $option 1: comma delimited list 2: comma delimited quoted list 3: key=value
+     * @param   string $option 1: comma delimited list
+     *                         2: comma delimited quoted list
+     *                         3: key=value
      * @param   string  $sql
      * @param   string  $value
      * @param   string  $key

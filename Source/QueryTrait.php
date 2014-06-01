@@ -1,6 +1,6 @@
 <?php
 /**
- * Query Builder
+ * Query Builder Trait
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -9,14 +9,14 @@
 namespace Molajo\Query;
 
 /**
- * Query Builder
+ * Query Builder Trait
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-trait QueryBuilderTrait
+trait QueryTrait
 {
     /**
      * Query Builder
@@ -109,19 +109,6 @@ trait QueryBuilderTrait
     protected $sql = '';
 
     /**
-     * Get SQL (optionally setting the SQL)
-     *
-     * @param   null|string $sql
-     *
-     * @return  string
-     * @since   1.0
-     */
-    public function getSql($sql = null)
-    {
-        return $this->qb->getSql($sql);
-    }
-
-    /**
      * Get the current value (or default) of the specified property
      *
      * @param   string $key
@@ -160,17 +147,6 @@ trait QueryBuilderTrait
     }
 
     /**
-     * Returns a database driver compliant date format for PHP date()
-     *
-     * @return  string
-     * @since   1.0
-     */
-    public function getDateFormat()
-    {
-        return $this->qb->getDateFormat();
-    }
-
-    /**
      * Retrieves the current date and time formatted compliant with the database driver
      *
      * @return  string
@@ -190,6 +166,17 @@ trait QueryBuilderTrait
     public function getNullDate()
     {
         return $this->qb->getNullDate();
+    }
+
+    /**
+     * Returns a database driver compliant date format for PHP date()
+     *
+     * @return  string
+     * @since   1.0
+     */
+    public function getDateFormat()
+    {
+        return $this->qb->getDateFormat();
     }
 
     /**
@@ -251,6 +238,20 @@ trait QueryBuilderTrait
     }
 
     /**
+     * Create a grouping for having statements for 'and' or 'or' treatment between groups of conditions
+     *
+     * @param   string $group
+     * @param   string $group_connector
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function havingGroup($group, $group_connector = 'and')
+    {
+        return $this->qb->havingGroup($group, $group_connector);
+    }
+
+    /**
      * Set Where Conditions for Query
      *
      * @param   string      $left_filter
@@ -274,33 +275,6 @@ trait QueryBuilderTrait
         $group = null
     ) {
         return $this->qb->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
-    }
-
-    /**
-     * Group By column name
-     *
-     * @param   string $column_name
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function groupBy($column_name)
-    {
-        return $this->qb->groupBy($column_name);
-    }
-
-    /**
-     * Create a grouping for having statements for 'and' or 'or' treatment between groups of conditions
-     *
-     * @param   string $group
-     * @param   string $group_connector
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function havingGroup($group, $group_connector = 'and')
-    {
-        return $this->qb->havingGroup($group, $group_connector);
     }
 
     /**
@@ -330,6 +304,19 @@ trait QueryBuilderTrait
     }
 
     /**
+     * Group By column name
+     *
+     * @param   string $column_name
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function groupBy($column_name)
+    {
+        return $this->qb->groupBy($column_name);
+    }
+
+    /**
      * Set Order By column name and optional value for alias
      *
      * @param   string      $column_name
@@ -355,5 +342,18 @@ trait QueryBuilderTrait
     public function setOffsetAndLimit($offset = 0, $limit = 15)
     {
         return $this->qb->setOffsetAndLimit($offset, $limit);
+    }
+
+    /**
+     * Get SQL (optionally setting the SQL)
+     *
+     * @param   null|string $sql
+     *
+     * @return  string
+     * @since   1.0
+     */
+    public function getSql($sql = null)
+    {
+        return $this->qb->getSql($sql);
     }
 }
