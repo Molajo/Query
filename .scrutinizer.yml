@@ -1,9 +1,9 @@
 filter:
-    excluded_paths: [ "vendor/*", ".dev/*", "Factories/*", "Resource/*", "Source/Traits/*" ]
+    excluded_paths: [ "vendor/*", ".dev/*", "Factories/*", "Resource/*" ]
 
 tools:
     # https://scrutinizer-ci.com/docs/tools/external-code-coverage/
-    external_code_coverage: false
+    external_code_coverage: true
 
     # https://scrutinizer-ci.com/docs/tools/php/php-analyzer/
     php_analyzer: true
@@ -16,7 +16,7 @@ tools:
         config:
             standard: "PSR2"
         filter:
-            excluded_paths: [ "vendor/*", ".dev/*", "Factories/*", "Resource/*", "Source/Traits/*" ]
+            excluded_paths: [ "vendor/*", ".dev/*", "Factories/*", "Resource/*" ]
 
     # https://scrutinizer-ci.com/docs/tools/php/mess-detector/
     php_mess_detector: true
