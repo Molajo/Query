@@ -8,8 +8,6 @@
  */
 namespace Molajo\Query\Model;
 
-use CommonApi\Query\ModelRegistryInterface;
-
 /**
  * Model Registry Base
  *

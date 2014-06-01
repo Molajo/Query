@@ -67,12 +67,12 @@ abstract class Columns extends Query
     protected function setSelectColumnsResultQuery()
     {
         if ((int)$this->model_registry['primary_key_value'] > 0) {
-            $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
+            $this->select($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
 
             return $this;
         }
 
-        $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key']);
+        $this->select($this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key']);
 
         return $this;
     }
@@ -85,9 +85,9 @@ abstract class Columns extends Query
      */
     protected function setSelectColumnsDistinctQuery()
     {
-        $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key']);
+        $this->select($this->model_registry['primary_prefix'] . '.' . $this->model_registry['primary_key']);
 
-        $this->setSelect($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
+        $this->select($this->model_registry['primary_prefix'] . '.' . $this->model_registry['name_key']);
 
         return $this;
     }
@@ -101,11 +101,11 @@ abstract class Columns extends Query
     protected function setSelectColumnsModelRegistry()
     {
         if (count($this->model_registry['fields']) === 0) {
-            $this->setSelect($this->model_registry['primary_prefix'] . '.' . '*');
+            $this->select($this->model_registry['primary_prefix'] . '.' . '*');
 
         } else {
             foreach ($this->model_registry['fields'] as $column) {
-                $this->setSelect($this->model_registry['primary_prefix'] . '.' . $column['name']);
+                $this->select($this->model_registry['primary_prefix'] . '.' . $column['name']);
             }
         }
 
@@ -129,7 +129,7 @@ abstract class Columns extends Query
         $primary_prefix = $this->model_registry['primary_prefix'];
         $table_name     = $this->model_registry['table_name'];
 
-        $this->setFrom($table_name, $primary_prefix);
+        $this->from($table_name, $primary_prefix);
 
         return $this;
     }

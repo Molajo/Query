@@ -56,7 +56,7 @@ abstract class Criteria extends Columns
      */
     protected function setWhereStatementsKeyValue($key, $filter, $key_value)
     {
-        $this->setWhere(
+        $this->where(
             'column',
             $this->model_registry['primary_prefix'] . '.' . $this->model_registry[$key],
             '=',
@@ -147,7 +147,7 @@ abstract class Criteria extends Columns
 
         if ($column_results === false && $where_results === false) {
         } else {
-            $this->setFrom($join_table, $alias);
+            $this->from($join_table, $alias);
         }
 
         return $this;
@@ -174,7 +174,7 @@ abstract class Criteria extends Columns
         $select_array = explode(',', $select);
 
         foreach ($select_array as $select_item) {
-            $this->setSelect(
+            $this->select(
                 trim($alias) . '.' . trim($select_item),
                 trim($alias) . '_' . trim($select_item)
             );
@@ -335,7 +335,7 @@ abstract class Criteria extends Columns
             return $this;
         }
 
-        $this->setWhere(
+        $this->where(
             'column',
             $this->model_registry['primary_prefix'] . '.' . $column_name,
             $operator,
@@ -424,10 +424,10 @@ abstract class Criteria extends Columns
     protected function setModelRegistryCriteriaArrayItem($item)
     {
         if (isset($item['value'])) {
-            $this->setWhere('column', $item['name'], $item['connector'], 'integer', (int)$item['value']);
+            $this->where('column', $item['name'], $item['connector'], 'integer', (int)$item['value']);
 
         } elseif (isset($item['name2'])) {
-            $this->setWhere('column', $item['name'], $item['connector'], 'column', $item['name2']);
+            $this->where('column', $item['name'], $item['connector'], 'column', $item['name2']);
         }
 
         return $this;
@@ -464,7 +464,7 @@ abstract class Criteria extends Columns
         list($join_with_filter, $join_with_value) = $this->setWhereElement($join_with_item_alias, $join_with_item);
 
         /** Set the Where Statement */
-        $this->setWhere($join_to_filter, $join_to_value, $operator, $join_with_filter, $join_with_value);
+        $this->where($join_to_filter, $join_to_value, $operator, $join_with_filter, $join_with_value);
 
         return $this;
     }

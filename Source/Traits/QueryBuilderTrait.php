@@ -93,6 +93,14 @@ trait QueryBuilderTrait
     protected $null_date = '';
 
     /**
+     * Null Date
+     *
+     * @var    string
+     * @since  1.0
+     */
+    protected $current_date = '';
+
+    /**
      * SQL
      *
      * @var    string
