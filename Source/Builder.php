@@ -8,8 +8,7 @@
  */
 namespace Molajo\Query;
 
-use CommonApi\Query\QueryInterface;
-use CommonApi\Query\ModelRegistryInterface;
+use CommonApi\Query\QueryBuilderInterface;
 
 /**
  * Query Builder and Model Registry
@@ -19,40 +18,43 @@ use CommonApi\Query\ModelRegistryInterface;
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-trait Builder
+class QueryBuilder implements QueryBuilderInterface
 {
-    use \Molajo\Query\RegistryTrait;
+    /**
+     * Query Builder Trait
+     *
+     * @var     object  Molajo\Query\QueryBuilderTrait
+     * @since   1.0.0
+     */
+    use \Molajo\Query\QueryBuilderTrait;
+
+    /**
+     * Model Registry Trait
+     *
+     * @var     object  Molajo\Query\ModelRegistryTrait
+     * @since   1.0.0
+     */
+    use \Molajo\Query\ModelRegistryTrait;
 
     /**
      * Query Adapter
      *
-     * @var     object  CommonApi\Query\QueryInterface
+     * @var     object  CommonApi\Query\QueryBuilderInterface
      * @since   1.0
      */
     protected $qb;
 
     /**
-     * Model Registry
-     *
-     * @var     object  CommonApi\Query\ModelRegistryInterface
-     * @since   1.0
-     */
-    protected $mr;
-
-    /**
      * Constructor
      *
-     * @param  QueryInterface         $qb
-     * @param  ModelRegistryInterface $mr
+     * @param  QueryBuilder  $qb
      *
      * @since  1.0
      */
     public function __construct(
-        QueryInterface $qb,
-        ModelRegistryInterface $mr
+        QueryBuilder $qb
     ) {
         $this->qb  = $qb;
-        $this->mr = $mr;
     }
 
     /**
@@ -65,7 +67,7 @@ trait Builder
      */
     public function getSql($sql = null)
     {
-        return $this->mr->getSql($sql);
+        return $this->qb->getSql($sql);
     }
 
     /**
@@ -79,7 +81,7 @@ trait Builder
      */
     public function getModelRegistry($key, $default = null)
     {
-        return $this->mr->getSql($key, $default);
+        return $this->qb->getSql($key, $default);
     }
 
     /**
@@ -93,7 +95,7 @@ trait Builder
      */
     public function setModelRegistry($key, $value = null)
     {
-        return $this->mr->getSql($key, $value);
+        return $this->qb->getSql($key, $value);
     }
 
     /**

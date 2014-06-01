@@ -10,9 +10,10 @@ namespace Molajo\Controller;
 
 use CommonApi\Query\ModelRegistryInterface;
 use CommonApi\Query\QueryInterface;
+use CommonApi\Model\ModelInterface;
 
 /**
- * Read Controller
+ * Query Controller
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -40,16 +41,28 @@ class QueryController extends Controller implements QueryInterface, ModelRegistr
     /**
      * Class Constructor
      *
-     * @param  QueryInterface $qb
-     * @param  array          $model_registry
+     * @param  ModelInterface         $model
+     * @param  array                  $runtime_data
+     * @param  array                  $plugin_data
+     * @param  callable               $schedule_event
+     * @param  ModelRegistryInterface $model
      *
      * @since  1.0
      */
     public function __construct(
-        QueryInterface $qb,
-        ModelRegistryInterface $mr
+        ModelInterface $model = null,
+        $runtime_data = array(),
+        $plugin_data = array(),
+        callable $schedule_event = null,
+        ModelRegistryInterface $mr = null
     ) {
-        $this->qb   = $qb;
-        $this->mr   = $mr;
+        parent::__construct(
+            $model,
+            $runtime_data,
+            $plugin_data,
+            $schedule_event
+        );
+
+        $this->mr = $mr;
     }
 }

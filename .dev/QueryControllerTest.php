@@ -1,6 +1,6 @@
 <?php
 /**
- * Controller Test
+ * Query Controller Test
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -8,19 +8,24 @@
  */
 namespace Molajo\Controller;
 
+use CommonApi\Controller\ControllerInterface;
+use CommonApi\Database\DatabaseInterface;
+use CommonApi\Model\ModelInterface;
+use CommonApi\Query\QueryInterface;
 use Molajo\Database\MockDatabase;
 use Molajo\Model\ReadModel;
+use Molajo\Query\MockQuery;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Controller
+ * Query Controller Test
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-class ControllerTest extends PHPUnit_Framework_TestCase
+class QueryControllerTest extends PHPUnit_Framework_TestCase
 {
     protected $controller;
 

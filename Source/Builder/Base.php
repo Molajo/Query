@@ -25,7 +25,7 @@ abstract class Base
      * Database
      *
      * @var    object  CommonApi\Database\DatabaseInterface
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $database = '';
 
@@ -33,7 +33,7 @@ abstract class Base
      * Fieldhandler Instance
      *
      * @var    object  CommonApi\Query\FieldhandlerInterface
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $fieldhandler = '';
 
@@ -41,7 +41,7 @@ abstract class Base
      * Database Prefix
      *
      * @var    string
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $database_prefix = '';
 
@@ -49,7 +49,7 @@ abstract class Base
      * Query Type
      *
      * @var    string
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $query_type = 'select';
 
@@ -57,7 +57,7 @@ abstract class Base
      * Distinct
      *
      * @var    boolean
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $distinct = false;
 
@@ -65,7 +65,7 @@ abstract class Base
      * Columns
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $columns = array();
 
@@ -73,7 +73,7 @@ abstract class Base
      * Values
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $values = array();
 
@@ -81,7 +81,7 @@ abstract class Base
      * From
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $from = array();
 
@@ -89,7 +89,7 @@ abstract class Base
      * Where Group
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $where_group = array();
 
@@ -97,7 +97,7 @@ abstract class Base
      * Where
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $where = array();
 
@@ -105,7 +105,7 @@ abstract class Base
      * Group By
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $group_by = array();
 
@@ -113,7 +113,7 @@ abstract class Base
      * Having Group
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $having_group = array();
 
@@ -121,7 +121,7 @@ abstract class Base
      * Having
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $having = array();
 
@@ -129,7 +129,7 @@ abstract class Base
      * Order By
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $order_by = array();
 
@@ -139,7 +139,7 @@ abstract class Base
      * List, Item, Result, Distinct
      *
      * @var    string
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $query_object;
 
@@ -147,7 +147,7 @@ abstract class Base
      * Use Pagination
      *
      * @var    integer
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $use_pagination;
 
@@ -155,7 +155,7 @@ abstract class Base
      * Offset
      *
      * @var    int
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $offset = 0;
 
@@ -163,7 +163,7 @@ abstract class Base
      * Limit
      *
      * @var    int
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $limit = 0;
 
@@ -171,7 +171,7 @@ abstract class Base
      * SQL
      *
      * @var    string
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $sql = '';
 
@@ -179,7 +179,7 @@ abstract class Base
      * Date Format
      *
      * @var    string
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $date_format = '';
 
@@ -187,7 +187,7 @@ abstract class Base
      * Null Date
      *
      * @var    string
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $null_date = '';
 
@@ -195,7 +195,7 @@ abstract class Base
      * Name quote start
      *
      * @var    string
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $name_quote_start = '"';
 
@@ -203,7 +203,7 @@ abstract class Base
      * Name quote start
      *
      * @var    string
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $name_quote_end = '"';
 
@@ -211,7 +211,7 @@ abstract class Base
      * Current Date
      *
      * @var    string
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $quote_value = '"';
 
@@ -219,7 +219,7 @@ abstract class Base
      * Connectors
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $connector = array('OR', 'AND');
 
@@ -227,7 +227,7 @@ abstract class Base
      * QueryType
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $query_type_array = array('insert', 'insertfrom', 'select', 'update', 'delete', 'exec');
 
@@ -235,7 +235,7 @@ abstract class Base
      * List of Controller Properties
      *
      * @var    array
-     * @since  1.0
+     * @since  1.0.0
      */
     protected $property_array
         = array(
@@ -260,7 +260,7 @@ abstract class Base
     /**
      * Constructor
      *
-     * @since  1.0
+     * @since  1.0.0
      */
     public function __construct(
         FieldhandlerInterface $fieldhandler,
@@ -281,7 +281,7 @@ abstract class Base
      * @param   mixed  $default
      *
      * @return  mixed
-     * @since   1.0
+     * @since   1.0.0
      */
     public function get($key, $default = null)
     {
@@ -299,7 +299,7 @@ abstract class Base
      * @param   mixed  $default
      *
      * @return  mixed
-     * @since   1.0
+     * @since   1.0.0
      */
     protected function setDefault($key, $default = null)
     {
@@ -312,7 +312,7 @@ abstract class Base
      * Clear Query String
      *
      * @return  $this
-     * @since   1.0
+     * @since   1.0.0
      */
     public function clearQuery()
     {
@@ -336,7 +336,7 @@ abstract class Base
      * Retrieves the PHP date format compliant with the database driver
      *
      * @return  string
-     * @since   1.0
+     * @since   1.0.0
      */
     public function getDateFormat()
     {
@@ -347,7 +347,7 @@ abstract class Base
      * Retrieves the current date and time formatted in a manner compliant with the database driver
      *
      * @return  string
-     * @since   1.0
+     * @since   1.0.0
      */
     public function getDate()
     {
@@ -360,7 +360,7 @@ abstract class Base
      * Returns a value for null date that is compliant with the database driver
      *
      * @return  string
-     * @since   1.0
+     * @since   1.0.0
      */
     public function getNullDate()
     {
