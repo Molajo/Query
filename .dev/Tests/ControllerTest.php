@@ -42,7 +42,6 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $query          = new MockQuery();
         $database       = new MockDatabase();
         $model          = new ReadModel($database);
         $runtime_data   = array();
@@ -50,7 +49,6 @@ class ControllerTest extends PHPUnit_Framework_TestCase
         $schedule_event = 'strtolower';
 
         $this->controller = new MockController(
-            $query,
             $model,
             $runtime_data,
             $plugin_data,

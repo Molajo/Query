@@ -22,7 +22,6 @@ use CommonApi\Query\QueryInterface;
 class MockController extends Controller implements ControllerInterface
 {
     public function __construct(
-        QueryInterface $query,
         ModelInterface $model = null,
         $runtime_data = array(),
         $plugin_data = array(),
@@ -30,7 +29,6 @@ class MockController extends Controller implements ControllerInterface
         array $model_registry = array()
     ) {
         parent::__construct(
-            $query,
             $model,
             $runtime_data,
             $plugin_data,
