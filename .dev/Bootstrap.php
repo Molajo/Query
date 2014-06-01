@@ -13,9 +13,6 @@ if (function_exists('CreateClassMap')) {
 }
 include_once $base . '/vendor/autoload.php';
 
-require_once $base . '/Source/ModelRegistryTrait.php';
-require_once $base . '/Source/QueryBuilderTrait.php';
-
 $classmap = array();
 $results  = createClassMap($base . '/Controller', 'Molajo\\Controller\\');
 $classmap = array_merge($classmap, $results);
@@ -40,8 +37,8 @@ $results  = createClassMap($base . '/Source/Model', 'Molajo\\Query\\Model\\');
 $classmap = array_merge($classmap, $results);
 
 $classmap['Molajo\\Query\\Builder'] = $base . '/Source/Builder.php';
-$classmap['Molajo\\Query\\ModelRegistryTrait'] = $base . '/Source/ModelRegistryTrait.php';
-$classmap['Molajo\\Query\\QueryBuilderTrait'] = $base . '/Source/QueryBuilderTrait.php';
+$classmap['Molajo\\Query\\ModelRegistryTrait'] = $base . '/Source/Traits/ModelRegistryTrait.php';
+$classmap['Molajo\\Query\\QueryBuilderTrait'] = $base . '/Source/Traits/QueryBuilderTrait.php';
 $classmap['Molajo\\Query\\Registry'] = $base . '/Source/Registry.php';
 
 $results  = createClassMap($base . '/.dev/Mocks/Controller', 'Molajo\\Controller\\');
