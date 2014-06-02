@@ -88,6 +88,7 @@ class Registry extends Criteria implements ModelRegistryInterface2
 
         return $sql;
     }
+
     /**
      * Build SQL from Model Registry
      *

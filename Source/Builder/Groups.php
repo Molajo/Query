@@ -98,7 +98,6 @@ abstract class Groups extends Elements
     /**
      * Process Type Array for Group
      *
-     * @param   string $type
      *
      * @return  string
      * @since   1.0
@@ -153,7 +152,7 @@ abstract class Groups extends Elements
     /**
      * Generate Data needed for SQL List
      *
-     * @param   array  $value_array
+     * @param   array   $value_array
      * @param   integer $key_value
      * @param   integer $option
      *

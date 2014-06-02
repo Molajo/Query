@@ -187,32 +187,6 @@ abstract class Generate extends Groups
     }
 
     /**
-     * Generate Element SQL
-     *
-     * @param   array $element_array
-     * @param   boolean  $get_value
-     * @param   boolean  $get_column
-     * @param   boolean  $use_alias
-     * @param   integer  $key_value
-     * @param   integer  $option
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getElement(
-        array $element_array = array(),
-        $get_value = false,
-        $get_column = true,
-        $use_alias = true,
-        $key_value = 0,
-        $option = 0
-    ) {
-        $array = $this->getElementsArray($element_array, $get_value, $get_column, $use_alias);
-
-        return $this->getLoop($array, $key_value, $option) . PHP_EOL;
-    }
-
-    /**
      * Generate FROM SQL
      *
      * @return  string
@@ -231,7 +205,7 @@ abstract class Generate extends Groups
      */
     protected function getGroupBy()
     {
-        return 'GROUP BY ' .$this->getElement($this->group_by, true, false, true, 1, 1);
+        return 'GROUP BY ' . $this->getElement($this->group_by, true, false, true, 1, 1);
     }
 
     /**
@@ -242,7 +216,33 @@ abstract class Generate extends Groups
      */
     protected function getOrderBy()
     {
-        return 'ORDER BY ' .$this->getElement($this->group_by, true, false, false, 1, 1) . PHP_EOL;
+        return 'ORDER BY ' . $this->getElement($this->group_by, true, false, false, 1, 1) . PHP_EOL;
+    }
+
+    /**
+     * Generate Element SQL
+     *
+     * @param   array   $element_array
+     * @param   boolean $get_value
+     * @param   boolean $get_column
+     * @param   boolean $use_alias
+     * @param   integer $key_value
+     * @param   integer $option
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getElement(
+        array $element_array = array(),
+        $get_value = false,
+        $get_column = true,
+        $use_alias = true,
+        $key_value = 0,
+        $option = 0
+    ) {
+        $array = $this->getElementsArray($element_array, $get_value, $get_column, $use_alias);
+
+        return $this->getLoop($array, $key_value, $option) . PHP_EOL;
     }
 
     /**
@@ -253,9 +253,7 @@ abstract class Generate extends Groups
      */
     protected function getWhere()
     {
-        $array = $this->getElementsArray($this->where, true, false, true);
-
-        return 'WHERE ' . $this->getGroups($array, $this->where, 'where') . PHP_EOL;
+        return 'WHERE ' . $this->getElementsArrayGroups($this->where, true, false, true, 'where') . PHP_EOL;
     }
 
     /**
@@ -266,9 +264,31 @@ abstract class Generate extends Groups
      */
     protected function getHaving()
     {
-        $array = $this->getElementsArray($this->having, true, false, false);
+        return 'HAVING ' . $this->getElementsArrayGroups($this->having, true, false, false, 'having') . PHP_EOL;
+    }
 
-        return 'HAVING ' . $this->getGroups($array, $this->having, 'having') . PHP_EOL;
+    /**
+     * Generate Where and Having SQL
+     *
+     * @param   array   $element_array
+     * @param   boolean $get_value
+     * @param   boolean $get_column
+     * @param   boolean $use_alias
+     * @param   string  $type
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getElementsArrayGroups(
+        array $element_array = array(),
+        $get_value = false,
+        $get_column = true,
+        $use_alias = true,
+        $type = 'where'
+    ) {
+        $type_group_array = $this->getElementsArray($element_array, $get_value, $get_column, $use_alias);
+
+        return $this->getGroups($type_group_array, $element_array, $type) . PHP_EOL;
     }
 
     /**
