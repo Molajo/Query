@@ -54,23 +54,35 @@ abstract class Groups extends Elements
     protected function getGroups(
         array $type_group_array = array(),
         array $type_array = array(),
-        $type = 'WHERE'
+        $type = 'where'
     ) {
         $group_and_element_string = '';
 
-        foreach ($this->initialiseGroups($type_group_array, $type) as $group => $group_connector) {
+        $groups = $this->initialiseGroups($type_group_array, $type);
+        foreach ($groups as $group => $group_connector) {
+
             $group_string = '';
+
             if (trim($group_string) === '') {
             } else {
                 $group_string = strtoupper($group_connector);
             }
 
-            $group_string .= ' (';
+            if (count($groups) === 1) {
+                $before = '';
+                $after = '';
+            } else {
+                $before = '(';
+                $after = ')';
+            }
+
+            $group_string .= $before;
             $group_string .= $this->getGroupItemsLoop($type_array, $group);
-            $group_and_element_string .= $group_string . ')';
+
+            $group_and_element_string .= trim($group_string) . $after;
         }
 
-        return $group_and_element_string;
+        return $group_and_element_string  . PHP_EOL;
     }
 
     /**
@@ -115,11 +127,10 @@ abstract class Groups extends Elements
 
                 if ($first_group_item === true) {
                     $first_group_item = false;
+                    $group_string     = $sql;
                 } else {
-                    $sql .= ' ' . strtoupper($item->connector) . ' ';
+                    $group_string .= PHP_EOL . '    ' . strtoupper($item->connector) . ' ' . $sql;
                 }
-
-                $group_string .= $sql;
             }
         }
 
@@ -136,17 +147,17 @@ abstract class Groups extends Elements
      */
     protected function getGroupItem($item)
     {
-        $sql = $this->quoteName($item->left_item);
+        $sql = $this->quoteName($item->left_item->name);
 
         $sql .= ' ' . strtoupper($item->condition);
 
         if (strtoupper($item->condition) === 'IN') {
-            $sql .= ' (' . $this->getLoop($item->right_item, 0, 2) . ')';
+            $sql .= ' (' . $this->getLoop($item->right_item->value, 0, 2) . ')';
         } else {
-            $sql .= ' ' . $this->quoteValue($item->right_item);
+            $sql .= ' ' . $item->right_item->value;
         }
 
-        return $sql . PHP_EOL;
+        return $sql;
     }
 
     /**
@@ -165,11 +176,11 @@ abstract class Groups extends Elements
 
         if ($key_value === 0) {
             foreach ($value_array as $value) {
-                $sql .= $this->getLoopList($option, $sql, $value);
+                $sql = $this->getLoopList($option, $sql, $value);
             }
         } else {
             foreach ($value_array as $key => $value) {
-                $sql .= $this->getLoopList($option, $sql, $value, $key);
+                $sql = $this->getLoopList($option, $sql, $value, $key);
             }
         }
 
@@ -193,7 +204,7 @@ abstract class Groups extends Elements
     {
         if ($sql === '') {
         } else {
-            $sql .= ', ' . PHP_EOL;
+            $sql .= ', ' . PHP_EOL . '    ';
         }
 
         if ($option === 1) {

@@ -30,11 +30,12 @@ abstract class Item extends Edits
      * @param   null|string $value
      * @param   null|string $alias
      * @param   null|string $condition
+     * @param   null|string $type
      *
      * @return  stdClass
      * @since   1.0
      */
-    protected function setItem($name, $data_type, $value = null, $alias = null, $condition = null)
+    protected function setItem($name, $data_type, $value = null, $alias = null, $condition = null, $filter = false)
     {
         $this->editRequired('name', $name);
 
@@ -44,7 +45,7 @@ abstract class Item extends Edits
         $item->name      = (string)$name_and_prefix['name'];
         $item->prefix    = (string)$name_and_prefix['prefix'];
         $item->data_type = (string)$this->setItemDataType($data_type);
-        $item->value     = $this->setItemValue($item->name, $value, $data_type, $condition);
+        $item->value     = $this->setItemValue($item->name, $data_type, $value, $condition, $filter);
         $item->alias     = $this->setItemAlias($alias);
 
         return $item;
@@ -57,12 +58,17 @@ abstract class Item extends Edits
      * @param   null|string $data_type
      * @param   null|string $value
      * @param   null|string $condition
+     * @param   boolean     $filter
      *
      * @return  mixed
      * @since   1.0
      */
-    protected function setItemValue($name, $data_type, $value = null, $condition = null)
+    protected function setItemValue($name, $data_type, $value = null, $condition = null, $filter = false)
     {
+        if ($filter === false) {
+            return $value;
+        }
+
         if ($condition === 'in') {
             return $this->setItemValueInDataType($value, $data_type);
         }

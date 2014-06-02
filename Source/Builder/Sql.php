@@ -41,6 +41,27 @@ abstract class Sql extends Generate
     }
 
     /**
+     * Get SQL - all values have been filtered and set, generate the full SQL statement,
+     *  escaping data
+     *
+     * @param   null|string $sql
+     *
+     * @return  string
+     * @since   1.0
+     */
+    public function getSql($sql = null)
+    {
+        if ($sql === null || trim($sql) === '') {
+            $this->generateSql();
+        } else {
+            $this->sql = '';
+            $this->getExternalSql($sql);
+        }
+
+        return $this->sql;
+    }
+
+    /**
      * Get the current value (or default) of the specified property
      *
      * @param   string $key
@@ -72,8 +93,8 @@ abstract class Sql extends Generate
         $this->values     = array();
         $this->from       = array();
         $this->where      = array();
-        $this->group_by   = array();
         $this->having     = array();
+        $this->group_by   = array();
         $this->order_by   = array();
         $this->offset     = 0;
         $this->limit      = 0;
@@ -161,16 +182,16 @@ abstract class Sql extends Generate
      *
      * @param   string      $column_name
      * @param   null|string $alias
-     * @param   null|string $value
      * @param   null|string $data_type
      *
      * @return  $this
      * @since   1.0
      */
-    public function select($column_name, $alias = null, $value = null, $data_type = 'string')
+    public function select($column_name, $alias = null, $data_type = 'string')
     {
         $this->editRequired('column_name', $column_name);
-        $this->columns[$column_name] = $this->setItem($column_name, 'string', $column_name, $alias);
+        $this->columns[$column_name]
+            = $this->setItem($column_name, $data_type, null, $alias, null, false);
 
         return $this;
     }
@@ -187,7 +208,8 @@ abstract class Sql extends Generate
     public function from($table_name, $alias = null)
     {
         $this->editRequired('table_name', $table_name);
-        $this->from[$table_name] = $this->setItem($table_name, 'string', $table_name, $alias);
+        $this->from[$table_name]
+            = $this->setItem($table_name, 'string', null, $alias, null, false);
 
         return $this;
     }
@@ -346,26 +368,5 @@ abstract class Sql extends Generate
         $this->setOffsetorLimit($limit, $type = 'limit');
 
         return $this;
-    }
-
-    /**
-     * Get SQL - all values have been filtered and set, generate the full SQL statement,
-     *  escaping data
-     *
-     * @param   null|string $sql
-     *
-     * @return  string
-     * @since   1.0
-     */
-    public function getSql($sql = null)
-    {
-        if ($sql === null || trim($sql) === '') {
-            $this->generateSql();
-        } else {
-            $this->sql = '';
-            $this->getExternalSql($sql);
-        }
-
-        return $this->sql;
     }
 }

@@ -59,6 +59,7 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\QueryProxy::get
      *
      * @covers  Molajo\Query\Builder\Sql::__construct
+     * @covers  Molajo\Query\Builder\Sql::getSql
      * @covers  Molajo\Query\Builder\Sql::get
      * @covers  Molajo\Query\Builder\Sql::clearQuery
      * @covers  Molajo\Query\Builder\Sql::setType
@@ -75,7 +76,6 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::groupBy
      * @covers  Molajo\Query\Builder\Sql::orderBy
      * @covers  Molajo\Query\Builder\Sql::setOffsetAndLimit
-     * @covers  Molajo\Query\Builder\Sql::getSql
      * @covers  Molajo\Query\Builder\Generate::getExternalSql
      * @covers  Molajo\Query\Builder\Generate::generateSql
      * @covers  Molajo\Query\Builder\Generate::getInsert
@@ -85,10 +85,6 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Generate::getDelete
      * @covers  Molajo\Query\Builder\Generate::getSelect
      * @covers  Molajo\Query\Builder\Generate::getDistinct
-     * @covers  Molajo\Query\Builder\Generate::getColumns
-     * @covers  Molajo\Query\Builder\Generate::getFrom
-     * @covers  Molajo\Query\Builder\Generate::getWhere
-     * @covers  Molajo\Query\Builder\Generate::getHaving
      * @covers  Molajo\Query\Builder\Generate::getElement
      * @covers  Molajo\Query\Builder\Generate::getLimit
      * @covers  Molajo\Query\Builder\Generate::getDatabasePrefix
@@ -107,6 +103,7 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Elements::setColumnName
      * @covers  Molajo\Query\Builder\Elements::setColumnAlias
      * @covers  Molajo\Query\Builder\Elements::setLeftRightConditionals
+     * @covers  Molajo\Query\Builder\Elements::setLeftRightConditionalItem
      * @covers  Molajo\Query\Builder\Elements::setGroupByOrderBy
      * @covers  Molajo\Query\Builder\Elements::setDirection
      * @covers  Molajo\Query\Builder\Elements::setOffsetorLimit
@@ -232,8 +229,8 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
         foreach ($methods as $method) {
             echo '     * @covers  ' . $method->class . '::' . $method->name . PHP_EOL;
         }
-*/
 
+*/
 
     }
 

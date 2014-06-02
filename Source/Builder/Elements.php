@@ -24,7 +24,7 @@ abstract class Elements extends Item
     /**
      * Generate array of column names, values, or name-value pairs
      *
-     * @param   array   $input array of objects
+     * @param   array   $type_array
      * @param   boolean $get_value
      * @param   boolean $get_column
      * @param   boolean $use_alias
@@ -32,11 +32,11 @@ abstract class Elements extends Item
      * @return  string
      * @since   1.0
      */
-    protected function getElementsArray(array $input, $get_value = true, $get_column = true, $use_alias = true)
+    protected function getElementsArray(array $type_array, $get_value = true, $get_column = true, $use_alias = true)
     {
         $array = array();
 
-        foreach ($input as $item) {
+        foreach ($type_array as $item) {
 
             $column_value_array = $this->getElementValues($item, $get_value, $get_column, $use_alias);
             $column_name        = $column_value_array['column_name'];
@@ -66,11 +66,12 @@ abstract class Elements extends Item
 
         if ($get_column === true) {
             $column_name = $this->setColumnName($item->name);
-            $column_name .= $this->setColumnAlias($use_alias, $item->alias);
+            if ($use_alias === true && isset($item->alias)) {
+                $column_name .= $this->setColumnAlias($use_alias, $item->alias);
+            }
         }
 
         if ($get_value === true) {
-            var_dump($item);
             $value = $this->setColumnValue($item->name, $item->value, $item->data_type);
         }
 
@@ -213,12 +214,30 @@ abstract class Elements extends Item
 
         $item             = new stdClass();
         $item->group      = (string)trim($group);
-        $item->left_item  = $this->setItem($left, $left_filter, $left);
+        $item->left_item  = $this->setLeftRightConditionalItem($left_filter, $left);
         $item->condition  = $condition;
-        $item->right_item = $this->setItem($right, $right_filter, $right, null, $condition);
+        $item->right_item  = $this->setLeftRightConditionalItem($right_filter, $right, $condition);
         $item->connector  = $this->editConnector($connector);
 
         return $item;
+    }
+
+    /**
+     * Set Conditions for Query - used for Where and Having
+     *
+     * @param   string      $filter
+     * @param   string      $field
+     *
+     * @return  stdClass
+     * @since   1.0
+     */
+    protected function setLeftRightConditionalItem($filter = 'column', $field = '', $condition = null)
+    {
+        if ($filter === 'column') {
+            return $this->setItem($field, 'string', null, null, null, false);
+        }
+
+        return $this->setItem($field, $filter, $field, null, null, true);
     }
 
     /**

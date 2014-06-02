@@ -27,12 +27,66 @@ abstract class Generate extends Groups
      */
     protected $groups_array
         = array(
-            'getColumns' => array('columns', false, true, '', '', 'COLUMNS'),
-            'getFrom'    => array('from', true, false, '', '', 'FROM'),
-            'getWhere'   => array('where', false, true, '', 'where', 'WHERE'),
-            'getGroupBy' => array('group_by', true, false, '', '', 'GROUP BY'),
-            'getHaving'  => array('having', false, true, '', 'having', 'HAVING'),
-            'getOrderBy' => array('order_by', true, false, '', '', 'ORDER BY')
+            'columns'  => array(
+                'type'            => 'columns',
+                'get_value'       => false,
+                'get_column'      => true,
+                'use_alias'       => true,
+                'group_connector' => '',
+                'return_literal'  => '',
+                'key_value'       => 0,
+                'format'          => 1
+            ),
+            'from'     => array(
+                'type'            => 'from',
+                'get_value'       => false,
+                'get_column'      => true,
+                'use_alias'       => true,
+                'group_connector' => '',
+                'return_literal'  => 'FROM',
+                'key_value'       => 0,
+                'format'          => 1
+            ),
+            'where'    => array(
+                'type'           => 'where',
+                'get_value'      => false,
+                'get_column'     => true,
+                'use_alias'      => false,
+                'connector'      => 'AND',
+                'return_literal' => 'WHERE',
+                'key_value'      => 1,
+                'format'         => 1
+            ),
+            'order_by' => array(
+                'type'           => 'order_by',
+                'get_value'      => false,
+                'get_column'     => true,
+                'use_alias'      => false,
+                'connector'      => '',
+                'return_literal' => 'ORDER BY ',
+                'key_value'      => 0,
+                'format'         => 1
+            ),
+           'having'   => array(
+                'type'           => 'having',
+                'get_value'      => false,
+                'get_column'     => true,
+                'use_alias'      => false,
+                'connector'      => 'AND',
+                'return_literal' => 'HAVING',
+                'key_value'      => 1,
+                'format'         => 1
+            ),
+            'group_by' => array(
+                'type'           => 'group_by',
+                'get_value'      => false,
+                'get_column'     => true,
+                'use_alias'      => false,
+                'connector'      => '',
+                'return_literal' => 'GROUP BY ',
+                'key_value'      => 0,
+                'format'         => 1
+            )
         );
 
     /**
@@ -78,7 +132,7 @@ abstract class Generate extends Groups
      */
     protected function getInsert()
     {
-        $query = 'INSERT INTO ' . $this->getFrom() . PHP_EOL;
+        $query = 'INSERT INTO ' . $this->getElement('from') . PHP_EOL;
         $query .= $this->getInsertColumnsValues('column', 'VALUES (', ')');
         $query .= $this->getInsertColumnsValues('value', ' (', ')');
 
@@ -131,9 +185,9 @@ abstract class Generate extends Groups
     {
         $array = $this->getElementsArray($this->columns, true, true, false);
 
-        $query_string = 'UPDATE ' . $this->getFrom() . PHP_EOL;
+        $query_string = 'UPDATE ' . $this->getElement('from') . PHP_EOL;
         $query_string .= 'SET ' . $this->getLoop($array, 1, 2) . PHP_EOL;
-        $query_string .= $this->getWhere();
+        $query_string .= $this->getElement('where');
 
         return $query_string;
     }
@@ -148,8 +202,8 @@ abstract class Generate extends Groups
      */
     protected function getDelete()
     {
-        $query = 'DELETE FROM ' . $this->getFrom() . PHP_EOL;
-        $query .= $this->getWhere();
+        $query = 'DELETE FROM ' . $this->getElement('from') . PHP_EOL;
+        $query .= $this->getElement('where');
 
         return $query;
     }
@@ -164,10 +218,15 @@ abstract class Generate extends Groups
      */
     protected function getSelect()
     {
-        $query = $this->getDistinct();
+        $query = '';
 
         foreach ($this->groups_array as $key => $value) {
-            return $this->getElement($key);
+            $new = $this->getElement($key);
+            if (trim($query) === '') {
+                $query = $this->getDistinct() . $new;
+            } else {
+                $query .= PHP_EOL . $new;
+            }
         }
 
         $query .= $this->getLimit();
@@ -190,51 +249,6 @@ abstract class Generate extends Groups
         return 'SELECT ';
     }
 
-
-    /**
-     * Generate Column SQL
-     *
-     * @return string
-     * @since 1.0
-     */
-    protected function getColumns()
-    {
-        return $this->getElement('getColumns');
-    }
-
-    /**
-     * Generate FROM SQL
-     *
-     * @return string
-     * @since 1.0
-     */
-    protected function getFrom()
-    {
-        return $this->getElement('getFrom');
-    }
-
-    /**
-     * Generate FROM SQL
-     *
-     * @return string
-     * @since 1.0
-     */
-    protected function getWhere()
-    {
-        return $this->getElement('getWhere');
-    }
-
-    /**
-     * Generate FROM SQL
-     *
-     * @return string
-     * @since 1.0
-     */
-    protected function getHaving()
-    {
-        return $this->getElement('getHaving');
-    }
-
     /**
      * Generate Element SQL
      *
@@ -245,32 +259,35 @@ abstract class Generate extends Groups
      */
     protected function getElement($type)
     {
-        $type_array = $this->groups_array[$type];
-
-        $key_value = 1;
-        $option    = 1;
-
-        $array = $this->getElementsArray(
-            $this->$type_array[0],
-            $type_array[1], // get_value
-            $type_array[2], // get_column
-            $type_array[3] // use_alias
-        );
+        $a = $this->groups_array[$type];
 
         if ($type === 'where' || $type === 'having') {
-            return $this->getGroups(
-                $array, // element_type_array
-                $this->$type_array[0], // element_array
-                $type_array[4]
-            ) // type
-            . PHP_EOL;
+            $t = $type . '_group';
+            $output = $this->getGroups($this->$t, $this->$type, $a['connector']);
+        } else {
+            $array = $this->getElementsArray($this->$type, $a['get_value'], $a['get_column'], $a['use_alias']);
+            $output = $this->getLoop($array, $a['key_value'], $a['format']);
         }
 
-        return trim(
-            $type_array[5]
-            . ' '
-            . $this->getLoop($array, $key_value, $option)
-        ) . PHP_EOL;
+        return $this->returnGetElement($a['return_literal'], $output);
+    }
+
+    /**
+     * Return getElement Value
+     *
+     * @param   string $return_literal
+     * @param   string $output
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function returnGetElement($return_literal, $output = '')
+    {
+        if (trim($output) === '') {
+            return '';
+        }
+
+        return trim($return_literal . ' ' . $output);
     }
 
     /**
@@ -283,7 +300,7 @@ abstract class Generate extends Groups
     {
         if ((int)$this->offset === 0 && (int)$this->limit === 0) {
         } else {
-            return 'LIMIT ' . $this->offset . ', ' . $this->limit . PHP_EOL;
+            return PHP_EOL . 'LIMIT ' . $this->offset . ', ' . $this->limit;
         }
 
         return '';

@@ -104,7 +104,6 @@ abstract class Criteria extends Columns
         $filter,
         $model_registry_property
     ) {
-
         if ($this->useModelCriteriaWhere($column_name) === false) {
             return $this;
         }
