@@ -6,7 +6,7 @@
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
-namespace Molajo\Controller;
+namespace Molajo\Query;
 
 use ReflectionClass;
 use Molajo\Fieldhandler\MockRequest as Fieldhandler;
