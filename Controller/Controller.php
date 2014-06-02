@@ -166,6 +166,11 @@ abstract class Controller implements ControllerInterface
      */
     public function getValue($key, $default = null)
     {
+        if (isset($this->$key)) {
+        } else {
+            return false;
+        }
+
         if ($this->$key === null) {
             $this->$key = $default;
         }

@@ -89,9 +89,7 @@ abstract class Generate extends Groups
             $get_column = true;
         }
 
-        $array = $this->getElementsArray($this->columns, $get_value, $get_column, false);
-
-        return $start . $this->getLoop($array, 1, 1) . $end . PHP_EOL;
+        return $this->getElement($this->columns, $get_value, $get_column, false, 1, 1);
     }
 
     /**
@@ -185,9 +183,33 @@ abstract class Generate extends Groups
      */
     protected function getColumns()
     {
-        $array = $this->getElementsArray($this->columns, false, true, true);
+        return $this->getElement($this->columns, false, true, true, 1, 1);
+    }
 
-        return $this->getLoop($array, 1, 1) . PHP_EOL;
+    /**
+     * Generate Element SQL
+     *
+     * @param   array $element_array
+     * @param   boolean  $get_value
+     * @param   boolean  $get_column
+     * @param   boolean  $use_alias
+     * @param   integer  $key_value
+     * @param   integer  $option
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getElement(
+        array $element_array = array(),
+        $get_value = false,
+        $get_column = true,
+        $use_alias = true,
+        $key_value = 0,
+        $option = 0
+    ) {
+        $array = $this->getElementsArray($element_array, $get_value, $get_column, $use_alias);
+
+        return $this->getLoop($array, $key_value, $option) . PHP_EOL;
     }
 
     /**
@@ -198,9 +220,29 @@ abstract class Generate extends Groups
      */
     protected function getFrom()
     {
-        $array = $this->getElementsArray($this->from, true, false, true);
+        return 'FROM ' . $this->getElement($this->from, true, false, true, 1, 1);
+    }
 
-        return 'FROM ' . $this->getLoop($array, 1, 1) . PHP_EOL;
+    /**
+     * Generate GROUP BY SQL
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getGroupBy()
+    {
+        return 'GROUP BY ' .$this->getElement($this->group_by, true, false, true, 1, 1);
+    }
+
+    /**
+     * Generate ORDER BY SQL
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getOrderBy()
+    {
+        return 'ORDER BY ' .$this->getElement($this->group_by, true, false, false, 1, 1) . PHP_EOL;
     }
 
     /**
@@ -217,19 +259,6 @@ abstract class Generate extends Groups
     }
 
     /**
-     * Generate GROUP BY SQL
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getGroupBy()
-    {
-        $array = $this->getElementsArray($this->group_by, true, false, false);
-
-        return 'GROUP BY ' . $this->getLoop($array, 1, 1) . PHP_EOL;
-    }
-
-    /**
      * Generate HAVING SQL
      *
      * @return  string
@@ -240,19 +269,6 @@ abstract class Generate extends Groups
         $array = $this->getElementsArray($this->having, true, false, false);
 
         return 'HAVING ' . $this->getGroups($array, $this->having, 'having') . PHP_EOL;
-    }
-
-    /**
-     * Generate ORDER BY SQL
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getOrderBy()
-    {
-        $array = $this->getElementsArray($this->order_by, true, false, false);
-
-        return 'ORDER BY ' . $this->getLoop($array, 1, 1) . PHP_EOL;
     }
 
     /**

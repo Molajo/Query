@@ -235,10 +235,10 @@ abstract class Criteria extends Columns
     }
 
     /**
-     * Process each Join Item Piar
+     * Process each Join Item Pair
      *
-     * @param   string $join_to_array
-     * @param   string $join_with_array
+     * @param   array  $join_to_array
+     * @param   array  $join_with_array
      * @param   string $join_to_item_alias
      * @param   string $operator
      *
