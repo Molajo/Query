@@ -103,4 +103,129 @@ abstract class Utilities extends Filters
 
         return $this;
     }
+
+    /**
+     * COMMON CODE
+     *
+     * Set "Where Pair" Left - Operator - Right
+     *
+     * @param   string $join_to_item_alias
+     * @param   string $join_to_item
+     * @param   string $operator
+     * @param   string $join_with_item_alias
+     * @param   string $join_with_item
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setWherePair(
+        $join_to_item_alias,
+        $join_to_item,
+        $operator,
+        $join_with_item_alias,
+        $join_with_item
+    ) {
+        /** Left */
+        list($join_to_filter, $join_to_value) = $this->setWhereElement($join_to_item_alias, $join_to_item);
+
+        /** Operator */
+        list($operator) = $this->setWhereOperator($operator);
+
+        /** Right */
+        list($join_with_filter, $join_with_value) = $this->setWhereElement($join_with_item_alias, $join_with_item);
+
+        /** Set the Where Statement */
+        $this->where($join_to_filter, $join_to_value, $operator, $join_with_filter, $join_with_value);
+
+        return $this;
+    }
+
+    /**
+     * Set Where Operator
+     *
+     * @param   string $operator
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setWhereOperator($operator)
+    {
+        if (in_array($operator, $this->operator_array)) {
+            return $operator;
+        }
+
+        $operator = '=';
+
+        return $operator;
+    }
+
+    /**
+     * Add Model Registry Criteria to Query
+     *
+     * @param   string $join_with_item_alias
+     * @param   string $join_item
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function setWhereElement($join_with_item_alias, $join_item)
+    {
+        if (isset($this->query_where_property_array[$join_item])) {
+            return $this->setWhereElementProperty($join_item);
+        }
+
+        if (is_numeric($join_item)) {
+            return $this->setWhereElementNumericValue($join_item);
+        }
+
+        return $this->setWhereElementTableColumn($join_with_item_alias, $join_item);
+    }
+
+    /**
+     * Where element is a named property (ex. APPLICATION_ID)
+     *
+     * @param   string $join_item
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function setWhereElementProperty($join_item)
+    {
+        $key = $this->query_where_property_array[$join_item];
+
+        if (isset($this->model_registry[$key])) {
+            $value = $this->model_registry[$key];
+        } else {
+            $value = $this->$key;
+        }
+
+        return array('integer', $value);
+    }
+
+    /**
+     * Where element is a numeric value
+     *
+     * @param   string $join_item
+     *
+     * @return  string[]
+     * @since   1.0
+     */
+    protected function setWhereElementNumericValue($join_item)
+    {
+        return array('integer', $join_item);
+    }
+
+    /**
+     * Where element is a table column
+     *
+     * @param   string $join_with_item_alias
+     * @param   string $join_item
+     *
+     * @return  string[]
+     * @since   1.0
+     */
+    protected function setWhereElementTableColumn($join_with_item_alias, $join_item)
+    {
+        return array('column', $join_with_item_alias . '.' . $join_item);
+    }
 }

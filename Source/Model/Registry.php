@@ -88,4 +88,26 @@ class Registry extends Criteria implements ModelRegistryInterface2
 
         return $sql;
     }
+    /**
+     * Build SQL from Model Registry
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setModelRegistrySQL()
+    {
+        $this->setSelectColumns();
+        $this->setFrom();
+        $this->setKeyCriteria();
+        $this->setJoins();
+        $this->setModelCriteria();
+        $this->setModelCriteriaArrayCriteria();
+
+        $this->query_object   = $this->getModelRegistry('query_object');
+        $this->use_pagination = $this->getModelRegistry('use_pagination');
+        $this->offset         = $this->getModelRegistry('offset');
+        $this->count          = $this->getModelRegistry('count');
+
+        return $this;
+    }
 }

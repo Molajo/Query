@@ -13,13 +13,13 @@ use stdClass;
 /**
  * Query Builder Elements
  *
- * Base - Filters - Edits - Elements - Groups - Generate - Sql
+ * Base - Filters - Edits - Item - Elements - Groups - Generate - Sql
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class Elements extends Edits
+abstract class Elements extends Item
 {
     /**
      * Generate array of column names, values, or name-value pairs
@@ -132,7 +132,7 @@ abstract class Elements extends Edits
      * @param   string $value
      * @param   string $filter
      *
-     * @return  null|string
+     * @return  string
      * @since   1.0
      */
     protected function setOrFilterColumn($column_name, $value, $filter)
@@ -253,7 +253,7 @@ abstract class Elements extends Edits
      *
      * @param   string $direction
      *
-     * @return  $this
+     * @return  string
      * @since   1.0
      */
     protected function setDirection($direction = 'DESC')
@@ -265,131 +265,6 @@ abstract class Elements extends Edits
         }
 
         return 'DESC';
-    }
-
-    /**
-     * Set Item Object with Data
-     *
-     * @param   string      $name
-     * @param   null|string $data_type
-     * @param   null|string $value
-     * @param   null|string $alias
-     * @param   null|string $condition
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    protected function setItem($name, $data_type, $value = null, $alias = null, $condition = null)
-    {
-        $this->editRequired('name', $name);
-
-        $name_and_prefix = $this->setItemName($name);
-
-        $item            = new stdClass();
-        $item->name      = (string)$name_and_prefix['name'];
-        $item->prefix    = (string)$name_and_prefix['prefix'];
-        $item->data_type = (string)$this->setItemDataType($data_type);
-        $item->value     = $this->setItemValue($item->name, $value, $data_type, $condition);
-        $item->alias     = $this->setItemAlias($alias);
-
-        return $item;
-    }
-
-    /**
-     * Set Item Value
-     *
-     * @param   string      $name
-     * @param   null|string $data_type
-     * @param   null|string $value
-     * @param   null|string $condition
-     *
-     * @return  mixed
-     * @since   1.0
-     */
-    protected function setItemValue($name, $data_type, $value = null, $condition = null)
-    {
-        if ($condition === 'in') {
-            return $this->setItemValueInDataType($value, $data_type);
-        }
-
-        return $this->filter($name, $value, $data_type);
-    }
-
-    /**
-     * Set Item Alias
-     *
-     * @param   null|string $alias
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function setItemAlias($alias = null)
-    {
-        if ($alias === null || trim($alias) === '') {
-            return null;
-        }
-
-        return (string)$alias;
-    }
-
-    /**
-     * Set Item Column Name and Prefix
-     *
-     * @param   string $column_name
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function setItemName($column_name)
-    {
-        if (strpos($column_name, '.')) {
-            $temp   = explode('.', $column_name);
-            $prefix = (string)$temp[0];
-            $prefix .= '.';
-            $column_name = (string)$temp[1];
-        } else {
-            $prefix = null;
-        }
-
-        return array('prefix' => $prefix, 'name' => $column_name);
-    }
-
-    /**
-     * Set the Item data type
-     *
-     * @param   string $data_type
-     *
-     * @return  stdClass
-     * @since   1.0
-     */
-    protected function setItemDataType($data_type)
-    {
-        if ($data_type === null || trim($data_type) === '') {
-            $data_type = 'string';
-        }
-
-        return $data_type;
-    }
-
-    /**
-     * Set the Item Value for "In" Condition
-     *
-     * @param   null|string $value
-     * @param   string      $data_type
-     *
-     * @return  array
-     * @since   1.0
-     */
-    protected function setItemValueInDataType($value, $data_type)
-    {
-        $in_array = explode(',', $value);
-        $value    = array();
-
-        foreach ($in_array as $value) {
-            $value[] = $this->filter('In array value', $value, $data_type);
-        }
-
-        return $value;
     }
 
     /**

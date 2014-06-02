@@ -171,6 +171,7 @@ interface QueryInterface2
      * @param   string $right_filter
      * @param   string $right
      * @param   string $connector
+     * @param string $group
      *
      * @return  $this
      * @since   1.0

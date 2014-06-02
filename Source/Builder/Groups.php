@@ -11,7 +11,7 @@ namespace Molajo\Query\Builder;
 /**
  * Query Builder Groups
  *
- * Base - Filters - Edits - Elements - Groups - Generate - Sql
+ * Base - Filters - Edits - Item - Elements - Groups - Generate - Sql
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
@@ -98,10 +98,9 @@ abstract class Groups extends Elements
     /**
      * Process Type Array for Group
      *
-     * @param   mixed  $type_group_array
      * @param   string $type
      *
-     * @return  array
+     * @return  string
      * @since   1.0
      */
     protected function getGroupItemsLoop($type_array, $group)
@@ -155,8 +154,8 @@ abstract class Groups extends Elements
      * Generate Data needed for SQL List
      *
      * @param   array  $value_array
-     * @param   string $key_value
-     * @param   string $option
+     * @param   integer $key_value
+     * @param   integer $option
      *
      * @return  string
      * @since   1.0

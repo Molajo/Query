@@ -14,7 +14,7 @@ use CommonApi\Exception\RuntimeException;
 /**
  * Query Builder Filters
  *
- * Base - Filters - Edits - Elements - Groups - Generate - Sql
+ * Base - Filters - Edits - Item - Elements - Groups - Generate - Sql
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -40,7 +40,6 @@ abstract class Filters extends Base
      * Quote Name
      *
      * @param   string $value
-     * @param   string $alias
      *
      * @return  string
      * @since   1.0
