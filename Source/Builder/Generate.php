@@ -220,6 +220,28 @@ abstract class Generate extends Groups
     }
 
     /**
+     * Generate WHERE SQL
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getWhere()
+    {
+        return 'WHERE ' . $this->getElement($this->where, true, false, true, 0, 0, 'where') . PHP_EOL;
+    }
+
+    /**
+     * Generate HAVING SQL
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getHaving()
+    {
+        return 'HAVING ' . $this->getElement($this->having, true, false, false, 0, 0, 'having') . PHP_EOL;
+    }
+
+    /**
      * Generate Element SQL
      *
      * @param   array   $element_array
@@ -238,57 +260,16 @@ abstract class Generate extends Groups
         $get_column = true,
         $use_alias = true,
         $key_value = 0,
-        $option = 0
+        $option = 0,
+        $type = ''
     ) {
         $array = $this->getElementsArray($element_array, $get_value, $get_column, $use_alias);
 
+        if ($type === 'where' || $type === 'having') {
+            return $this->getGroups($array, $element_array, $type) . PHP_EOL;
+        }
+
         return $this->getLoop($array, $key_value, $option) . PHP_EOL;
-    }
-
-    /**
-     * Generate WHERE SQL
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getWhere()
-    {
-        return 'WHERE ' . $this->getElementsArrayGroups($this->where, true, false, true, 'where') . PHP_EOL;
-    }
-
-    /**
-     * Generate HAVING SQL
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getHaving()
-    {
-        return 'HAVING ' . $this->getElementsArrayGroups($this->having, true, false, false, 'having') . PHP_EOL;
-    }
-
-    /**
-     * Generate Where and Having SQL
-     *
-     * @param   array   $element_array
-     * @param   boolean $get_value
-     * @param   boolean $get_column
-     * @param   boolean $use_alias
-     * @param   string  $type
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getElementsArrayGroups(
-        array $element_array = array(),
-        $get_value = false,
-        $get_column = true,
-        $use_alias = true,
-        $type = 'where'
-    ) {
-        $type_group_array = $this->getElementsArray($element_array, $get_value, $get_column, $use_alias);
-
-        return $this->getGroups($type_group_array, $element_array, $type) . PHP_EOL;
     }
 
     /**
