@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1401682633">
-  <project timestamp="1401682633">
+<coverage generated="1401683327">
+  <project timestamp="1401683327">
     <file name="/Users/amystephen/Sites/Molajo/Query/.dev/Bootstrap.php">
       <line num="0" type="stmt" count="0"/>
       <line num="62" type="stmt" count="0"/>
@@ -188,11 +188,11 @@
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Query/Source/Builder/Edits.php">
         <class name="Edits" namespace="Molajo\Query\Builder" fullPackage="Molajo" package="Molajo">
-          <metrics methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="26" coveredstatements="0" elements="31" coveredelements="0"/>
+          <metrics methods="5" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="26" coveredstatements="4" elements="31" coveredelements="6"/>
         </class>
-        <line num="34" type="method" name="editArray" crap="20" count="0"/>
-        <line num="36" type="stmt" count="0"/>
-        <line num="37" type="stmt" count="0"/>
+        <line num="34" type="method" name="editArray" crap="7.46" count="1"/>
+        <line num="36" type="stmt" count="1"/>
+        <line num="37" type="stmt" count="1"/>
         <line num="40" type="stmt" count="0"/>
         <line num="41" type="stmt" count="0"/>
         <line num="44" type="stmt" count="0"/>
@@ -201,10 +201,10 @@
         <line num="60" type="stmt" count="0"/>
         <line num="62" type="stmt" count="0"/>
         <line num="64" type="stmt" count="0"/>
-        <line num="76" type="method" name="editRequired" crap="12" count="0"/>
-        <line num="78" type="stmt" count="0"/>
+        <line num="76" type="method" name="editRequired" crap="3.33" count="1"/>
+        <line num="78" type="stmt" count="1"/>
         <line num="79" type="stmt" count="0"/>
-        <line num="81" type="stmt" count="0"/>
+        <line num="81" type="stmt" count="1"/>
         <line num="91" type="method" name="editConnector" crap="6" count="0"/>
         <line num="93" type="stmt" count="0"/>
         <line num="95" type="stmt" count="0"/>
@@ -222,41 +222,41 @@
         <line num="123" type="stmt" count="0"/>
         <line num="126" type="stmt" count="0"/>
         <line num="129" type="stmt" count="0"/>
-        <metrics loc="128" ncloc="63" classes="1" methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="26" coveredstatements="0" elements="31" coveredelements="0"/>
+        <metrics loc="128" ncloc="63" classes="1" methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="26" coveredstatements="4" elements="31" coveredelements="4"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Query/Source/Builder/Elements.php">
         <class name="Elements" namespace="Molajo\Query\Builder" fullPackage="Molajo" package="Molajo">
-          <metrics methods="11" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="75" coveredstatements="0" elements="86" coveredelements="0"/>
+          <metrics methods="11" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="75" coveredstatements="25" elements="86" coveredelements="30"/>
         </class>
-        <line num="35" type="method" name="getElementsArray" crap="6" count="0"/>
-        <line num="37" type="stmt" count="0"/>
-        <line num="39" type="stmt" count="0"/>
-        <line num="41" type="stmt" count="0"/>
-        <line num="42" type="stmt" count="0"/>
-        <line num="43" type="stmt" count="0"/>
-        <line num="45" type="stmt" count="0"/>
-        <line num="46" type="stmt" count="0"/>
-        <line num="48" type="stmt" count="0"/>
-        <line num="62" type="method" name="getElementValues" crap="12" count="0"/>
-        <line num="64" type="stmt" count="0"/>
-        <line num="65" type="stmt" count="0"/>
-        <line num="67" type="stmt" count="0"/>
-        <line num="68" type="stmt" count="0"/>
-        <line num="69" type="stmt" count="0"/>
-        <line num="70" type="stmt" count="0"/>
-        <line num="72" type="stmt" count="0"/>
+        <line num="35" type="method" name="getElementsArray" crap="2" count="1"/>
+        <line num="37" type="stmt" count="1"/>
+        <line num="39" type="stmt" count="1"/>
+        <line num="41" type="stmt" count="1"/>
+        <line num="42" type="stmt" count="1"/>
+        <line num="43" type="stmt" count="1"/>
+        <line num="45" type="stmt" count="1"/>
+        <line num="46" type="stmt" count="1"/>
+        <line num="48" type="stmt" count="1"/>
+        <line num="62" type="method" name="getElementValues" crap="3.18" count="1"/>
+        <line num="64" type="stmt" count="1"/>
+        <line num="65" type="stmt" count="1"/>
+        <line num="67" type="stmt" count="1"/>
+        <line num="68" type="stmt" count="1"/>
+        <line num="69" type="stmt" count="1"/>
+        <line num="70" type="stmt" count="1"/>
+        <line num="72" type="stmt" count="1"/>
         <line num="73" type="stmt" count="0"/>
         <line num="74" type="stmt" count="0"/>
         <line num="75" type="stmt" count="0"/>
-        <line num="77" type="stmt" count="0"/>
-        <line num="92" type="method" name="getElementArrayEntry" crap="20" count="0"/>
-        <line num="94" type="stmt" count="0"/>
+        <line num="77" type="stmt" count="1"/>
+        <line num="92" type="method" name="getElementArrayEntry" crap="5.26" count="1"/>
+        <line num="94" type="stmt" count="1"/>
         <line num="95" type="stmt" count="0"/>
-        <line num="97" type="stmt" count="0"/>
+        <line num="97" type="stmt" count="1"/>
         <line num="98" type="stmt" count="0"/>
         <line num="100" type="stmt" count="0"/>
-        <line num="101" type="stmt" count="0"/>
-        <line num="104" type="stmt" count="0"/>
+        <line num="101" type="stmt" count="1"/>
+        <line num="104" type="stmt" count="1"/>
         <line num="117" type="method" name="setColumnValue" crap="6" count="0"/>
         <line num="119" type="stmt" count="0"/>
         <line num="121" type="stmt" count="0"/>
@@ -266,16 +266,16 @@
         <line num="140" type="stmt" count="0"/>
         <line num="141" type="stmt" count="0"/>
         <line num="144" type="stmt" count="0"/>
-        <line num="155" type="method" name="setColumnName" crap="6" count="0"/>
-        <line num="157" type="stmt" count="0"/>
+        <line num="155" type="method" name="setColumnName" crap="2.50" count="1"/>
+        <line num="157" type="stmt" count="1"/>
         <line num="158" type="stmt" count="0"/>
         <line num="159" type="stmt" count="0"/>
         <line num="160" type="stmt" count="0"/>
-        <line num="161" type="stmt" count="0"/>
-        <line num="164" type="stmt" count="0"/>
-        <line num="176" type="method" name="setColumnAlias" crap="12" count="0"/>
-        <line num="178" type="stmt" count="0"/>
-        <line num="179" type="stmt" count="0"/>
+        <line num="161" type="stmt" count="1"/>
+        <line num="164" type="stmt" count="1"/>
+        <line num="176" type="method" name="setColumnAlias" crap="4.94" count="1"/>
+        <line num="178" type="stmt" count="1"/>
+        <line num="179" type="stmt" count="1"/>
         <line num="182" type="stmt" count="0"/>
         <line num="183" type="stmt" count="0"/>
         <line num="186" type="stmt" count="0"/>
@@ -315,14 +315,14 @@
         <line num="292" type="stmt" count="0"/>
         <line num="294" type="stmt" count="0"/>
         <line num="297" type="stmt" count="0"/>
-        <metrics loc="296" ncloc="168" classes="1" methods="11" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="75" coveredstatements="0" elements="86" coveredelements="0"/>
+        <metrics loc="296" ncloc="168" classes="1" methods="11" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="75" coveredstatements="25" elements="86" coveredelements="26"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Query/Source/Builder/Filters.php">
         <class name="Filters" namespace="Molajo\Query\Builder">
-          <metrics methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="0" elements="25" coveredelements="0"/>
+          <metrics methods="4" coveredmethods="3" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="8" elements="25" coveredelements="11"/>
         </class>
-        <line num="34" type="method" name="quoteValue" crap="2" count="0"/>
-        <line num="36" type="stmt" count="0"/>
+        <line num="34" type="method" name="quoteValue" crap="1" count="1"/>
+        <line num="36" type="stmt" count="1"/>
         <line num="47" type="method" name="quoteNameAndPrefix" crap="12" count="0"/>
         <line num="49" type="stmt" count="0"/>
         <line num="50" type="stmt" count="0"/>
@@ -331,39 +331,39 @@
         <line num="54" type="stmt" count="0"/>
         <line num="57" type="stmt" count="0"/>
         <line num="59" type="stmt" count="0"/>
-        <line num="70" type="method" name="quoteName" crap="6" count="0"/>
-        <line num="72" type="stmt" count="0"/>
+        <line num="70" type="method" name="quoteName" crap="2.15" count="1"/>
+        <line num="72" type="stmt" count="1"/>
         <line num="73" type="stmt" count="0"/>
-        <line num="76" type="stmt" count="0"/>
-        <line num="90" type="method" name="filter" crap="12" count="0"/>
-        <line num="92" type="stmt" count="0"/>
+        <line num="76" type="stmt" count="1"/>
+        <line num="90" type="method" name="filter" crap="4.12" count="1"/>
+        <line num="92" type="stmt" count="1"/>
         <line num="93" type="stmt" count="0"/>
         <line num="94" type="stmt" count="0"/>
-        <line num="97" type="stmt" count="0"/>
-        <line num="99" type="stmt" count="0"/>
-        <line num="101" type="stmt" count="0"/>
+        <line num="97" type="stmt" count="1"/>
+        <line num="99" type="stmt" count="1"/>
+        <line num="101" type="stmt" count="1"/>
         <line num="102" type="stmt" count="0"/>
         <line num="103" type="stmt" count="0"/>
         <line num="104" type="stmt" count="0"/>
-        <line num="107" type="stmt" count="0"/>
+        <line num="107" type="stmt" count="1"/>
         <line num="110" type="stmt" count="0"/>
-        <metrics loc="109" ncloc="57" classes="1" methods="4" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="0" elements="25" coveredelements="0"/>
+        <metrics loc="109" ncloc="57" classes="1" methods="4" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="21" coveredstatements="8" elements="25" coveredelements="9"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Query/Source/Builder/Generate.php">
         <class name="Generate" namespace="Molajo\Query\Builder" fullPackage="Molajo" package="Molajo">
-          <metrics methods="16" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="67" coveredstatements="0" elements="83" coveredelements="0"/>
+          <metrics methods="16" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="67" coveredstatements="26" elements="83" coveredelements="31"/>
         </class>
         <line num="46" type="method" name="getExternalSql" crap="2" count="0"/>
         <line num="48" type="stmt" count="0"/>
         <line num="50" type="stmt" count="0"/>
-        <line num="59" type="method" name="generateSql" crap="6" count="0"/>
-        <line num="61" type="stmt" count="0"/>
+        <line num="59" type="method" name="generateSql" crap="2.01" count="1"/>
+        <line num="61" type="stmt" count="1"/>
         <line num="62" type="stmt" count="0"/>
-        <line num="63" type="stmt" count="0"/>
-        <line num="66" type="stmt" count="0"/>
-        <line num="67" type="stmt" count="0"/>
-        <line num="68" type="stmt" count="0"/>
-        <line num="70" type="stmt" count="0"/>
+        <line num="63" type="stmt" count="1"/>
+        <line num="66" type="stmt" count="1"/>
+        <line num="67" type="stmt" count="1"/>
+        <line num="68" type="stmt" count="1"/>
+        <line num="70" type="stmt" count="1"/>
         <line num="79" type="method" name="getInsert" crap="2" count="0"/>
         <line num="81" type="stmt" count="0"/>
         <line num="82" type="stmt" count="0"/>
@@ -389,16 +389,16 @@
         <line num="151" type="stmt" count="0"/>
         <line num="152" type="stmt" count="0"/>
         <line num="154" type="stmt" count="0"/>
-        <line num="165" type="method" name="getSelect" crap="6" count="0"/>
-        <line num="167" type="stmt" count="0"/>
-        <line num="169" type="stmt" count="0"/>
-        <line num="170" type="stmt" count="0"/>
+        <line num="165" type="method" name="getSelect" crap="2.50" count="1"/>
+        <line num="167" type="stmt" count="1"/>
+        <line num="169" type="stmt" count="1"/>
+        <line num="170" type="stmt" count="1"/>
         <line num="171" type="stmt" count="0"/>
         <line num="173" type="stmt" count="0"/>
         <line num="175" type="stmt" count="0"/>
-        <line num="184" type="method" name="getDistinct" crap="6" count="0"/>
-        <line num="186" type="stmt" count="0"/>
-        <line num="187" type="stmt" count="0"/>
+        <line num="184" type="method" name="getDistinct" crap="2.15" count="1"/>
+        <line num="186" type="stmt" count="1"/>
+        <line num="187" type="stmt" count="1"/>
         <line num="190" type="stmt" count="0"/>
         <line num="200" type="method" name="getColumns" crap="2" count="0"/>
         <line num="202" type="stmt" count="0"/>
@@ -408,40 +408,40 @@
         <line num="224" type="stmt" count="0"/>
         <line num="233" type="method" name="getHaving" crap="2" count="0"/>
         <line num="235" type="stmt" count="0"/>
-        <line num="246" type="method" name="getElement" crap="12" count="0"/>
-        <line num="248" type="stmt" count="0"/>
-        <line num="250" type="stmt" count="0"/>
-        <line num="251" type="stmt" count="0"/>
-        <line num="253" type="stmt" count="0"/>
-        <line num="254" type="stmt" count="0"/>
-        <line num="255" type="stmt" count="0"/>
-        <line num="256" type="stmt" count="0"/>
-        <line num="257" type="stmt" count="0"/>
-        <line num="258" type="stmt" count="0"/>
-        <line num="260" type="stmt" count="0"/>
+        <line num="246" type="method" name="getElement" crap="3.24" count="1"/>
+        <line num="248" type="stmt" count="1"/>
+        <line num="250" type="stmt" count="1"/>
+        <line num="251" type="stmt" count="1"/>
+        <line num="253" type="stmt" count="1"/>
+        <line num="254" type="stmt" count="1"/>
+        <line num="255" type="stmt" count="1"/>
+        <line num="256" type="stmt" count="1"/>
+        <line num="257" type="stmt" count="1"/>
+        <line num="258" type="stmt" count="1"/>
+        <line num="260" type="stmt" count="1"/>
         <line num="261" type="stmt" count="0"/>
         <line num="262" type="stmt" count="0"/>
         <line num="263" type="stmt" count="0"/>
         <line num="264" type="stmt" count="0"/>
         <line num="265" type="stmt" count="0"/>
         <line num="266" type="stmt" count="0"/>
-        <line num="269" type="stmt" count="0"/>
-        <line num="270" type="stmt" count="0"/>
-        <line num="272" type="stmt" count="0"/>
-        <line num="273" type="stmt" count="0"/>
+        <line num="269" type="stmt" count="1"/>
+        <line num="270" type="stmt" count="1"/>
+        <line num="272" type="stmt" count="1"/>
+        <line num="273" type="stmt" count="1"/>
         <line num="282" type="method" name="getLimit" crap="12" count="0"/>
         <line num="284" type="stmt" count="0"/>
         <line num="285" type="stmt" count="0"/>
         <line num="286" type="stmt" count="0"/>
         <line num="289" type="stmt" count="0"/>
-        <line num="300" type="method" name="getDatabasePrefix" crap="2" count="0"/>
-        <line num="302" type="stmt" count="0"/>
+        <line num="300" type="method" name="getDatabasePrefix" crap="1" count="1"/>
+        <line num="302" type="stmt" count="1"/>
         <line num="305" type="stmt" count="0"/>
-        <metrics loc="304" ncloc="158" classes="1" methods="16" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="67" coveredstatements="0" elements="83" coveredelements="0"/>
+        <metrics loc="304" ncloc="158" classes="1" methods="16" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="67" coveredstatements="26" elements="83" coveredelements="27"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Query/Source/Builder/Groups.php">
         <class name="Groups" namespace="Molajo\Query\Builder" fullPackage="Molajo" package="Molajo">
-          <metrics methods="7" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="61" coveredstatements="0" elements="68" coveredelements="0"/>
+          <metrics methods="7" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="61" coveredstatements="13" elements="68" coveredelements="15"/>
         </class>
         <line num="33" type="method" name="setGroup" crap="2" count="0"/>
         <line num="35" type="stmt" count="0"/>
@@ -489,67 +489,67 @@
         <line num="145" type="stmt" count="0"/>
         <line num="146" type="stmt" count="0"/>
         <line num="149" type="stmt" count="0"/>
-        <line num="162" type="method" name="getLoop" crap="20" count="0"/>
-        <line num="164" type="stmt" count="0"/>
-        <line num="166" type="stmt" count="0"/>
+        <line num="162" type="method" name="getLoop" crap="5.02" count="1"/>
+        <line num="164" type="stmt" count="1"/>
+        <line num="166" type="stmt" count="1"/>
         <line num="167" type="stmt" count="0"/>
         <line num="168" type="stmt" count="0"/>
         <line num="169" type="stmt" count="0"/>
         <line num="170" type="stmt" count="0"/>
-        <line num="171" type="stmt" count="0"/>
-        <line num="172" type="stmt" count="0"/>
-        <line num="173" type="stmt" count="0"/>
-        <line num="176" type="stmt" count="0"/>
-        <line num="192" type="method" name="getLoopList" crap="20" count="0"/>
-        <line num="194" type="stmt" count="0"/>
-        <line num="195" type="stmt" count="0"/>
-        <line num="196" type="stmt" count="0"/>
-        <line num="199" type="stmt" count="0"/>
-        <line num="200" type="stmt" count="0"/>
-        <line num="201" type="stmt" count="0"/>
+        <line num="171" type="stmt" count="1"/>
+        <line num="172" type="stmt" count="1"/>
+        <line num="173" type="stmt" count="1"/>
+        <line num="176" type="stmt" count="1"/>
+        <line num="192" type="method" name="getLoopList" crap="4.43" count="1"/>
+        <line num="194" type="stmt" count="1"/>
+        <line num="195" type="stmt" count="1"/>
+        <line num="196" type="stmt" count="1"/>
+        <line num="199" type="stmt" count="1"/>
+        <line num="200" type="stmt" count="1"/>
+        <line num="201" type="stmt" count="1"/>
         <line num="202" type="stmt" count="0"/>
         <line num="203" type="stmt" count="0"/>
         <line num="204" type="stmt" count="0"/>
-        <line num="207" type="stmt" count="0"/>
+        <line num="207" type="stmt" count="1"/>
         <line num="210" type="stmt" count="0"/>
-        <metrics loc="209" ncloc="125" classes="1" methods="7" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="61" coveredstatements="0" elements="68" coveredelements="0"/>
+        <metrics loc="209" ncloc="125" classes="1" methods="7" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="61" coveredstatements="13" elements="68" coveredelements="13"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Query/Source/Builder/Item.php">
         <class name="Item" namespace="Molajo\Query\Builder" fullPackage="Molajo" package="Molajo">
-          <metrics methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="33" coveredstatements="0" elements="39" coveredelements="0"/>
+          <metrics methods="6" coveredmethods="5" conditionals="0" coveredconditionals="0" statements="33" coveredstatements="18" elements="39" coveredelements="23"/>
         </class>
-        <line num="37" type="method" name="setItem" crap="2" count="0"/>
-        <line num="39" type="stmt" count="0"/>
-        <line num="41" type="stmt" count="0"/>
-        <line num="43" type="stmt" count="0"/>
-        <line num="44" type="stmt" count="0"/>
-        <line num="45" type="stmt" count="0"/>
-        <line num="46" type="stmt" count="0"/>
-        <line num="47" type="stmt" count="0"/>
-        <line num="48" type="stmt" count="0"/>
-        <line num="50" type="stmt" count="0"/>
-        <line num="64" type="method" name="setItemValue" crap="6" count="0"/>
-        <line num="66" type="stmt" count="0"/>
+        <line num="37" type="method" name="setItem" crap="1" count="1"/>
+        <line num="39" type="stmt" count="1"/>
+        <line num="41" type="stmt" count="1"/>
+        <line num="43" type="stmt" count="1"/>
+        <line num="44" type="stmt" count="1"/>
+        <line num="45" type="stmt" count="1"/>
+        <line num="46" type="stmt" count="1"/>
+        <line num="47" type="stmt" count="1"/>
+        <line num="48" type="stmt" count="1"/>
+        <line num="50" type="stmt" count="1"/>
+        <line num="64" type="method" name="setItemValue" crap="2.15" count="1"/>
+        <line num="66" type="stmt" count="1"/>
         <line num="67" type="stmt" count="0"/>
-        <line num="70" type="stmt" count="0"/>
-        <line num="81" type="method" name="setItemAlias" crap="12" count="0"/>
-        <line num="83" type="stmt" count="0"/>
-        <line num="84" type="stmt" count="0"/>
+        <line num="70" type="stmt" count="1"/>
+        <line num="81" type="method" name="setItemAlias" crap="3.33" count="1"/>
+        <line num="83" type="stmt" count="1"/>
+        <line num="84" type="stmt" count="1"/>
         <line num="87" type="stmt" count="0"/>
-        <line num="98" type="method" name="setItemName" crap="6" count="0"/>
-        <line num="100" type="stmt" count="0"/>
+        <line num="98" type="method" name="setItemName" crap="2.98" count="1"/>
+        <line num="100" type="stmt" count="1"/>
         <line num="101" type="stmt" count="0"/>
         <line num="102" type="stmt" count="0"/>
         <line num="103" type="stmt" count="0"/>
         <line num="104" type="stmt" count="0"/>
         <line num="105" type="stmt" count="0"/>
-        <line num="106" type="stmt" count="0"/>
-        <line num="109" type="stmt" count="0"/>
-        <line num="120" type="method" name="setItemDataType" crap="12" count="0"/>
-        <line num="122" type="stmt" count="0"/>
+        <line num="106" type="stmt" count="1"/>
+        <line num="109" type="stmt" count="1"/>
+        <line num="120" type="method" name="setItemDataType" crap="4.12" count="1"/>
+        <line num="122" type="stmt" count="1"/>
         <line num="123" type="stmt" count="0"/>
         <line num="124" type="stmt" count="0"/>
-        <line num="126" type="stmt" count="0"/>
+        <line num="126" type="stmt" count="1"/>
         <line num="138" type="method" name="setItemValueInDataType" crap="6" count="0"/>
         <line num="140" type="stmt" count="0"/>
         <line num="141" type="stmt" count="0"/>
@@ -558,7 +558,7 @@
         <line num="145" type="stmt" count="0"/>
         <line num="147" type="stmt" count="0"/>
         <line num="150" type="stmt" count="0"/>
-        <metrics loc="149" ncloc="77" classes="1" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="33" coveredstatements="0" elements="39" coveredelements="0"/>
+        <metrics loc="149" ncloc="77" classes="1" methods="6" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="33" coveredstatements="18" elements="39" coveredelements="19"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Query/Source/Builder/Sql.php">
         <class name="Sql" namespace="Molajo\Query\Builder" fullPackage="Molajo" package="Molajo">
@@ -676,7 +676,7 @@
         <line num="49" type="stmt" count="0"/>
         <metrics loc="48" ncloc="15" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="2" elements="3" coveredelements="3"/>
       </file>
-      <file name="/Users/amystephen/Sites/Molajo/Query/Source/QueryTrait.php">
+      <file name="/Users/amystephen/Sites/Molajo/Query/Traits/QueryTrait.php">
         <class name="QueryTrait" namespace="Molajo\Query" fullPackage="Molajo" package="Molajo">
           <metrics methods="17" coveredmethods="9" conditionals="0" coveredconditionals="0" statements="17" coveredstatements="9" elements="34" coveredelements="18"/>
         </class>
@@ -952,6 +952,6 @@
       <line num="57" type="stmt" count="0"/>
       <metrics loc="57" ncloc="55" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="30" coveredstatements="0" elements="32" coveredelements="0"/>
     </file>
-    <metrics files="30" loc="4107" ncloc="1899" classes="19" methods="123" coveredmethods="20" conditionals="0" coveredconditionals="0" statements="637" coveredstatements="73" elements="760" coveredelements="93"/>
+    <metrics files="30" loc="4107" ncloc="1899" classes="19" methods="123" coveredmethods="24" conditionals="0" coveredconditionals="0" statements="637" coveredstatements="167" elements="760" coveredelements="191"/>
   </project>
 </coverage>

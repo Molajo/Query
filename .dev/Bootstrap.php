@@ -39,8 +39,8 @@ $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/Interfaces', 'CommonApi\\Query\\');
 $classmap = array_merge($classmap, $results);
 
-$classmap['Molajo\\Query\\ModelRegistryTrait'] = $base . '/Source/ModelRegistryTrait.php';
-$classmap['Molajo\\Query\\QueryTrait']         = $base . '/Source/QueryTrait.php';
+$classmap['Molajo\\Query\\ModelRegistryTrait'] = $base . '/Traits/ModelRegistryTrait.php';
+$classmap['Molajo\\Query\\QueryTrait']         = $base . '/Traits/QueryTrait.php';
 $classmap['Molajo\\Query\\QueryBuilder']       = $base . '/Source/QueryBuilder.php';
 $classmap['Molajo\\Query\\QueryProxy']         = $base . '/Source/QueryProxy.php';
 

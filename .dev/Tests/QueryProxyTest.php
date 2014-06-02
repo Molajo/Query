@@ -8,6 +8,7 @@
  */
 namespace Molajo\Query;
 
+use ReflectionClass;
 use Molajo\Fieldhandler\MockRequest as Fieldhandler;
 use Molajo\Database\MockDatabase as Database;
 use Molajo\Query\Adapter\Mysql as QueryClass;
@@ -35,23 +36,23 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\Sqlserver::__construct
      *
      * @covers  Molajo\Query\QueryProxy::__construct
-     * @covers  Molajo\Query\QueryProxy::get
+     * @covers  Molajo\Query\QueryProxy::getSql
      * @covers  Molajo\Query\QueryProxy::clearQuery
      * @covers  Molajo\Query\QueryProxy::setType
+     * @covers  Molajo\Query\QueryProxy::getDateFormat
      * @covers  Molajo\Query\QueryProxy::getDate
      * @covers  Molajo\Query\QueryProxy::getNullDate
-     * @covers  Molajo\Query\QueryProxy::getDateFormat
      * @covers  Molajo\Query\QueryProxy::setDistinct
      * @covers  Molajo\Query\QueryProxy::select
      * @covers  Molajo\Query\QueryProxy::from
      * @covers  Molajo\Query\QueryProxy::whereGroup
-     * @covers  Molajo\Query\QueryProxy::havingGroup
      * @covers  Molajo\Query\QueryProxy::where
-     * @covers  Molajo\Query\QueryProxy::having
      * @covers  Molajo\Query\QueryProxy::groupBy
+     * @covers  Molajo\Query\QueryProxy::havingGroup
+     * @covers  Molajo\Query\QueryProxy::having
      * @covers  Molajo\Query\QueryProxy::orderBy
      * @covers  Molajo\Query\QueryProxy::setOffsetAndLimit
-     * @covers  Molajo\Query\QueryProxy::getSql
+     * @covers  Molajo\Query\QueryProxy::get
      *
      * @covers  Molajo\Query\Builder\Sql::__construct
      * @covers  Molajo\Query\Builder\Sql::get
@@ -71,6 +72,55 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::orderBy
      * @covers  Molajo\Query\Builder\Sql::setOffsetAndLimit
      * @covers  Molajo\Query\Builder\Sql::getSql
+     * @covers  Molajo\Query\Builder\Generate::getExternalSql
+     * @covers  Molajo\Query\Builder\Generate::generateSql
+     * @covers  Molajo\Query\Builder\Generate::getInsert
+     * @covers  Molajo\Query\Builder\Generate::getInsertColumnsValues
+     * @covers  Molajo\Query\Builder\Generate::getInsertfrom
+     * @covers  Molajo\Query\Builder\Generate::getUpdate
+     * @covers  Molajo\Query\Builder\Generate::getDelete
+     * @covers  Molajo\Query\Builder\Generate::getSelect
+     * @covers  Molajo\Query\Builder\Generate::getDistinct
+     * @covers  Molajo\Query\Builder\Generate::getColumns
+     * @covers  Molajo\Query\Builder\Generate::getFrom
+     * @covers  Molajo\Query\Builder\Generate::getWhere
+     * @covers  Molajo\Query\Builder\Generate::getHaving
+     * @covers  Molajo\Query\Builder\Generate::getElement
+     * @covers  Molajo\Query\Builder\Generate::getLimit
+     * @covers  Molajo\Query\Builder\Generate::getDatabasePrefix
+     * @covers  Molajo\Query\Builder\Groups::setGroup
+     * @covers  Molajo\Query\Builder\Groups::getGroups
+     * @covers  Molajo\Query\Builder\Groups::initialiseGroups
+     * @covers  Molajo\Query\Builder\Groups::getGroupItemsLoop
+     * @covers  Molajo\Query\Builder\Groups::getGroupItem
+     * @covers  Molajo\Query\Builder\Groups::getLoop
+     * @covers  Molajo\Query\Builder\Groups::getLoopList
+     * @covers  Molajo\Query\Builder\Elements::getElementsArray
+     * @covers  Molajo\Query\Builder\Elements::getElementValues
+     * @covers  Molajo\Query\Builder\Elements::getElementArrayEntry
+     * @covers  Molajo\Query\Builder\Elements::setColumnValue
+     * @covers  Molajo\Query\Builder\Elements::setOrFilterColumn
+     * @covers  Molajo\Query\Builder\Elements::setColumnName
+     * @covers  Molajo\Query\Builder\Elements::setColumnAlias
+     * @covers  Molajo\Query\Builder\Elements::setLeftRightConditionals
+     * @covers  Molajo\Query\Builder\Elements::setGroupByOrderBy
+     * @covers  Molajo\Query\Builder\Elements::setDirection
+     * @covers  Molajo\Query\Builder\Elements::setOffsetorLimit
+     * @covers  Molajo\Query\Builder\Item::setItem
+     * @covers  Molajo\Query\Builder\Item::setItemValue
+     * @covers  Molajo\Query\Builder\Item::setItemAlias
+     * @covers  Molajo\Query\Builder\Item::setItemName
+     * @covers  Molajo\Query\Builder\Item::setItemDataType
+     * @covers  Molajo\Query\Builder\Item::setItemValueInDataType
+     * @covers  Molajo\Query\Builder\Edits::editArray
+     * @covers  Molajo\Query\Builder\Edits::editDataType
+     * @covers  Molajo\Query\Builder\Edits::editRequired
+     * @covers  Molajo\Query\Builder\Edits::editConnector
+     * @covers  Molajo\Query\Builder\Edits::editWhere
+     * @covers  Molajo\Query\Builder\Filters::quoteValue
+     * @covers  Molajo\Query\Builder\Filters::quoteNameAndPrefix
+     * @covers  Molajo\Query\Builder\Filters::quoteName
+     * @covers  Molajo\Query\Builder\Filters::filter
      *
      * @return  \CommonApi\Query\QueryInterface2
      * @since   1.0
@@ -95,23 +145,23 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\Sqlserver::__construct
      *
      * @covers  Molajo\Query\QueryProxy::__construct
-     * @covers  Molajo\Query\QueryProxy::get
+     * @covers  Molajo\Query\QueryProxy::getSql
      * @covers  Molajo\Query\QueryProxy::clearQuery
      * @covers  Molajo\Query\QueryProxy::setType
+     * @covers  Molajo\Query\QueryProxy::getDateFormat
      * @covers  Molajo\Query\QueryProxy::getDate
      * @covers  Molajo\Query\QueryProxy::getNullDate
-     * @covers  Molajo\Query\QueryProxy::getDateFormat
      * @covers  Molajo\Query\QueryProxy::setDistinct
      * @covers  Molajo\Query\QueryProxy::select
      * @covers  Molajo\Query\QueryProxy::from
      * @covers  Molajo\Query\QueryProxy::whereGroup
-     * @covers  Molajo\Query\QueryProxy::havingGroup
      * @covers  Molajo\Query\QueryProxy::where
-     * @covers  Molajo\Query\QueryProxy::having
      * @covers  Molajo\Query\QueryProxy::groupBy
+     * @covers  Molajo\Query\QueryProxy::havingGroup
+     * @covers  Molajo\Query\QueryProxy::having
      * @covers  Molajo\Query\QueryProxy::orderBy
      * @covers  Molajo\Query\QueryProxy::setOffsetAndLimit
-     * @covers  Molajo\Query\QueryProxy::getSql
+     * @covers  Molajo\Query\QueryProxy::get
      *
      * @covers  Molajo\Query\Builder\Sql::__construct
      * @covers  Molajo\Query\Builder\Sql::get
@@ -131,6 +181,55 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::orderBy
      * @covers  Molajo\Query\Builder\Sql::setOffsetAndLimit
      * @covers  Molajo\Query\Builder\Sql::getSql
+     * @covers  Molajo\Query\Builder\Generate::getExternalSql
+     * @covers  Molajo\Query\Builder\Generate::generateSql
+     * @covers  Molajo\Query\Builder\Generate::getInsert
+     * @covers  Molajo\Query\Builder\Generate::getInsertColumnsValues
+     * @covers  Molajo\Query\Builder\Generate::getInsertfrom
+     * @covers  Molajo\Query\Builder\Generate::getUpdate
+     * @covers  Molajo\Query\Builder\Generate::getDelete
+     * @covers  Molajo\Query\Builder\Generate::getSelect
+     * @covers  Molajo\Query\Builder\Generate::getDistinct
+     * @covers  Molajo\Query\Builder\Generate::getColumns
+     * @covers  Molajo\Query\Builder\Generate::getFrom
+     * @covers  Molajo\Query\Builder\Generate::getWhere
+     * @covers  Molajo\Query\Builder\Generate::getHaving
+     * @covers  Molajo\Query\Builder\Generate::getElement
+     * @covers  Molajo\Query\Builder\Generate::getLimit
+     * @covers  Molajo\Query\Builder\Generate::getDatabasePrefix
+     * @covers  Molajo\Query\Builder\Groups::setGroup
+     * @covers  Molajo\Query\Builder\Groups::getGroups
+     * @covers  Molajo\Query\Builder\Groups::initialiseGroups
+     * @covers  Molajo\Query\Builder\Groups::getGroupItemsLoop
+     * @covers  Molajo\Query\Builder\Groups::getGroupItem
+     * @covers  Molajo\Query\Builder\Groups::getLoop
+     * @covers  Molajo\Query\Builder\Groups::getLoopList
+     * @covers  Molajo\Query\Builder\Elements::getElementsArray
+     * @covers  Molajo\Query\Builder\Elements::getElementValues
+     * @covers  Molajo\Query\Builder\Elements::getElementArrayEntry
+     * @covers  Molajo\Query\Builder\Elements::setColumnValue
+     * @covers  Molajo\Query\Builder\Elements::setOrFilterColumn
+     * @covers  Molajo\Query\Builder\Elements::setColumnName
+     * @covers  Molajo\Query\Builder\Elements::setColumnAlias
+     * @covers  Molajo\Query\Builder\Elements::setLeftRightConditionals
+     * @covers  Molajo\Query\Builder\Elements::setGroupByOrderBy
+     * @covers  Molajo\Query\Builder\Elements::setDirection
+     * @covers  Molajo\Query\Builder\Elements::setOffsetorLimit
+     * @covers  Molajo\Query\Builder\Item::setItem
+     * @covers  Molajo\Query\Builder\Item::setItemValue
+     * @covers  Molajo\Query\Builder\Item::setItemAlias
+     * @covers  Molajo\Query\Builder\Item::setItemName
+     * @covers  Molajo\Query\Builder\Item::setItemDataType
+     * @covers  Molajo\Query\Builder\Item::setItemValueInDataType
+     * @covers  Molajo\Query\Builder\Edits::editArray
+     * @covers  Molajo\Query\Builder\Edits::editDataType
+     * @covers  Molajo\Query\Builder\Edits::editRequired
+     * @covers  Molajo\Query\Builder\Edits::editConnector
+     * @covers  Molajo\Query\Builder\Edits::editWhere
+     * @covers  Molajo\Query\Builder\Filters::quoteValue
+     * @covers  Molajo\Query\Builder\Filters::quoteNameAndPrefix
+     * @covers  Molajo\Query\Builder\Filters::quoteName
+     * @covers  Molajo\Query\Builder\Filters::filter
      *
      * @return void
      * @since   1.0
@@ -160,23 +259,23 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\Sqlserver::__construct
      *
      * @covers  Molajo\Query\QueryProxy::__construct
-     * @covers  Molajo\Query\QueryProxy::get
+     * @covers  Molajo\Query\QueryProxy::getSql
      * @covers  Molajo\Query\QueryProxy::clearQuery
      * @covers  Molajo\Query\QueryProxy::setType
+     * @covers  Molajo\Query\QueryProxy::getDateFormat
      * @covers  Molajo\Query\QueryProxy::getDate
      * @covers  Molajo\Query\QueryProxy::getNullDate
-     * @covers  Molajo\Query\QueryProxy::getDateFormat
      * @covers  Molajo\Query\QueryProxy::setDistinct
      * @covers  Molajo\Query\QueryProxy::select
      * @covers  Molajo\Query\QueryProxy::from
      * @covers  Molajo\Query\QueryProxy::whereGroup
-     * @covers  Molajo\Query\QueryProxy::havingGroup
      * @covers  Molajo\Query\QueryProxy::where
-     * @covers  Molajo\Query\QueryProxy::having
      * @covers  Molajo\Query\QueryProxy::groupBy
+     * @covers  Molajo\Query\QueryProxy::havingGroup
+     * @covers  Molajo\Query\QueryProxy::having
      * @covers  Molajo\Query\QueryProxy::orderBy
      * @covers  Molajo\Query\QueryProxy::setOffsetAndLimit
-     * @covers  Molajo\Query\QueryProxy::getSql
+     * @covers  Molajo\Query\QueryProxy::get
      *
      * @covers  Molajo\Query\Builder\Sql::__construct
      * @covers  Molajo\Query\Builder\Sql::get
@@ -196,6 +295,55 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::orderBy
      * @covers  Molajo\Query\Builder\Sql::setOffsetAndLimit
      * @covers  Molajo\Query\Builder\Sql::getSql
+     * @covers  Molajo\Query\Builder\Generate::getExternalSql
+     * @covers  Molajo\Query\Builder\Generate::generateSql
+     * @covers  Molajo\Query\Builder\Generate::getInsert
+     * @covers  Molajo\Query\Builder\Generate::getInsertColumnsValues
+     * @covers  Molajo\Query\Builder\Generate::getInsertfrom
+     * @covers  Molajo\Query\Builder\Generate::getUpdate
+     * @covers  Molajo\Query\Builder\Generate::getDelete
+     * @covers  Molajo\Query\Builder\Generate::getSelect
+     * @covers  Molajo\Query\Builder\Generate::getDistinct
+     * @covers  Molajo\Query\Builder\Generate::getColumns
+     * @covers  Molajo\Query\Builder\Generate::getFrom
+     * @covers  Molajo\Query\Builder\Generate::getWhere
+     * @covers  Molajo\Query\Builder\Generate::getHaving
+     * @covers  Molajo\Query\Builder\Generate::getElement
+     * @covers  Molajo\Query\Builder\Generate::getLimit
+     * @covers  Molajo\Query\Builder\Generate::getDatabasePrefix
+     * @covers  Molajo\Query\Builder\Groups::setGroup
+     * @covers  Molajo\Query\Builder\Groups::getGroups
+     * @covers  Molajo\Query\Builder\Groups::initialiseGroups
+     * @covers  Molajo\Query\Builder\Groups::getGroupItemsLoop
+     * @covers  Molajo\Query\Builder\Groups::getGroupItem
+     * @covers  Molajo\Query\Builder\Groups::getLoop
+     * @covers  Molajo\Query\Builder\Groups::getLoopList
+     * @covers  Molajo\Query\Builder\Elements::getElementsArray
+     * @covers  Molajo\Query\Builder\Elements::getElementValues
+     * @covers  Molajo\Query\Builder\Elements::getElementArrayEntry
+     * @covers  Molajo\Query\Builder\Elements::setColumnValue
+     * @covers  Molajo\Query\Builder\Elements::setOrFilterColumn
+     * @covers  Molajo\Query\Builder\Elements::setColumnName
+     * @covers  Molajo\Query\Builder\Elements::setColumnAlias
+     * @covers  Molajo\Query\Builder\Elements::setLeftRightConditionals
+     * @covers  Molajo\Query\Builder\Elements::setGroupByOrderBy
+     * @covers  Molajo\Query\Builder\Elements::setDirection
+     * @covers  Molajo\Query\Builder\Elements::setOffsetorLimit
+     * @covers  Molajo\Query\Builder\Item::setItem
+     * @covers  Molajo\Query\Builder\Item::setItemValue
+     * @covers  Molajo\Query\Builder\Item::setItemAlias
+     * @covers  Molajo\Query\Builder\Item::setItemName
+     * @covers  Molajo\Query\Builder\Item::setItemDataType
+     * @covers  Molajo\Query\Builder\Item::setItemValueInDataType
+     * @covers  Molajo\Query\Builder\Edits::editArray
+     * @covers  Molajo\Query\Builder\Edits::editDataType
+     * @covers  Molajo\Query\Builder\Edits::editRequired
+     * @covers  Molajo\Query\Builder\Edits::editConnector
+     * @covers  Molajo\Query\Builder\Edits::editWhere
+     * @covers  Molajo\Query\Builder\Filters::quoteValue
+     * @covers  Molajo\Query\Builder\Filters::quoteNameAndPrefix
+     * @covers  Molajo\Query\Builder\Filters::quoteName
+     * @covers  Molajo\Query\Builder\Filters::filter
      *
      * @return void
      * @since   1.0
@@ -220,23 +368,23 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\Sqlserver::__construct
      *
      * @covers  Molajo\Query\QueryProxy::__construct
-     * @covers  Molajo\Query\QueryProxy::get
+     * @covers  Molajo\Query\QueryProxy::getSql
      * @covers  Molajo\Query\QueryProxy::clearQuery
      * @covers  Molajo\Query\QueryProxy::setType
+     * @covers  Molajo\Query\QueryProxy::getDateFormat
      * @covers  Molajo\Query\QueryProxy::getDate
      * @covers  Molajo\Query\QueryProxy::getNullDate
-     * @covers  Molajo\Query\QueryProxy::getDateFormat
      * @covers  Molajo\Query\QueryProxy::setDistinct
      * @covers  Molajo\Query\QueryProxy::select
      * @covers  Molajo\Query\QueryProxy::from
      * @covers  Molajo\Query\QueryProxy::whereGroup
-     * @covers  Molajo\Query\QueryProxy::havingGroup
      * @covers  Molajo\Query\QueryProxy::where
-     * @covers  Molajo\Query\QueryProxy::having
      * @covers  Molajo\Query\QueryProxy::groupBy
+     * @covers  Molajo\Query\QueryProxy::havingGroup
+     * @covers  Molajo\Query\QueryProxy::having
      * @covers  Molajo\Query\QueryProxy::orderBy
      * @covers  Molajo\Query\QueryProxy::setOffsetAndLimit
-     * @covers  Molajo\Query\QueryProxy::getSql
+     * @covers  Molajo\Query\QueryProxy::get
      *
      * @covers  Molajo\Query\Builder\Sql::__construct
      * @covers  Molajo\Query\Builder\Sql::get
@@ -256,6 +404,55 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::orderBy
      * @covers  Molajo\Query\Builder\Sql::setOffsetAndLimit
      * @covers  Molajo\Query\Builder\Sql::getSql
+     * @covers  Molajo\Query\Builder\Generate::getExternalSql
+     * @covers  Molajo\Query\Builder\Generate::generateSql
+     * @covers  Molajo\Query\Builder\Generate::getInsert
+     * @covers  Molajo\Query\Builder\Generate::getInsertColumnsValues
+     * @covers  Molajo\Query\Builder\Generate::getInsertfrom
+     * @covers  Molajo\Query\Builder\Generate::getUpdate
+     * @covers  Molajo\Query\Builder\Generate::getDelete
+     * @covers  Molajo\Query\Builder\Generate::getSelect
+     * @covers  Molajo\Query\Builder\Generate::getDistinct
+     * @covers  Molajo\Query\Builder\Generate::getColumns
+     * @covers  Molajo\Query\Builder\Generate::getFrom
+     * @covers  Molajo\Query\Builder\Generate::getWhere
+     * @covers  Molajo\Query\Builder\Generate::getHaving
+     * @covers  Molajo\Query\Builder\Generate::getElement
+     * @covers  Molajo\Query\Builder\Generate::getLimit
+     * @covers  Molajo\Query\Builder\Generate::getDatabasePrefix
+     * @covers  Molajo\Query\Builder\Groups::setGroup
+     * @covers  Molajo\Query\Builder\Groups::getGroups
+     * @covers  Molajo\Query\Builder\Groups::initialiseGroups
+     * @covers  Molajo\Query\Builder\Groups::getGroupItemsLoop
+     * @covers  Molajo\Query\Builder\Groups::getGroupItem
+     * @covers  Molajo\Query\Builder\Groups::getLoop
+     * @covers  Molajo\Query\Builder\Groups::getLoopList
+     * @covers  Molajo\Query\Builder\Elements::getElementsArray
+     * @covers  Molajo\Query\Builder\Elements::getElementValues
+     * @covers  Molajo\Query\Builder\Elements::getElementArrayEntry
+     * @covers  Molajo\Query\Builder\Elements::setColumnValue
+     * @covers  Molajo\Query\Builder\Elements::setOrFilterColumn
+     * @covers  Molajo\Query\Builder\Elements::setColumnName
+     * @covers  Molajo\Query\Builder\Elements::setColumnAlias
+     * @covers  Molajo\Query\Builder\Elements::setLeftRightConditionals
+     * @covers  Molajo\Query\Builder\Elements::setGroupByOrderBy
+     * @covers  Molajo\Query\Builder\Elements::setDirection
+     * @covers  Molajo\Query\Builder\Elements::setOffsetorLimit
+     * @covers  Molajo\Query\Builder\Item::setItem
+     * @covers  Molajo\Query\Builder\Item::setItemValue
+     * @covers  Molajo\Query\Builder\Item::setItemAlias
+     * @covers  Molajo\Query\Builder\Item::setItemName
+     * @covers  Molajo\Query\Builder\Item::setItemDataType
+     * @covers  Molajo\Query\Builder\Item::setItemValueInDataType
+     * @covers  Molajo\Query\Builder\Edits::editArray
+     * @covers  Molajo\Query\Builder\Edits::editDataType
+     * @covers  Molajo\Query\Builder\Edits::editRequired
+     * @covers  Molajo\Query\Builder\Edits::editConnector
+     * @covers  Molajo\Query\Builder\Edits::editWhere
+     * @covers  Molajo\Query\Builder\Filters::quoteValue
+     * @covers  Molajo\Query\Builder\Filters::quoteNameAndPrefix
+     * @covers  Molajo\Query\Builder\Filters::quoteName
+     * @covers  Molajo\Query\Builder\Filters::filter
      *
      * @return void
      * @since   1.0
