@@ -23,10 +23,26 @@ class ReadController extends QueryController implements ReadControllerInterface
     /**
      * Process Rows Count
      *
-     * @var    object
+     * @var    integer
      * @since  1.0
      */
     protected $process_rows_count;
+
+    /**
+     * Count
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $count;
+
+    /**
+     * Parameters
+     *
+     * @var    array
+     * @since  1.0
+     */
+    protected $parameters = array();
 
     /**
      * Method to get retrieve data
@@ -92,7 +108,7 @@ class ReadController extends QueryController implements ReadControllerInterface
     /**
      * Process Pagination Requirements
      *
-     * @param   array  $query_results
+     * @param   array $query_results
      *
      * @return  $this
      * @since   1.0
@@ -116,7 +132,7 @@ class ReadController extends QueryController implements ReadControllerInterface
     /**
      * Process Pagination Item
      *
-     * @param   object  $item
+     * @param   object $item
      *
      * @return  boolean
      * @since   1.0

@@ -133,10 +133,10 @@ interface QueryInterface2
      */
     public function where(
         $left_filter = 'column',
-        $left,
-        $condition,
+        $left = '',
+        $condition = '',
         $right_filter = 'column',
-        $right,
+        $right = '',
         $connector = 'and',
         $group = null
     );
@@ -144,7 +144,7 @@ interface QueryInterface2
     /**
      * Set Group By column name and optional value for alias
      *
-     * @param   string      $column_name
+     * @param   string $column_name
      *
      * @return $this
      * @since  1.0
@@ -177,11 +177,12 @@ interface QueryInterface2
      */
     public function having(
         $left_filter = 'column',
-        $left,
-        $condition,
+        $left = '',
+        $condition = '',
         $right_filter = 'column',
-        $right,
-        $connector = 'and'
+        $right = '',
+        $connector = 'and',
+        $group = null
     );
 
     /**

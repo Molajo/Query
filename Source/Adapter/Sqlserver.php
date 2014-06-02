@@ -10,6 +10,7 @@ namespace Molajo\Query\Adapter;
 
 use CommonApi\Query\QueryInterface2;
 use Molajo\Query\Builder\Sql;
+
 /**
  * Sqlserver Query Handler
  *

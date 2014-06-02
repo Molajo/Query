@@ -9,7 +9,7 @@ namespace Molajo\Query;
  * Access to the Molajo\Query\Builder\Driver is indirectly accessible via the Registry class
  * using the Molajo\Query\Model\Query class (and the Query Trait code) as a Proxy.
  *
- * The instance property $qb is defined within the Query Trait.
+ * The instance property $query is defined within the Query Trait.
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -36,7 +36,7 @@ trait ModelRegistryTrait
      */
     public function getSql($sql = null)
     {
-        return $this->qb->getSql($sql);
+        return $this->query->getSql($sql);
     }
 
     /**
@@ -50,7 +50,7 @@ trait ModelRegistryTrait
      */
     public function getModelRegistry($key, $default = null)
     {
-        return $this->qb->getModelRegistry($key, $default);
+        return $this->query->getModelRegistry($key, $default);
     }
 
     /**
@@ -64,6 +64,6 @@ trait ModelRegistryTrait
      */
     public function setModelRegistry($key, $value = null)
     {
-        return $this->qb->setModelRegistry($key, $value);
+        return $this->query->setModelRegistry($key, $value);
     }
 }

@@ -107,7 +107,7 @@ abstract class Groups extends Elements
     protected function getGroupItemsLoop($type_array, $group)
     {
         $first_group_item = true;
-        $group_string = '';
+        $group_string     = '';
 
         foreach ($type_array as $key => $item) {
 
@@ -143,7 +143,7 @@ abstract class Groups extends Elements
         $sql .= ' ' . strtoupper($item->condition);
 
         if (strtoupper($item->condition) === 'IN') {
-            $sql .= ' (' .  $this->getLoop($item->right_item, 0, 2) . ')';
+            $sql .= ' (' . $this->getLoop($item->right_item, 0, 2) . ')';
         } else {
             $sql .= ' ' . $this->quoteValue($item->right_item);
         }
@@ -154,9 +154,9 @@ abstract class Groups extends Elements
     /**
      * Generate Data needed for SQL List
      *
-     * @param   array   $value_array
-     * @param   string  $key_value
-     * @param   string  $option
+     * @param   array  $value_array
+     * @param   string $key_value
+     * @param   string $option
      *
      * @return  string
      * @since   1.0
@@ -184,9 +184,9 @@ abstract class Groups extends Elements
      * @param   string $option 1: comma delimited list
      *                         2: comma delimited quoted list
      *                         3: key=value
-     * @param   string  $sql
-     * @param   string  $value
-     * @param   string  $key
+     * @param   string $sql
+     * @param   string $value
+     * @param   string $key
      *
      * @return  string
      * @since   1.0.0

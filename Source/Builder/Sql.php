@@ -154,6 +154,7 @@ abstract class Sql extends Generate
 
         return $this;
     }
+
     /**
      * Used for select, insert, and update to specify column name, alias (optional)
      *  For Insert and Update, only, value and data_type
@@ -240,11 +241,11 @@ abstract class Sql extends Generate
     public function where(
         $left_filter = 'column',
         $left = '',
-        $condition = '=',
+        $condition = '',
         $right_filter = 'column',
         $right = '',
-        $connector = 'AND',
-        $group = ''
+        $connector = 'and',
+        $group = null
     ) {
         $item = $this->setLeftRightConditionals(
             $left_filter,
@@ -278,11 +279,11 @@ abstract class Sql extends Generate
     public function having(
         $left_filter = 'column',
         $left = '',
-        $condition = '=',
+        $condition = '',
         $right_filter = 'column',
         $right = '',
-        $connector = 'AND',
-        $group = ''
+        $connector = 'and',
+        $group = null
     ) {
         $item = $this->setLeftRightConditionals(
             $left_filter,

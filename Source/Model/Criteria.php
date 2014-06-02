@@ -276,8 +276,8 @@ abstract class Criteria extends Columns
         $join_to_item_alias,
         $join_with_array,
         $join_with_item_alias,
-        $operator)
-    {
+        $operator
+    ) {
         $i = 0;
         foreach ($join_to_array as $join_to_item) {
 

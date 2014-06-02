@@ -47,23 +47,23 @@ abstract class Defaults extends Utilities
     /**
      * Class Constructor
      *
-     * @param  array  $model_registry
+     * @param  array $model_registry
      *
      * @since  1.0.0
      */
     public function __construct(
-        QueryInterface2 $qb,
+        QueryInterface2 $query,
         array $model_registry = array()
     ) {
         $this->setModelRegistryDefaults($model_registry);
 
-        parent::__construct($qb);
+        parent::__construct($query);
     }
 
     /**
      * Set Default Values for Model Registry
      *
-     * @param   array  $model_registry
+     * @param   array $model_registry
      *
      * @return  $this
      * @since   1.0.0
@@ -184,6 +184,7 @@ abstract class Defaults extends Utilities
      * Get the Primary Key Value for the Model Registry
      *
      * @param integer $key
+     *
      * @return  $this
      * @since   1.0
      */

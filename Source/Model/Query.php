@@ -27,15 +27,14 @@ abstract class Query extends Base implements QueryInterface2
     /**
      * Class Constructor
      *
-     * @param  QueryInterface2 $qb
+     * @param  QueryInterface2 $query
      *
      * @since  1.0.0
      */
     public function __construct(
-        QueryInterface2 $qb
-    )
-    {
-        $this->qb = $qb;
+        QueryInterface2 $query
+    ) {
+        $this->query = $query;
         $this->setDateProperties();
     }
 

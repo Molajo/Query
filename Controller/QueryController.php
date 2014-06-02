@@ -44,7 +44,7 @@ class QueryController extends Controller implements QueryBuilderInterface2
      * @param  array                  $runtime_data
      * @param  array                  $plugin_data
      * @param  callable               $schedule_event
-     * @param  QueryBuilderInterface2  $qb
+     * @param  QueryBuilderInterface2 $query
      *
      * @since  1.0
      */
@@ -53,7 +53,7 @@ class QueryController extends Controller implements QueryBuilderInterface2
         $runtime_data = array(),
         $plugin_data = array(),
         callable $schedule_event = null,
-        QueryBuilderInterface2 $qb = null
+        QueryBuilderInterface2 $query = null
     ) {
         parent::__construct(
             $model,
@@ -62,6 +62,6 @@ class QueryController extends Controller implements QueryBuilderInterface2
             $schedule_event
         );
 
-        $this->qb = $qb;
+        $this->query = $query;
     }
 }

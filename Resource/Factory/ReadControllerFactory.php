@@ -84,12 +84,12 @@ class ReadControllerFactory implements FactoryInterface
      * Constructor
      *
      * @param  QueryInterface2 $query
-     * @param  ModelInterface $model
-     * @param  array          $model_registry
-     * @param  object         $runtime_data
-     * @param  object         $plugin_data
-     * @param  callback       $schedule_event
-     * @param  string         $sql
+     * @param  ModelInterface  $model
+     * @param  array           $model_registry
+     * @param  object          $runtime_data
+     * @param  object          $plugin_data
+     * @param  callback        $schedule_event
+     * @param  string          $sql
      *
      * @since  1.0
      */

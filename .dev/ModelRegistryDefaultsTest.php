@@ -114,7 +114,7 @@ class ModelRegistryDefaultsTest extends PHPUnit_Framework_TestCase
      */
     public function testCatalogModelRegistry()
     {
-        $mock = new MockModelRegistry();
+        $mock           = new MockModelRegistry();
         $model_registry = $mock->create();
 
         $this->controller = new MockModelRegistryDefaults($model_registry);

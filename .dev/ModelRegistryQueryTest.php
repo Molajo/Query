@@ -1342,7 +1342,7 @@ FROM `molajo_content` AS `a`
         $this->assertEquals('result', $model_registry['query_object']);
 
         $sql = $this->controller->getSql();
-file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
+        file_put_contents(__DIR__ . '/expectedResult.txt', $sql);
 
         $this->assertEquals(file_get_contents(__DIR__ . '/expectedResult.txt'), $sql);
 

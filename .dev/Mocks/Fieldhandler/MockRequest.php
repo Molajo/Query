@@ -232,10 +232,12 @@ class MockRequest implements ValidateInterface, SanitizeInterface, FormatInterfa
 
         return $this;
     }
+
     public function getFieldValue()
     {
         return $this->field_value;
     }
+
     /**
      * Format Request - formatting or special treatment defined within constraint specifications
      *

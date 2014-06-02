@@ -77,9 +77,9 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $fieldhandler = new Fieldhandler();
+        $fieldhandler    = new Fieldhandler();
         $database_prefix = 'molajo_';
-        $database = new Database();
+        $database        = new Database();
 
         $query_class = new QueryClass($fieldhandler, $database_prefix, $database);
 

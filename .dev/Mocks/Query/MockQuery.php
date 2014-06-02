@@ -72,10 +72,10 @@ class MockQuery implements QueryInterface2
     public function where(
         $left_filter = 'column',
         $left = '',
-        $condition = '=',
+        $condition = '',
         $right_filter = 'column',
         $right = '',
-        $connector = 'AND',
+        $connector = 'and',
         $group = null
     ) {
     }
@@ -93,10 +93,10 @@ class MockQuery implements QueryInterface2
     public function having(
         $left_filter = 'column',
         $left = '',
-        $condition = '=',
+        $condition = '',
         $right_filter = 'column',
         $right = '',
-        $connector = 'AND',
+        $connector = 'and',
         $group = null
     ) {
 

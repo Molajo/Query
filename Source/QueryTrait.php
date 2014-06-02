@@ -24,7 +24,7 @@ trait QueryTrait
      * @var     object  CommonApi\Query\QueryInterface2
      * @since   1.0
      */
-    protected $qb;
+    protected $query;
 
     /**
      * Query Object
@@ -119,7 +119,7 @@ trait QueryTrait
      */
     public function get($key, $default = null)
     {
-        return $this->qb->get($key, $default);
+        return $this->query->get($key, $default);
     }
 
     /**
@@ -130,7 +130,7 @@ trait QueryTrait
      */
     public function clearQuery()
     {
-        return $this->qb->clearQuery();
+        return $this->query->clearQuery();
     }
 
     /**
@@ -143,7 +143,7 @@ trait QueryTrait
      */
     public function setType($query_type = 'select')
     {
-        return $this->qb->setType($query_type);
+        return $this->query->setType($query_type);
     }
 
     /**
@@ -154,7 +154,7 @@ trait QueryTrait
      */
     public function getDate()
     {
-        return $this->qb->getDate();
+        return $this->query->getDate();
     }
 
     /**
@@ -165,7 +165,7 @@ trait QueryTrait
      */
     public function getNullDate()
     {
-        return $this->qb->getNullDate();
+        return $this->query->getNullDate();
     }
 
     /**
@@ -176,7 +176,7 @@ trait QueryTrait
      */
     public function getDateFormat()
     {
-        return $this->qb->getDateFormat();
+        return $this->query->getDateFormat();
     }
 
     /**
@@ -189,7 +189,7 @@ trait QueryTrait
      */
     public function setDistinct($distinct = false)
     {
-        return $this->qb->setDistinct($distinct);
+        return $this->query->setDistinct($distinct);
     }
 
     /**
@@ -206,7 +206,7 @@ trait QueryTrait
      */
     public function select($column_name, $alias = null, $value = null, $data_type = null)
     {
-        return $this->qb->select($column_name, $alias, $value, $data_type);
+        return $this->query->select($column_name, $alias, $value, $data_type);
     }
 
     /**
@@ -220,7 +220,7 @@ trait QueryTrait
      */
     public function from($table_name, $alias = null)
     {
-        return $this->qb->from($table_name, $alias);
+        return $this->query->from($table_name, $alias);
     }
 
     /**
@@ -234,7 +234,7 @@ trait QueryTrait
      */
     public function whereGroup($group, $group_connector = 'and')
     {
-        return $this->qb->whereGroup($group, $group_connector);
+        return $this->query->whereGroup($group, $group_connector);
     }
 
     /**
@@ -248,7 +248,7 @@ trait QueryTrait
      */
     public function havingGroup($group, $group_connector = 'and')
     {
-        return $this->qb->havingGroup($group, $group_connector);
+        return $this->query->havingGroup($group, $group_connector);
     }
 
     /**
@@ -268,13 +268,13 @@ trait QueryTrait
     public function where(
         $left_filter = 'column',
         $left = '',
-        $condition = '=',
+        $condition = '',
         $right_filter = 'column',
         $right = '',
-        $connector = 'AND',
+        $connector = 'and',
         $group = null
     ) {
-        return $this->qb->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
+        return $this->query->where($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
     }
 
     /**
@@ -294,13 +294,13 @@ trait QueryTrait
     public function having(
         $left_filter = 'column',
         $left = '',
-        $condition = '=',
+        $condition = '',
         $right_filter = 'column',
         $right = '',
-        $connector = 'AND',
+        $connector = 'and',
         $group = null
     ) {
-        return $this->qb->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
+        return $this->query->having($left_filter, $left, $condition, $right_filter, $right, $connector, $group);
     }
 
     /**
@@ -313,7 +313,7 @@ trait QueryTrait
      */
     public function groupBy($column_name)
     {
-        return $this->qb->groupBy($column_name);
+        return $this->query->groupBy($column_name);
     }
 
     /**
@@ -327,7 +327,7 @@ trait QueryTrait
      */
     public function orderBy($column_name, $direction = 'ASC')
     {
-        return $this->qb->orderBy($column_name, $direction);
+        return $this->query->orderBy($column_name, $direction);
     }
 
     /**
@@ -341,7 +341,7 @@ trait QueryTrait
      */
     public function setOffsetAndLimit($offset = 0, $limit = 15)
     {
-        return $this->qb->setOffsetAndLimit($offset, $limit);
+        return $this->query->setOffsetAndLimit($offset, $limit);
     }
 
     /**
@@ -354,6 +354,6 @@ trait QueryTrait
      */
     public function getSql($sql = null)
     {
-        return $this->qb->getSql($sql);
+        return $this->query->getSql($sql);
     }
 }

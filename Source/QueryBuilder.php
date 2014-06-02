@@ -44,13 +44,13 @@ class QueryBuilder implements QueryBuilderInterface2
     /**
      * Constructor
      *
-     * @param  QueryBuilderInterface2  $qb
+     * @param  QueryBuilderInterface2 $query
      *
      * @since  1.0
      */
     public function __construct(
-        QueryBuilderInterface2 $qb
+        QueryBuilderInterface2 $query
     ) {
-        $this->qb  = $qb;
+        $this->query = $query;
     }
 }

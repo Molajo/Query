@@ -36,13 +36,13 @@ class QueryProxy implements QueryInterface2
     /**
      * Constructor
      *
-     * @param  QueryProxy  $qb
+     * @param  QueryProxy $query
      *
      * @since  1.0
      */
     public function __construct(
-        QueryInterface2 $qb
+        QueryInterface2 $query
     ) {
-        $this->qb  = $qb;
+        $this->query = $query;
     }
 }

@@ -26,17 +26,16 @@ class Registry extends Criteria implements ModelRegistryInterface2
     /**
      * Class Constructor
      *
-     * @param  QueryInterface2 $qb
+     * @param  QueryInterface2 $query
      * @param  array           $model_registry
      *
      * @since  1.0.0
      */
     public function __construct(
-        QueryInterface2 $qb,
+        QueryInterface2 $query,
         $model_registry
-    )
-    {
-        parent::__construct($qb, $model_registry);
+    ) {
+        parent::__construct($query, $model_registry);
     }
 
     /**
