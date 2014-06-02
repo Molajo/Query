@@ -20,6 +20,22 @@ namespace Molajo\Query\Builder;
 abstract class Generate extends Groups
 {
     /**
+     * Groups array for processing
+     *
+     * @var    array
+     * @since  1.0.0
+     */
+    protected $groups_array
+        = array(
+            'getColumns' => array('columns', false, true, '', '', 'COLUMNS'),
+            'getFrom'    => array('from', true, false, '', '', 'FROM'),
+            'getWhere'   => array('where', false, true, '', 'where', 'WHERE'),
+            'getGroupBy' => array('group_by', true, false, '', '', 'GROUP BY'),
+            'getHaving'  => array('having', false, true, '', 'having', 'HAVING'),
+            'getOrderBy' => array('order_by', true, false, '', '', 'ORDER BY')
+        );
+
+    /**
      * Use externally provided SQL
      *
      * @param   null|string $sql
@@ -148,19 +164,10 @@ abstract class Generate extends Groups
      */
     protected function getSelect()
     {
-        $groups_array = array(
-            'COLUMNS'  => array($this->from, true, false, ''),
-            'FROM'     => array($this->from, true, false, ''),
-            'WHERE'    => array($this->columns, false, true, '', 'where'),
-            'ORDER BY' => array($this->order_by, false, true, ''),
-            'GROUP BY' => array($this->group_by, true, false, ''),
-            'HAVING'   => array($this->having, false, true, '', 'having'),
-        );
-
         $query = $this->getDistinct();
 
-        foreach ($groups_array as $key => $value) {
-            $query .= $key . $this->getElement($value[0], $value[1], $value[2], true, 1, 1) . PHP_EOL;
+        foreach ($this->groups_array as $key => $value) {
+            return $this->getElement($key);
         }
 
         $query .= $this->getLimit();
@@ -183,35 +190,87 @@ abstract class Generate extends Groups
         return 'SELECT ';
     }
 
+
+    /**
+     * Generate Column SQL
+     *
+     * @return string
+     * @since 1.0
+     */
+    protected function getColumns()
+    {
+        return $this->getElement('getColumns');
+    }
+
+    /**
+     * Generate FROM SQL
+     *
+     * @return string
+     * @since 1.0
+     */
+    protected function getFrom()
+    {
+        return $this->getElement('getFrom');
+    }
+
+    /**
+     * Generate FROM SQL
+     *
+     * @return string
+     * @since 1.0
+     */
+    protected function getWhere()
+    {
+        return $this->getElement('getWhere');
+    }
+
+    /**
+     * Generate FROM SQL
+     *
+     * @return string
+     * @since 1.0
+     */
+    protected function getHaving()
+    {
+        return $this->getElement('getHaving');
+    }
+
     /**
      * Generate Element SQL
      *
-     * @param   array   $element_array
-     * @param   boolean $get_value
-     * @param   boolean $get_column
-     * @param   boolean $use_alias
-     * @param   integer $key_value
-     * @param   integer $option
+     * @param   string $type
      *
      * @return  string
      * @since   1.0
      */
-    protected function getElement(
-        array $element_array = array(),
-        $get_value = false,
-        $get_column = true,
-        $use_alias = true,
-        $key_value = 0,
-        $option = 0,
-        $type = ''
-    ) {
-        $array = $this->getElementsArray($element_array, $get_value, $get_column, $use_alias);
+    protected function getElement($type)
+    {
+        $type_array = $this->groups_array[$type];
+
+        $key_value = 1;
+        $option    = 1;
+
+        $array = $this->getElementsArray(
+            $this->$type_array[0],
+            $type_array[1], // get_value
+            $type_array[2], // get_column
+            $type_array[3] // use_alias
+        );
 
         if ($type === 'where' || $type === 'having') {
-            return $this->getGroups($array, $element_array, $type) . PHP_EOL;
+            return $this->getGroups(
+                $array, // element_type_array
+                $this->$type_array[0], // element_array
+                $type_array[4]
+            ) // type
+            . PHP_EOL;
         }
 
-        return $this->getLoop($array, $key_value, $option) . PHP_EOL;
+        return trim(
+            $type_array[5]
+            . ' '
+            . $this->getLoop($array, $key_value, $option)
+        ) . PHP_EOL;
     }
 
     /**
