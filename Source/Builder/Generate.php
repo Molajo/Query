@@ -148,13 +148,21 @@ abstract class Generate extends Groups
      */
     protected function getSelect()
     {
+        $groups_array = array(
+            'COLUMNS'  => array($this->from, true, false, ''),
+            'FROM'     => array($this->from, true, false, ''),
+            'WHERE'    => array($this->columns, false, true, '', 'where'),
+            'ORDER BY' => array($this->order_by, false, true, ''),
+            'GROUP BY' => array($this->group_by, true, false, ''),
+            'HAVING'   => array($this->having, false, true, '', 'having'),
+        );
+
         $query = $this->getDistinct();
-        $query .= $this->getColumns();
-        $query .= $this->getFrom();
-        $query .= $this->getWhere();
-        $query .= $this->getGroupBy();
-        $query .= $this->getHaving();
-        $query .= $this->getOrderBy();
+
+        foreach ($groups_array as $key => $value) {
+            $query .= $key . $this->getElement($value[0], $value[1], $value[2], true, 1, 1) . PHP_EOL;
+        }
+
         $query .= $this->getLimit();
 
         return $query;
@@ -173,72 +181,6 @@ abstract class Generate extends Groups
         }
 
         return 'SELECT ';
-    }
-
-    /**
-     * Generate Column SQL
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getColumns()
-    {
-        return $this->getElement($this->columns, false, true, true, 1, 1);
-    }
-
-    /**
-     * Generate FROM SQL
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getFrom()
-    {
-        return 'FROM ' . $this->getElement($this->from, true, false, true, 1, 1);
-    }
-
-    /**
-     * Generate GROUP BY SQL
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getGroupBy()
-    {
-        return 'GROUP BY ' . $this->getElement($this->group_by, true, false, true, 1, 1);
-    }
-
-    /**
-     * Generate ORDER BY SQL
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getOrderBy()
-    {
-        return 'ORDER BY ' . $this->getElement($this->group_by, true, false, false, 1, 1) . PHP_EOL;
-    }
-
-    /**
-     * Generate WHERE SQL
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getWhere()
-    {
-        return 'WHERE ' . $this->getElement($this->where, true, false, true, 0, 0, 'where') . PHP_EOL;
-    }
-
-    /**
-     * Generate HAVING SQL
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getHaving()
-    {
-        return 'HAVING ' . $this->getElement($this->having, true, false, false, 0, 0, 'having') . PHP_EOL;
     }
 
     /**
