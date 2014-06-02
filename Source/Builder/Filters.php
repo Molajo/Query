@@ -90,6 +90,10 @@ abstract class Filters extends Base
      */
     protected function filter($key, $value = null, $data_type = 'string')
     {
+        if ($data_type === '') {
+            $data_type = 'string';
+        }
+
         try {
             $results = $this->fieldhandler->sanitize($key, $value, ucfirst(strtolower($data_type)));
 

@@ -228,9 +228,14 @@ class MockRequest implements ValidateInterface, SanitizeInterface, FormatInterfa
      */
     public function sanitize($field_name, $field_value, $constraint, array $options = array())
     {
-        return $field_value;
-    }
+        $this->field_value = $field_value;
 
+        return $this;
+    }
+    public function getFieldValue()
+    {
+        return $this->field_value;
+    }
     /**
      * Format Request - formatting or special treatment defined within constraint specifications
      *

@@ -11,7 +11,7 @@ namespace Molajo\Resource\Factory;
 use Exception;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\Model\ModelInterface;
-use CommonApi\Query\QueryInterface;
+use CommonApi\Query\QueryInterface2;
 use Molajo\Resource\Api\FactoryInterface;
 
 /**
@@ -27,7 +27,7 @@ class ReadControllerFactory implements FactoryInterface
     /**
      * Query Instance
      *
-     * @var    object  CommonApi\Query\QueryInterface
+     * @var    object  CommonApi\Query\QueryInterface2
      * @since  1.0
      */
     protected $query = null;
@@ -83,7 +83,7 @@ class ReadControllerFactory implements FactoryInterface
     /**
      * Constructor
      *
-     * @param  QueryInterface $query
+     * @param  QueryInterface2 $query
      * @param  ModelInterface $model
      * @param  array          $model_registry
      * @param  object         $runtime_data
@@ -94,7 +94,7 @@ class ReadControllerFactory implements FactoryInterface
      * @since  1.0
      */
     public function __construct(
-        QueryInterface $query,
+        QueryInterface2 $query,
         ModelInterface $model,
         $model_registry,
         $runtime_data,

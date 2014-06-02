@@ -166,10 +166,10 @@ abstract class Sql extends Generate
      * @return  $this
      * @since   1.0
      */
-    public function select($column_name, $alias = null, $value = null, $data_type = null)
+    public function select($column_name, $alias = null, $value = null, $data_type = 'string')
     {
         $this->editRequired('column_name', $column_name);
-        $this->columns[$column_name] = $this->setItem($column_name, $data_type, $value, $alias);
+        $this->columns[$column_name] = $this->setItem($column_name, 'string', $column_name, $alias);
 
         return $this;
     }
@@ -253,8 +253,7 @@ abstract class Sql extends Generate
             $right_filter,
             $right,
             $connector,
-            $group,
-            'where'
+            $group
         );
 
         $this->where[] = $item;
@@ -292,8 +291,7 @@ abstract class Sql extends Generate
             $right_filter,
             $right,
             $connector,
-            $group,
-            'having'
+            $group
         );
 
         $this->having[] = $item;

@@ -91,7 +91,7 @@ abstract class Generate extends Groups
 
         $array = $this->getElementsArray($this->columns, $get_value, $get_column, false);
 
-        return $start . $this->getLoop($array, $type, true, 1) . $end . PHP_EOL;
+        return $start . $this->getLoop($array, 1, 1) . $end . PHP_EOL;
     }
 
     /**
@@ -118,7 +118,7 @@ abstract class Generate extends Groups
         $array = $this->getElementsArray($this->columns, true, true, false);
 
         $query_string = 'UPDATE ' . $this->getFrom() . PHP_EOL;
-        $query_string .= 'SET ' . $this->getLoop($array, 'Update', true, 2) . PHP_EOL;
+        $query_string .= 'SET ' . $this->getLoop($array, 1, 2) . PHP_EOL;
         $query_string .= $this->getWhere();
 
         return $query_string;
@@ -187,7 +187,7 @@ abstract class Generate extends Groups
     {
         $array = $this->getElementsArray($this->columns, false, true, true);
 
-        return $this->getLoop($array, 'select', true, 1) . PHP_EOL;
+        return $this->getLoop($array, 1, 1) . PHP_EOL;
     }
 
     /**
@@ -200,7 +200,7 @@ abstract class Generate extends Groups
     {
         $array = $this->getElementsArray($this->from, true, false, true);
 
-        return 'FROM ' . $this->getLoop($array, 'from', true, 1) . PHP_EOL;
+        return 'FROM ' . $this->getLoop($array, 1, 1) . PHP_EOL;
     }
 
     /**
@@ -226,7 +226,7 @@ abstract class Generate extends Groups
     {
         $array = $this->getElementsArray($this->group_by, true, false, false);
 
-        return 'GROUP BY ' . $this->getLoop($array, 'group by', true, 1) . PHP_EOL;
+        return 'GROUP BY ' . $this->getLoop($array, 1, 1) . PHP_EOL;
     }
 
     /**
@@ -252,7 +252,7 @@ abstract class Generate extends Groups
     {
         $array = $this->getElementsArray($this->order_by, true, false, false);
 
-        return 'ORDER BY ' . $this->getLoop($array, 'order by', true, 1) . PHP_EOL;
+        return 'ORDER BY ' . $this->getLoop($array, 1, 1) . PHP_EOL;
     }
 
     /**

@@ -8,7 +8,7 @@
  */
 namespace Molajo\Query;
 
-use CommonApi\Query\QueryBuilderInterface;
+use CommonApi\Query\QueryBuilderInterface2;
 
 /**
  * Query Builder
@@ -23,7 +23,7 @@ use CommonApi\Query\QueryBuilderInterface;
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-class QueryBuilder implements QueryBuilderInterface
+class QueryBuilder implements QueryBuilderInterface2
 {
     /**
      * Query Builder Trait
@@ -44,12 +44,12 @@ class QueryBuilder implements QueryBuilderInterface
     /**
      * Constructor
      *
-     * @param  QueryBuilderInterface  $qb
+     * @param  QueryBuilderInterface2  $qb
      *
      * @since  1.0
      */
     public function __construct(
-        QueryBuilderInterface $qb
+        QueryBuilderInterface2 $qb
     ) {
         $this->qb  = $qb;
     }

@@ -8,8 +8,8 @@
  */
 namespace Molajo\Query\Model;
 
-use CommonApi\Query\QueryInterface;
-use CommonApi\Query\ModelRegistryInterface;
+use CommonApi\Query\QueryInterface2;
+use CommonApi\Query\ModelRegistryInterface2;
 
 /**
  * Model Registry Query Builder
@@ -21,19 +21,20 @@ use CommonApi\Query\ModelRegistryInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class Registry extends Criteria implements ModelRegistryInterface
+class Registry extends Criteria implements ModelRegistryInterface2
 {
     /**
      * Class Constructor
      *
-     * @param  QueryInterface $qb
-     * @param  array          $model_registry
+     * @param  QueryInterface2 $qb
+     * @param  array           $model_registry
      *
      * @since  1.0.0
      */
     public function __construct(
-        QueryInterface $qb,
-        $model_registry)
+        QueryInterface2 $qb,
+        $model_registry
+    )
     {
         parent::__construct($qb, $model_registry);
     }

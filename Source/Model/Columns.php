@@ -126,5 +126,4 @@ abstract class Columns extends Defaults
 
         return $this;
     }
-
 }

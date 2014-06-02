@@ -11,7 +11,7 @@ namespace Molajo\Controller;
 use CommonApi\Controller\ControllerInterface;
 use CommonApi\Database\DatabaseInterface;
 use CommonApi\Model\ModelInterface;
-use CommonApi\Query\QueryInterface;
+use CommonApi\Query\QueryInterface2;
 use Molajo\Database\MockDatabase;
 use Molajo\Model\ReadModel;
 use Molajo\Query\MockQuery;

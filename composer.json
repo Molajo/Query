@@ -23,7 +23,6 @@
         "php": ">=5.4",
         "commonapi/controller": "dev-master",
         "commonapi/model": "dev-master",
-        "commonapi/query": "dev-master",
         "commonapi/cache": "dev-master",
         "molajo/database": "dev-master",
         "molajo/fieldhandler": "dev-master",

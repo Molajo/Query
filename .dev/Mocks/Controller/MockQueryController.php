@@ -10,7 +10,7 @@ namespace Molajo\Controller;
 
 use CommonApi\Controller\ControllerInterface;
 use CommonApi\Model\ModelInterface;
-use CommonApi\Query\QueryInterface;
+use CommonApi\Query\QueryInterface2;
 
 /**
  * Query Controller Proxy
@@ -20,7 +20,7 @@ use CommonApi\Query\QueryInterface;
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-class MockQueryController implements QueryInterface
+class MockQueryController implements QueryInterface2
 {
     protected $columns;
     protected $null_date;

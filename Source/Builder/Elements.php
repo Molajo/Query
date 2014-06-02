@@ -70,6 +70,7 @@ abstract class Elements extends Edits
         }
 
         if ($get_value === true) {
+            var_dump($item);
             $value = $this->setColumnValue($item->name, $item->value, $item->data_type);
         }
 
@@ -211,7 +212,7 @@ abstract class Elements extends Edits
         $this->editWhere($left, $condition, $right);
 
         $item             = new stdClass();
-        $item->group      = (string) trim($group);
+        $item->group      = (string)trim($group);
         $item->left_item  = $this->setItem($left, $left_filter, $left);
         $item->condition  = $condition;
         $item->right_item = $this->setItem($right, $right_filter, $right, null, $condition);
@@ -288,20 +289,47 @@ abstract class Elements extends Edits
         $item->name      = (string)$name_and_prefix['name'];
         $item->prefix    = (string)$name_and_prefix['prefix'];
         $item->data_type = (string)$this->setItemDataType($data_type);
-
-        if ($condition === 'in') {
-            $item->value = $this->setItemValueInDataType($value, $data_type);
-        } else {
-            $item->value = $this->filter($item->name, $value, $data_type);
-        }
-
-        if ($alias === null || trim($alias) === '') {
-            $item->alias = null;
-        } else {
-            $item->alias = (string)$alias;
-        }
+        $item->value     = $this->setItemValue($item->name, $value, $data_type, $condition);
+        $item->alias     = $this->setItemAlias($alias);
 
         return $item;
+    }
+
+    /**
+     * Set Item Value
+     *
+     * @param   string      $name
+     * @param   null|string $data_type
+     * @param   null|string $value
+     * @param   null|string $condition
+     *
+     * @return  mixed
+     * @since   1.0
+     */
+    protected function setItemValue($name, $data_type, $value = null, $condition = null)
+    {
+        if ($condition === 'in') {
+            return $this->setItemValueInDataType($value, $data_type);
+        }
+
+        return $this->filter($name, $value, $data_type);
+    }
+
+    /**
+     * Set Item Alias
+     *
+     * @param   null|string $alias
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setItemAlias($alias = null)
+    {
+        if ($alias === null || trim($alias) === '') {
+            return null;
+        }
+
+        return (string)$alias;
     }
 
     /**
@@ -329,7 +357,7 @@ abstract class Elements extends Edits
     /**
      * Set the Item data type
      *
-     * @param   string  $data_type
+     * @param   string $data_type
      *
      * @return  stdClass
      * @since   1.0

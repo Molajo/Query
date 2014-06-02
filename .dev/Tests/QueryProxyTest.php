@@ -34,16 +34,45 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\Sqllite::__construct
      * @covers  Molajo\Query\Adapter\Sqlserver::__construct
      *
-     * @covers  Molajo\Query\Builder\Sql::__construct
-     * @covers  Molajo\Query\Builder\Sql::clearQuery
-     * @covers  Molajo\Query\Builder\Generate::__construct
-     * @covers  Molajo\Query\Builder\Groups::__construct
-     * @covers  Molajo\Query\Builder\Collect::__construct
-     * @covers  Molajo\Query\Builder\Edits::__construct
-     * @covers  Molajo\Query\Builder\Filter::__construct
-     * @covers  Molajo\Query\Builder\Base::__construct
+     * @covers  Molajo\Query\QueryProxy::__construct
+     * @covers  Molajo\Query\QueryProxy::get
+     * @covers  Molajo\Query\QueryProxy::clearQuery
+     * @covers  Molajo\Query\QueryProxy::setType
+     * @covers  Molajo\Query\QueryProxy::getDate
+     * @covers  Molajo\Query\QueryProxy::getNullDate
+     * @covers  Molajo\Query\QueryProxy::getDateFormat
+     * @covers  Molajo\Query\QueryProxy::setDistinct
+     * @covers  Molajo\Query\QueryProxy::select
+     * @covers  Molajo\Query\QueryProxy::from
+     * @covers  Molajo\Query\QueryProxy::whereGroup
+     * @covers  Molajo\Query\QueryProxy::havingGroup
+     * @covers  Molajo\Query\QueryProxy::where
+     * @covers  Molajo\Query\QueryProxy::having
+     * @covers  Molajo\Query\QueryProxy::groupBy
+     * @covers  Molajo\Query\QueryProxy::orderBy
+     * @covers  Molajo\Query\QueryProxy::setOffsetAndLimit
+     * @covers  Molajo\Query\QueryProxy::getSql
      *
-     * @return  \CommonApi\Query\QueryInterface
+     * @covers  Molajo\Query\Builder\Sql::__construct
+     * @covers  Molajo\Query\Builder\Sql::get
+     * @covers  Molajo\Query\Builder\Sql::clearQuery
+     * @covers  Molajo\Query\Builder\Sql::setType
+     * @covers  Molajo\Query\Builder\Sql::getDate
+     * @covers  Molajo\Query\Builder\Sql::getNullDate
+     * @covers  Molajo\Query\Builder\Sql::getDateFormat
+     * @covers  Molajo\Query\Builder\Sql::setDistinct
+     * @covers  Molajo\Query\Builder\Sql::select
+     * @covers  Molajo\Query\Builder\Sql::from
+     * @covers  Molajo\Query\Builder\Sql::whereGroup
+     * @covers  Molajo\Query\Builder\Sql::havingGroup
+     * @covers  Molajo\Query\Builder\Sql::where
+     * @covers  Molajo\Query\Builder\Sql::having
+     * @covers  Molajo\Query\Builder\Sql::groupBy
+     * @covers  Molajo\Query\Builder\Sql::orderBy
+     * @covers  Molajo\Query\Builder\Sql::setOffsetAndLimit
+     * @covers  Molajo\Query\Builder\Sql::getSql
+     *
+     * @return  \CommonApi\Query\QueryInterface2
      * @since   1.0
      */
     public function setup()
@@ -60,14 +89,65 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
     /**
      * Test setDateProperties
      *
-     * @covers  Molajo\Query\Model::__construct
-     * @covers  Molajo\Query\Model::setDateProperties
+     * @covers  Molajo\Query\Adapter\Mysql::__construct
+     * @covers  Molajo\Query\Adapter\Postgresql::__construct
+     * @covers  Molajo\Query\Adapter\Sqllite::__construct
+     * @covers  Molajo\Query\Adapter\Sqlserver::__construct
+     *
+     * @covers  Molajo\Query\QueryProxy::__construct
+     * @covers  Molajo\Query\QueryProxy::get
+     * @covers  Molajo\Query\QueryProxy::clearQuery
+     * @covers  Molajo\Query\QueryProxy::setType
+     * @covers  Molajo\Query\QueryProxy::getDate
+     * @covers  Molajo\Query\QueryProxy::getNullDate
+     * @covers  Molajo\Query\QueryProxy::getDateFormat
+     * @covers  Molajo\Query\QueryProxy::setDistinct
+     * @covers  Molajo\Query\QueryProxy::select
+     * @covers  Molajo\Query\QueryProxy::from
+     * @covers  Molajo\Query\QueryProxy::whereGroup
+     * @covers  Molajo\Query\QueryProxy::havingGroup
+     * @covers  Molajo\Query\QueryProxy::where
+     * @covers  Molajo\Query\QueryProxy::having
+     * @covers  Molajo\Query\QueryProxy::groupBy
+     * @covers  Molajo\Query\QueryProxy::orderBy
+     * @covers  Molajo\Query\QueryProxy::setOffsetAndLimit
+     * @covers  Molajo\Query\QueryProxy::getSql
+     *
+     * @covers  Molajo\Query\Builder\Sql::__construct
+     * @covers  Molajo\Query\Builder\Sql::get
+     * @covers  Molajo\Query\Builder\Sql::clearQuery
+     * @covers  Molajo\Query\Builder\Sql::setType
+     * @covers  Molajo\Query\Builder\Sql::getDate
+     * @covers  Molajo\Query\Builder\Sql::getNullDate
+     * @covers  Molajo\Query\Builder\Sql::getDateFormat
+     * @covers  Molajo\Query\Builder\Sql::setDistinct
+     * @covers  Molajo\Query\Builder\Sql::select
+     * @covers  Molajo\Query\Builder\Sql::from
+     * @covers  Molajo\Query\Builder\Sql::whereGroup
+     * @covers  Molajo\Query\Builder\Sql::havingGroup
+     * @covers  Molajo\Query\Builder\Sql::where
+     * @covers  Molajo\Query\Builder\Sql::having
+     * @covers  Molajo\Query\Builder\Sql::groupBy
+     * @covers  Molajo\Query\Builder\Sql::orderBy
+     * @covers  Molajo\Query\Builder\Sql::setOffsetAndLimit
+     * @covers  Molajo\Query\Builder\Sql::getSql
      *
      * @return void
      * @since   1.0
      */
     public function testConstruct()
     {
-        return;
+        $this->query_proxy->setType('select');
+        $this->query_proxy->setDistinct(true);
+        $this->query_proxy->select('application_id');
+        $this->query_proxy->select('catalog_type_id');
+        $this->query_proxy->from('#__catalog_types');
+//$this->query_proxy->where('column', 'enabled', '=', 'integer', 1);
+//        $this->query_proxy->groupBy('catalog_type_id');
+//        $this->query_proxy->orderBy('order_id');
+
+        $this->assertEquals('select', $this->query_proxy->get('query_type'));
+
+        echo $this->query_proxy->getSQL();
     }
 }
