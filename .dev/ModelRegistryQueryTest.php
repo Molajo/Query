@@ -39,7 +39,7 @@ class ModelRegistryQueryTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsResultQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsDistinctQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsModelRegistry
-     * @covers  Molajo\Controller\ModelRegistryQuery::setFromTable
+     * @covers  Molajo\Controller\ModelRegistryQuery::setFrom
      * @covers  Molajo\Controller\ModelRegistryQuery::useFromTable
      * @covers  Molajo\Controller\ModelRegistryQuery::setKeyCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::setWhereStatementsKeyValue
@@ -282,7 +282,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsResultQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsDistinctQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsModelRegistry
-     * @covers  Molajo\Controller\ModelRegistryQuery::setFromTable
+     * @covers  Molajo\Controller\ModelRegistryQuery::setFrom
      * @covers  Molajo\Controller\ModelRegistryQuery::useFromTable
      * @covers  Molajo\Controller\ModelRegistryQuery::setKeyCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::setWhereStatementsKeyValue
@@ -669,7 +669,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsResultQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsDistinctQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsModelRegistry
-     * @covers  Molajo\Controller\ModelRegistryQuery::setFromTable
+     * @covers  Molajo\Controller\ModelRegistryQuery::setFrom
      * @covers  Molajo\Controller\ModelRegistryQuery::useFromTable
      * @covers  Molajo\Controller\ModelRegistryQuery::setKeyCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::setWhereStatementsKeyValue
@@ -1098,7 +1098,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsResultQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsDistinctQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsModelRegistry
-     * @covers  Molajo\Controller\ModelRegistryQuery::setFromTable
+     * @covers  Molajo\Controller\ModelRegistryQuery::setFrom
      * @covers  Molajo\Controller\ModelRegistryQuery::useFromTable
      * @covers  Molajo\Controller\ModelRegistryQuery::setKeyCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::setWhereStatementsKeyValue
@@ -1360,7 +1360,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsResultQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsDistinctQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsModelRegistry
-     * @covers  Molajo\Controller\ModelRegistryQuery::setFromTable
+     * @covers  Molajo\Controller\ModelRegistryQuery::setFrom
      * @covers  Molajo\Controller\ModelRegistryQuery::useFromTable
      * @covers  Molajo\Controller\ModelRegistryQuery::useFromTable
      * @covers  Molajo\Controller\ModelRegistryQuery::setKeyCriteria
@@ -1614,7 +1614,7 @@ FROM `molajo_content` AS `a`
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsResultQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsDistinctQuery
      * @covers  Molajo\Controller\ModelRegistryQuery::setSelectColumnsModelRegistry
-     * @covers  Molajo\Controller\ModelRegistryQuery::setFromTable
+     * @covers  Molajo\Controller\ModelRegistryQuery::setFrom
      * @covers  Molajo\Controller\ModelRegistryQuery::useFromTable
      * @covers  Molajo\Controller\ModelRegistryQuery::setKeyCriteria
      * @covers  Molajo\Controller\ModelRegistryQuery::setWhereStatementsKeyValue

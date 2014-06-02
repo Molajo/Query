@@ -11,14 +11,14 @@ namespace Molajo\Query\Model;
 /**
  * Model Registry Columns
  *
- * Base - Query - Utilities - Defaults - Columns - Criteria - Registry
+ * Base - Query - Utilities - Defaults - Table - Columns - Criteria - Registry
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class Columns extends Defaults
+abstract class Columns extends Table
 {
     /**
      * Set Distinct Indicator

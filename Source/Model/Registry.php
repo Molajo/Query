@@ -15,7 +15,7 @@ use CommonApi\Query\QueryBuilderInterface;
 /**
  * Model Registry Query Builder
  *
- * Base - Query - Utilities - Defaults - Columns - Criteria - Registry
+ * Base - Query - Utilities - Defaults - Table - Columns - Criteria - Registry
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -27,7 +27,7 @@ class Registry extends Criteria implements QueryBuilderInterface
     /**
      * Class Constructor
      *
-     * @param  QueryInterface $query
+     * @param  QueryInterface  $query
      * @param  array           $model_registry
      *
      * @since  1.0.0

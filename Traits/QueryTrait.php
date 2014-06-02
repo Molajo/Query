@@ -77,6 +77,14 @@ trait QueryTrait
     protected $total;
 
     /**
+     * Count
+     *
+     * @var    integer
+     * @since  1.0
+     */
+    protected $count;
+
+    /**
      * Date Format
      *
      * @var    string

@@ -11,7 +11,7 @@ namespace Molajo\Query\Model;
 /**
  * Model Registry Utilities
  *
- * Base - Query - Utilities - Defaults - Columns - Criteria - Registry
+ * Base - Query - Utilities - Defaults - Table - Columns - Criteria - Registry
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -227,5 +227,23 @@ abstract class Utilities extends Query
     protected function setWhereElementTableColumn($join_with_item_alias, $join_item)
     {
         return array('column', $join_with_item_alias . '.' . $join_item);
+    }
+
+    /**
+     * Set Model Registry Limits
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setModelRegistryLimits()
+    {
+        if (count($this->model_registry['use_pagination']) === 0) {
+        } else {
+            return $this;
+        }
+
+        $this->setOffsetAndLimit($this->model_registry['offset'], $this->model_registry['limit']);
+
+        return $this;
     }
 }
