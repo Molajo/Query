@@ -4,12 +4,8 @@ namespace Molajo\Query;
 /**
  * Model Registry Trait
  *
- * The Model Registry Trait is designed to be used with the Query Trait.
- * when the Molajo\Query\Model\Registry class is injected into the Molajo\Controller\Query class
- * Access to the Molajo\Query\Builder\Driver is indirectly accessible via the Registry class
- * using the Molajo\Query\Model\Query class (and the Query Trait code) as a Proxy.
- *
- * The instance property $query is defined within the Query Trait.
+ * The instance property $query is defined within the Query Trait which can be used
+ * alone but must always be used with this trait.
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
