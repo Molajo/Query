@@ -10,18 +10,19 @@ namespace Molajo\Query\Model;
 
 use CommonApi\Query\QueryInterface2;
 use CommonApi\Query\ModelRegistryInterface2;
+use CommonApi\Query\QueryBuilderInterface2;
 
 /**
  * Model Registry Query Builder
  *
- * Base - Query - Filters - Utilities - Defaults - Columns - Criteria - Registry
+ * Base - Query - Utilities - Defaults - Columns - Criteria - Registry
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class Registry extends Criteria implements ModelRegistryInterface2
+class Registry extends Criteria implements QueryBuilderInterface2
 {
     /**
      * Class Constructor

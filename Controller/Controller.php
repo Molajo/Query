@@ -54,14 +54,6 @@ abstract class Controller implements ControllerInterface
     protected $schedule_event;
 
     /**
-     * Raw SQL string
-     *
-     * @var    string
-     * @since  1.0
-     */
-    protected $sql = '';
-
-    /**
      * Site ID
      *
      * @var    int
@@ -92,22 +84,6 @@ abstract class Controller implements ControllerInterface
      * @since  1.0
      */
     protected $row;
-
-    /**
-     * Used in queries to determine date validity
-     *
-     * @var    string
-     * @since  1.0
-     */
-    protected $null_date;
-
-    /**
-     * Today's CCYY-MM-DD 00:00:00 formatted for query
-     *
-     * @var    string
-     * @since  1.0
-     */
-    protected $current_date;
 
     /**
      * List of Controller Properties

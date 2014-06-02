@@ -11,14 +11,14 @@ namespace Molajo\Query\Model;
 /**
  * Model Registry Utilities
  *
- * Base - Query - Filters - Utilities - Defaults - Columns - Criteria - Registry
+ * Base - Query - Utilities - Defaults - Columns - Criteria - Registry
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class Utilities extends Filters
+abstract class Utilities extends Query
 {
     /**
      * Get the full contents of the Model Registry

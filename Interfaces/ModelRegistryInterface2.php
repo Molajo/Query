@@ -39,14 +39,4 @@ interface ModelRegistryInterface2
      * @since   1.0.0
      */
     public function setModelRegistry($key, $value = null);
-
-    /**
-     * Build SQL from Model Registry
-     *
-     * @param   string $sql
-     *
-     * @return  string
-     * @since   1.0.0
-     */
-    public function getSql($sql = null);
 }

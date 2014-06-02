@@ -27,19 +27,6 @@ trait ModelRegistryTrait
     protected $model_registry = null;
 
     /**
-     * Get SQL (optionally setting the SQL)
-     *
-     * @param   null|string $sql
-     *
-     * @return  string
-     * @since   1.0
-     */
-    public function getSql($sql = null)
-    {
-        return $this->query->getSql($sql);
-    }
-
-    /**
      * Get the current value (or default) of the Model Registry
      *
      * @param   string $key
