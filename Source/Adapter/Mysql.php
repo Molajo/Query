@@ -8,7 +8,7 @@
  */
 namespace Molajo\Query\Adapter;
 
-use CommonApi\Query\QueryInterface2;
+use CommonApi\Query\QueryInterface;
 use Molajo\Query\Builder\Sql;
 
 /**
@@ -18,7 +18,7 @@ use Molajo\Query\Builder\Sql;
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-class Mysql extends Sql implements QueryInterface2
+class Mysql extends Sql implements QueryInterface
 {
     /**
      * Date Format

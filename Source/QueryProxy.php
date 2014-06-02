@@ -8,7 +8,7 @@
  */
 namespace Molajo\Query;
 
-use CommonApi\Query\QueryInterface2;
+use CommonApi\Query\QueryInterface;
 
 /**
  * Query Proxy
@@ -23,7 +23,7 @@ use CommonApi\Query\QueryInterface2;
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-class QueryProxy implements QueryInterface2
+class QueryProxy implements QueryInterface
 {
     /**
      * Query Proxy Trait
@@ -41,7 +41,7 @@ class QueryProxy implements QueryInterface2
      * @since  1.0
      */
     public function __construct(
-        QueryInterface2 $query
+        QueryInterface $query
     ) {
         $this->query = $query;
     }

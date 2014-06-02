@@ -11,7 +11,7 @@ namespace Molajo\Resource\Adapter;
 use Exception;
 use CommonApi\Database\DatabaseInterface;
 use CommonApi\Exception\RuntimeException;
-use CommonApi\Query\QueryInterface2;
+use CommonApi\Query\QueryInterface;
 use CommonApi\Resource\AdapterInterface;
 use stdClass;
 
@@ -36,7 +36,7 @@ class Query extends Xml implements AdapterInterface
     /**
      * Query Object
      *
-     * @var    object   CommonApi\Query\QueryInterface2
+     * @var    object   CommonApi\Query\QueryInterface
      * @since  1.0
      */
     protected $query = null;
@@ -89,7 +89,7 @@ class Query extends Xml implements AdapterInterface
      * @param  array             $namespace_prefixes
      * @param  array             $valid_file_extensions
      * @param  DatabaseInterface $database
-     * @param  QueryInterface2   $query
+     * @param  QueryInterface   $query
      * @param  callback          $schedule_event
      *
      * @since  1.0

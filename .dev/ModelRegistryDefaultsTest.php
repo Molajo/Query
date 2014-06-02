@@ -11,7 +11,7 @@ namespace Molajo\Controller;
 use CommonApi\Controller\ControllerInterface;
 use CommonApi\Database\DatabaseInterface;
 use CommonApi\Model\ModelInterface;
-use CommonApi\Query\QueryInterface2;
+use CommonApi\Query\QueryInterface;
 
 use PHPUnit_Framework_TestCase;
 

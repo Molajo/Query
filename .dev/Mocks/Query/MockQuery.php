@@ -8,7 +8,7 @@
  */
 namespace Molajo\Query;
 
-use CommonApi\Query\QueryInterface2;
+use CommonApi\Query\QueryInterface;
 
 /**
  * Class Mock ModelRegistry
@@ -17,7 +17,7 @@ use CommonApi\Query\QueryInterface2;
  *
  * @package Molajo\Controller
  */
-class MockQuery implements QueryInterface2
+class MockQuery implements QueryInterface
 {
     public function get($key, $default = null)
     {

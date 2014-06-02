@@ -8,7 +8,7 @@
  */
 namespace Molajo\Controller;
 
-use CommonApi\Query\QueryBuilderInterface2;
+use CommonApi\Query\QueryBuilderInterface;
 use CommonApi\Model\ModelInterface;
 
 /**
@@ -19,7 +19,7 @@ use CommonApi\Model\ModelInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class QueryController extends Controller implements QueryBuilderInterface2
+class QueryController extends Controller implements QueryBuilderInterface
 {
     /**
      * Query Builder Trait
@@ -44,7 +44,7 @@ class QueryController extends Controller implements QueryBuilderInterface2
      * @param  array                  $runtime_data
      * @param  array                  $plugin_data
      * @param  callable               $schedule_event
-     * @param  QueryBuilderInterface2 $query
+     * @param  QueryBuilderInterface $query
      *
      * @since  1.0
      */
@@ -53,7 +53,7 @@ class QueryController extends Controller implements QueryBuilderInterface2
         $runtime_data = array(),
         $plugin_data = array(),
         callable $schedule_event = null,
-        QueryBuilderInterface2 $query = null
+        QueryBuilderInterface $query = null
     ) {
         parent::__construct(
             $model,

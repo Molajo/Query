@@ -10,7 +10,7 @@ namespace Molajo\Controller;
 
 use CommonApi\Controller\ControllerInterface;
 use CommonApi\Model\ModelInterface;
-use CommonApi\Query\QueryInterface2;
+use CommonApi\Query\QueryInterface;
 
 /**
  * Class MockModelRegistry

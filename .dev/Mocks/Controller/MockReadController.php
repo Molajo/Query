@@ -10,7 +10,7 @@ namespace Molajo\Controller;
 
 use CommonApi\Controller\ControllerInterface;
 use CommonApi\Model\ModelInterface;
-use CommonApi\Query\QueryBuilderInterface2;
+use CommonApi\Query\QueryBuilderInterface;
 
 /**
  * Class MockReadController
@@ -24,7 +24,7 @@ class MockReadController extends QueryController implements ControllerInterface
         $runtime_data = array(),
         $plugin_data = array(),
         callable $schedule_event = null,
-        QueryBuilderInterface2 $query = null
+        QueryBuilderInterface $query = null
     ) {
         parent::__construct(
             $model,

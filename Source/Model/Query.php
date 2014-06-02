@@ -8,7 +8,7 @@
  */
 namespace Molajo\Query\Model;
 
-use CommonApi\Query\QueryInterface2;
+use CommonApi\Query\QueryInterface;
 
 /**
  * Query Proxy
@@ -20,19 +20,19 @@ use CommonApi\Query\QueryInterface2;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class Query extends Base implements QueryInterface2
+abstract class Query extends Base implements QueryInterface
 {
     use \Molajo\Query\QueryTrait;
 
     /**
      * Class Constructor
      *
-     * @param  QueryInterface2 $query
+     * @param  QueryInterface $query
      *
      * @since  1.0.0
      */
     public function __construct(
-        QueryInterface2 $query
+        QueryInterface $query
     ) {
         $this->query = $query;
         $this->setDateProperties();

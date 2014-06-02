@@ -8,7 +8,7 @@
  */
 namespace Molajo\Query\Model;
 
-use CommonApi\Query\QueryInterface2;
+use CommonApi\Query\QueryInterface;
 
 /**
  * Model Registry Defaults
@@ -52,7 +52,7 @@ abstract class Defaults extends Utilities
      * @since  1.0.0
      */
     public function __construct(
-        QueryInterface2 $query,
+        QueryInterface $query,
         array $model_registry = array()
     ) {
         $this->setModelRegistryDefaults($model_registry);

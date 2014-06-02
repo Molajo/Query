@@ -21,7 +21,7 @@ trait QueryTrait
     /**
      * Query Builder
      *
-     * @var     object  CommonApi\Query\QueryInterface2
+     * @var     object  CommonApi\Query\QueryInterface
      * @since   1.0
      */
     protected $query;

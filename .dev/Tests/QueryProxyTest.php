@@ -122,7 +122,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Filters::quoteName
      * @covers  Molajo\Query\Builder\Filters::filter
      *
-     * @return  \CommonApi\Query\QueryInterface2
+     * @return  \CommonApi\Query\QueryInterface
      * @since   1.0
      */
     public function setup()
