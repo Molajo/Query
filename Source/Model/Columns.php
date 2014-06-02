@@ -25,7 +25,7 @@ abstract class Columns extends Table
      *
      * @param   boolean $distinct
      *
-     * @return  $this
+     * @return  \Molajo\Query\QueryTrait
      * @since   1.0
      */
     protected function setSelectDistinct($distinct = false)

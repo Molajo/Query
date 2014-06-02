@@ -84,12 +84,15 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Generate::getUpdate
      * @covers  Molajo\Query\Builder\Generate::getDelete
      * @covers  Molajo\Query\Builder\Generate::getSelect
+     * @covers  Molajo\Query\Builder\Generate::getSelectAppend
      * @covers  Molajo\Query\Builder\Generate::getDistinct
      * @covers  Molajo\Query\Builder\Generate::getElement
+     * @covers  Molajo\Query\Builder\Generate::returnGetElement
      * @covers  Molajo\Query\Builder\Generate::getLimit
      * @covers  Molajo\Query\Builder\Generate::getDatabasePrefix
      * @covers  Molajo\Query\Builder\Groups::setGroup
      * @covers  Molajo\Query\Builder\Groups::getGroups
+     * @covers  Molajo\Query\Builder\Groups::getGroupsBeforeAfter
      * @covers  Molajo\Query\Builder\Groups::initialiseGroups
      * @covers  Molajo\Query\Builder\Groups::getGroupItemsLoop
      * @covers  Molajo\Query\Builder\Groups::getGroupItem
@@ -122,6 +125,27 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Filters::quoteNameAndPrefix
      * @covers  Molajo\Query\Builder\Filters::quoteName
      * @covers  Molajo\Query\Builder\Filters::filter
+     *
+     * @covers  Molajo\Query\QueryBuilder::__construct
+     * @covers  Molajo\Query\QueryBuilder::getModelRegistry
+     * @covers  Molajo\Query\QueryBuilder::setModelRegistry
+     * @covers  Molajo\Query\QueryBuilder::getSql
+     * @covers  Molajo\Query\QueryBuilder::clearQuery
+     * @covers  Molajo\Query\QueryBuilder::setType
+     * @covers  Molajo\Query\QueryBuilder::getDateFormat
+     * @covers  Molajo\Query\QueryBuilder::getDate
+     * @covers  Molajo\Query\QueryBuilder::getNullDate
+     * @covers  Molajo\Query\QueryBuilder::setDistinct
+     * @covers  Molajo\Query\QueryBuilder::select
+     * @covers  Molajo\Query\QueryBuilder::from
+     * @covers  Molajo\Query\QueryBuilder::whereGroup
+     * @covers  Molajo\Query\QueryBuilder::where
+     * @covers  Molajo\Query\QueryBuilder::groupBy
+     * @covers  Molajo\Query\QueryBuilder::havingGroup
+     * @covers  Molajo\Query\QueryBuilder::having
+     * @covers  Molajo\Query\QueryBuilder::orderBy
+     * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
+     * @covers  Molajo\Query\QueryBuilder::get
      *
      * @covers  Molajo\Query\Model\Registry::__construct
      * @covers  Molajo\Query\Model\Registry::getModelRegistry
@@ -197,34 +221,13 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Model\Query::setOffsetAndLimit
      * @covers  Molajo\Query\Model\Query::get
      *
-     * @covers  Molajo\Query\QueryBuilder::__construct
-     * @covers  Molajo\Query\QueryBuilder::getModelRegistry
-     * @covers  Molajo\Query\QueryBuilder::setModelRegistry
-     * @covers  Molajo\Query\QueryBuilder::getSql
-     * @covers  Molajo\Query\QueryBuilder::clearQuery
-     * @covers  Molajo\Query\QueryBuilder::setType
-     * @covers  Molajo\Query\QueryBuilder::getDateFormat
-     * @covers  Molajo\Query\QueryBuilder::getDate
-     * @covers  Molajo\Query\QueryBuilder::getNullDate
-     * @covers  Molajo\Query\QueryBuilder::setDistinct
-     * @covers  Molajo\Query\QueryBuilder::select
-     * @covers  Molajo\Query\QueryBuilder::from
-     * @covers  Molajo\Query\QueryBuilder::whereGroup
-     * @covers  Molajo\Query\QueryBuilder::where
-     * @covers  Molajo\Query\QueryBuilder::groupBy
-     * @covers  Molajo\Query\QueryBuilder::havingGroup
-     * @covers  Molajo\Query\QueryBuilder::having
-     * @covers  Molajo\Query\QueryBuilder::orderBy
-     * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
-     * @covers  Molajo\Query\QueryBuilder::get
-     *
      * @return void
      * @since   1.0
      */
     public function setup()
     {
 /**
-        $class   = new ReflectionClass('Molajo\Query\Adapter\Mysql');
+        $class   = new ReflectionClass('Molajo\Query\Model\Registry');
         $methods = $class->getMethods();
         foreach ($methods as $method) {
             echo '     * @covers  ' . $method->class . '::' . $method->name . PHP_EOL;

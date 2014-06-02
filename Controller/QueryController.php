@@ -40,10 +40,10 @@ class QueryController extends Controller implements QueryBuilderInterface
     /**
      * Class Constructor
      *
-     * @param  ModelInterface         $model
-     * @param  array                  $runtime_data
-     * @param  array                  $plugin_data
-     * @param  callable               $schedule_event
+     * @param  ModelInterface        $model
+     * @param  array                 $runtime_data
+     * @param  array                 $plugin_data
+     * @param  callable              $schedule_event
      * @param  QueryBuilderInterface $query
      *
      * @since  1.0

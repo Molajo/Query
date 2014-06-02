@@ -30,7 +30,6 @@ abstract class Item extends Edits
      * @param   null|string $value
      * @param   null|string $alias
      * @param   null|string $condition
-     * @param   null|string $type
      *
      * @return  stdClass
      * @since   1.0

@@ -227,6 +227,7 @@ abstract class Elements extends Item
      *
      * @param   string      $filter
      * @param   string      $field
+     * @param string $condition
      *
      * @return  stdClass
      * @since   1.0

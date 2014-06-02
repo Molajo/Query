@@ -63,7 +63,7 @@ abstract class Generate extends Groups
                 'get_column'     => true,
                 'use_alias'      => false,
                 'connector'      => '',
-                'return_literal' => 'ORDER BY ',
+                'return_literal' => 'ORDER BY',
                 'key_value'      => 0,
                 'format'         => 1
             ),
@@ -83,7 +83,7 @@ abstract class Generate extends Groups
                 'get_column'     => true,
                 'use_alias'      => false,
                 'connector'      => '',
-                'return_literal' => 'GROUP BY ',
+                'return_literal' => 'GROUP BY',
                 'key_value'      => 0,
                 'format'         => 1
             )
@@ -218,20 +218,40 @@ abstract class Generate extends Groups
      */
     protected function getSelect()
     {
-        $query = '';
+        $full_sql = '';
 
         foreach ($this->groups_array as $key => $value) {
-            $new = $this->getElement($key);
-            if (trim($query) === '') {
-                $query = $this->getDistinct() . $new;
-            } else {
-                $query .= PHP_EOL . $new;
-            }
+            $new_sql = $this->getElement($key);
+            $full_sql = $this->getSelectAppend($new_sql, $full_sql);
         }
 
-        $query .= $this->getLimit();
+        $this->sql = $full_sql . $this->getLimit();
 
-        return $query;
+        return $this->sql;
+    }
+
+    /**
+     * Append results only for those elements with generated SQL
+     *
+     * @param   string  $new_sql
+     * @param   string  $full_sql
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getSelectAppend($new_sql = '', $full_sql = '')
+    {
+        if (trim($new_sql) === '') {
+            return $full_sql;
+        }
+
+        if (trim($full_sql) === '') {
+            $full_sql = $this->getDistinct() . $new_sql;
+        } else {
+            $full_sql .= PHP_EOL . $new_sql;
+        }
+
+        return $full_sql;
     }
 
     /**
@@ -259,14 +279,21 @@ abstract class Generate extends Groups
      */
     protected function getElement($type)
     {
+        if (count($this->$type) === 0) {
+            return '';
+        }
+
         $a = $this->groups_array[$type];
+        $output = '';
 
         if ($type === 'where' || $type === 'having') {
             $t = $type . '_group';
             $output = $this->getGroups($this->$t, $this->$type, $a['connector']);
         } else {
             $array = $this->getElementsArray($this->$type, $a['get_value'], $a['get_column'], $a['use_alias']);
-            $output = $this->getLoop($array, $a['key_value'], $a['format']);
+            if (count($array) > 0) {
+                $output = $this->getLoop($array, $a['key_value'], $a['format']);
+            }
         }
 
         return $this->returnGetElement($a['return_literal'], $output);

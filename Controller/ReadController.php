@@ -29,14 +29,6 @@ class ReadController extends QueryController implements ReadControllerInterface
     protected $process_rows_count;
 
     /**
-     * Count
-     *
-     * @var    integer
-     * @since  1.0
-     */
-    protected $count;
-
-    /**
      * Parameters
      *
      * @var    array

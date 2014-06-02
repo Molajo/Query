@@ -9,7 +9,6 @@
 namespace Molajo\Query\Model;
 
 use CommonApi\Query\QueryInterface;
-use CommonApi\Query\ModelRegistryInterface;
 use CommonApi\Query\QueryBuilderInterface;
 
 /**

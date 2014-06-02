@@ -59,30 +59,56 @@ abstract class Groups extends Elements
         $group_and_element_string = '';
 
         $groups = $this->initialiseGroups($type_group_array, $type);
+
+        list($before, $after) = $this->getGroupsBeforeAfter($groups);
+
+
         foreach ($groups as $group => $group_connector) {
 
             $group_string = '';
 
-            if (trim($group_string) === '') {
+            if (trim($group_and_element_string) === '') {
             } else {
                 $group_string = strtoupper($group_connector);
             }
 
-            if (count($groups) === 1) {
-                $before = '';
-                $after = '';
+            $output = $this->getGroupItemsLoop($type_array, $group);
+
+            if (trim($output) === '') {
             } else {
-                $before = '(';
-                $after = ')';
+                $group_string .= $before;
+                $group_string .= $this->getGroupItemsLoop($type_array, $group);
+
+                $group_and_element_string .= trim($group_string) . $after;
             }
-
-            $group_string .= $before;
-            $group_string .= $this->getGroupItemsLoop($type_array, $group);
-
-            $group_and_element_string .= trim($group_string) . $after;
         }
 
-        return $group_and_element_string  . PHP_EOL;
+        if (trim($group_and_element_string) === '') {
+            return '';
+        }
+
+        return $group_and_element_string . PHP_EOL;
+    }
+
+    /**
+     * Get group array - create single array entry if none exist
+     *
+     * @param   array  $type_group_array
+     *
+     * @return  array
+     * @since   1.0
+     */
+    protected function getGroupsBeforeAfter($groups)
+    {
+        if (count($groups) === 1) {
+            $before = '';
+            $after  = '';
+        } else {
+            $before = '(';
+            $after  = ')';
+        }
+
+        return array($before, $after);
     }
 
     /**
