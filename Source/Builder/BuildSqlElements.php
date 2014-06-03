@@ -39,6 +39,19 @@ abstract class BuildSqlElements extends BuildSqlGroups
             return $this->getElementLimit();
         }
 
+        return $this->getElementStandard($type);
+    }
+
+    /**
+     * Get Standard Element
+     *
+     * @param   $type
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getElementStandard($type)
+    {
         $a = $this->groups_array[$type];
 
         if ($type === 'where' || $type === 'having') {
@@ -122,12 +135,9 @@ abstract class BuildSqlElements extends BuildSqlGroups
         }
 
         foreach ($this->$type as $item) {
-
             $column_name = $this->getElementValuesColumnName($item, $get_column);
             $column_name .= $this->getElementValuesAlias($item, $use_alias);
-
             $value = $this->getElementValuesValue($item, $get_value);
-
             $array = $this->getElementArrayEntry($array, $column_name, $value, $get_value, $get_column);
         }
 
@@ -150,16 +160,10 @@ abstract class BuildSqlElements extends BuildSqlGroups
 
         $prefix = $this->getPrimaryColumnPrefix();
 
-        $column_array  = $this->columns;
-        $this->columns = array();
-
-        foreach ($column_array as $key => $column) {
-
-            if ($column->prefix === '') {
-                $column->prefix = $prefix;
+        foreach ($this->columns as $key => $column) {
+            if ($this->columns[$key]->prefix === '') {
+                $this->columns[$key]->prefix = $prefix;
             }
-
-            $this->columns[$key] = $column;
         }
 
         return $this;
@@ -179,19 +183,13 @@ abstract class BuildSqlElements extends BuildSqlGroups
             return $prefix;
         }
 
-        foreach ($this->from as $key => $from) {
+        $key = $this->findFromPrimary();
 
-            if ($from->primary === true) {
-                if ($from->alias === null || trim($from->alias === '')) {
-                    $prefix = $from->name;
-                    break;
-                }
-                $prefix = $from->alias;
-                break;
-            }
+        if ($this->from[$key]->alias === '') {
+            return $this->from[$key]->name;
         }
 
-        return $prefix;
+        return $this->from[$key]->alias;
     }
 
     /**
@@ -325,61 +323,73 @@ abstract class BuildSqlElements extends BuildSqlGroups
     }
 
     /**
-     * Set From table name and optional value for alias
+     * Set $key table entry to primary
      *
      * @param   $check  boolean
      *
-     * @return  boolean
+     * @return  $this;
      * @since   1.0
      */
-    protected function verifyPrimaryTable($table_name = '')
+    protected function setFromPrimary($key)
     {
-        $primary_key_located = false;
+        $this->resetFromPrimary();
 
-        $from_array = $this->from;
-        $this->from = array();
+        $this->from[$key]->primary = true;
 
-        foreach ($from_array as $key => $from) {
-            $primary_key = $this->verifyPrimaryTableItem($key, $from, $table_name);
-            if ($primary_key === true) {
-                $primary_key_located = true;
-            }
-        }
-
-        return $primary_key_located;
+        return $this;
     }
 
     /**
-     * Process a single table entry for primary
+     * Set $key table entry to primary
      *
      * @param   $check  boolean
      *
      * @return  boolean
      * @since   1.0
      */
-    protected function verifyPrimaryTableItem($key, $from, $table_name = '')
+    protected function findFromPrimary()
     {
-        $primary_key = false;
+        $this->initialiseFromPrimary();
 
-        if (isset($from->primary)) {
-        } else {
-            $from->primary = false;
-        }
-
-        if ($table_name === '') {
+        foreach ($this->from as $key => $from) {
             if ($from->primary === true) {
-                $primary_key = true;
-            }
-        } else {
-            if ($key === $table_name) {
-                $from->primary = true;
-            } else {
-                $from->primary = false;
+                return $key;
             }
         }
 
-        $this->from[$key] = $from;
+        return false;
+    }
 
-        return $primary_key;
+    /**
+     * Reset all from table entries to not primary
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function initialiseFromPrimary()
+    {
+        foreach ($this->from as $key => $from) {
+            if (isset($from->primary)) {
+            } else {
+                $this->from[$key]->primary = false;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Reset all from table entries to not primary
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function resetFromPrimary()
+    {
+        foreach ($this->from as $key => $from) {
+            $this->from[$key]->primary = false;
+        }
+
+        return $this;
     }
 }
