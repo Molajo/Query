@@ -187,17 +187,22 @@ abstract class Sql extends BuildSql
      *
      * @param   string      $column_name
      * @param   null|string $alias
+     * @param   null|mixed  $value
      * @param   null|string $data_type
      *
      * @return  $this
      * @since   1.0
      */
-    public function select($column_name, $alias = null, $data_type = 'string')
+    public function select($column_name, $alias = NULL, $value = NULL, $data_type = NULL)
     {
         $this->editRequired('column_name', $column_name);
 
+        if ($value === null) {
+            $data_type = 'column';
+        }
+
         $this->columns[$column_name]
-            = $this->setItem($column_name, $data_type, null, $alias, null, false);
+            = $this->setItem($column_name, $data_type, $value, $alias, null, false);
 
         return $this;
     }

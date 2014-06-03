@@ -153,6 +153,7 @@ abstract class BuildSqlGroups extends BuildSqlElements
                 if ($first_group_item === true) {
                     $first_group_item = false;
                     $group_string     = $sql;
+
                 } else {
                     $group_string .= PHP_EOL . '    ' . strtoupper($item->connector) . ' ' . $sql;
                 }
@@ -172,44 +173,62 @@ abstract class BuildSqlGroups extends BuildSqlElements
      */
     protected function getGroupItem($item)
     {
-        $sql = $item->left_item->prefix . $this->quoteName($item->left_item->name);
+        $sql = $this->quoteNameAndPrefix($item->left_item->name, $item->left_item->prefix);
 
         $sql .= ' ' . strtoupper($item->condition) . ' ';
 
         if (strtoupper($item->condition) === 'IN') {
-            $sql .= ' (' . $this->getLoop($item->right_item->value, 0, 2) . ')';
-
-        } elseif ($item->right_item->value === null) {
-            $sql .= $item->left_item->prefix . $this->quoteName($item->right_item->name);
+            $sql .= ' (' . $this->getQuoteList($item->right_item->value, 0) . ')';
 
         } else {
-            $sql .= $item->right_item->value;
+            $sql .= $this->quoteNameAndPrefix($item->right_item->name, $item->right_item->prefix);
         }
 
         return $sql;
     }
 
     /**
-     * Generate Data needed for SQL List
+     * Generate Data needed for SQL List - escaped prior to this point
      *
      * @param   array   $value_array
-     * @param   integer $key_value
-     * @param   integer $option
+     * @param   integer $key_value      0: Only use $value
+     *                                  1: key=value
      *
      * @return  string
      * @since   1.0
      */
-    protected function getLoop(array $value_array = array(), $key_value = 0, $option = 0)
+    protected function getQuoteList(array $value_array = array(), $key_value = 0)
+    {
+        $sql = '';
+
+        foreach ($value_array as $value) {
+            $sql = $this->getLoopList($key_value, $sql, $this->quoteValue($value));
+        }
+
+        return $sql;
+    }
+
+    /**
+     * Generate Data needed for SQL List - escaped prior to this point
+     *
+     * @param   array   $value_array
+     * @param   integer $key_value      0: Only use $value
+     *                                  1: key=value
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getLoop(array $value_array = array(), $key_value = 0)
     {
         $sql = '';
 
         if ($key_value === 0) {
             foreach ($value_array as $value) {
-                $sql = $this->getLoopList($option, $sql, $value);
+                $sql = $this->getLoopList($key_value, $sql, $value);
             }
         } else {
             foreach ($value_array as $key => $value) {
-                $sql = $this->getLoopList($option, $sql, $value, $key);
+                $sql = $this->getLoopList($key_value, $sql, $value, $key);
             }
         }
 
@@ -219,9 +238,8 @@ abstract class BuildSqlGroups extends BuildSqlElements
     /**
      * Render the SQL
      *
-     * @param   string $option 1: comma delimited list
-     *                         2: comma delimited quoted list
-     *                         3: key=value
+     * @param   string $key_value 0: only use $value
+     *                            1: key=value
      * @param   string $sql
      * @param   string $value
      * @param   string $key
@@ -229,17 +247,15 @@ abstract class BuildSqlGroups extends BuildSqlElements
      * @return  string
      * @since   1.0.0
      */
-    protected function getLoopList($option, $sql, $value, $key = null)
+    protected function getLoopList($key_value, $sql, $value, $key = null)
     {
         if ($sql === '') {
         } else {
             $sql .= ', ' . PHP_EOL . '    ';
         }
 
-        if ($option === 1) {
+        if ($key_value === 0) {
             $sql .= trim($value);
-        } elseif ($option === 2) {
-            $sql .= $this->quoteValue($value);
         } else {
             $sql .= trim($key) . ' = ' . $value;
         }

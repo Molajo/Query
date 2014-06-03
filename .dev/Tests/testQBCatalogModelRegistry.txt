@@ -18,11 +18,11 @@ FROM `molajo_catalog` AS `a`,
     `molajo_catalog_types` AS `b`, 
     `molajo_application_extension_instances` AS `application_extension_instances`, 
     `molajo_site_extension_instances` AS `site_extension_instances`
-WHERE a`sef_request` = 'articles'
-    AND a`page_type` <> 'link'
-    AND a`enabled` = '1'
-    AND b`id` = b`catalog_type_id`
-    AND application_extension_instances`extension_instance_id` = application_extension_instances`extension_instance_id`
-    AND site_extension_instances`extension_instance_id` = site_extension_instances`extension_instance_id`
-    AND a`enabled` = '1'
-    AND a`redirect_to_id` = '0'
+WHERE `a`.`sef_request` = `articles`
+    AND `a`.`page_type` <> `link`
+    AND `a`.`enabled` = `1`
+    AND `b`.`id` = `a`.`catalog_type_id`
+    AND `application_extension_instances`.`extension_instance_id` = `a`.`extension_instance_id`
+    AND `site_extension_instances`.`extension_instance_id` = `a`.`extension_instance_id`
+    AND `a`.`enabled` = `1`
+    AND `a`.`redirect_to_id` = `0`

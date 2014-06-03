@@ -269,50 +269,6 @@ abstract class BuildSql extends BuildSqlGroups
     }
 
     /**
-     * Generate Element SQL
-     *
-     * @param   string $type
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getElement($type)
-    {
-        if (count($this->$type) === 0) {
-            return '';
-        }
-
-        $a = $this->groups_array[$type];
-
-        if ($type === 'where' || $type === 'having') {
-            $output = $this->getGroups($this->{$type . '_group'}, $this->$type, $a['connector']);
-        } else {
-            $array = $this->getElementsArray($this->$type, $a['get_value'], $a['get_column'], $a['use_alias']);
-            $output = $this->getLoop($array, $a['key_value'], $a['format']);
-        }
-
-        return $this->returnGetElement($a['return_literal'], $output);
-    }
-
-    /**
-     * Return getElement Value
-     *
-     * @param   string $return_literal
-     * @param   string $output
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function returnGetElement($return_literal, $output = '')
-    {
-        if (trim($output) === '') {
-            return '';
-        }
-
-        return trim($return_literal . ' ' . $output);
-    }
-
-    /**
      * Generate SQL for Limit
      *
      * @return  string
