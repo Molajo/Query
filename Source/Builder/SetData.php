@@ -63,12 +63,11 @@ abstract class SetData extends EditData
      *
      * @param   string $filter
      * @param   string $field
-     * @param string   $condition
      *
      * @return  stdClass
      * @since   1.0
      */
-    protected function setLeftRightConditionalItem($filter = 'column', $field = '', $condition = null)
+    protected function setLeftRightConditionalItem($filter = 'column', $field = '')
     {
         if ($filter === 'column') {
             return $this->setItem($field, 'column', null, null, null, false);

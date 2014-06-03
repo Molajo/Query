@@ -97,33 +97,46 @@ class QueryBuilderDefaultsTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSql::generateSql
      * @covers  Molajo\Query\Builder\BuildSql::getInsert
      * @covers  Molajo\Query\Builder\BuildSql::getInsertfrom
+     * @covers  Molajo\Query\Builder\BuildSql::getInsertType
      * @covers  Molajo\Query\Builder\BuildSql::getUpdate
      * @covers  Molajo\Query\Builder\BuildSql::getDelete
      * @covers  Molajo\Query\Builder\BuildSql::getSelect
      * @covers  Molajo\Query\Builder\BuildSql::getSelectAppend
      * @covers  Molajo\Query\Builder\BuildSql::getDistinct
-     * @covers  Molajo\Query\Builder\BuildSql::getElement
-     * @covers  Molajo\Query\Builder\BuildSql::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSql::getDatabasePrefix
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::setGroup
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroups
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupsBeforeAfter
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::initialiseGroups
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupItemsLoop
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupItem
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoop
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoopList
+     * @covers  Molajo\Query\Builder\BuildSql::setOffsetOrLimit
+     * @covers  Molajo\Query\Builder\BuildSql::setFromPrimary
+     * @covers  Molajo\Query\Builder\BuildSql::findFromPrimary
+     * @covers  Molajo\Query\Builder\BuildSql::initialiseFromPrimary
+     * @covers  Molajo\Query\Builder\BuildSql::resetFromPrimary
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElement
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementStandard
+     * @covers  Molajo\Query\Builder\BuildSqlElements::useGetElement
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
+     * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
+     * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesAlias
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesValue
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementArrayEntry
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnAlias
-     * @covers  Molajo\Query\Builder\BuildSqlElements::setDirection
-     * @covers  Molajo\Query\Builder\BuildSqlElements::setOffsetorLimit
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::setGroup
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroups
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroup
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupsBeforeAfter
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::initialiseGroups
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupItemsLoop
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupItem
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getQuoteLeftRight
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getQuoteList
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoop
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoopList
      * @covers  Molajo\Query\Builder\SetData::setLeftRightConditionals
      * @covers  Molajo\Query\Builder\SetData::setLeftRightConditionalItem
      * @covers  Molajo\Query\Builder\SetData::setGroupByOrderBy
+     * @covers  Molajo\Query\Builder\SetData::setDirection
      * @covers  Molajo\Query\Builder\SetData::setItem
      * @covers  Molajo\Query\Builder\SetData::setItemValue
      * @covers  Molajo\Query\Builder\SetData::setItemAlias
@@ -334,33 +347,46 @@ class QueryBuilderDefaultsTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSql::generateSql
      * @covers  Molajo\Query\Builder\BuildSql::getInsert
      * @covers  Molajo\Query\Builder\BuildSql::getInsertfrom
+     * @covers  Molajo\Query\Builder\BuildSql::getInsertType
      * @covers  Molajo\Query\Builder\BuildSql::getUpdate
      * @covers  Molajo\Query\Builder\BuildSql::getDelete
      * @covers  Molajo\Query\Builder\BuildSql::getSelect
      * @covers  Molajo\Query\Builder\BuildSql::getSelectAppend
      * @covers  Molajo\Query\Builder\BuildSql::getDistinct
-     * @covers  Molajo\Query\Builder\BuildSql::getElement
-     * @covers  Molajo\Query\Builder\BuildSql::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSql::getDatabasePrefix
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::setGroup
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroups
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupsBeforeAfter
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::initialiseGroups
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupItemsLoop
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupItem
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoop
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoopList
+     * @covers  Molajo\Query\Builder\BuildSql::setOffsetOrLimit
+     * @covers  Molajo\Query\Builder\BuildSql::setFromPrimary
+     * @covers  Molajo\Query\Builder\BuildSql::findFromPrimary
+     * @covers  Molajo\Query\Builder\BuildSql::initialiseFromPrimary
+     * @covers  Molajo\Query\Builder\BuildSql::resetFromPrimary
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElement
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementStandard
+     * @covers  Molajo\Query\Builder\BuildSqlElements::useGetElement
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
+     * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
+     * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesAlias
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesValue
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementArrayEntry
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnAlias
-     * @covers  Molajo\Query\Builder\BuildSqlElements::setDirection
-     * @covers  Molajo\Query\Builder\BuildSqlElements::setOffsetorLimit
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::setGroup
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroups
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroup
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupsBeforeAfter
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::initialiseGroups
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupItemsLoop
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupItem
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getQuoteLeftRight
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getQuoteList
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoop
+     * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoopList
      * @covers  Molajo\Query\Builder\SetData::setLeftRightConditionals
      * @covers  Molajo\Query\Builder\SetData::setLeftRightConditionalItem
      * @covers  Molajo\Query\Builder\SetData::setGroupByOrderBy
+     * @covers  Molajo\Query\Builder\SetData::setDirection
      * @covers  Molajo\Query\Builder\SetData::setItem
      * @covers  Molajo\Query\Builder\SetData::setItemValue
      * @covers  Molajo\Query\Builder\SetData::setItemAlias
