@@ -11,7 +11,7 @@ namespace Molajo\Query\Builder;
 /**
  * Query Builder Build Sql Elements
  *
- * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
+ * Sql - BuildSql - BuildSqlElements - BuildSqlGroups - SetData - EditData - FilterData - Base
  *
  * Processes output data, already filtered will be escaped in getLoop
  *
@@ -19,7 +19,7 @@ namespace Molajo\Query\Builder;
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class BuildSqlElements extends SetData
+abstract class BuildSqlElements extends BuildSqlGroups
 {
     /**
      * Generate Element SQL
@@ -31,7 +31,7 @@ abstract class BuildSqlElements extends SetData
      */
     protected function getElement($type)
     {
-        if (count($this->$type) === 0) {
+        if ($this->useGetElement($type) === false) {
             return '';
         }
 
@@ -40,11 +40,28 @@ abstract class BuildSqlElements extends SetData
         if ($type === 'where' || $type === 'having') {
             $output = $this->getGroups($this->{$type . '_group'}, $this->$type, $a['connector']);
         } else {
-            $array = $this->getElementsArray($this->$type, $a['get_value'], $a['get_column'], $a['use_alias']);
+            $array  = $this->getElementsArray($type, $a['get_value'], $a['get_column'], $a['use_alias']);
             $output = $this->getLoop($array, $a['key_value'], $a['format']);
         }
 
         return $this->returnGetElement($a['return_literal'], $output);
+    }
+
+    /**
+     * Does SQL for this element need to be built?
+     *
+     * @param   string $type
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    protected function useGetElement($type)
+    {
+        if (count($this->$type) === 0) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -68,7 +85,7 @@ abstract class BuildSqlElements extends SetData
     /**
      * Generate array of column names, values, or name-value pairs
      *
-     * @param   array   $type_array
+     * @param   string  $type
      * @param   boolean $get_value
      * @param   boolean $get_column
      * @param   boolean $use_alias
@@ -76,15 +93,20 @@ abstract class BuildSqlElements extends SetData
      * @return  string
      * @since   1.0
      */
-    protected function getElementsArray(array $type_array, $get_value = true, $get_column = true, $use_alias = true)
+    protected function getElementsArray($type, $get_value = true, $get_column = true, $use_alias = true)
     {
         $array = array();
 
-        foreach ($type_array as $item) {
+        if ($type === 'columns') {
+            $this->setColumnPrefix();
+        }
 
-            $column_value_array = $this->getElementValues($item, $get_value, $get_column, $use_alias);
-            $column_name        = $column_value_array['column_name'];
-            $value              = $column_value_array['value'];
+        foreach ($this->$type as $item) {
+
+            $column_name = $this->getElementValuesColumnName($item, $get_column);
+            $column_name .= $this->getElementValuesAlias($item, $use_alias);
+
+            $value = $this->getElementValuesValue($item, $get_value);
 
             $array = $this->getElementArrayEntry($array, $column_name, $value, $get_value, $get_column);
         }
@@ -93,35 +115,117 @@ abstract class BuildSqlElements extends SetData
     }
 
     /**
-     * Get Column Name and Value
+     * Assign a default column prefix, if needed
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function setColumnPrefix()
+    {
+        $prefix = '';
+
+        if (count($this->from) === 1) {
+            return $prefix;
+        }
+
+        $prefix = $this->getPrimaryColumnPrefix();
+
+        $column_array = $this->columns;
+        $this->columns = array();
+
+        foreach ($column_array as $key => $column) {
+
+            if ($column->prefix === '') {
+                $column->prefix = $prefix;
+            }
+
+            $this->columns[$key] = $column;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get the Primary Prefix for use with columns that have no prefix
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getPrimaryColumnPrefix()
+    {
+        $prefix = '';
+
+        if (count($this->from) === 1) {
+            return $prefix;
+        }
+
+        foreach ($this->from as $key => $from) {
+
+            if ($from->primary === true) {
+                if ($from->alias === null || trim($from->alias === '')) {
+                    $prefix = $from->name;
+                    break;
+                }
+                $prefix = $from->alias;
+                break;
+            }
+        }
+
+        return $prefix;
+    }
+
+    /**
+     * Get Column Name
      *
      * @param   object  $item
-     * @param   boolean $get_value
      * @param   boolean $get_column
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getElementValuesColumnName($item, $get_column)
+    {
+        if ($get_column === true) {
+            return $this->quoteNameAndPrefix($item->name, $item->prefix);
+        }
+
+        return '';
+    }
+
+    /**
+     * Get Column Name Alias
+     *
+     * @param   object  $item
      * @param   boolean $use_alias
      *
      * @return  string
      * @since   1.0
      */
-    protected function getElementValues($item, $get_value = true, $get_column = true, $use_alias = true)
+    protected function getElementValuesAlias($item, $use_alias)
     {
-        $column_name = '';
-        $value       = '';
-
-        if ($get_column === true) {
-
-            $column_name = $this->setColumnName($item->name);
-
-            if ($use_alias === true && isset($item->alias)) {
-                $column_name .= $this->setColumnAlias($use_alias, $item->alias);
-            }
+        if ($use_alias === true && isset($item->alias)) {
+            return $this->setColumnAlias($use_alias, $item->alias);
         }
 
+        return '';
+    }
+
+    /**
+     * Get Column Value
+     *
+     * @param   object  $item
+     * @param   boolean $get_value
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getElementValuesValue($item, $get_value)
+    {
         if ($get_value === true) {
-            $value = $this->setColumnValue($item->name, $item->value, $item->data_type);
+            return $this->quoteValue($item->value);
         }
 
-        return array('column_name' => $column_name, 'value' => $value);
+        return '';
     }
 
     /**
@@ -152,67 +256,6 @@ abstract class BuildSqlElements extends SetData
     }
 
     /**
-     * Prepare Column Value by filtering and escaping
-     *
-     * @param   string $column_name
-     * @param   mixed  $value
-     * @param   string $data_type
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function setColumnValue($column_name, $value, $data_type)
-    {
-        $value = $this->setOrFilterColumn($column_name, $value, $data_type);
-
-        if (is_numeric($value)) {
-            return $value;
-        }
-
-        return $this->quoteValue($value);
-    }
-
-    /**
-     * Set or Filter Column
-     *
-     * @param   string $column_name
-     * @param   string $value
-     * @param   string $filter
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function setOrFilterColumn($column_name, $value, $filter)
-    {
-        if (strtolower($filter) === 'column') {
-            return $this->setColumnName($value);
-        }
-
-        return $this->filter($column_name, $value, $filter);
-    }
-
-    /**
-     * Set Column Name
-     *
-     * @param   string $column_name
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function setColumnName($column_name)
-    {
-        if (strpos($column_name, '.')) {
-            $temp = explode('.', $column_name);
-            $prefix = $temp[0];
-            $column_name = $temp[1];
-        } else {
-            $prefix = '';
-        }
-
-        return $this->quoteNameAndPrefix($column_name, $prefix);
-    }
-
-    /**
      * Set Column Alias
      *
      * @param   boolean $use_alias
@@ -235,25 +278,6 @@ abstract class BuildSqlElements extends SetData
     }
 
     /**
-     * Set Direction
-     *
-     * @param   string $direction
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function setDirection($direction = 'DESC')
-    {
-        $direction = strtoupper($direction);
-
-        if ($direction === 'ASC') {
-            return 'ASC';
-        }
-
-        return 'DESC';
-    }
-
-    /**
      * Set Offset or Limit
      *
      * @param   integer $value
@@ -262,7 +286,7 @@ abstract class BuildSqlElements extends SetData
      * @return  $this
      * @since   1.0
      */
-    protected function setOffsetorLimit($value, $type = 'offset')
+    protected function setOffsetOrLimit($value, $type = 'offset')
     {
         if ((int)$value > 0) {
         } else {
@@ -278,5 +302,62 @@ abstract class BuildSqlElements extends SetData
         $this->$type = $value;
 
         return $this;
+    }
+
+    /**
+     * Set From table name and optional value for alias
+     *
+     * @param   string $table_name
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    protected function setPrimaryTable($table_name)
+    {
+        $from_array = $this->from;
+        $this->from = array();
+
+        foreach ($from_array as $key => $from) {
+
+            if ($key === $table_name) {
+                $from->primary = true;
+            } else {
+                $from->primary = false;
+            }
+
+            $this->from[$key] = $from;
+        }
+
+        return false;
+    }
+
+    /**
+     * Set From table name and optional value for alias
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    protected function existsPrimaryTable()
+    {
+        $primary_key = false;
+
+        $from_array = $this->from;
+        $this->from = array();
+
+        foreach ($from_array as $key => $from) {
+
+            if (isset($from->primary)) {
+            } else {
+                $from->primary = false;
+            }
+
+            if ($from->primary === true) {
+                $primary_key = true;
+            }
+
+            $this->from[$key] = $from;
+        }
+
+        return $primary_key;
     }
 }

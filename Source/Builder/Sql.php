@@ -18,7 +18,7 @@ use DateTime;
  * External API - all other class methods are called by this class
  * DB-specific adapters extend this class
  *
- * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
+ * Sql - BuildSql - BuildSqlElements - BuildSqlGroups - SetData - EditData - FilterData - Base
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
@@ -69,7 +69,7 @@ abstract class Sql extends BuildSql
     /**
      * Get the current value (or default) of the specified property
      *
-     * @param   string $key                                                                                                                             `````
+     * @param   string $key `````
      * @param   mixed  $default
      *
      * @return  mixed
@@ -193,7 +193,7 @@ abstract class Sql extends BuildSql
      * @return  $this
      * @since   1.0
      */
-    public function select($column_name, $alias = NULL, $value = NULL, $data_type = NULL)
+    public function select($column_name, $alias = null, $value = null, $data_type = null)
     {
         $this->editRequired('column_name', $column_name);
 
@@ -212,16 +212,23 @@ abstract class Sql extends BuildSql
      *
      * @param   string      $table_name
      * @param   null|string $alias
+     * @param   boolean     $primary
      *
      * @return  $this
      * @since   1.0
      */
-    public function from($table_name, $alias = null)
+    public function from($table_name, $alias = null, $primary = false)
     {
         $this->editRequired('table_name', $table_name);
 
         $this->from[$table_name]
             = $this->setItem($table_name, 'string', null, $alias, null, false);
+
+        if ($this->existsPrimaryTable() === true && $primary === false) {
+            return $this;
+        }
+
+        $this->setPrimaryTable($table_name);
 
         return $this;
     }
@@ -237,8 +244,8 @@ abstract class Sql extends BuildSql
      */
     public function whereGroup($group, $group_connector = 'AND')
     {
-        $this->where_group =
-            $this->setGroup($group, $group_connector, 'where', $this->where_group);
+        $this->where_group
+            = $this->setGroup($group, $group_connector, 'where', $this->where_group);
 
         return $this;
     }
@@ -254,8 +261,8 @@ abstract class Sql extends BuildSql
      */
     public function havingGroup($group, $group_connector = 'AND')
     {
-        $this->having_group =
-            $this->setGroup($group, $group_connector, 'having', $this->having_group);
+        $this->having_group
+            = $this->setGroup($group, $group_connector, 'having', $this->having_group);
 
         return $this;
     }
@@ -378,8 +385,8 @@ abstract class Sql extends BuildSql
      */
     public function setOffsetAndLimit($offset = 0, $limit = 0)
     {
-        $this->setOffsetorLimit($offset, $type = 'offset');
-        $this->setOffsetorLimit($limit, $type = 'limit');
+        $this->setOffsetOrLimit($offset, $type = 'offset');
+        $this->setOffsetOrLimit($limit, $type = 'limit');
 
         return $this;
     }

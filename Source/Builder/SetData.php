@@ -13,7 +13,7 @@ use stdClass;
 /**
  * Query Builder Set Data
  *
- * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
+ * Sql - BuildSql - BuildSqlElements - BuildSqlGroups - SetData - EditData - FilterData - Base
  *
  * Collection of methods which process input data and store results in element-specific item arrays
  *
@@ -52,7 +52,7 @@ abstract class SetData extends EditData
         $item->group      = (string)trim($group);
         $item->left_item  = $this->setLeftRightConditionalItem($left_filter, $left);
         $item->condition  = $condition;
-        $item->right_item  = $this->setLeftRightConditionalItem($right_filter, $right, $condition);
+        $item->right_item = $this->setLeftRightConditionalItem($right_filter, $right, $condition);
         $item->connector  = $this->editConnector($connector);
 
         return $item;
@@ -61,9 +61,9 @@ abstract class SetData extends EditData
     /**
      * Set Conditions for Query - used for Where and Having
      *
-     * @param   string      $filter
-     * @param   string      $field
-     * @param string $condition
+     * @param   string $filter
+     * @param   string $field
+     * @param string   $condition
      *
      * @return  stdClass
      * @since   1.0
@@ -98,6 +98,25 @@ abstract class SetData extends EditData
         }
 
         return $item;
+    }
+
+    /**
+     * Set Direction
+     *
+     * @param   string $direction
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function setDirection($direction = 'DESC')
+    {
+        $direction = strtoupper($direction);
+
+        if ($direction === 'ASC') {
+            return 'ASC';
+        }
+
+        return 'DESC';
     }
 
     /**
@@ -181,8 +200,8 @@ abstract class SetData extends EditData
     protected function setItemName($column_name)
     {
         if (strpos($column_name, '.')) {
-            $temp   = explode('.', $column_name);
-            $prefix = (string)$temp[0];
+            $temp        = explode('.', $column_name);
+            $prefix      = (string)$temp[0];
             $column_name = (string)$temp[1];
         } else {
             $prefix = null;

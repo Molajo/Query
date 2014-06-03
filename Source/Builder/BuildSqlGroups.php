@@ -11,13 +11,13 @@ namespace Molajo\Query\Builder;
 /**
  * Query Builder Build Sql Groups
  *
- * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
+ * Sql - BuildSql - BuildSqlElements - BuildSqlGroups - SetData - EditData - FilterData - Base
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class BuildSqlGroups extends BuildSqlElements
+abstract class BuildSqlGroups extends SetData
 {
     /**
      * Groups for 'AND' or 'OR' groups for both where and having
@@ -62,25 +62,9 @@ abstract class BuildSqlGroups extends BuildSqlElements
 
         list($before, $after) = $this->getGroupsBeforeAfter($groups);
 
-
         foreach ($groups as $group => $group_connector) {
-
-            $group_string = '';
-
-            if (trim($group_and_element_string) === '') {
-            } else {
-                $group_string = strtoupper($group_connector);
-            }
-
-            $output = $this->getGroupItemsLoop($type_array, $group);
-
-            if (trim($output) === '') {
-            } else {
-                $group_string .= $before;
-                $group_string .= $this->getGroupItemsLoop($type_array, $group);
-
-                $group_and_element_string .= trim($group_string) . $after;
-            }
+            $group_and_element_string
+                = $this->getGroup($group_and_element_string, $before, $after, $group, $type_array, $group_connector);
         }
 
         if (trim($group_and_element_string) === '') {
@@ -91,8 +75,50 @@ abstract class BuildSqlGroups extends BuildSqlElements
     }
 
     /**
+     * Process a single group
+     *
+     * @param  string $group_and_element_string
+     * @param  string $before
+     * @param  string $after
+     * @param  string $group
+     * @param  array  $type_array
+     * @param  string $group_connector
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getGroup(
+        $group_and_element_string,
+        $before,
+        $after,
+        $group,
+        array $type_array = array(),
+        $group_connector = 'where'
+    ) {
+        $group_string = '';
+
+        if (trim($group_and_element_string) === '') {
+        } else {
+            $group_string = strtoupper($group_connector);
+        }
+
+        $output = $this->getGroupItemsLoop($type_array, $group);
+
+        if (trim($output) === '') {
+        } else {
+            $group_string .= $before;
+            $group_string .= $this->getGroupItemsLoop($type_array, $group);
+
+            $group_and_element_string .= trim($group_string) . $after;
+        }
+
+        return $group_and_element_string;
+    }
+
+    /**
      * Get group array - create single array entry if none exist
      *
+     * @param   array  $groups
      *
      * @return  string[]
      * @since   1.0
@@ -135,11 +161,13 @@ abstract class BuildSqlGroups extends BuildSqlElements
     /**
      * Process Type Array for Group
      *
+     * @param   array  $type_array
+     * @param   string $group
      *
      * @return  string
      * @since   1.0
      */
-    protected function getGroupItemsLoop($type_array, $group)
+    protected function getGroupItemsLoop(array $type_array, $group)
     {
         $first_group_item = true;
         $group_string     = '';
@@ -147,16 +175,8 @@ abstract class BuildSqlGroups extends BuildSqlElements
         foreach ($type_array as $key => $item) {
 
             if ((string)trim($item->group) === (string)trim($group)) {
-
-                $sql = $this->getGroupItem($item);
-
-                if ($first_group_item === true) {
-                    $first_group_item = false;
-                    $group_string     = $sql;
-
-                } else {
-                    $group_string .= PHP_EOL . '    ' . strtoupper($item->connector) . ' ' . $sql;
-                }
+                $group_string = $this->getGroupItem($item, $first_group_item, $group_string);
+                $first_group_item = false;
             }
         }
 
@@ -166,25 +186,49 @@ abstract class BuildSqlGroups extends BuildSqlElements
     /**
      * Generate SQL for Group Item
      *
-     * @param   object $item
+     * @param   object  $item
+     * @param   boolean $first_group_item
+     * @param   string  $group_string
      *
      * @return  string
      * @since   1.0
      */
-    protected function getGroupItem($item)
+    protected function getGroupItem($item, $first_group_item, $group_string)
     {
-        $sql = $this->quoteNameAndPrefix($item->left_item->name, $item->left_item->prefix);
+        $sql = $this->getQuoteLeftRight($item->left_item);
+        $sql .= ' ' . $item->condition . ' ';
+        $sql .= $this->getQuoteLeftRight($item->right_item, $item->condition);
 
-        $sql .= ' ' . strtoupper($item->condition) . ' ';
-
-        if (strtoupper($item->condition) === 'IN') {
-            $sql .= ' (' . $this->getQuoteList($item->right_item->value, 0) . ')';
+        if ($first_group_item === true) {
+            $group_string     = $sql;
 
         } else {
-            $sql .= $this->quoteNameAndPrefix($item->right_item->name, $item->right_item->prefix);
+            $group_string .= PHP_EOL . '    ' . strtoupper($item->connector) . ' ' . $sql;
         }
 
-        return $sql;
+        return $group_string;
+    }
+
+    /**
+     * Generate SQL for Group Item
+     *
+     * @param   object      $item
+     * @param   null|string $condition
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getQuoteLeftRight($item, $condition = null)
+    {
+        if (strtoupper($condition) === 'IN') {
+            return ' (' . $this->getQuoteList($item->value, 0) . ')';
+        }
+
+        if ($item->data_type === 'column') {
+            return $this->quoteNameAndPrefix($item->name, $item->prefix);
+        }
+
+        return $this->quoteValue($item->value);
     }
 
     /**

@@ -14,7 +14,7 @@ use CommonApi\Exception\RuntimeException;
 /**
  * Query Builder Filters
  *
- * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
+ * Sql - BuildSql - BuildSqlElements - BuildSqlGroups - SetData - EditData - FilterData - Base
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
@@ -104,6 +104,6 @@ abstract class FilterData extends Base
             );
         }
 
-        return $this->quoteValue($value);
+        return $value;
     }
 }

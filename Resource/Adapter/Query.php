@@ -89,7 +89,7 @@ class Query extends Xml implements AdapterInterface
      * @param  array             $namespace_prefixes
      * @param  array             $valid_file_extensions
      * @param  DatabaseInterface $database
-     * @param  QueryInterface   $query
+     * @param  QueryInterface    $query
      * @param  callback          $schedule_event
      *
      * @since  1.0

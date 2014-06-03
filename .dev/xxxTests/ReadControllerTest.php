@@ -85,15 +85,15 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
         $database        = new Database();
 
         /** Query Proxy */
-        $query_class     = new QueryClass($fieldhandler, 'molajo_', $database);
-        $query_proxy     = new QueryProxy($query_class);
+        $query_class = new QueryClass($fieldhandler, 'molajo_', $database);
+        $query_proxy = new QueryProxy($query_class);
 
         /** Model Registry */
         $model_registry = array();
         $registry       = new Registry($query_proxy, $model_registry);
 
         /** Query Builder */
-        $query_builder  = new QueryBuilder($registry);
+        $query_builder = new QueryBuilder($registry);
 
         /** Model */
         $model = new ReadModel($database);

@@ -11,84 +11,14 @@ namespace Molajo\Query\Builder;
 /**
  * Query Builder Generate Sql
  *
- * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
+ * Sql - BuildSql - BuildSqlElements - BuildSqlGroups - SetData - EditData - FilterData - Base
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class BuildSql extends BuildSqlGroups
+abstract class BuildSql extends BuildSqlElements
 {
-    /**
-     * Groups array for processing
-     *
-     * @var    array
-     * @since  1.0.0
-     */
-    protected $groups_array
-        = array(
-            'columns'  => array(
-                'type'            => 'columns',
-                'get_value'       => false,
-                'get_column'      => true,
-                'use_alias'       => true,
-                'group_connector' => '',
-                'return_literal'  => '',
-                'key_value'       => 0,
-                'format'          => 1
-            ),
-            'from'     => array(
-                'type'            => 'from',
-                'get_value'       => false,
-                'get_column'      => true,
-                'use_alias'       => true,
-                'group_connector' => '',
-                'return_literal'  => 'FROM',
-                'key_value'       => 0,
-                'format'          => 1
-            ),
-            'where'    => array(
-                'type'           => 'where',
-                'get_value'      => false,
-                'get_column'     => true,
-                'use_alias'      => false,
-                'connector'      => 'AND',
-                'return_literal' => 'WHERE',
-                'key_value'      => 1,
-                'format'         => 1
-            ),
-            'order_by' => array(
-                'type'           => 'order_by',
-                'get_value'      => false,
-                'get_column'     => true,
-                'use_alias'      => false,
-                'connector'      => '',
-                'return_literal' => 'ORDER BY',
-                'key_value'      => 0,
-                'format'         => 1
-            ),
-           'having'   => array(
-                'type'           => 'having',
-                'get_value'      => false,
-                'get_column'     => true,
-                'use_alias'      => false,
-                'connector'      => 'AND',
-                'return_literal' => 'HAVING',
-                'key_value'      => 1,
-                'format'         => 1
-            ),
-            'group_by' => array(
-                'type'           => 'group_by',
-                'get_value'      => false,
-                'get_column'     => true,
-                'use_alias'      => false,
-                'connector'      => '',
-                'return_literal' => 'GROUP BY',
-                'key_value'      => 0,
-                'format'         => 1
-            )
-        );
-
     /**
      * Use externally provided SQL
      *
@@ -158,7 +88,7 @@ abstract class BuildSql extends BuildSqlGroups
             $get_column = true;
         }
 
-        return $this->getElement($this->columns, $get_value, $get_column, false, 1, 1);
+       // return $this->getElement($this->columns, $get_value, $get_column, false, 1, 1);
     }
 
     /**
@@ -185,7 +115,7 @@ abstract class BuildSql extends BuildSqlGroups
         $array = $this->getElementsArray($this->columns, true, true, false);
 
         $query_string = 'UPDATE ' . $this->getElement('from') . PHP_EOL;
-        $query_string .= 'SET ' . $this->getLoop($array, 1, 2) . PHP_EOL;
+        //$query_string .= 'SET ' . $this->getLoop($array, 1, 2) . PHP_EOL;
         $query_string .= $this->getElement('where');
 
         return $query_string;
@@ -220,7 +150,7 @@ abstract class BuildSql extends BuildSqlGroups
         $full_sql = '';
 
         foreach ($this->groups_array as $key => $value) {
-            $new_sql = $this->getElement($key);
+            $new_sql  = $this->getElement($key);
             $full_sql = $this->getSelectAppend($new_sql, $full_sql);
         }
 
@@ -232,8 +162,8 @@ abstract class BuildSql extends BuildSqlGroups
     /**
      * Append results only for those elements with generated SQL
      *
-     * @param   string  $new_sql
-     * @param   string  $full_sql
+     * @param   string $new_sql
+     * @param   string $full_sql
      *
      * @return  string
      * @since   1.0

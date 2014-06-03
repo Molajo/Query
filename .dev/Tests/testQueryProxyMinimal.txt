@@ -1,0 +1,2 @@
+SELECT `a`.`application_id` AS `app_id`
+FROM `molajo_catalog_types` AS `a`

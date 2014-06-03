@@ -1,8 +1,8 @@
-SELECT DISTINCT `application_id` AS `app_id`, 
+SELECT DISTINCT `a`.`application_id` AS `app_id`, 
     `application_name`
 FROM `molajo_catalog_types` AS `a`
-WHERE `enabled` = '1'
-    AND `dog` = 'barks'
+WHERE `a`.`enabled` = '1'
+    AND `a`.`dog` = 'barks'
 ORDER BY `order_id`, 
     `line2`
 HAVING `status` >= '3'

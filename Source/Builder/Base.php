@@ -11,7 +11,7 @@ namespace Molajo\Query\Builder;
 /**
  * Query Builder Base
  *
- * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
+ * Sql - BuildSql - BuildSqlElements - BuildSqlGroups - SetData - EditData - FilterData - Base
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
@@ -19,6 +19,76 @@ namespace Molajo\Query\Builder;
  */
 abstract class Base
 {
+    /**
+     * Groups array for processing
+     *
+     * @var    array
+     * @since  1.0.0
+     */
+    protected $groups_array
+        = array(
+            'columns'  => array(
+                'type'            => 'columns',
+                'get_value'       => false,
+                'get_column'      => true,
+                'use_alias'       => true,
+                'group_connector' => '',
+                'return_literal'  => '',
+                'key_value'       => 0,
+                'format'          => 1
+            ),
+            'from'     => array(
+                'type'            => 'from',
+                'get_value'       => false,
+                'get_column'      => true,
+                'use_alias'       => true,
+                'group_connector' => '',
+                'return_literal'  => 'FROM',
+                'key_value'       => 0,
+                'format'          => 1
+            ),
+            'where'    => array(
+                'type'           => 'where',
+                'get_value'      => true,
+                'get_column'     => true,
+                'use_alias'      => false,
+                'connector'      => 'AND',
+                'return_literal' => 'WHERE',
+                'key_value'      => 1,
+                'format'         => 1
+            ),
+            'order_by' => array(
+                'type'           => 'order_by',
+                'get_value'      => false,
+                'get_column'     => true,
+                'use_alias'      => false,
+                'connector'      => '',
+                'return_literal' => 'ORDER BY',
+                'key_value'      => 0,
+                'format'         => 1
+            ),
+            'having'   => array(
+                'type'           => 'having',
+                'get_value'      => false,
+                'get_column'     => true,
+                'use_alias'      => false,
+                'connector'      => 'AND',
+                'return_literal' => 'HAVING',
+                'key_value'      => 1,
+                'format'         => 1
+            ),
+            'group_by' => array(
+                'type'           => 'group_by',
+                'get_value'      => false,
+                'get_column'     => true,
+                'use_alias'      => false,
+                'connector'      => '',
+                'return_literal' => 'GROUP BY',
+                'key_value'      => 0,
+                'format'         => 1
+            )
+        );
+
     /**
      * Database
      *

@@ -26,8 +26,8 @@ class Registry extends Criteria implements QueryBuilderInterface
     /**
      * Class Constructor
      *
-     * @param  QueryInterface  $query
-     * @param  array           $model_registry
+     * @param  QueryInterface $query
+     * @param  array          $model_registry
      *
      * @since  1.0.0
      */

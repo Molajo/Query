@@ -17,11 +17,11 @@ use Molajo\Query\Model\Registry;
 use PHPUnit_Framework_TestCase;
 
 /**
-$class   = new ReflectionClass('Molajo\Query\Model\Registry');
-$methods = $class->getMethods();
-foreach ($methods as $method) {
-echo '     * @covers  ' . $method->class . '::' . $method->name . PHP_EOL;
-}
+ * $class   = new ReflectionClass('Molajo\Query\Model\Registry');
+ * $methods = $class->getMethods();
+ * foreach ($methods as $method) {
+ * echo '     * @covers  ' . $method->class . '::' . $method->name . PHP_EOL;
+ * }
 
  */
 
@@ -127,11 +127,10 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoop
      * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoopList
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValues
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesAlias
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesValue
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementArrayEntry
-     * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnValue
-     * @covers  Molajo\Query\Builder\BuildSqlElements::setOrFilterColumn
-     * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnName
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnAlias
      * @covers  Molajo\Query\Builder\BuildSqlElements::setDirection
      * @covers  Molajo\Query\Builder\BuildSqlElements::setOffsetorLimit
