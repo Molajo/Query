@@ -52,7 +52,7 @@ abstract class SetData extends EditData
         $item->group      = (string)trim($group);
         $item->left_item  = $this->setLeftRightConditionalItem($left_filter, $left);
         $item->condition  = $condition;
-        $item->right_item = $this->setLeftRightConditionalItem($right_filter, $right, $condition);
+        $item->right_item = $this->setLeftRightConditionalItem($right_filter, $right);
         $item->connector  = $this->editConnector($connector);
 
         return $item;
