@@ -224,11 +224,11 @@ abstract class Sql extends BuildSql
         $this->from[$table_name]
             = $this->setItem($table_name, 'string', null, $alias, null, false);
 
-        if ($this->existsPrimaryTable() === true && $primary === false) {
+        if ($this->verifyPrimaryTable() === true && $primary === false) {
             return $this;
         }
 
-        $this->setPrimaryTable($table_name);
+        $this->verifyPrimaryTable($table_name);
 
         return $this;
     }

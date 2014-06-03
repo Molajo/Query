@@ -253,7 +253,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
         $this->query_proxy->from('#__catalog_types', 'a');
 
         $sql = $this->query_proxy->getSql();
-        file_put_contents(__DIR__ . '/testQueryProxyMinimal.txt', $sql);
+//        file_put_contents(__DIR__ . '/testQueryProxyMinimal.txt', $sql);
 
         $this->assertEquals(file_get_contents(__DIR__ . '/testQueryProxyMinimal.txt'), $sql);
     }

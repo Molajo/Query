@@ -20,6 +20,35 @@ namespace Molajo\Query\Builder;
 abstract class Base
 {
     /**
+     * Select Array Groups
+     *
+     * @var    array
+     * @since  1.0.0
+     */
+    protected $select_array
+        = array(
+            'columns',
+            'from',
+            'where',
+            'order_by',
+            'having',
+            'group_by',
+            'limit'
+        );
+
+    /**
+     * Insert Array Groups
+     *
+     * @var    array
+     * @since  1.0.0
+     */
+    protected $insert_array
+        = array(
+            'columns',
+            'values'
+        );
+
+    /**
      * Groups array for processing
      *
      * @var    array
@@ -34,6 +63,16 @@ abstract class Base
                 'use_alias'       => true,
                 'group_connector' => '',
                 'return_literal'  => '',
+                'key_value'       => 0,
+                'format'          => 1
+            ),
+            'values'  => array(
+                'type'            => 'values',
+                'get_value'       => true,
+                'get_column'      => false,
+                'use_alias'       => false,
+                'group_connector' => '',
+                'return_literal'  => 'VALUES (',
                 'key_value'       => 0,
                 'format'          => 1
             ),
@@ -86,6 +125,9 @@ abstract class Base
                 'return_literal' => 'GROUP BY',
                 'key_value'      => 0,
                 'format'         => 1
+            ),
+            'limit' => array(
+                'type'           => 'limit'
             )
         );
 

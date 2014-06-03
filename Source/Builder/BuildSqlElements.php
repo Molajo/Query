@@ -35,13 +35,17 @@ abstract class BuildSqlElements extends BuildSqlGroups
             return '';
         }
 
+        if ($type === 'limit') {
+            return $this->getElementLimit();
+        }
+
         $a = $this->groups_array[$type];
 
         if ($type === 'where' || $type === 'having') {
             $output = $this->getGroups($this->{$type . '_group'}, $this->$type, $a['connector']);
         } else {
             $array  = $this->getElementsArray($type, $a['get_value'], $a['get_column'], $a['use_alias']);
-            $output = $this->getLoop($array, $a['key_value'], $a['format']);
+            $output = $this->getLoop($array, $a['key_value']);
         }
 
         return $this->returnGetElement($a['return_literal'], $output);
@@ -62,6 +66,22 @@ abstract class BuildSqlElements extends BuildSqlGroups
         }
 
         return true;
+    }
+
+    /**
+     * Generate SQL for Limit
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getElementLimit()
+    {
+        if ((int)$this->offset === 0 && (int)$this->limit === 0) {
+        } else {
+            return 'LIMIT ' . $this->offset . ', ' . $this->limit;
+        }
+
+        return '';
     }
 
     /**
@@ -130,7 +150,7 @@ abstract class BuildSqlElements extends BuildSqlGroups
 
         $prefix = $this->getPrimaryColumnPrefix();
 
-        $column_array = $this->columns;
+        $column_array  = $this->columns;
         $this->columns = array();
 
         foreach ($column_array as $key => $column) {
@@ -307,56 +327,58 @@ abstract class BuildSqlElements extends BuildSqlGroups
     /**
      * Set From table name and optional value for alias
      *
-     * @param   string $table_name
+     * @param   $check  boolean
      *
      * @return  boolean
      * @since   1.0
      */
-    protected function setPrimaryTable($table_name)
+    protected function verifyPrimaryTable($table_name = '')
     {
+        $primary_key_located = false;
+
         $from_array = $this->from;
         $this->from = array();
 
         foreach ($from_array as $key => $from) {
+            $primary_key = $this->verifyPrimaryTableItem($key, $from, $table_name);
+            if ($primary_key === true) {
+                $primary_key_located = true;
+            }
+        }
 
+        return $primary_key_located;
+    }
+
+    /**
+     * Process a single table entry for primary
+     *
+     * @param   $check  boolean
+     *
+     * @return  boolean
+     * @since   1.0
+     */
+    protected function verifyPrimaryTableItem($key, $from, $table_name = '')
+    {
+        $primary_key = false;
+
+        if (isset($from->primary)) {
+        } else {
+            $from->primary = false;
+        }
+
+        if ($table_name === '') {
+            if ($from->primary === true) {
+                $primary_key = true;
+            }
+        } else {
             if ($key === $table_name) {
                 $from->primary = true;
             } else {
                 $from->primary = false;
             }
-
-            $this->from[$key] = $from;
         }
 
-        return false;
-    }
-
-    /**
-     * Set From table name and optional value for alias
-     *
-     * @return  boolean
-     * @since   1.0
-     */
-    protected function existsPrimaryTable()
-    {
-        $primary_key = false;
-
-        $from_array = $this->from;
-        $this->from = array();
-
-        foreach ($from_array as $key => $from) {
-
-            if (isset($from->primary)) {
-            } else {
-                $from->primary = false;
-            }
-
-            if ($from->primary === true) {
-                $primary_key = true;
-            }
-
-            $this->from[$key] = $from;
-        }
+        $this->from[$key] = $from;
 
         return $primary_key;
     }

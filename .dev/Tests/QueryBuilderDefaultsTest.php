@@ -96,7 +96,6 @@ class QueryBuilderDefaultsTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSql::getExternalSql
      * @covers  Molajo\Query\Builder\BuildSql::generateSql
      * @covers  Molajo\Query\Builder\BuildSql::getInsert
-     * @covers  Molajo\Query\Builder\BuildSql::getInsertColumnsValues
      * @covers  Molajo\Query\Builder\BuildSql::getInsertfrom
      * @covers  Molajo\Query\Builder\BuildSql::getUpdate
      * @covers  Molajo\Query\Builder\BuildSql::getDelete
@@ -105,7 +104,6 @@ class QueryBuilderDefaultsTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSql::getDistinct
      * @covers  Molajo\Query\Builder\BuildSql::getElement
      * @covers  Molajo\Query\Builder\BuildSql::returnGetElement
-     * @covers  Molajo\Query\Builder\BuildSql::getLimit
      * @covers  Molajo\Query\Builder\BuildSql::getDatabasePrefix
      * @covers  Molajo\Query\Builder\BuildSqlGroups::setGroup
      * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroups
@@ -335,7 +333,6 @@ class QueryBuilderDefaultsTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSql::getExternalSql
      * @covers  Molajo\Query\Builder\BuildSql::generateSql
      * @covers  Molajo\Query\Builder\BuildSql::getInsert
-     * @covers  Molajo\Query\Builder\BuildSql::getInsertColumnsValues
      * @covers  Molajo\Query\Builder\BuildSql::getInsertfrom
      * @covers  Molajo\Query\Builder\BuildSql::getUpdate
      * @covers  Molajo\Query\Builder\BuildSql::getDelete
@@ -344,7 +341,6 @@ class QueryBuilderDefaultsTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSql::getDistinct
      * @covers  Molajo\Query\Builder\BuildSql::getElement
      * @covers  Molajo\Query\Builder\BuildSql::returnGetElement
-     * @covers  Molajo\Query\Builder\BuildSql::getLimit
      * @covers  Molajo\Query\Builder\BuildSql::getDatabasePrefix
      * @covers  Molajo\Query\Builder\BuildSqlGroups::setGroup
      * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroups

@@ -61,34 +61,7 @@ abstract class BuildSql extends BuildSqlElements
      */
     protected function getInsert()
     {
-        $query = 'INSERT INTO ' . $this->getElement('from') . PHP_EOL;
-        $query .= $this->getInsertColumnsValues('column', 'VALUES (', ')');
-        $query .= $this->getInsertColumnsValues('value', ' (', ')');
-
-        return $query;
-    }
-
-    /**
-     * Generate SQL for Insert Column Values
-     *
-     * @param   string $type
-     * @param   string $start
-     * @param   string $end
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getInsertColumnsValues($type, $start = 'VALUES (', $end = ')')
-    {
-        if ($type === 'value') {
-            $get_value  = true;
-            $get_column = false;
-        } else {
-            $get_value  = false;
-            $get_column = true;
-        }
-
-       // return $this->getElement($this->columns, $get_value, $get_column, false, 1, 1);
+        return $this->getInsertType('values');
     }
 
     /**
@@ -99,7 +72,27 @@ abstract class BuildSql extends BuildSqlElements
      */
     protected function getInsertfrom()
     {
-        return '';
+        return $this->getInsertType('from');
+    }
+
+    /**
+     * Generate Insert From SQL
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getInsertType($type)
+    {
+        $query = 'INSERT INTO ' . $this->getElement('insert_into_table') . PHP_EOL;
+        $query .= $this->getElement('columns') . PHP_EOL;
+        if ($type === 'from') {
+            $query .= $this->getSelect();
+            $this->sql = $query;
+        } else {
+            $this->sql .= $this->getElement('values');
+        }
+
+        return $this->sql;
     }
 
     /**
@@ -112,11 +105,8 @@ abstract class BuildSql extends BuildSqlElements
      */
     protected function getUpdate()
     {
-        $array = $this->getElementsArray($this->columns, true, true, false);
-
         $query_string = 'UPDATE ' . $this->getElement('from') . PHP_EOL;
-        //$query_string .= 'SET ' . $this->getLoop($array, 1, 2) . PHP_EOL;
-        $query_string .= $this->getElement('where');
+        $query_string .= 'SET ' . $this->getElement('update_columns') . PHP_EOL;
 
         return $query_string;
     }
@@ -147,14 +137,12 @@ abstract class BuildSql extends BuildSqlElements
      */
     protected function getSelect()
     {
-        $full_sql = '';
+        $this->sql = '';
 
-        foreach ($this->groups_array as $key => $value) {
+        foreach ($this->select_array as $key) {
             $new_sql  = $this->getElement($key);
-            $full_sql = $this->getSelectAppend($new_sql, $full_sql);
+            $this->sql = $this->getSelectAppend($new_sql, $this->sql);
         }
-
-        $this->sql = $full_sql . $this->getLimit();
 
         return $this->sql;
     }
@@ -196,22 +184,6 @@ abstract class BuildSql extends BuildSqlElements
         }
 
         return 'SELECT ';
-    }
-
-    /**
-     * Generate SQL for Limit
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getLimit()
-    {
-        if ((int)$this->offset === 0 && (int)$this->limit === 0) {
-        } else {
-            return PHP_EOL . 'LIMIT ' . $this->offset . ', ' . $this->limit;
-        }
-
-        return '';
     }
 
     /**
