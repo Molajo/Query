@@ -1,6 +1,6 @@
 <?php
 /**
- * Query Builder Groups
+ * Query Builder Build Sql Groups
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -9,15 +9,15 @@
 namespace Molajo\Query\Builder;
 
 /**
- * Query Builder Groups
+ * Query Builder Build Sql Groups
  *
- * Base - Filters - Edits - Item - Elements - Groups - Generate - Sql
+ * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class Groups extends Elements
+abstract class BuildSqlGroups extends BuildSqlElements
 {
     /**
      * Groups for 'AND' or 'OR' groups for both where and having
@@ -93,9 +93,8 @@ abstract class Groups extends Elements
     /**
      * Get group array - create single array entry if none exist
      *
-     * @param   array  $type_group_array
      *
-     * @return  array
+     * @return  string[]
      * @since   1.0
      */
     protected function getGroupsBeforeAfter($groups)
@@ -173,14 +172,18 @@ abstract class Groups extends Elements
      */
     protected function getGroupItem($item)
     {
-        $sql = $this->quoteName($item->left_item->name);
+        $sql = $item->left_item->prefix . $this->quoteName($item->left_item->name);
 
-        $sql .= ' ' . strtoupper($item->condition);
+        $sql .= ' ' . strtoupper($item->condition) . ' ';
 
         if (strtoupper($item->condition) === 'IN') {
             $sql .= ' (' . $this->getLoop($item->right_item->value, 0, 2) . ')';
+
+        } elseif ($item->right_item->value === null) {
+            $sql .= $item->left_item->prefix . $this->quoteName($item->right_item->name);
+
         } else {
-            $sql .= ' ' . $item->right_item->value;
+            $sql .= $item->right_item->value;
         }
 
         return $sql;

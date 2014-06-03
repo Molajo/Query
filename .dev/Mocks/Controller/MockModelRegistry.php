@@ -133,13 +133,13 @@ class MockModelRegistry
         $model_registry['joins']['1']['table_name']         = '#__application_extension_instances';
         $model_registry['joins']['1']['alias']              = 'application_extension_instances';
         $model_registry['joins']['1']['select']             = '';
-        $model_registry['joins']['1']['jointo']             = 'application_id,extension_instance_id';
-        $model_registry['joins']['1']['joinwith']           = 'APPLICATION_ID,extension_instance_id';
+        $model_registry['joins']['1']['jointo']             = 'extension_instance_id';
+        $model_registry['joins']['1']['joinwith']           = 'extension_instance_id';
         $model_registry['joins']['2']['table_name']         = '#__site_extension_instances';
         $model_registry['joins']['2']['alias']              = 'site_extension_instances';
         $model_registry['joins']['2']['select']             = '';
-        $model_registry['joins']['2']['jointo']             = 'site_id,extension_instance_id';
-        $model_registry['joins']['2']['joinwith']           = 'SITE_ID,extension_instance_id';
+        $model_registry['joins']['2']['jointo']             = 'extension_instance_id';
+        $model_registry['joins']['2']['joinwith']           = 'extension_instance_id';
         $model_registry['joinfields']['0']                  = array();
         $model_registry['joinfields']['1']                  = array();
         $model_registry['joinfields']['2']                  = array();

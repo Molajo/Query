@@ -1,6 +1,6 @@
 <?php
 /**
- * Query Builder Elements
+ * Query Builder Build Sql Elements
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -8,18 +8,18 @@
  */
 namespace Molajo\Query\Builder;
 
-use stdClass;
-
 /**
- * Query Builder Elements
+ * Query Builder Build Sql Elements
  *
- * Base - Filters - Edits - Item - Elements - Groups - Generate - Sql
+ * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
+ *
+ * Processes output data, already filtered will be escaped in getLoop
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class Elements extends Item
+abstract class BuildSqlElements extends SetData
 {
     /**
      * Generate array of column names, values, or name-value pairs
@@ -65,7 +65,9 @@ abstract class Elements extends Item
         $value       = '';
 
         if ($get_column === true) {
+
             $column_name = $this->setColumnName($item->name);
+
             if ($use_alias === true && isset($item->alias)) {
                 $column_name .= $this->setColumnAlias($use_alias, $item->alias);
             }
@@ -158,6 +160,7 @@ abstract class Elements extends Item
         if (strpos($column_name, '.')) {
             $temp   = explode('.', $column_name);
             $column = $this->quoteNameAndPrefix($temp[1], $temp[0]);
+
         } else {
             $column = $this->quoteName($column_name);
         }
@@ -185,87 +188,6 @@ abstract class Elements extends Item
         }
 
         return ' AS ' . $this->quoteName($alias);
-    }
-
-    /**
-     * Set Conditions for Query - used for Where and Having
-     *
-     * @param   string      $left_filter
-     * @param   string      $left
-     * @param   string      $condition
-     * @param   string      $right_filter
-     * @param   string      $right
-     * @param   string      $connector
-     * @param   null|string $group
-     *
-     * @return  stdClass
-     * @since   1.0
-     */
-    protected function setLeftRightConditionals(
-        $left_filter = 'column',
-        $left = '',
-        $condition = '=',
-        $right_filter = 'column',
-        $right = '',
-        $connector = 'AND',
-        $group = ''
-    ) {
-        $this->editWhere($left, $condition, $right);
-
-        $item             = new stdClass();
-        $item->group      = (string)trim($group);
-        $item->left_item  = $this->setLeftRightConditionalItem($left_filter, $left);
-        $item->condition  = $condition;
-        $item->right_item  = $this->setLeftRightConditionalItem($right_filter, $right, $condition);
-        $item->connector  = $this->editConnector($connector);
-
-        return $item;
-    }
-
-    /**
-     * Set Conditions for Query - used for Where and Having
-     *
-     * @param   string      $filter
-     * @param   string      $field
-     * @param string $condition
-     *
-     * @return  stdClass
-     * @since   1.0
-     */
-    protected function setLeftRightConditionalItem($filter = 'column', $field = '', $condition = null)
-    {
-        if ($filter === 'column') {
-            return $this->setItem($field, 'string', null, null, null, false);
-        }
-
-        return $this->setItem($field, $filter, $field, null, null, true);
-    }
-
-    /**
-     * Order By column name and optional value for alias
-     *
-     * @param   string      $column_name
-     * @param   string      $type
-     * @param   null|string $direction
-     *
-     * @return  stdClass
-     * @since   1.0
-     */
-    protected function setGroupByOrderBy($column_name, $type, $direction = 'ASC')
-    {
-        $this->editRequired('group by column_name', $column_name);
-
-        $name_and_prefix = $this->setItemName($column_name);
-
-        $item         = new stdClass();
-        $item->name   = (string)$name_and_prefix['name'];
-        $item->prefix = (string)$name_and_prefix['prefix'];
-
-        if ($type === 'order by') {
-            $item->direction = $this->setDirection($direction);
-        }
-
-        return $item;
     }
 
     /**

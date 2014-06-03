@@ -21,6 +21,22 @@ namespace Molajo\Query\Model;
 abstract class Base
 {
     /**
+     * Site ID
+     *
+     * @var    int
+     * @since  1.0
+     */
+    protected $site_id = null;
+
+    /**
+     * Application ID
+     *
+     * @var    int
+     * @since  1.0
+     */
+    protected $application_id = null;
+
+    /**
      * Model Registry
      *
      * @var    array

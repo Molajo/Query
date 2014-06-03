@@ -1,0 +1,28 @@
+SELECT `id`, 
+    `application_id`, 
+    `catalog_type_id`, 
+    `source_id`, 
+    `enabled`, 
+    `redirect_to_id`, 
+    `sef_request`, 
+    `page_type`, 
+    `extension_instance_id`, 
+    `view_group_id`, 
+    `primary_category_id`, 
+    `title` AS `b_title`, 
+    `model_type` AS `b_model_type`, 
+    `model_name` AS `b_model_name`, 
+    `primary_category_id` AS `b_primary_category_id`, 
+    `alias` AS `b_alias`
+FROM `molajo_catalog` AS `a`, 
+    `molajo_catalog_types` AS `b`, 
+    `molajo_application_extension_instances` AS `application_extension_instances`, 
+    `molajo_site_extension_instances` AS `site_extension_instances`
+WHERE a`sef_request` = 'articles'
+    AND a`page_type` <> 'link'
+    AND a`enabled` = '1'
+    AND b`id` = b`catalog_type_id`
+    AND application_extension_instances`extension_instance_id` = application_extension_instances`extension_instance_id`
+    AND site_extension_instances`extension_instance_id` = site_extension_instances`extension_instance_id`
+    AND a`enabled` = '1'
+    AND a`redirect_to_id` = '0'

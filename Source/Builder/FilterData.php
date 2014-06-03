@@ -14,14 +14,14 @@ use CommonApi\Exception\RuntimeException;
 /**
  * Query Builder Filters
  *
- * Base - Filters - Edits - Item - Elements - Groups - Generate - Sql
+ * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class Filters extends Base
+abstract class FilterData extends Base
 {
     /**
      * Quote Value

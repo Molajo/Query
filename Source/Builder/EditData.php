@@ -13,13 +13,13 @@ use CommonApi\Exception\RuntimeException;
 /**
  * Query Builder Edits
  *
- * Base - Filters - Edits - Item - Elements - Groups - Generate - Sql
+ * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class Edits extends Filters
+abstract class EditData extends FilterData
 {
     /**
      * Edit Array

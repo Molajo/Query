@@ -1,6 +1,6 @@
 <?php
 /**
- * Query Builder Generate
+ * Query Builder Generate Sql
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
@@ -9,15 +9,15 @@
 namespace Molajo\Query\Builder;
 
 /**
- * Query Builder Generate
+ * Query Builder Generate Sql
  *
- * Base - Filters - Utilities - Groups - Generate - Sql
+ * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class Generate extends Groups
+abstract class BuildSql extends BuildSqlGroups
 {
     /**
      * Groups array for processing
@@ -117,8 +117,7 @@ abstract class Generate extends Groups
             $this->columns = $this->editArray($this->columns, 'columns', true);
         }
 
-        $model     = 'get' . ucfirst(strtolower($this->query_type));
-        $query     = $this->$model();
+        $query     = $this->{'get' . ucfirst(strtolower($this->query_type))}();
         $this->sql = $this->getDatabasePrefix($query);
 
         return $this;
@@ -284,16 +283,12 @@ abstract class Generate extends Groups
         }
 
         $a = $this->groups_array[$type];
-        $output = '';
 
         if ($type === 'where' || $type === 'having') {
-            $t = $type . '_group';
-            $output = $this->getGroups($this->$t, $this->$type, $a['connector']);
+            $output = $this->getGroups($this->{$type . '_group'}, $this->$type, $a['connector']);
         } else {
             $array = $this->getElementsArray($this->$type, $a['get_value'], $a['get_column'], $a['use_alias']);
-            if (count($array) > 0) {
-                $output = $this->getLoop($array, $a['key_value'], $a['format']);
-            }
+            $output = $this->getLoop($array, $a['key_value'], $a['format']);
         }
 
         return $this->returnGetElement($a['return_literal'], $output);

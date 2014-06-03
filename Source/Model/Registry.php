@@ -39,6 +39,26 @@ class Registry extends Criteria implements QueryBuilderInterface
     }
 
     /**
+     * Build SQL from Model Registry
+     *
+     * @param   string $sql
+     *
+     * @return  string
+     * @since   1.0.0
+     */
+    public function getSql($sql = null)
+    {
+        if ($sql === null) {
+        } else {
+            parent::getSql($sql);
+        }
+
+        $this->setModelRegistrySQL();
+
+        return $this->query->getSql();
+    }
+
+    /**
      * Get the value of a specified Model Registry Key
      *
      * @param   string $key
@@ -70,23 +90,6 @@ class Registry extends Criteria implements QueryBuilderInterface
         $this->model_registry[$key] = $value;
 
         return $this;
-    }
-
-    /**
-     * Build SQL from Model Registry
-     *
-     * @param   string $sql
-     *
-     * @return  string
-     * @since   1.0.0
-     */
-    public function getSql($sql = null)
-    {
-        if ($sql === null) {
-            $this->setModelRegistrySQL();
-        }
-
-        return $sql;
     }
 
     /**

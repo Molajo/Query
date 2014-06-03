@@ -11,7 +11,7 @@ namespace Molajo\Query\Builder;
 /**
  * Query Builder Base
  *
- * Base - Filters - Edits - Item - Elements - Groups - Generate - Sql
+ * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
@@ -174,7 +174,7 @@ abstract class Base
     protected $sql = '';
 
     /**
-     * Date Format
+     * Date Format - overridden by adapter, if needed
      *
      * @var    string
      * @since  1.0.0
@@ -182,7 +182,7 @@ abstract class Base
     protected $date_format = '';
 
     /**
-     * Null Date
+     * Null Date - overridden by adapter, if needed
      *
      * @var    string
      * @since  1.0.0
@@ -190,7 +190,7 @@ abstract class Base
     protected $null_date = '';
 
     /**
-     * Name quote start
+     * Name quote start - overridden by adapter, if needed
      *
      * @var    string
      * @since  1.0.0
@@ -198,7 +198,7 @@ abstract class Base
     protected $name_quote_start = '"';
 
     /**
-     * Name quote start
+     * Name quote start - overridden by adapter, if needed
      *
      * @var    string
      * @since  1.0.0
@@ -206,7 +206,7 @@ abstract class Base
     protected $name_quote_end = '"';
 
     /**
-     * Current Date
+     * Quote Value - overridden by adapter, if needed
      *
      * @var    string
      * @since  1.0.0

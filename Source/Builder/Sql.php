@@ -15,13 +15,16 @@ use DateTime;
 /**
  * Query Builder Sql Class
  *
- * Adapters extend this class
+ * External API - all other class methods are called by this class
+ * DB-specific adapters extend this class
+ *
+ * Sql - BuildSql - BuildSqlGroups - BuildSqlElements - SetData - EditData - FilterData - Base
  *
  * @package  Molajo
  * @license  http://www.opensource.org/licenses/mit-license.html MIT License
  * @since    1.0
  */
-abstract class Sql extends Generate
+abstract class Sql extends BuildSql
 {
     /**
      * Constructor
@@ -41,8 +44,10 @@ abstract class Sql extends Generate
     }
 
     /**
-     * Get SQL - all values have been filtered and set, generate the full SQL statement,
-     *  escaping data
+     * Get SQL
+     *
+     * At this point, all values have been input, filtered and set in element-specific item arrays
+     * Now, generate the full SQL statement, building the SQL statement and quoting/escaping data
      *
      * @param   null|string $sql
      *
@@ -64,7 +69,7 @@ abstract class Sql extends Generate
     /**
      * Get the current value (or default) of the specified property
      *
-     * @param   string $key
+     * @param   string $key                                                                                                                             `````
      * @param   mixed  $default
      *
      * @return  mixed
@@ -190,6 +195,7 @@ abstract class Sql extends Generate
     public function select($column_name, $alias = null, $data_type = 'string')
     {
         $this->editRequired('column_name', $column_name);
+
         $this->columns[$column_name]
             = $this->setItem($column_name, $data_type, null, $alias, null, false);
 
@@ -208,6 +214,7 @@ abstract class Sql extends Generate
     public function from($table_name, $alias = null)
     {
         $this->editRequired('table_name', $table_name);
+
         $this->from[$table_name]
             = $this->setItem($table_name, 'string', null, $alias, null, false);
 
@@ -225,7 +232,8 @@ abstract class Sql extends Generate
      */
     public function whereGroup($group, $group_connector = 'AND')
     {
-        $this->where_group = $this->setGroup($group, $group_connector, 'where', $this->where_group);
+        $this->where_group =
+            $this->setGroup($group, $group_connector, 'where', $this->where_group);
 
         return $this;
     }
@@ -241,7 +249,8 @@ abstract class Sql extends Generate
      */
     public function havingGroup($group, $group_connector = 'AND')
     {
-        $this->having_group = $this->setGroup($group, $group_connector, 'having', $this->having_group);
+        $this->having_group =
+            $this->setGroup($group, $group_connector, 'having', $this->having_group);
 
         return $this;
     }
