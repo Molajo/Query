@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1401846591">
-  <project timestamp="1401846591">
+<coverage generated="1401847856">
+  <project timestamp="1401847856">
     <file name="/Users/amystephen/Sites/Molajo/Query/.dev/Bootstrap.php">
       <line num="0" type="stmt" count="0"/>
       <line num="59" type="stmt" count="0"/>
@@ -614,7 +614,7 @@
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Query/Source/Builder/BuildSqlElements.php">
         <class name="BuildSqlElements" namespace="Molajo\Query\Builder" fullPackage="Molajo" package="Molajo">
-          <metrics methods="13" coveredmethods="13" conditionals="0" coveredconditionals="0" statements="70" coveredstatements="58" elements="83" coveredelements="71"/>
+          <metrics methods="12" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="68" coveredstatements="52" elements="80" coveredelements="63"/>
         </class>
         <line num="32" type="method" name="getElement" crap="3" count="3"/>
         <line num="34" type="stmt" count="3"/>
@@ -651,56 +651,53 @@
         <line num="137" type="stmt" count="3"/>
         <line num="138" type="stmt" count="3"/>
         <line num="139" type="stmt" count="3"/>
-        <line num="140" type="stmt" count="3"/>
         <line num="141" type="stmt" count="3"/>
-        <line num="142" type="stmt" count="3"/>
-        <line num="144" type="stmt" count="3"/>
-        <line num="153" type="method" name="setColumnPrefix" crap="4.18" count="3"/>
-        <line num="155" type="stmt" count="3"/>
-        <line num="156" type="stmt" count="2"/>
-        <line num="159" type="stmt" count="1"/>
-        <line num="161" type="stmt" count="1"/>
-        <line num="162" type="stmt" count="1"/>
-        <line num="163" type="stmt" count="0"/>
+        <line num="156" type="method" name="getElementsArrayItem" crap="20" count="0"/>
+        <line num="158" type="stmt" count="0"/>
+        <line num="159" type="stmt" count="0"/>
+        <line num="161" type="stmt" count="0"/>
+        <line num="162" type="stmt" count="0"/>
         <line num="164" type="stmt" count="0"/>
-        <line num="165" type="stmt" count="1"/>
-        <line num="167" type="stmt" count="1"/>
-        <line num="176" type="method" name="getPrimaryColumnPrefix" crap="3.21" count="1"/>
-        <line num="178" type="stmt" count="1"/>
-        <line num="180" type="stmt" count="1"/>
-        <line num="181" type="stmt" count="0"/>
-        <line num="184" type="stmt" count="1"/>
+        <line num="165" type="stmt" count="0"/>
+        <line num="167" type="stmt" count="0"/>
+        <line num="168" type="stmt" count="0"/>
+        <line num="171" type="stmt" count="0"/>
+        <line num="180" type="method" name="setColumnPrefix" crap="4.18" count="3"/>
+        <line num="182" type="stmt" count="3"/>
+        <line num="183" type="stmt" count="2"/>
         <line num="186" type="stmt" count="1"/>
-        <line num="187" type="stmt" count="0"/>
-        <line num="190" type="stmt" count="1"/>
-        <line num="202" type="method" name="getElementValuesColumnName" crap="2.15" count="3"/>
-        <line num="204" type="stmt" count="3"/>
-        <line num="205" type="stmt" count="3"/>
+        <line num="188" type="stmt" count="1"/>
+        <line num="189" type="stmt" count="1"/>
+        <line num="190" type="stmt" count="0"/>
+        <line num="191" type="stmt" count="0"/>
+        <line num="192" type="stmt" count="1"/>
+        <line num="194" type="stmt" count="1"/>
+        <line num="203" type="method" name="getPrimaryColumnPrefix" crap="2.06" count="1"/>
+        <line num="205" type="stmt" count="1"/>
+        <line num="207" type="stmt" count="1"/>
         <line num="208" type="stmt" count="0"/>
-        <line num="220" type="method" name="getElementValuesAlias" crap="3" count="3"/>
-        <line num="222" type="stmt" count="3"/>
-        <line num="223" type="stmt" count="3"/>
-        <line num="226" type="stmt" count="2"/>
-        <line num="238" type="method" name="getElementValuesValue" crap="2.15" count="3"/>
-        <line num="240" type="stmt" count="3"/>
-        <line num="241" type="stmt" count="0"/>
-        <line num="244" type="stmt" count="3"/>
-        <line num="259" type="method" name="getElementArrayEntry" crap="5.26" count="3"/>
-        <line num="261" type="stmt" count="3"/>
-        <line num="262" type="stmt" count="0"/>
-        <line num="264" type="stmt" count="3"/>
-        <line num="265" type="stmt" count="0"/>
-        <line num="267" type="stmt" count="0"/>
-        <line num="268" type="stmt" count="3"/>
+        <line num="211" type="stmt" count="1"/>
+        <line num="223" type="method" name="getElementValuesColumnName" crap="4" count="3"/>
+        <line num="225" type="stmt" count="3"/>
+        <line num="227" type="stmt" count="3"/>
+        <line num="228" type="stmt" count="3"/>
+        <line num="229" type="stmt" count="3"/>
+        <line num="231" type="stmt" count="3"/>
+        <line num="232" type="stmt" count="3"/>
+        <line num="233" type="stmt" count="3"/>
+        <line num="235" type="stmt" count="3"/>
+        <line num="247" type="method" name="getElementValuesValue" crap="2.15" count="3"/>
+        <line num="249" type="stmt" count="3"/>
+        <line num="250" type="stmt" count="0"/>
+        <line num="253" type="stmt" count="3"/>
+        <line num="265" type="method" name="setColumnAlias" crap="3.58" count="3"/>
+        <line num="267" type="stmt" count="3"/>
+        <line num="268" type="stmt" count="0"/>
         <line num="271" type="stmt" count="3"/>
-        <line num="283" type="method" name="setColumnAlias" crap="3.58" count="3"/>
-        <line num="285" type="stmt" count="3"/>
-        <line num="286" type="stmt" count="0"/>
-        <line num="289" type="stmt" count="3"/>
-        <line num="290" type="stmt" count="0"/>
-        <line num="293" type="stmt" count="3"/>
-        <line num="296" type="stmt" count="0"/>
-        <metrics loc="295" ncloc="167" classes="1" methods="13" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="70" coveredstatements="58" elements="83" coveredelements="64"/>
+        <line num="272" type="stmt" count="0"/>
+        <line num="275" type="stmt" count="3"/>
+        <line num="278" type="stmt" count="0"/>
+        <metrics loc="277" ncloc="158" classes="1" methods="12" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="68" coveredstatements="52" elements="80" coveredelements="58"/>
       </file>
       <file name="/Users/amystephen/Sites/Molajo/Query/Source/Builder/BuildSqlGroups.php">
         <class name="BuildSqlGroups" namespace="Molajo\Query\Builder" fullPackage="Molajo" package="Molajo">
@@ -1806,6 +1803,6 @@
       <line num="57" type="stmt" count="0"/>
       <metrics loc="57" ncloc="55" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="30" coveredstatements="0" elements="32" coveredelements="0"/>
     </file>
-    <metrics files="46" loc="6691" ncloc="3422" classes="33" methods="212" coveredmethods="83" conditionals="0" coveredconditionals="0" statements="1294" coveredstatements="594" elements="1506" coveredelements="677"/>
+    <metrics files="46" loc="6673" ncloc="3413" classes="33" methods="211" coveredmethods="83" conditionals="0" coveredconditionals="0" statements="1292" coveredstatements="588" elements="1503" coveredelements="671"/>
   </project>
 </coverage>

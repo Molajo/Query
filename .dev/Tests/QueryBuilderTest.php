@@ -129,9 +129,7 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesAlias
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesValue
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementArrayEntry
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnAlias
      * @covers  Molajo\Query\Builder\BuildSqlGroups::setGroup
      * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroups

@@ -135,10 +135,37 @@ abstract class BuildSqlElements extends BuildSqlGroups
         }
 
         foreach ($this->$type as $item) {
-            $column_name = $this->getElementValuesColumnName($item, $get_column);
-            $column_name .= $this->getElementValuesAlias($item, $use_alias);
-            $value = $this->getElementValuesValue($item, $get_value);
-            $array = $this->getElementArrayEntry($array, $column_name, $value, $get_value, $get_column);
+            $array = $this->getElementsArrayItem($item, $get_value, $get_column, $use_alias, $array);
+        }
+
+        return $array;
+    }
+
+    /**
+     * Generate array of column names, values, or name-value pairs
+     *
+     * @param   string  $type
+     * @param   boolean $get_value
+     * @param   boolean $get_column
+     * @param   boolean $use_alias
+     * @param   array   $array
+     *
+     * @return  string
+     * @since   1.0
+     */
+    protected function getElementsArrayItem($item, $get_value = true, $get_column = true, $use_alias = true, $array)
+    {
+        $column_name = $this->getElementValuesColumnName($item, $get_column, $use_alias);
+        $value       = $this->getElementValuesValue($item, $get_value);
+
+        if ($get_value === true && $get_column === true) {
+            $array[$column_name] = $value;
+
+        } elseif ($get_value === true) {
+            $array[] = $value;
+
+        } else {
+            $array[] = $column_name;
         }
 
         return $array;
@@ -193,31 +220,19 @@ abstract class BuildSqlElements extends BuildSqlGroups
      * @return  string
      * @since   1.0
      */
-    protected function getElementValuesColumnName($item, $get_column)
+    protected function getElementValuesColumnName($item, $get_column, $use_alias)
     {
+        $column_name = '';
+
         if ($get_column === true) {
-            return $this->quoteNameAndPrefix($item->name, $item->prefix);
+            $column_name = $this->quoteNameAndPrefix($item->name, $item->prefix);
         }
 
-        return '';
-    }
-
-    /**
-     * Get Column Name Alias
-     *
-     * @param   object  $item
-     * @param   boolean $use_alias
-     *
-     * @return  string
-     * @since   1.0
-     */
-    protected function getElementValuesAlias($item, $use_alias)
-    {
         if ($use_alias === true && isset($item->alias)) {
-            return $this->setColumnAlias($use_alias, $item->alias);
+            $column_name .= $this->setColumnAlias($use_alias, $item->alias);
         }
 
-        return '';
+        return $column_name;
     }
 
     /**
@@ -236,33 +251,6 @@ abstract class BuildSqlElements extends BuildSqlGroups
         }
 
         return '';
-    }
-
-    /**
-     * Create an array entry for column name and value
-     *
-     * @param   array   $array
-     * @param   string  $column_name
-     * @param   string  $value
-     * @param   boolean $get_value
-     * @param   boolean $get_column
-     *
-     * @return  array
-     * @since   1.0
-     */
-    protected function getElementArrayEntry(array $array, $column_name, $value, $get_value = true, $get_column = true)
-    {
-        if ($get_value === true && $get_column === true) {
-            $array[$column_name] = $value;
-
-        } elseif ($get_value === true) {
-            $array[] = $value;
-
-        } else {
-            $array[] = $column_name;
-        }
-
-        return $array;
     }
 
     /**
