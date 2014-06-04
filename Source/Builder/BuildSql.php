@@ -248,7 +248,7 @@ abstract class BuildSql extends BuildSqlElements
      *
      * @param   $check  boolean
      *
-     * @return  boolean
+     * @return  mixed
      * @since   1.0
      */
     protected function findFromPrimary()

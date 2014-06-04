@@ -175,12 +175,6 @@ abstract class BuildSqlElements extends BuildSqlGroups
      */
     protected function getPrimaryColumnPrefix()
     {
-        $prefix = '';
-
-        if (count($this->from) === 1) {
-            return $prefix;
-        }
-
         $key = $this->findFromPrimary();
 
         if ($this->from[$key]->alias === '') {
