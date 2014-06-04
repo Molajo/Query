@@ -258,7 +258,7 @@ class ReadController extends QueryController implements ReadControllerInterface
         $options['query']          = $this->query;
         $options['query_results']  = $this->query_results;
         $options['row']            = $this->row;
-        $options['parameters']     = $this->row->parameters;
+        $options['parameters']     = $this->parameters;
         $options['model_registry'] = $this->model_registry;
         $options['rendered_view']  = null;
         $options['rendered_page']  = null;
