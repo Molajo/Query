@@ -73,12 +73,6 @@ class ControllerTest extends PHPUnit_Framework_TestCase
      */
     public function setup()
     {
-        $class   = new \ReflectionClass('Molajo\Model\ReadModel');
-        $methods = $class->getMethods();
-        foreach ($methods as $method) {
-            echo '     * @covers  ' . $method->class . '::' . $method->name . PHP_EOL;
-        }
-        die;
         /**
         $class   = new \ReflectionClass('Molajo\Query\QueryBuilder');
         $methods = $class->getMethods();

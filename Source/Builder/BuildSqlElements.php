@@ -45,7 +45,7 @@ abstract class BuildSqlElements extends BuildSqlGroups
     /**
      * Get Standard Element
      *
-     * @param   $type
+     * @param   string $type
      *
      * @return  string
      * @since   1.0
@@ -144,7 +144,6 @@ abstract class BuildSqlElements extends BuildSqlGroups
     /**
      * Generate array of column names, values, or name-value pairs
      *
-     * @param   string  $type
      * @param   boolean $get_value
      * @param   boolean $get_column
      * @param   boolean $use_alias
@@ -216,6 +215,7 @@ abstract class BuildSqlElements extends BuildSqlGroups
      *
      * @param   object  $item
      * @param   boolean $get_column
+     * @param boolean $use_alias
      *
      * @return  string
      * @since   1.0

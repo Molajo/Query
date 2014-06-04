@@ -78,6 +78,7 @@ abstract class BuildSql extends BuildSqlElements
     /**
      * Generate Insert From SQL
      *
+     * @param string $type
      * @return  string
      * @since   1.0
      */
@@ -230,6 +231,7 @@ abstract class BuildSql extends BuildSqlElements
      * Set $key table entry to primary
      *
      * @param   $check  boolean
+     * @param string $key
      *
      * @return  $this;
      * @since   1.0
