@@ -152,10 +152,8 @@ abstract class BuildSqlElements extends BuildSqlGroups
      */
     protected function setColumnPrefix()
     {
-        $prefix = '';
-
         if (count($this->from) === 1) {
-            return $prefix;
+            return '';
         }
 
         $prefix = $this->getPrimaryColumnPrefix();

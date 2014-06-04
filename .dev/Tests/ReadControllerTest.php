@@ -1,247 +1,81 @@
 <?php
 /**
- * Query Builder Test
+ * Controller Test
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
-namespace Molajo\Query;
+namespace Molajo\Controller;
 
-use Molajo\Controller\MockModelRegistry;
+use ReflectionClass;
 use Molajo\Fieldhandler\MockRequest as Fieldhandler;
 use Molajo\Database\MockDatabase as Database;
 use Molajo\Query\Adapter\Mysql as QueryClass;
+use Molajo\Query\QueryProxy;
+use Molajo\Model\ReadModel;
 use Molajo\Query\Model\Registry;
+use Molajo\Query\QueryBuilder;
 
 use PHPUnit_Framework_TestCase;
 
 /**
- * $class   = new ReflectionClass('Molajo\Query\Model\Registry');
- * $methods = $class->getMethods();
- * foreach ($methods as $method) {
- * echo '     * @covers  ' . $method->class . '::' . $method->name . PHP_EOL;
- * }
-
- */
-
-
-/**
- * Query Builder Test
+ * Controller
  *
  * @package    Molajo
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-class QueryBuilderTest extends PHPUnit_Framework_TestCase
+class ReadControllerTest extends PHPUnit_Framework_TestCase
 {
     protected $controller;
 
     /**
-     * Test with Catalog Model Registry
+     * Test Get Method
      *
-     * @covers  Molajo\Query\QueryBuilder::__construct
-     * @covers  Molajo\Query\QueryBuilder::getModelRegistry
-     * @covers  Molajo\Query\QueryBuilder::setModelRegistry
-     * @covers  Molajo\Query\QueryBuilder::getSql
-     * @covers  Molajo\Query\QueryBuilder::clearQuery
-     * @covers  Molajo\Query\QueryBuilder::setType
-     * @covers  Molajo\Query\QueryBuilder::getDateFormat
-     * @covers  Molajo\Query\QueryBuilder::getDate
-     * @covers  Molajo\Query\QueryBuilder::getNullDate
-     * @covers  Molajo\Query\QueryBuilder::setDistinct
-     * @covers  Molajo\Query\QueryBuilder::select
-     * @covers  Molajo\Query\QueryBuilder::from
-     * @covers  Molajo\Query\QueryBuilder::whereGroup
-     * @covers  Molajo\Query\QueryBuilder::where
-     * @covers  Molajo\Query\QueryBuilder::groupBy
-     * @covers  Molajo\Query\QueryBuilder::havingGroup
-     * @covers  Molajo\Query\QueryBuilder::having
-     * @covers  Molajo\Query\QueryBuilder::orderBy
-     * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
-     * @covers  Molajo\Query\QueryBuilder::get
+     * @covers  Molajo\Controller\ReadController::getData
+     * @covers  Molajo\Controller\ReadController::runQuery
+     * @covers  Molajo\Controller\ReadController::executeQuery
+     * @covers  Molajo\Controller\ReadController::processPagination
+     * @covers  Molajo\Controller\ReadController::processPaginationItem
+     * @covers  Molajo\Controller\ReadController::returnQueryResults
+     * @covers  Molajo\Controller\ReadController::triggerOnBeforeReadEvent
+     * @covers  Molajo\Controller\ReadController::triggerOnAfterReadEvent
+     * @covers  Molajo\Controller\ReadController::triggerOnAfterReadallEvent
+     * @covers  Molajo\Controller\ReadController::triggerEvent
+     * @covers  Molajo\Controller\ReadController::prepareEventInput
+     * @covers  Molajo\Controller\ReadController::processEventResults
      *
-     * @covers  Molajo\Query\QueryProxy::__construct
-     * @covers  Molajo\Query\QueryProxy::getSql
-     * @covers  Molajo\Query\QueryProxy::clearQuery
-     * @covers  Molajo\Query\QueryProxy::setType
-     * @covers  Molajo\Query\QueryProxy::getDateFormat
-     * @covers  Molajo\Query\QueryProxy::getDate
-     * @covers  Molajo\Query\QueryProxy::getNullDate
-     * @covers  Molajo\Query\QueryProxy::setDistinct
-     * @covers  Molajo\Query\QueryProxy::select
-     * @covers  Molajo\Query\QueryProxy::from
-     * @covers  Molajo\Query\QueryProxy::whereGroup
-     * @covers  Molajo\Query\QueryProxy::where
-     * @covers  Molajo\Query\QueryProxy::groupBy
-     * @covers  Molajo\Query\QueryProxy::havingGroup
-     * @covers  Molajo\Query\QueryProxy::having
-     * @covers  Molajo\Query\QueryProxy::orderBy
-     * @covers  Molajo\Query\QueryProxy::setOffsetAndLimit
-     * @covers  Molajo\Query\QueryProxy::get
+     * @covers  Molajo\Controller\QueryController::__construct
+     * @covers  Molajo\Controller\QueryController::getModelRegistry
+     * @covers  Molajo\Controller\QueryController::setModelRegistry
+     * @covers  Molajo\Controller\QueryController::getSql
+     * @covers  Molajo\Controller\QueryController::clearQuery
+     * @covers  Molajo\Controller\QueryController::setType
+     * @covers  Molajo\Controller\QueryController::getDateFormat
+     * @covers  Molajo\Controller\QueryController::getDate
+     * @covers  Molajo\Controller\QueryController::getNullDate
+     * @covers  Molajo\Controller\QueryController::setDistinct
+     * @covers  Molajo\Controller\QueryController::select
+     * @covers  Molajo\Controller\QueryController::from
+     * @covers  Molajo\Controller\QueryController::whereGroup
+     * @covers  Molajo\Controller\QueryController::where
+     * @covers  Molajo\Controller\QueryController::groupBy
+     * @covers  Molajo\Controller\QueryController::havingGroup
+     * @covers  Molajo\Controller\QueryController::having
+     * @covers  Molajo\Controller\QueryController::orderBy
+     * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
+     * @covers  Molajo\Controller\QueryController::get
      *
-     * @covers  Molajo\Query\Adapter\Mysql::__construct
-     * @covers  Molajo\Query\Adapter\Postgresql::__construct
-     * @covers  Molajo\Query\Adapter\Sqllite::__construct
-     * @covers  Molajo\Query\Adapter\Sqlserver::__construct
+     * @covers  Molajo\Controller\Controller::getValue
+     * @covers  Molajo\Controller\Controller::setValue
+     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
      *
-     * @covers  Molajo\Query\Builder\Sql::__construct
-     * @covers  Molajo\Query\Builder\Sql::getSql
-     * @covers  Molajo\Query\Builder\Sql::get
-     * @covers  Molajo\Query\Builder\Sql::clearQuery
-     * @covers  Molajo\Query\Builder\Sql::setType
-     * @covers  Molajo\Query\Builder\Sql::getDate
-     * @covers  Molajo\Query\Builder\Sql::getNullDate
-     * @covers  Molajo\Query\Builder\Sql::getDateFormat
-     * @covers  Molajo\Query\Builder\Sql::setDistinct
-     * @covers  Molajo\Query\Builder\Sql::select
-     * @covers  Molajo\Query\Builder\Sql::from
-     * @covers  Molajo\Query\Builder\Sql::whereGroup
-     * @covers  Molajo\Query\Builder\Sql::havingGroup
-     * @covers  Molajo\Query\Builder\Sql::where
-     * @covers  Molajo\Query\Builder\Sql::having
-     * @covers  Molajo\Query\Builder\Sql::groupBy
-     * @covers  Molajo\Query\Builder\Sql::orderBy
-     * @covers  Molajo\Query\Builder\Sql::setOffsetAndLimit
-     * @covers  Molajo\Query\Builder\BuildSql::getExternalSql
-     * @covers  Molajo\Query\Builder\BuildSql::generateSql
-     * @covers  Molajo\Query\Builder\BuildSql::getInsert
-     * @covers  Molajo\Query\Builder\BuildSql::getInsertfrom
-     * @covers  Molajo\Query\Builder\BuildSql::getInsertType
-     * @covers  Molajo\Query\Builder\BuildSql::getUpdate
-     * @covers  Molajo\Query\Builder\BuildSql::getDelete
-     * @covers  Molajo\Query\Builder\BuildSql::getSelect
-     * @covers  Molajo\Query\Builder\BuildSql::getSelectAppend
-     * @covers  Molajo\Query\Builder\BuildSql::getDistinct
-     * @covers  Molajo\Query\Builder\BuildSql::getDatabasePrefix
-     * @covers  Molajo\Query\Builder\BuildSql::setOffsetOrLimit
-     * @covers  Molajo\Query\Builder\BuildSql::setFromPrimary
-     * @covers  Molajo\Query\Builder\BuildSql::findFromPrimary
-     * @covers  Molajo\Query\Builder\BuildSql::initialiseFromPrimary
-     * @covers  Molajo\Query\Builder\BuildSql::resetFromPrimary
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElement
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementStandard
-     * @covers  Molajo\Query\Builder\BuildSqlElements::useGetElement
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
-     * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
-     * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesAlias
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesValue
-     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementArrayEntry
-     * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnAlias
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::setGroup
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroups
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroup
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupsBeforeAfter
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::initialiseGroups
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupItemsLoop
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getGroupItem
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getQuoteLeftRight
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getQuoteList
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoop
-     * @covers  Molajo\Query\Builder\BuildSqlGroups::getLoopList
-     * @covers  Molajo\Query\Builder\SetData::setLeftRightConditionals
-     * @covers  Molajo\Query\Builder\SetData::setLeftRightConditionalItem
-     * @covers  Molajo\Query\Builder\SetData::setGroupByOrderBy
-     * @covers  Molajo\Query\Builder\SetData::setDirection
-     * @covers  Molajo\Query\Builder\SetData::setItem
-     * @covers  Molajo\Query\Builder\SetData::setItemValue
-     * @covers  Molajo\Query\Builder\SetData::setItemAlias
-     * @covers  Molajo\Query\Builder\SetData::setItemName
-     * @covers  Molajo\Query\Builder\SetData::setItemDataType
-     * @covers  Molajo\Query\Builder\SetData::setItemValueInDataType
-     * @covers  Molajo\Query\Builder\EditData::editArray
-     * @covers  Molajo\Query\Builder\EditData::editDataType
-     * @covers  Molajo\Query\Builder\EditData::editRequired
-     * @covers  Molajo\Query\Builder\EditData::editConnector
-     * @covers  Molajo\Query\Builder\EditData::editWhere
-     * @covers  Molajo\Query\Builder\FilterData::quoteValue
-     * @covers  Molajo\Query\Builder\FilterData::quoteNameAndPrefix
-     * @covers  Molajo\Query\Builder\FilterData::quoteName
-     * @covers  Molajo\Query\Builder\FilterData::filter
-     *
-     * @covers  Molajo\Query\Model\Registry::__construct
-     * @covers  Molajo\Query\Model\Registry::getSql
-     * @covers  Molajo\Query\Model\Registry::getModelRegistry
-     * @covers  Molajo\Query\Model\Registry::setModelRegistry
-     * @covers  Molajo\Query\Model\Registry::setModelRegistrySQL
-     * @covers  Molajo\Query\Model\Criteria::setKeyCriteria
-     * @covers  Molajo\Query\Model\Criteria::setWhereStatementsKeyValue
-     * @covers  Molajo\Query\Model\Criteria::setModelCriteria
-     * @covers  Molajo\Query\Model\Criteria::setModelCriteriaWhere
-     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhere
-     * @covers  Molajo\Query\Model\Criteria::setModelCriteriaArrayCriteria
-     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaArray
-     * @covers  Molajo\Query\Model\Criteria::setModelRegistryCriteriaArrayItem
-     * @covers  Molajo\Query\Model\Columns::setSelectDistinct
-     * @covers  Molajo\Query\Model\Columns::setSelectColumns
-     * @covers  Molajo\Query\Model\Columns::useSelectColumns
-     * @covers  Molajo\Query\Model\Columns::setSelectColumnsResultQuery
-     * @covers  Molajo\Query\Model\Columns::setSelectColumnsDistinctQuery
-     * @covers  Molajo\Query\Model\Columns::setSelectColumnsModelRegistry
-     * @covers  Molajo\Query\Model\Table::setFrom
-     * @covers  Molajo\Query\Model\Table::useFromTable
-     * @covers  Molajo\Query\Model\Table::setJoins
-     * @covers  Molajo\Query\Model\Table::useJoins
-     * @covers  Molajo\Query\Model\Table::setJoinItem
-     * @covers  Molajo\Query\Model\Table::setJoinItemColumns
-     * @covers  Molajo\Query\Model\Table::useJoinItemColumns
-     * @covers  Molajo\Query\Model\Table::setJoinItemWhere
-     * @covers  Molajo\Query\Model\Table::setJoinItemWhereLoop
-     * @covers  Molajo\Query\Model\Table::useJoinItemWhere
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaults
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryBase
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsGroup
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryCriteriaValues
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsKeys
-     * @covers  Molajo\Query\Model\Defaults::getModelRegistryPrimaryKeyValue
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryPrimaryKeyValue
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsFields
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsTableName
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsPrimaryPrefix
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsQueryObject
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsCriteriaArray
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsJoins
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultLimits
-     * @covers  Molajo\Query\Model\Defaults::setModelRegistryPaginationCrossEdits
-     * @covers  Molajo\Query\Model\Utilities::getModelRegistryAll
-     * @covers  Molajo\Query\Model\Utilities::getModelRegistryByKey
-     * @covers  Molajo\Query\Model\Utilities::setProperty
-     * @covers  Molajo\Query\Model\Utilities::setPropertyArray
-     * @covers  Molajo\Query\Model\Utilities::verifyPropertyExists
-     * @covers  Molajo\Query\Model\Utilities::setWherePair
-     * @covers  Molajo\Query\Model\Utilities::setWhereOperator
-     * @covers  Molajo\Query\Model\Utilities::setWhereElement
-     * @covers  Molajo\Query\Model\Utilities::setWhereElementProperty
-     * @covers  Molajo\Query\Model\Utilities::setWhereElementNumericValue
-     * @covers  Molajo\Query\Model\Utilities::setWhereElementTableColumn
-     * @covers  Molajo\Query\Model\Utilities::setModelRegistryLimits
-     * @covers  Molajo\Query\Model\Query::setDateProperties
-     * @covers  Molajo\Query\Model\Query::clearQuery
-     * @covers  Molajo\Query\Model\Query::setType
-     * @covers  Molajo\Query\Model\Query::getDateFormat
-     * @covers  Molajo\Query\Model\Query::getDate
-     * @covers  Molajo\Query\Model\Query::getNullDate
-     * @covers  Molajo\Query\Model\Query::setDistinct
-     * @covers  Molajo\Query\Model\Query::select
-     * @covers  Molajo\Query\Model\Query::from
-     * @covers  Molajo\Query\Model\Query::whereGroup
-     * @covers  Molajo\Query\Model\Query::where
-     * @covers  Molajo\Query\Model\Query::groupBy
-     * @covers  Molajo\Query\Model\Query::havingGroup
-     * @covers  Molajo\Query\Model\Query::having
-     * @covers  Molajo\Query\Model\Query::orderBy
-     * @covers  Molajo\Query\Model\Query::setOffsetAndLimit
-     * @covers  Molajo\Query\Model\Query::get
-     *
-     * @return  void
+     * @return void
      * @since   1.0
      */
-    public function testCatalogModelRegistry()
+    public function setup()
     {
         /** Fieldhandler */
         $fieldhandler = new Fieldhandler();
@@ -255,12 +89,101 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
         $query_proxy = new QueryProxy($query_class);
 
         /** Model Registry */
+        $model_registry = array();
+        $registry       = new Registry($query_proxy, $model_registry);
+
+        /** Query Builder */
+        $query_builder = new QueryBuilder($registry);
+
+        /** Model */
+        $model = new ReadModel($database);
+
+        /** Read Controller */
+        $this->controller = new ReadController(
+            $model,
+            $runtime_data = array(),
+            $plugin_data = array(),
+            $schedule_event = 'strtolower',
+            $query_builder
+        );
+    }
+
+    /**
+     * Test Constructor
+     *
+     * @covers  Molajo\Controller\Controller::__construct
+     * @covers  Molajo\Controller\Controller::getValue
+     * @covers  Molajo\Controller\Controller::setValue
+     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
+     *
+     * @return void
+     * @since   1.0
+     */
+    public function testDefaults()
+    {
+        $model_registry = $this->controller->getModelRegistry('*');
+
+        $this->assertEquals('list', $model_registry['query_object']);
+        $this->assertEquals(1, $model_registry['process_events']);
+        $this->assertEquals('', $model_registry['criteria_status']);
+        $this->assertEquals(0, $model_registry['criteria_source_id']);
+        $this->assertEquals(0, $model_registry['criteria_catalog_type_id']);
+        $this->assertEquals(0, $model_registry['catalog_type_id']);
+        $this->assertEquals(0, $model_registry['menu_id']);
+        $this->assertEquals(0, $model_registry['criteria_extension_instance_id']);
+        $this->assertEquals('id', $model_registry['primary_key']);
+        $this->assertEquals('', $model_registry['primary_key_value']);
+        $this->assertEquals('title', $model_registry['name_key']);
+        $this->assertEquals('', $model_registry['name_key_value']);
+        $this->assertTrue(is_array($model_registry['fields']));
+        $this->assertEquals('#__content', $model_registry['table_name']);
+        $this->assertEquals('a', $model_registry['primary_prefix']);
+        $this->assertTrue(is_array($model_registry['criteria']));
+        $this->assertEquals(0, $model_registry['use_special_joins']);
+        $this->assertTrue(is_array($model_registry['joins']));
+        $this->assertEquals(0, $model_registry['model_offset']);
+        $this->assertEquals(15, $model_registry['model_count']);
+        $this->assertEquals(1, $model_registry['use_pagination']);
+
+        return;
+    }
+
+    public function testCatalogModelRegistry()
+    {
+        /** Fieldhandler */
+        $fieldhandler = new Fieldhandler();
+
+        /** Database */
+        $database_prefix = 'molajo_';
+        $database        = new Database();
+
+        /** Query Proxy */
+        $query_class = new QueryClass($fieldhandler, 'molajo_', $database);
+        $query_proxy = new QueryProxy($query_class);
+
+        /** Query Builder */
         $mock = new MockModelRegistry();
-        $mr   = $mock->create();
+        $model_registry = $mock->create();
 
-        $registry = new Registry($query_proxy, $mr);
+        /** Model Registry */
+        $registry       = new Registry($query_proxy, $model_registry);
 
-        $model_registry = $registry->getModelRegistry();
+        /** Query Builder */
+        $query_builder = new QueryBuilder($registry);
+
+        /** Model */
+        $model = new ReadModel($database);
+
+        /** Read Controller */
+        $this->controller = new ReadController(
+            $model,
+            $runtime_data = array(),
+            $plugin_data = array(),
+            $schedule_event = 'strtolower',
+            $query_builder
+        );
+
+        $model_registry = $this->controller->getModelRegistry('*');
 
         $this->assertEquals('Catalog', $model_registry['name']);
         $this->assertEquals('#__catalog', $model_registry['table_name']);
@@ -451,26 +374,8 @@ class QueryBuilderTest extends PHPUnit_Framework_TestCase
 
         $sql = $registry->getSql();
 
-//file_put_contents(__DIR__ . '/testQBCatalogModelRegistry.txt', $sql);
+        file_put_contents(__DIR__ . '/testReadControllerCatalogModelRegistry.txt', $sql);
 
-        $this->assertEquals(file_get_contents(__DIR__ . '/testQBCatalogModelRegistry.txt'), $sql);
-    }
-
-    /**
-     * Test Constructor
-     *
-     * @covers  Molajo\Controller\Controller::__construct
-     * @covers  Molajo\Controller\Controller::getValue
-     * @covers  Molajo\Controller\Controller::setValue
-     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
-     *
-     * @return void
-     * @since   1.0
-     */
-    public function testConstruct()
-    {
-        $this->assertEquals(1, 1);
-
-        return;
+        $this->assertEquals(file_get_contents(__DIR__ . '/testReadControllerCatalogModelRegistry.txt'), $sql);
     }
 }

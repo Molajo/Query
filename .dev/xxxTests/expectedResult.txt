@@ -1,9 +1,0 @@
-SELECT `a`.`id`
-FROM `molajo_catalog` AS `a`
-WHERE ()
- AND ()
- AND ()
- AND ()
- AND ()
- AND ()
-
