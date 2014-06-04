@@ -153,7 +153,7 @@ abstract class BuildSqlElements extends BuildSqlGroups
      * @return  string
      * @since   1.0
      */
-    protected function getElementsArrayItem($item, $get_value = true, $get_column = true, $use_alias = true, $array)
+    protected function getElementsArrayItem($item, $get_value, $get_column, $use_alias, $array)
     {
         $column_name = $this->getElementValuesColumnName($item, $get_column, $use_alias);
         $value       = $this->getElementValuesValue($item, $get_value);
