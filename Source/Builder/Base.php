@@ -259,7 +259,7 @@ abstract class Base
      * @var    integer
      * @since  1.0.0
      */
-    protected $use_pagination = false;
+    protected $use_pagination = 0;
 
     /**
      * Offset

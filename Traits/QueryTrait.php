@@ -42,7 +42,7 @@ trait QueryTrait
      * @var    integer
      * @since  1.0
      */
-    protected $use_pagination;
+    protected $use_pagination = 0;
 
     /**
      * Offset

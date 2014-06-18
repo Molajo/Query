@@ -35,7 +35,7 @@ class ReadControllerFactory implements FactoryInterface
     /**
      * Model Instance
      *
-     * @var    object  CommonApi\Controller\ReadControllerInterface
+     * @var    object  CommonApi\Model\ModelInterface
      * @since  1.0
      */
     protected $model;

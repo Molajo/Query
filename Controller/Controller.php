@@ -22,9 +22,9 @@ use CommonApi\Model\ModelInterface;
 abstract class Controller implements ControllerInterface
 {
     /**
-     * Model Instance  CommonApi\Model\ModelInterface
+     * Model Instance
      *
-     * @var    object
+     * @var    object  CommonApi\Model\ModelInterface
      * @since  1.0
      */
     protected $model;
@@ -32,7 +32,7 @@ abstract class Controller implements ControllerInterface
     /**
      * Stores an array of key/value runtime_data settings
      *
-     * @var    object
+     * @var    array
      * @since  1.0
      */
     protected $runtime_data = null;
@@ -40,7 +40,7 @@ abstract class Controller implements ControllerInterface
     /**
      * Stores an array of key/value plugin data settings
      *
-     * @var    object
+     * @var    array
      * @since  1.0
      */
     protected $plugin_data = null;

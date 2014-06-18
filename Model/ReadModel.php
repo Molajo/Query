@@ -34,6 +34,7 @@ class ReadModel extends Model implements ReadModelInterface
         if ($query_object === 'result') {
             return $this->database->loadResult($sql);
         }
+
         return $this->database->loadObjectList($sql);
     }
 }
