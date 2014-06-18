@@ -32,7 +32,7 @@
     "autoload": {
         "psr-4": {
             "Molajo\\Factories\\": "Factories/",
-            "Molajo\\Query\\": "Source/",
+            "Molajo\\Query\\": "Source/, Traits/",
             "Molajo\\Controller\\": "Controller/",
             "Molajo\\Model\\": "Model/",
             "Molajo\\Resource\\": "Resource/"

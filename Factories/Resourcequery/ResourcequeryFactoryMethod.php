@@ -12,7 +12,7 @@ use Exception;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
-use Molajo\IoC\FactoryMethodBase;
+use Molajo\IoC\FactoryMethod\Base as FactoryMethodBase;
 
 /**
  * Resource Query Factory Method
@@ -46,7 +46,7 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function setDependencies(array $reflection = null)
+    public function setDependencies(array $reflection = array())
     {
         parent::setDependencies($reflection);
 
@@ -69,6 +69,11 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
     public function onBeforeInstantiation(array $dependency_values = null)
     {
         parent::onBeforeInstantiation($dependency_values);
+
+
+//        $this->dependencies['Query']->setModelRegistry('*', $model_registry);
+
+
 
         $this->dependencies['base_path']          = $this->options['base_path'];
         $this->dependencies['resource_map']       = $this->readFile(

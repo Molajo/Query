@@ -87,6 +87,10 @@ class Registry extends Criteria implements QueryBuilderInterface
      */
     public function setModelRegistry($key, $value = null)
     {
+        if ($key === '*') {
+            return $this->initialiseModelRegistry($value);
+        }
+
         $this->model_registry[$key] = $value;
 
         return $this;

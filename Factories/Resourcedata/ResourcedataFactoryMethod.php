@@ -12,7 +12,7 @@ use Exception;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
-use Molajo\IoC\FactoryMethodBase;
+use Molajo\IoC\FactoryMethod\Base as FactoryMethodBase;
 
 /**
  * Resource Data Factory Method
@@ -169,7 +169,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function setDependencies(array $reflection = null)
+    public function setDependencies(array $reflection = array())
     {
         parent::setDependencies($reflection);
 

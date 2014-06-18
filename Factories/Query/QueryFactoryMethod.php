@@ -12,7 +12,8 @@ use Exception;
 use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
-use Molajo\IoC\FactoryMethodBase;
+use Molajo\IoC\FactoryMethod\Base as FactoryMethodBase;
+use Molajo\Query\QueryProxy;
 
 /**
  * Query Factory Method
@@ -35,7 +36,7 @@ class QueryFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
     {
         $options['product_name']             = basename(__DIR__);
         $options['store_instance_indicator'] = true;
-        $options['product_namespace']        = 'Molajo\Query\Driver';
+        $options['product_namespace']        = 'Molajo\\Query\\QueryBuilder';
 
         parent::__construct($options);
     }
@@ -49,11 +50,9 @@ class QueryFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function setDependencies(array $reflection = null)
+    public function setDependencies(array $reflection = array())
     {
-        $reflection = array();
-
-        parent::setDependencies($reflection);
+        parent::setDependencies(array());
 
         $this->dependencies                 = array();
         $this->dependencies['Fieldhandler'] = array();
@@ -61,25 +60,6 @@ class QueryFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
         $this->dependencies['Database']     = array();
 
         return $this->dependencies;
-    }
-
-    /**
-     * Set Dependency values
-     *
-     * @param   array $dependency_values (ignored in Service Item Adapter, based in from handler)
-     *
-     * @return  $this
-     * @since   1.0
-     */
-    public function onBeforeInstantiation(array $dependency_values = null)
-    {
-        parent::onBeforeInstantiation($dependency_values);
-
-        $this->dependencies['database_prefix'] = 'molajo_';
-
-        $this->dependencies['adapter'] = $this->getAdapter('Mysql');
-
-        return $this;
     }
 
     /**
@@ -91,12 +71,14 @@ class QueryFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
      */
     public function instantiateClass()
     {
+        $query_proxy = $this->getQueryProxy('MySQL');
+        $model_registry = array();
+        $registry = $this->getRegistry($query_proxy, $model_registry);
+
         $class = $this->product_namespace;
 
         try {
-            $this->product_result = new $class(
-                $this->dependencies['adapter']
-            );
+            $this->product_result = new $class($registry);
 
         } catch (Exception $e) {
             throw new RuntimeException('Query Factory: Could not instantiate Driver: ' . $class);
@@ -106,27 +88,47 @@ class QueryFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
     }
 
     /**
-     * Get the Query Adapter
+     * Get the Query Proxy
      *
      * @param   string $type
      *
-     * @return  object
+     * @return  object CommonApi\Query\QueryInterface
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function getAdapter($type)
+    protected function getQueryProxy($type = 'MySql')
     {
         $class = 'Molajo\\Query\\Adapter\\' . $type;
 
         try {
-            return new $class(
-                $this->dependencies['Fieldhandler'],
-                $this->dependencies['database_prefix'],
-                $this->dependencies['Database']
-            );
+            $query_class = new $class($this->dependencies['Fieldhandler'], 'molajo_', $this->dependencies['Database']);
+
+            return new QueryProxy($query_class);
 
         } catch (Exception $e) {
-            throw new RuntimeException('Query: Could not instantiate Handler: ' . $class);
+            throw new RuntimeException('QueryFactoryMethod: Could not instantiate getQueryProxy: ' . $class);
+        }
+    }
+
+    /**
+     * Get the Query Model Registry
+     *
+     * @param   object  \CommonApi\Query\QueryInterface
+     * @param   array   $model_registry
+     *
+     * @return  object  CommonApi\Query\QueryBuilderInterface
+     * @since   1.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    protected function getRegistry($query_proxy, array $model_registry = array())
+    {
+        $class = 'Molajo\Query\Model\Registry';
+
+        try {
+            return new $class($query_proxy, $model_registry);
+
+        } catch (Exception $e) {
+            throw new RuntimeException('QueryFactoryMethod: Could not instantiate getRegistry: ' . $class);
         }
     }
 }

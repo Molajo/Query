@@ -66,7 +66,7 @@ abstract class Base
                 'key_value'       => 0,
                 'format'          => 1
             ),
-            'values'  => array(
+            'values'   => array(
                 'type'            => 'values',
                 'get_value'       => true,
                 'get_column'      => false,
@@ -126,8 +126,8 @@ abstract class Base
                 'key_value'      => 0,
                 'format'         => 1
             ),
-            'limit' => array(
-                'type'           => 'limit'
+            'limit'    => array(
+                'type' => 'limit'
             )
         );
 
@@ -251,7 +251,7 @@ abstract class Base
      * @var    string
      * @since  1.0.0
      */
-    protected $query_object;
+    protected $query_object = 'list';
 
     /**
      * Use Pagination
@@ -259,7 +259,7 @@ abstract class Base
      * @var    integer
      * @since  1.0.0
      */
-    protected $use_pagination;
+    protected $use_pagination = false;
 
     /**
      * Offset

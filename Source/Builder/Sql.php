@@ -92,18 +92,21 @@ abstract class Sql extends BuildSql
      */
     public function clearQuery()
     {
-        $this->query_type = 'select';
-        $this->distinct   = false;
-        $this->columns    = array();
-        $this->values     = array();
-        $this->from       = array();
-        $this->where      = array();
-        $this->having     = array();
-        $this->group_by   = array();
-        $this->order_by   = array();
-        $this->offset     = 0;
-        $this->limit      = 0;
-        $this->sql        = '';
+        $this->query_type     = 'select';
+        $this->distinct       = false;
+        $this->columns        = array();
+        $this->values         = array();
+        $this->from           = array();
+        $this->where_group    = array();
+        $this->where          = array();
+        $this->having_group   = array();
+        $this->having         = array();
+        $this->group_by       = array();
+        $this->order_by       = array();
+        $this->use_pagination = false;
+        $this->offset         = 0;
+        $this->limit          = 0;
+        $this->sql            = '';
 
         return $this;
     }

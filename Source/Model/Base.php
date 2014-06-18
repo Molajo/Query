@@ -42,7 +42,7 @@ abstract class Base
      * @var    array
      * @since  1.0
      */
-    protected $model_registry = null;
+    protected $model_registry = array();
 
     /**
      * Property Array

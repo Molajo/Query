@@ -61,6 +61,23 @@ abstract class Defaults extends Utilities
     }
 
     /**
+     * Set Default Values for Class and load Model Registry
+     *
+     * @param   array $model_registry
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    public function initialiseModelRegistry(array $model_registry = array())
+    {
+        $this->query->clearQuery();
+
+        $this->setModelRegistryDefaults($model_registry);
+
+        return $this;
+    }
+
+    /**
      * Set Default Values for Model Registry
      *
      * @param   array $model_registry
