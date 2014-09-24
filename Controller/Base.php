@@ -19,7 +19,7 @@ use CommonApi\Model\ModelInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class Controller implements ControllerInterface
+abstract class Base implements ControllerInterface
 {
     /**
      * Model Instance
@@ -36,14 +36,6 @@ abstract class Controller implements ControllerInterface
      * @since  1.0
      */
     protected $runtime_data = null;
-
-    /**
-     * Stores an array of key/value plugin data settings
-     *
-     * @var    array
-     * @since  1.0
-     */
-    protected $plugin_data = null;
 
     /**
      * Schedule Event Callback
@@ -96,7 +88,6 @@ abstract class Controller implements ControllerInterface
             'query',
             'model',
             'runtime_data',
-            'plugin_data',
             'schedule_event',
             'sql',
             'site_id',
@@ -112,7 +103,6 @@ abstract class Controller implements ControllerInterface
      *
      * @param  ModelInterface $model
      * @param  array          $runtime_data
-     * @param  array          $plugin_data
      * @param  callable       $schedule_event
      *
      * @since  1.0
@@ -120,12 +110,10 @@ abstract class Controller implements ControllerInterface
     public function __construct(
         ModelInterface $model = null,
         $runtime_data = array(),
-        $plugin_data = array(),
         callable $schedule_event = null
     ) {
         $this->model          = $model;
         $this->runtime_data   = $runtime_data;
-        $this->plugin_data    = $plugin_data;
         $this->schedule_event = $schedule_event;
 
         $this->setSiteApplicationProperties();
@@ -187,10 +175,6 @@ abstract class Controller implements ControllerInterface
         if (isset($this->runtime_data->site->id)) {
             $this->site_id = $this->runtime_data->site->id;
         }
-
-//todo: FIX
-        $this->site_id        = 2;
-        $this->application_id = 2;
 
         return $this;
     }

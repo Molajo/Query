@@ -297,7 +297,6 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
         $this->controller = new ReadController(
             $model,
             $runtime_data = array(),
-            $plugin_data = array(),
             $schedule_event = 'strtolower',
             $query_builder
         );
@@ -560,7 +559,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('title', $model_registry['name_key']);
         $this->assertEquals('', $model_registry['name_key_value']);
         $this->assertTrue(is_array($model_registry['fields']));
-        $this->assertEquals('#__content', $model_registry['table_name']);
+        $this->assertEquals('#__default', $model_registry['table_name']);
         $this->assertEquals('a', $model_registry['primary_prefix']);
         $this->assertTrue(is_array($model_registry['criteria']));
         $this->assertEquals(0, $model_registry['use_special_joins']);
@@ -849,7 +848,6 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
         $this->controller = new ReadController(
             $model,
             $runtime_data = array(),
-            $plugin_data = array(),
             $schedule_event,
             $query_builder
         );
@@ -1328,7 +1326,6 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
         $this->controller = new ReadController(
             $model,
             $runtime_data = array(),
-            $plugin_data = array(),
             $schedule_event,
             $query_builder
         );

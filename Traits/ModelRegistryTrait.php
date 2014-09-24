@@ -49,4 +49,18 @@ trait ModelRegistryTrait
     {
         return $this->query->setModelRegistry($key, $value);
     }
+
+    /**
+     * Set the value of the specified Model Registry Property
+     *
+     * @param   string $key
+     * @param   mixed  $value
+     *
+     * @return  $this
+     * @since   1.0.0
+     */
+    public function set($key, $value = null)
+    {
+        return $this->query->set($key, $value);
+    }
 }

@@ -235,7 +235,7 @@ abstract class Defaults extends Utilities
      */
     protected function setModelRegistryDefaultsTableName()
     {
-        return $this->verifyPropertyExists('table_name', '#__content');
+        return $this->verifyPropertyExists('table_name', '');
     }
 
     /**

@@ -85,13 +85,11 @@ class ControllerTest extends PHPUnit_Framework_TestCase
         $database       = new MockDatabase();
         $model          = new ReadModel($database);
         $runtime_data   = array();
-        $plugin_data    = array();
         $schedule_event = 'strtolower';
 
         $this->controller = new MockController(
             $model,
             $runtime_data,
-            $plugin_data,
             $schedule_event
         );
     }

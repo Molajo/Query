@@ -24,14 +24,12 @@ class MockController extends Controller implements ControllerInterface
     public function __construct(
         ModelInterface $model = null,
         $runtime_data = array(),
-        $plugin_data = array(),
         callable $schedule_event = null,
         array $model_registry = array()
     ) {
         parent::__construct(
             $model,
             $runtime_data,
-            $plugin_data,
             $schedule_event
         );
     }

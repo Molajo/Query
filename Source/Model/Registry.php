@@ -39,6 +39,22 @@ class Registry extends Criteria implements QueryBuilderInterface
     }
 
     /**
+     * Get the value of a specified Model Registry Key
+     *
+     * @param   string $key
+     * @param   string $value
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function set($key, $value = null)
+    {
+        $this->$key = $value;
+
+        return $this;
+    }
+
+    /**
      * Build SQL from Model Registry
      *
      * @param   string $sql
@@ -50,7 +66,7 @@ class Registry extends Criteria implements QueryBuilderInterface
     {
         if ($sql === null) {
         } else {
-            parent::getSql($sql);
+            return parent::getSql($sql);
         }
 
         $this->setModelRegistrySQL();
@@ -88,6 +104,11 @@ class Registry extends Criteria implements QueryBuilderInterface
     public function setModelRegistry($key, $value = null)
     {
         if ($key === '*') {
+            if (is_array($value)) {
+            } else {
+                $value = array();
+            }
+
             return $this->initialiseModelRegistry($value);
         }
 
@@ -111,7 +132,6 @@ class Registry extends Criteria implements QueryBuilderInterface
         $this->setModelCriteria();
         $this->setModelCriteriaArrayCriteria();
 
-        $this->query_object   = $this->getModelRegistry('query_object');
         $this->use_pagination = $this->getModelRegistry('use_pagination');
         $this->offset         = $this->getModelRegistry('offset');
         $this->count          = $this->getModelRegistry('count');

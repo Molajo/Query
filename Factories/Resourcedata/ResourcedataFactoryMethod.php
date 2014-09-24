@@ -234,7 +234,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
         $datalistsArray = array();
         $datalistsArray = $this->loadDatalists(
             $datalistsArray,
-            $this->options['base_path'] . '/vendor/molajo/application/Source/Model/Datalist'
+            $this->base_path . '/vendor/molajo/application/Source/Model/Datalist'
         );
         $datalistsArray = array_unique($datalistsArray);
 
@@ -484,7 +484,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
         $scheme = $this->createScheme();
 
         $resource_map = $this->readFile(
-            $this->options['base_path']
+            $this->base_path
             . '/Bootstrap/Files/Output/ResourceMap.json'
         );
 
@@ -492,7 +492,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
 
         try {
             $xml = new $class (
-                $this->options['base_path'],
+                $this->base_path,
                 $resource_map,
                 array(),
                 $scheme->getScheme('Xml')->include_file_extensions,
@@ -520,7 +520,7 @@ class ResourcedataFactoryMethod extends FactoryMethodBase implements FactoryInte
     {
         $class = 'Molajo\\Resource\\Scheme';
 
-        $input = $this->options['base_path'] . '/Bootstrap/Files/Input/SchemeArray.json';
+        $input = $this->base_path . '/Bootstrap/Files/Input/SchemeArray.json';
 
         try {
             $scheme = new $class ($input);

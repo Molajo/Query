@@ -224,16 +224,31 @@ abstract class Sql extends BuildSql
     {
         $this->editRequired('table_name', $table_name);
 
-        $this->from[$table_name]
-            = $this->setItem($table_name, 'string', null, $alias, null, false);
+        $key = $this->setFromKey($table_name, $alias);
+
+        $this->from[$key] = $this->setItem($table_name, 'string', null, $alias, null, false);
 
         if ($this->findFromPrimary() === true && $primary === false) {
             return $this;
         }
 
-        $this->setFromPrimary($table_name);
+        $this->setFromPrimary($key);
 
         return $this;
+    }
+
+    /**
+     * Set From table key
+     *
+     * @param   string      $table_name
+     * @param   null|string $alias
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    public function setFromKey($table_name, $alias = null)
+    {
+        return ($table_name . ' ' . $alias);
     }
 
     /**
@@ -372,7 +387,7 @@ abstract class Sql extends BuildSql
      */
     public function orderBy($column_name, $direction = 'ASC')
     {
-        $this->order_by[] = $this->setGroupByOrderBy($column_name, 'order by', $direction);
+        $this->order_by[] = $this->setGroupByOrderBy($column_name, 'column', $direction);
 
         return $this;
     }

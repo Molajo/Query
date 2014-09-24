@@ -66,18 +66,24 @@ abstract class EditData extends FilterData
     /**
      * Tests if a required value has been provided
      *
-     * @param   string $column_name
+     * @param   mixed $column_name
      * @param   string $value
      *
-     * @return  string
+     * @return  mixed
      * @since   1.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     protected function editRequired($column_name, $value = null)
     {
+        if (is_array($value)) {
+            return $value;
+        }
+
         if (trim($value) === '' || $value === null) {
             throw new RuntimeException('Query: Value required for: ' . $column_name);
         }
+
+        return $value;
     }
 
     /**
@@ -115,7 +121,7 @@ abstract class EditData extends FilterData
     {
         if (trim($left) === ''
             || trim($condition) === ''
-            || trim($right) === ''
+            || (!is_array($right) && trim($right) === '')
         ) {
             throw new RuntimeException(
                 'Query-Where Method: Value required for ' . ' $left: ' . $left

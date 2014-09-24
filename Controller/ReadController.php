@@ -45,6 +45,8 @@ class ReadController extends QueryController implements ReadControllerInterface
      */
     public function getData()
     {
+        $this->model_registry = $this->getModelRegistry('*');
+
         $this->triggerOnBeforeReadEvent();
 
         if (trim($this->sql) === '') {
@@ -89,7 +91,7 @@ class ReadController extends QueryController implements ReadControllerInterface
      */
     protected function executeQuery()
     {
-        $this->query_results = $this->model->getData($this->query_object, $this->sql);
+        $this->query_results = $this->model->getData($this->getModelRegistry('query_object'), $this->sql);
         $this->total         = count($this->query_results);
 
         if ($this->offset > $this->total) {
@@ -158,13 +160,13 @@ class ReadController extends QueryController implements ReadControllerInterface
      */
     protected function returnQueryResults()
     {
-        if ($this->query_object === 'result'
-            || $this->query_object === 'distinct'
+        if ($this->getModelRegistry('query_object') === 'result'
+            || $this->getModelRegistry('query_object') === 'distinct'
         ) {
             return $this->query_results;
         }
 
-        if ($this->query_object === 'item') {
+        if ($this->getModelRegistry('query_object') === 'item') {
             $result              = $this->query_results[0];
             $this->query_results = $result;
         }
@@ -178,7 +180,7 @@ class ReadController extends QueryController implements ReadControllerInterface
      * @return  $this
      * @since   1.0
      */
-    public function triggerOnBeforeReadEvent()
+    protected function triggerOnBeforeReadEvent()
     {
         return $this->triggerEvent('onBeforeRead');
     }
@@ -189,7 +191,7 @@ class ReadController extends QueryController implements ReadControllerInterface
      * @return  $this
      * @since   1.0
      */
-    public function triggerOnAfterReadEvent()
+    protected function triggerOnAfterReadEvent()
     {
         $rows                = $this->query_results;
         $this->query_results = array();
@@ -216,7 +218,7 @@ class ReadController extends QueryController implements ReadControllerInterface
      * @return  $this
      * @since   1.0
      */
-    public function triggerOnAfterReadallEvent()
+    protected function triggerOnAfterReadallEvent()
     {
         return $this->triggerEvent('onAfterReadall');
     }
@@ -231,13 +233,14 @@ class ReadController extends QueryController implements ReadControllerInterface
      */
     protected function triggerEvent($event_name)
     {
-        if ($this->getModelRegistry('process_event') === 0) {
+        if ($this->getModelRegistry('process_events') === 0) {
             return $this;
         }
 
         $schedule_event = $this->schedule_event;
         $options        = $this->prepareEventInput();
-        $results        = $schedule_event($event_name, $options);
+
+        $results = $schedule_event($event_name, $options);
 
         $this->processEventResults($results);
 
@@ -254,12 +257,11 @@ class ReadController extends QueryController implements ReadControllerInterface
     {
         $options                   = array();
         $options['runtime_data']   = $this->runtime_data;
-        $options['plugin_data']    = $this->plugin_data;
-        $options['query']          = $this->query;
-        $options['query_results']  = $this->query_results;
-        $options['row']            = $this->row;
         $options['parameters']     = $this->parameters;
+        $options['row']            = $this->row;
+        $options['query']          = $this->query;
         $options['model_registry'] = $this->model_registry;
+        $options['query_results']  = $this->query_results;
         $options['rendered_view']  = null;
         $options['rendered_page']  = null;
 
@@ -277,12 +279,11 @@ class ReadController extends QueryController implements ReadControllerInterface
     protected function processEventResults($results)
     {
         $this->runtime_data   = $results['runtime_data'];
-        $this->plugin_data    = $results['plugin_data'];
-        $this->query          = $results['query'];
-        $this->query_results  = $results['query_results'];
-        $this->row            = $results['row'];
         $this->parameters     = $results['parameters'];
+        $this->row            = $results['row'];
+        $this->query          = $results['query'];
         $this->model_registry = $results['model_registry'];
+        $this->query_results  = $results['query_results'];
 
         return $this;
     }

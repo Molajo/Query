@@ -48,7 +48,12 @@ abstract class Table extends Defaults
      */
     protected function useFromTable()
     {
-        if (count($this->get('from', array())) > 0) {
+        if (isset($this->model_registry['table_name'])) {
+        } else {
+            return false;
+        }
+
+        if ($this->model_registry['table_name'] === '') {
             return false;
         }
 
@@ -91,9 +96,9 @@ abstract class Table extends Defaults
      */
     protected function useJoins()
     {
-        if ($this->model_registry['use_special_joins'] === 0) {
-            return false;
-        }
+//        if ($this->model_registry['use_special_joins'] === 0) {
+//            return false;
+//        }
 
         if (count($this->model_registry['joins']) === 0) {
             return false;

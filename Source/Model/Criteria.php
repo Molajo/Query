@@ -79,10 +79,31 @@ abstract class Criteria extends Columns
      */
     protected function setModelCriteria()
     {
+        if ($this->useModelCriteria() === false) {
+            return $this;
+        }
+
         $this->setModelCriteriaWhere('status', 'IN', 'integer', 'criteria_status');
         $this->setModelCriteriaWhere('catalog_type_id', '=', 'integer', 'criteria_catalog_type_id');
         $this->setModelCriteriaWhere('extension_instance_id', '=', 'integer', 'criteria_extension_instance_id');
         $this->setModelCriteriaWhere('menu_id', '=', 'integer', 'criteria_menu_id');
+
+        return $this;
+    }
+
+    /**
+     * MODEL REGISTRY CRITERIA
+     *
+     * These are either defined within the <model statement or set in the class executing the query
+     *
+     * @return  $this
+     * @since   1.0
+     */
+    protected function useModelCriteria()
+    {
+        if ($this->model_registry['use_special_joins'] === 0) {
+            return false;
+        }
 
         return $this;
     }
@@ -179,6 +200,10 @@ abstract class Criteria extends Columns
      */
     protected function useModelCriteriaArray()
     {
+        if ($this->model_registry['use_special_joins'] === 0) {
+            return false;
+        }
+
         if (count($this->model_registry['criteria']) > 0) {
             return true;
         }

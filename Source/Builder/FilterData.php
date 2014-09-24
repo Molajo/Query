@@ -96,7 +96,11 @@ abstract class FilterData extends Base
         try {
             $results = $this->fieldhandler->sanitize($key, $value, ucfirst(strtolower($data_type)));
 
-            $value = $results->getFieldValue();
+            if (ucfirst(strtolower($data_type)) === 'Integer') {
+                $value = (int) $results->getFieldValue();
+            } else {
+                $value = $results->getFieldValue();
+            }
 
         } catch (Exception $e) {
             throw new RuntimeException(

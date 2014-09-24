@@ -66,6 +66,16 @@ abstract class Base
                 'key_value'       => 0,
                 'format'          => 1
             ),
+            'update_columns'  => array(
+                'type'            => 'columns',
+                'get_value'       => true,
+                'get_column'      => true,
+                'use_alias'       => false,
+                'group_connector' => '',
+                'return_literal'  => '',
+                'key_value'      => 1,
+                'format'         => 1
+            ),
             'values'   => array(
                 'type'            => 'values',
                 'get_value'       => true,
@@ -178,6 +188,14 @@ abstract class Base
      * @since  1.0.0
      */
     protected $columns = array();
+
+    /**
+     * Update Columns
+     *
+     * @var    array
+     * @since  1.0.0
+     */
+    protected $update_columns = array();
 
     /**
      * Values

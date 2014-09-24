@@ -138,6 +138,10 @@ trait QueryTrait
      */
     public function clearQuery()
     {
+        if (method_exists($this, 'setModelRegistry')) {
+            return $this->query->setModelRegistry('*');
+        }
+
         return $this->query->clearQuery();
     }
 

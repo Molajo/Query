@@ -70,14 +70,9 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
     {
         parent::onBeforeInstantiation($dependency_values);
 
-
-//        $this->dependencies['Query']->setModelRegistry('*', $model_registry);
-
-
-
-        $this->dependencies['base_path']          = $this->options['base_path'];
+        $this->dependencies['base_path']          = $this->base_path;
         $this->dependencies['resource_map']       = $this->readFile(
-            $this->options['base_path'] . '/Bootstrap/Files/Output/ResourceMap.json'
+            $this->base_path . '/Bootstrap/Files/Output/ResourceMap.json'
         );
         $this->options['Scheme']                  = $this->createScheme();
         $this->dependencies['namespace_prefixes'] = array();
@@ -116,7 +111,7 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
     {
         $class = 'Molajo\\Resource\\Scheme';
 
-        $input = $this->options['base_path'] . '/Bootstrap/Files/Input/SchemeArray.json';
+        $input = $this->base_path . '/Bootstrap/Files/Input/SchemeArray.json';
 
         try {
             $scheme = new $class ($input);

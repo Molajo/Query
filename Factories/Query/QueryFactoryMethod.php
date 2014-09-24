@@ -122,7 +122,7 @@ class QueryFactoryMethod extends FactoryMethodBase implements FactoryInterface, 
      */
     protected function getRegistry($query_proxy, array $model_registry = array())
     {
-        $class = 'Molajo\Query\Model\Registry';
+        $class = 'Molajo\\Query\\Model\\Registry';
 
         try {
             return new $class($query_proxy, $model_registry);

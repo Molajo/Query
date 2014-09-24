@@ -47,7 +47,8 @@ abstract class BuildSql extends BuildSqlElements
             $this->columns = $this->editArray($this->columns, 'columns', true);
         }
 
-        $query     = $this->{'get' . ucfirst(strtolower($this->query_type))}();
+        $query = $this->{'get' . ucfirst(strtolower($this->query_type))}();
+
         $this->sql = $this->getDatabasePrefix($query);
 
         return $this;
@@ -79,6 +80,7 @@ abstract class BuildSql extends BuildSqlElements
      * Generate Insert From SQL
      *
      * @param string $type
+     *
      * @return  string
      * @since   1.0
      */
@@ -106,10 +108,18 @@ abstract class BuildSql extends BuildSqlElements
      */
     protected function getUpdate()
     {
-        $query_string = 'UPDATE ' . $this->getElement('from') . PHP_EOL;
-        $query_string .= 'SET ' . $this->getElement('update_columns') . PHP_EOL;
+        $this->update_columns = $this->columns;
 
-        return $query_string;
+        $from = $this->getElement('from');
+        $from = substr($from, 5, 999);
+
+        $query_string = 'UPDATE ' . $from . PHP_EOL;
+        $query_string .= 'SET ' . $this->getElement('update_columns') . PHP_EOL;
+        $query_string .= $this->getElement('where');
+
+        $this->sql = $query_string;
+
+        return $this->sql;
     }
 
     /**
@@ -141,7 +151,7 @@ abstract class BuildSql extends BuildSqlElements
         $this->sql = '';
 
         foreach ($this->select_array as $key) {
-            $new_sql  = $this->getElement($key);
+            $new_sql   = $this->getElement($key);
             $this->sql = $this->getSelectAppend($new_sql, $this->sql);
         }
 
@@ -230,10 +240,9 @@ abstract class BuildSql extends BuildSqlElements
     /**
      * Set $key table entry to primary
      *
-     * @param   $check  boolean
-     * @param string $key
+     * @param   string $key
      *
-     * @return  $this;
+     * @return  $this
      * @since   1.0
      */
     protected function setFromPrimary($key)

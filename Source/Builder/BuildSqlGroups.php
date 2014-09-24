@@ -221,7 +221,7 @@ abstract class BuildSqlGroups extends SetData
     protected function getQuoteLeftRight($item, $condition = null)
     {
         if (strtoupper($condition) === 'IN') {
-            return ' (' . $this->getQuoteList($item->value, 0) . ')';
+            return ' (' . $this->getQuoteList($item->value, 2) . ')';
         }
 
         if ($item->data_type === 'column') {
@@ -234,18 +234,20 @@ abstract class BuildSqlGroups extends SetData
     /**
      * Generate Data needed for SQL List - escaped prior to this point
      *
-     * @param   array   $value_array
+     * @param   string  $value_array
      * @param   integer $key_value      0: Only use $value
      *                                  1: key=value
      *
      * @return  string
      * @since   1.0
      */
-    protected function getQuoteList(array $value_array = array(), $key_value = 0)
+    protected function getQuoteList($value_array, $key_value = 0)
     {
         $sql = '';
 
-        foreach ($value_array as $value) {
+        $x = explode(',', $value_array);
+
+        foreach ($x as $value) {
             $sql = $this->getLoopList($key_value, $sql, $this->quoteValue($value));
         }
 
@@ -284,6 +286,7 @@ abstract class BuildSqlGroups extends SetData
      *
      * @param   string $key_value 0: only use $value
      *                            1: key=value
+     *                            2: list
      * @param   string $sql
      * @param   string $value
      * @param   string $key
@@ -294,14 +297,16 @@ abstract class BuildSqlGroups extends SetData
     protected function getLoopList($key_value, $sql, $value, $key = null)
     {
         if ($sql === '') {
+        } elseif ($key_value === 2) {
+            $sql .= ', ';
         } else {
             $sql .= ', ' . PHP_EOL . '    ';
         }
 
-        if ($key_value === 0) {
-            $sql .= trim($value);
-        } else {
+        if ($key_value === 1) {
             $sql .= trim($key) . ' = ' . $value;
+        } else {
+            $sql .= trim($value);
         }
 
         return $sql;

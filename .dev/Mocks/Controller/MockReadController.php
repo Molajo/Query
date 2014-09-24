@@ -22,14 +22,12 @@ class MockReadController extends QueryController implements ControllerInterface
     public function __construct(
         ModelInterface $model = null,
         $runtime_data = array(),
-        $plugin_data = array(),
         callable $schedule_event = null,
         QueryBuilderInterface $query = null
     ) {
         parent::__construct(
             $model,
             $runtime_data,
-            $plugin_data,
             $schedule_event,
             $query
         );

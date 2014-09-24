@@ -52,7 +52,7 @@ abstract class SetData extends EditData
         $item->group      = (string)trim($group);
         $item->left_item  = $this->setLeftRightConditionalItem($left_filter, $left);
         $item->condition  = $condition;
-        $item->right_item = $this->setLeftRightConditionalItem($right_filter, $right);
+        $item->right_item = $this->setLeftRightConditionalItem($right_filter, $right, $condition);
         $item->connector  = $this->editConnector($connector);
 
         return $item;
@@ -67,13 +67,13 @@ abstract class SetData extends EditData
      * @return  stdClass
      * @since   1.0
      */
-    protected function setLeftRightConditionalItem($filter = 'column', $field = '')
+    protected function setLeftRightConditionalItem($filter = 'column', $field = '', $condition = '')
     {
         if ($filter === 'column') {
             return $this->setItem($field, 'column', null, null, null, false);
         }
 
-        return $this->setItem($field, $filter, $field, null, null, true);
+        return $this->setItem($field, $filter, $field, null, $condition, true);
     }
 
     /**
@@ -137,11 +137,21 @@ abstract class SetData extends EditData
         $name_and_prefix = $this->setItemName($name);
 
         $item            = new stdClass();
-        $item->name      = (string)$name_and_prefix['name'];
-        $item->prefix    = (string)$name_and_prefix['prefix'];
-        $item->data_type = (string)$this->setItemDataType($data_type);
-        $item->value     = $this->setItemValue($item->name, $data_type, $value, $condition, $filter);
-        $item->alias     = $this->setItemAlias($alias);
+        $item->name      = $name_and_prefix['name'];
+        $item->prefix    = $name_and_prefix['prefix'];
+        $item->data_type = $this->setItemDataType($data_type);
+
+        if ($value === null) {
+            $item->value     = null;
+        } else {
+            $item->value     = $this->setItemValue($item->name, $data_type, $value, $condition, $filter);
+        }
+
+        if ($alias === null) {
+            $item->alias     = null;
+        } else {
+            $item->alias     = $this->setItemAlias($alias);
+        }
 
         return $item;
     }
@@ -164,7 +174,7 @@ abstract class SetData extends EditData
             return $value;
         }
 
-        if ($condition === 'in') {
+        if (strtoupper($condition) === 'IN') {
             return $this->setItemValueInDataType($value, $data_type);
         }
 
@@ -203,7 +213,7 @@ abstract class SetData extends EditData
             $prefix      = (string)$temp[0];
             $column_name = (string)$temp[1];
         } else {
-            $prefix = null;
+            $prefix = '';
         }
 
         return array('prefix' => $prefix, 'name' => $column_name);
@@ -240,10 +250,10 @@ abstract class SetData extends EditData
         $in_array = explode(',', $value);
         $value    = array();
 
-        foreach ($in_array as $value) {
-            $value[] = $this->filter('In array value', $value, $data_type);
+        foreach ($in_array as $y) {
+            $value[] = $this->filter('In array value', $y, $data_type);
         }
 
-        return $value;
+        return implode(',', $value);
     }
 }

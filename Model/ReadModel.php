@@ -18,7 +18,7 @@ use CommonApi\Model\ReadModelInterface;
  * @copyright  2014 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-class ReadModel extends Model implements ReadModelInterface
+class ReadModel extends Base implements ReadModelInterface
 {
     /**
      * Execute query and return data
