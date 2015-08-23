@@ -1,7 +1,7 @@
 <?php
 namespace Molajo\Model;
 
-use CommonApi\Model\DeleteModelInterface;
+use CommonApi\Query\DeleteModelInterface;
 
 /**
  * As instructed by the Delete Controller. the Delete Model uses model registry data to prepare
@@ -9,7 +9,7 @@ use CommonApi\Model\DeleteModelInterface;
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 class DeleteModel extends Model implements DeleteModelInterface
@@ -21,7 +21,7 @@ class DeleteModel extends Model implements DeleteModelInterface
      * @param   $model_registry
      *
      * @return bool
-     * @since   1.0
+     * @since   1.0.0
      */
     public function delete($data, $model_registry)
     {

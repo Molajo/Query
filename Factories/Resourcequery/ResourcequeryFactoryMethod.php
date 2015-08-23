@@ -4,12 +4,10 @@
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
 namespace Molajo\Factories\Resourcequery;
 
-use Exception;
-use CommonApi\Exception\RuntimeException;
 use CommonApi\IoC\FactoryInterface;
 use CommonApi\IoC\FactoryBatchInterface;
 use Molajo\IoC\FactoryMethod\Base as FactoryMethodBase;
@@ -19,22 +17,23 @@ use Molajo\IoC\FactoryMethod\Base as FactoryMethodBase;
  *
  * @author     Amy Stephen
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
- * @since      1.0.0
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
+ * @since      1.0
  */
 class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInterface, FactoryBatchInterface
 {
     /**
      * Constructor
      *
-     * @param  array $options
+     * @param  $options
      *
-     * @since  1.0
+     * @since  1.0.0
      */
     public function __construct(array $options = array())
     {
-        $options['product_namespace'] = 'Molajo\\Resource\\Adapter\\Query';
-        $options['product_name']      = basename(__DIR__);
+        $options['product_namespace']        = 'Molajo\\Resource\\Adapter\\Query';
+        $options['store_instance_indicator'] = false;
+        $options['product_name']             = null;
 
         parent::__construct($options);
     }
@@ -43,85 +42,66 @@ class ResourcequeryFactoryMethod extends FactoryMethodBase implements FactoryInt
      * Instantiate a new handler and inject it into the Adapter for the FactoryInterface
      *
      * @return  array
-     * @since   1.0
+     * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
     public function setDependencies(array $reflection = array())
     {
-        parent::setDependencies($reflection);
+        parent::setDependencies(array());
 
-        $this->dependencies['Resource']      = array();
         $this->dependencies['Database']      = array();
         $this->dependencies['Query']         = array();
-        $this->dependencies['Runtimedata']   = array();
         $this->dependencies['Eventcallback'] = array();
 
         return $this->dependencies;
     }
 
     /**
-     * Set Dependencies for Instantiation
-     *
-     * @return  array
-     * @since   1.0
-     * @throws  \CommonApi\Exception\RuntimeException
-     */
-    public function onBeforeInstantiation(array $dependency_values = null)
-    {
-        parent::onBeforeInstantiation($dependency_values);
-
-        $this->dependencies['base_path']          = $this->base_path;
-        $this->dependencies['resource_map']       = $this->readFile(
-            $this->base_path . '/Bootstrap/Files/Output/ResourceMap.json'
-        );
-        $this->options['Scheme']                  = $this->createScheme();
-        $this->dependencies['namespace_prefixes'] = array();
-        $this->dependencies['valid_file_extensions']
-                                                  = $this->options['Scheme']->getScheme(
-            'Query'
-        )->include_file_extensions;
-
-        $this->dependencies['query']          = $this->dependencies['Query'];
-        $this->dependencies['schedule_event'] = $this->dependencies['Eventcallback'];
-
-        return $this->dependencies;
-    }
-
-    /**
-     * Follows the completion of the instantiate method
+     * Factory Method Controller triggers the Factory Method to create the Class for the Service
      *
      * @return  $this
-     * @since   1.0
+     * @since   1.0.0
+     * @throws  \CommonApi\Exception\RuntimeException
      */
-    public function onAfterInstantiation()
+    public function instantiateClass()
     {
-        $this->dependencies['Resource']->setAdapterInstance('Query', $this->product_result);
-
         return $this;
     }
 
     /**
-     * Create Scheme Instance
+     * Request for array of Factory Methods to be Scheduled
      *
      * @return  object
-     * @since   1.0
+     * @since   1.0.0
+     */
+    public function scheduleFactories()
+    {
+        $options                          = array();
+        $options['scheme_name']           = 'Query';
+        $options['product_namespace']     = $this->product_namespace;
+        $options['valid_file_extensions'] = array();
+        $options['handler_options']       = $this->setHandlerOptions();
+
+        $this->schedule_factory_methods['Resourceadapter'] = $options;
+
+        return $this->schedule_factory_methods;
+    }
+
+    /**
+     * Set Handler Options for Factory
+     *
+     * @return  array
+     * @since   1.0.0
      * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected function createScheme()
+    protected function setHandlerOptions()
     {
-        $class = 'Molajo\\Resource\\Scheme';
+        $handler_options = array();
 
-        $input = $this->base_path . '/Bootstrap/Files/Input/SchemeArray.json';
+        $handler_options['database']       = $this->dependencies['Database'];
+        $handler_options['query']          = $this->dependencies['Query'];
+        $handler_options['schedule_event'] = $this->dependencies['Eventcallback'];
 
-        try {
-            $scheme = new $class ($input);
-        } catch (Exception $e) {
-            throw new RuntimeException(
-                'Resource Scheme ' . $class
-                . ' Exception during Instantiation: ' . $e->getMessage()
-            );
-        }
-
-        return $scheme;
+        return $handler_options;
     }
 }

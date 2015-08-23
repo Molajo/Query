@@ -3,13 +3,13 @@
  * Mock Read Controller
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 namespace Molajo\Controller;
 
-use CommonApi\Controller\ControllerInterface;
-use CommonApi\Model\ModelInterface;
+use CommonApi\Query\ControllerInterface;
+use CommonApi\Query\ModelInterface;
 use CommonApi\Query\QueryBuilderInterface;
 
 /**

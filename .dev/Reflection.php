@@ -1,5 +1,5 @@
 <?php
-$class   = new ReflectionClass('Molajo\Query\QueryProxy');
+$class   = new ReflectionClass('Molajo\Query\Model\Registry');
 $methods = $class->getMethods();
 var_dump($methods);
 foreach ($methods as $method) {

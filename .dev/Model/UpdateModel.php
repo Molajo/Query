@@ -1,7 +1,7 @@
 <?php
 namespace Molajo\Model;
 
-use CommonApi\Model\UpdateModelInterface;
+use CommonApi\Query\UpdateModelInterface;
 
 /**
  * As instructed by the Update Controller. the Update Model uses model registry data to prepare
@@ -9,7 +9,7 @@ use CommonApi\Model\UpdateModelInterface;
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 class UpdateModel extends Model implements UpdateModelInterface
@@ -20,7 +20,7 @@ class UpdateModel extends Model implements UpdateModelInterface
      * @param   string $data
      *
      * @return  object
-     * @since   1.0
+     * @since   1.0.0
      */
     public function Update($data, $model_registry)
     {

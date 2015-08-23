@@ -1,83 +1,114 @@
 <?php
 /**
- * Model Registry Base
+ * Base Model Class
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  */
-namespace Molajo\Query\Model;
+namespace Molajo\Model;
+
+use CommonApi\Query\DatabaseInterface;
+use CommonApi\Query\ModelInterface;
 
 /**
- * Model Registry Base
+ * Base Model Class
  *
- * Base - Query - Utilities - Defaults - Table - Columns - Criteria - Registry
- *
- * @author     Amy Stephen
+ * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
-abstract class Base
+abstract class Base implements ModelInterface
 {
     /**
-     * Site ID
+     * Database Instance
      *
-     * @var    int
+     * @var    object   CommonApi\Query\DatabaseInterface
      * @since  1.0
      */
-    protected $site_id = null;
+    public $database = null;
 
     /**
-     * Application ID
+     * Single Row from Query Results
      *
-     * @var    int
+     * @var    string
      * @since  1.0
      */
-    protected $application_id = null;
+    protected $row = null;
 
     /**
-     * Model Registry
+     * Results from queries
      *
      * @var    array
      * @since  1.0
      */
-    protected $model_registry = array();
+    protected $query_results = array();
 
     /**
-     * Property Array
+     * List of Properties
      *
      * @var    array
      * @since  1.0
      */
-    protected $query_where_property_array
+    protected $property_array
         = array(
-            'APPLICATION_ID'  => 'application_id',
-            'SITE_ID'         => 'site_id',
-            'MENU_ID'         => 'criteria_menu_id',
-            'CATALOG_TYPE_ID' => 'catalog_type_id',
+            'database',
+            'row',
+            'query_results'
         );
 
     /**
-     * Operator Array
+     * Constructor
      *
-     * @var    array
+     * @param  DatabaseInterface $database
+     *
      * @since  1.0
      */
-    protected $operator_array = array('=', '>=', '>', '<=', '<', '<>');
-
+    public function __construct(
+        DatabaseInterface $database
+    ) {
+        $this->database = $database;
+    }
 
     /**
-     * List of Valid Values for Query Object
+     * Get the current value (or default) of the specified property
      *
-     * @var    array
-     * @since  1.0
+     * @param   string $key
+     * @param   mixed  $default
+     *
+     * @return  mixed
+     * @since   1.0.0
+     * @throws  \CommonApi\Exception\RuntimeException
      */
-    protected $valid_query_object_values
-        = array(
-            'result',
-            'item',
-            'list',
-            'distinct'
-        );
+    public function get($key, $default = null)
+    {
+        $value = $this->$key;
+
+        if ($value === null) {
+            $this->$key = $default;
+            $value      = $this->$key;
+        }
+
+        return $value;
+    }
+
+    /**
+     * Set the value of the specified property
+     *
+     * @param   string $key
+     * @param   string $value
+     *
+     * @return  $this
+     * @since   1.0.0
+     * @throws  \CommonApi\Exception\RuntimeException
+     */
+    public function set($key, $value = null)
+    {
+        if (in_array($key, $this->property_array)) {
+            $this->$key = $value;
+        }
+
+        return $this;
+    }
 }

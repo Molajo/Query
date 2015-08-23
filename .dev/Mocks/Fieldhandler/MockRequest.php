@@ -3,16 +3,16 @@
  * Fieldhandler Request
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 namespace Molajo\Fieldhandler;
 
 use CommonApi\Exception\UnexpectedValueException;
-use CommonApi\Model\FieldhandlerInterface;
-use CommonApi\Model\FormatInterface;
-use CommonApi\Model\SanitizeInterface;
-use CommonApi\Model\ValidateInterface;
+use CommonApi\Fieldhandler\FieldhandlerInterface;
+use CommonApi\Query\FormatInterface;
+use CommonApi\Query\SanitizeInterface;
+use CommonApi\Query\ValidateInterface;
 
 /**
  * The Fieldhandler Request Class is the only entry point for application access, acting as a
@@ -41,7 +41,7 @@ use CommonApi\Model\ValidateInterface;
  * * $options - associative array of key values pairs; requirements defined by constraint class
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @api
  */
@@ -95,7 +95,7 @@ class MockRequest implements ValidateInterface, SanitizeInterface, FormatInterfa
     /**
      * Constraint Instance
      *
-     * @var    object  CommonApi\Model\ConstraintInterface
+     * @var    object  CommonApi\Query\ConstraintInterface
      * @since  1.0.0
      */
     protected $constraint_instance;
@@ -111,7 +111,7 @@ class MockRequest implements ValidateInterface, SanitizeInterface, FormatInterfa
     /**
      * Message Instance
      *
-     * @var    object  CommonApi\Model\MessageInterface
+     * @var    object  CommonApi\Query\MessageInterface
      * @since  1.0.0
      */
     protected $message_instance;
@@ -186,7 +186,7 @@ class MockRequest implements ValidateInterface, SanitizeInterface, FormatInterfa
      *
      * ```
      * @api
-     * @return  \CommonApi\Model\HandleResponseInterface
+     * @return  \CommonApi\Query\HandleResponseInterface
      * @since   1.0.0
      * @throws  \CommonApi\Exception\UnexpectedValueException
      */
@@ -222,7 +222,7 @@ class MockRequest implements ValidateInterface, SanitizeInterface, FormatInterfa
      *
      * ```
      * @api
-     * @return  \CommonApi\Model\HandleResponseInterface
+     * @return  \CommonApi\Query\HandleResponseInterface
      * @since   1.0.0
      * @throws  \CommonApi\Exception\UnexpectedValueException
      */
@@ -268,7 +268,7 @@ class MockRequest implements ValidateInterface, SanitizeInterface, FormatInterfa
      *
      * ```
      * @api
-     * @return  \CommonApi\Model\HandleResponseInterface
+     * @return  \CommonApi\Query\HandleResponseInterface
      * @since   1.0.0
      * @throws  \CommonApi\Exception\UnexpectedValueException
      */

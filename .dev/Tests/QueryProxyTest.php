@@ -3,23 +3,22 @@
  * Query Proxy Test
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 namespace Molajo\Query;
 
-use ReflectionClass;
 use Molajo\Fieldhandler\MockRequest as Fieldhandler;
-use Molajo\Database\MockDatabase as Database;
+use Molajo\Data\MockDatabase as Database;
 use Molajo\Query\Adapter\Mysql as QueryClass;
-
 use PHPUnit_Framework_TestCase;
+use stdClass;
 
 /**
  * Query Proxy Test
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
@@ -126,7 +125,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\FilterData::filter
      *
      * @return  \CommonApi\Query\QueryInterface
-     * @since   1.0
+     * @since   1.0.0
      */
     public function setup()
     {
@@ -172,6 +171,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::setDistinct
      * @covers  Molajo\Query\Builder\Sql::select
      * @covers  Molajo\Query\Builder\Sql::from
+     * @covers  Molajo\Query\Builder\Sql::setFromKey
      * @covers  Molajo\Query\Builder\Sql::whereGroup
      * @covers  Molajo\Query\Builder\Sql::havingGroup
      * @covers  Molajo\Query\Builder\Sql::where
@@ -201,6 +201,8 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
      * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItem
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItemSpecial
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
@@ -238,14 +240,14 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\FilterData::filter
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testQueryProxy()
     {
         $columns_array = array();
 
         /** Columns */
-        $row            = new \stdClass();
+        $row            = new stdClass();
         $row->name      = 'application_id';
         $row->prefix    = 'a';
         $row->data_type = 'string';
@@ -254,7 +256,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
 
         $columns_array['a.application_id'] = $row;
 
-        $row            = new \stdClass();
+        $row            = new stdClass();
         $row->name      = 'application_name';
         $row->prefix    = '';
         $row->data_type = 'string';
@@ -266,7 +268,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
         /** From */
         $from_array = array();
 
-        $row            = new \stdClass();
+        $row            = new stdClass();
         $row->name      = '#__catalog_types';
         $row->prefix    = '';
         $row->data_type = 'string';
@@ -274,16 +276,16 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
         $row->alias     = 'a';
         $row->primary   = true;
 
-        $from_array[$row->name] = $row;
+        $from_array['#__catalog_types a'] = $row;
 
         /** Where */
         $where_array = array();
 
-        $where = new \stdClass();
+        $where = new stdClass();
 
         $where->group = '';
 
-        $left            = new \stdClass();
+        $left            = new stdClass();
         $left->name      = 'enabled';
         $left->prefix    = 'a';
         $left->data_type = 'column';
@@ -294,7 +296,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
 
         $where->condition = '=';
 
-        $right            = new \stdClass();
+        $right            = new stdClass();
         $right->name      = '1';
         $right->prefix    = '';
         $right->data_type = 'integer';
@@ -307,11 +309,11 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
 
         $where_array[] = $where;
 
-        $where = new \stdClass();
+        $where = new stdClass();
 
         $where->group = '';
 
-        $left            = new \stdClass();
+        $left            = new stdClass();
         $left->name      = 'dog';
         $left->prefix    = 'a';
         $left->data_type = 'column';
@@ -322,7 +324,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
 
         $where->condition = '=';
 
-        $right            = new \stdClass();
+        $right            = new stdClass();
         $right->name      = 'barks';
         $right->prefix    = '';
         $right->data_type = 'string';
@@ -335,11 +337,10 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
 
         $where_array[] = $where;
 
-
         /** Group By */
         $group_by_array = array();
 
-        $row            = new \stdClass();
+        $row            = new stdClass();
         $row->name      = 'catalog_type_id';
         $row->prefix    = '';
         $row->data_type = 'column';
@@ -351,7 +352,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
         /** Order By */
         $order_by_array = array();
 
-        $row            = new \stdClass();
+        $row            = new stdClass();
         $row->name      = 'order_id';
         $row->prefix    = '';
         $row->data_type = 'column';
@@ -361,7 +362,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
 
         $order_by_array[] = $row;
 
-        $row            = new \stdClass();
+        $row            = new stdClass();
         $row->name      = 'line2';
         $row->prefix    = '';
         $row->data_type = 'column';
@@ -374,11 +375,11 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
         /** Having */
         $having_array = array();
 
-        $having = new \stdClass();
+        $having = new stdClass();
 
         $having->group = '';
 
-        $left            = new \stdClass();
+        $left            = new stdClass();
         $left->name      = 'status';
         $left->prefix    = '';
         $left->data_type = 'column';
@@ -389,7 +390,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
 
         $having->condition = '>=';
 
-        $right            = new \stdClass();
+        $right            = new stdClass();
         $right->name      = '3';
         $right->prefix    = '';
         $right->data_type = 'integer';
@@ -432,7 +433,6 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test All Properties
      *
      * @covers  Molajo\Query\QueryProxy::__construct
      * @covers  Molajo\Query\QueryProxy::getSql
@@ -464,6 +464,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::setDistinct
      * @covers  Molajo\Query\Builder\Sql::select
      * @covers  Molajo\Query\Builder\Sql::from
+     * @covers  Molajo\Query\Builder\Sql::setFromKey
      * @covers  Molajo\Query\Builder\Sql::whereGroup
      * @covers  Molajo\Query\Builder\Sql::havingGroup
      * @covers  Molajo\Query\Builder\Sql::where
@@ -493,6 +494,8 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
      * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItem
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItemSpecial
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
@@ -530,7 +533,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\FilterData::filter
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testMinimal()
     {
@@ -546,6 +549,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
     /**
      * Test setDateProperties
      *
+     *
      * @covers  Molajo\Query\QueryProxy::__construct
      * @covers  Molajo\Query\QueryProxy::getSql
      * @covers  Molajo\Query\QueryProxy::clearQuery
@@ -576,6 +580,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::setDistinct
      * @covers  Molajo\Query\Builder\Sql::select
      * @covers  Molajo\Query\Builder\Sql::from
+     * @covers  Molajo\Query\Builder\Sql::setFromKey
      * @covers  Molajo\Query\Builder\Sql::whereGroup
      * @covers  Molajo\Query\Builder\Sql::havingGroup
      * @covers  Molajo\Query\Builder\Sql::where
@@ -605,6 +610,8 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
      * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItem
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItemSpecial
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
@@ -642,7 +649,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\FilterData::filter
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testDates()
     {
@@ -654,6 +661,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
     /**
      * Test setDateProperties
      *
+     *
      * @covers  Molajo\Query\QueryProxy::__construct
      * @covers  Molajo\Query\QueryProxy::getSql
      * @covers  Molajo\Query\QueryProxy::clearQuery
@@ -684,6 +692,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::setDistinct
      * @covers  Molajo\Query\Builder\Sql::select
      * @covers  Molajo\Query\Builder\Sql::from
+     * @covers  Molajo\Query\Builder\Sql::setFromKey
      * @covers  Molajo\Query\Builder\Sql::whereGroup
      * @covers  Molajo\Query\Builder\Sql::havingGroup
      * @covers  Molajo\Query\Builder\Sql::where
@@ -713,6 +722,8 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
      * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItem
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItemSpecial
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
@@ -750,7 +761,7 @@ class QueryProxyTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\FilterData::filter
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testDistinct()
     {

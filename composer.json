@@ -3,9 +3,15 @@
     "description": "Molajo Query Services for PHP Applications",
     "version": "1.0.0",
     "type": "molajo-package",
-    "keywords": ["query", "commonapi", "molajo"],
-    "homepage": "http://github.com/Molajo/Query",
+    "keywords": [
+        "query",
+        "database",
+        "commonapi",
+        "molajo"
+    ],
+    "homepage": "http://molajo.org",
     "license": "MIT",
+
     "authors": [
         {
             "name": "Amy Stephen",
@@ -13,29 +19,31 @@
             "homepage": "http://AmyStephen.com"
         }
     ],
+
     "support": {
         "issues": "https://github.com/Molajo/Query/issues",
         "forum": "https://groups.google.com/forum/#!forum/molajo",
         "irc": "irc://irc.freenode.org/molajo",
         "source": "https://github.com/Molajo/Query"
     },
+
     "require": {
         "php": ">=5.4",
-        "commonapi/controller": "dev-master",
-        "commonapi/model": "dev-master",
         "commonapi/cache": "dev-master",
+        "commonapi/exception": "dev-master",
         "commonapi/query": "dev-master",
-        "molajo/database": "dev-master",
         "molajo/fieldhandler": "dev-master",
         "molajo/resource": "dev-master"
     },
+
     "autoload": {
         "psr-4": {
             "Molajo\\Factories\\": "Factories/",
-            "Molajo\\Query\\": "Source/, Traits/",
-            "Molajo\\Controller\\": "Controller/",
-            "Molajo\\Model\\": "Model/",
-            "Molajo\\Resource\\": "Resource/"
+            "Molajo\\Controller\\": "Source/Controller/",
+            "Molajo\\Data\\": "Source/Data/",
+            "Molajo\\Model\\": "Source/Model/",
+            "Molajo\\Query\\": "Source/Query/, Source/Traits/",
+            "Molajo\\Resource\\": "Source/Resource/"
         }
     },
 

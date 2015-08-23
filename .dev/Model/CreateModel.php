@@ -1,7 +1,7 @@
 <?php
 namespace Molajo\Model;
 
-use CommonApi\Model\CreateModelInterface;
+use CommonApi\Query\CreateModelInterface;
 
 /**
  * As instructed by the Create Controller. the Create Model uses model registry data to prepare
@@ -9,7 +9,7 @@ use CommonApi\Model\CreateModelInterface;
  *
  * @package    Molajo
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @since      1.0.0
  */
 class CreateModel extends Model implements CreateModelInterface
@@ -20,7 +20,7 @@ class CreateModel extends Model implements CreateModelInterface
      * @param   string $data
      *
      * @return  object
-     * @since   1.0
+     * @since   1.0.0
      */
     public function create($data, $model_registry)
     {

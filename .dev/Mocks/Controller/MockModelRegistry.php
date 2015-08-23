@@ -3,7 +3,7 @@
  * Mock Model Registry
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 namespace Molajo\Controller;
@@ -128,18 +128,18 @@ class MockModelRegistry
         $model_registry['joins']['0']['table_name']         = '#__catalog_types';
         $model_registry['joins']['0']['alias']              = 'b';
         $model_registry['joins']['0']['select']             = 'title,model_type,model_name,primary_category_id,alias';
-        $model_registry['joins']['0']['jointo']             = 'id';
-        $model_registry['joins']['0']['joinwith']           = 'catalog_type_id';
+        $model_registry['joins']['0']['join_to']            = 'id';
+        $model_registry['joins']['0']['join_with']          = 'catalog_type_id';
         $model_registry['joins']['1']['table_name']         = '#__application_extension_instances';
         $model_registry['joins']['1']['alias']              = 'application_extension_instances';
         $model_registry['joins']['1']['select']             = '';
-        $model_registry['joins']['1']['jointo']             = 'extension_instance_id';
-        $model_registry['joins']['1']['joinwith']           = 'extension_instance_id';
+        $model_registry['joins']['1']['join_to']            = 'extension_instance_id';
+        $model_registry['joins']['1']['join_with']          = 'extension_instance_id';
         $model_registry['joins']['2']['table_name']         = '#__site_extension_instances';
         $model_registry['joins']['2']['alias']              = 'site_extension_instances';
         $model_registry['joins']['2']['select']             = '';
-        $model_registry['joins']['2']['jointo']             = 'extension_instance_id';
-        $model_registry['joins']['2']['joinwith']           = 'extension_instance_id';
+        $model_registry['joins']['2']['join_to']            = 'extension_instance_id';
+        $model_registry['joins']['2']['join_with']          = 'extension_instance_id';
         $model_registry['joinfields']['0']                  = array();
         $model_registry['joinfields']['1']                  = array();
         $model_registry['joinfields']['2']                  = array();
@@ -206,7 +206,7 @@ class MockModelRegistryTests
      * Set Default Values for Model Registry
      *
      * @return  $this
-     * @since   1.0
+     * @since   1.0.0
      */
     public function setModelRegistryDefaults()
     {

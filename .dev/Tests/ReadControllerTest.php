@@ -3,13 +3,13 @@
  * Controller Test
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 namespace Molajo\Controller;
 
 use Molajo\Fieldhandler\MockRequest as Fieldhandler;
-use Molajo\Database\MockDatabase as Database;
+use Molajo\Data\MockDatabase as Database;
 use Molajo\Query\Adapter\Mysql as QueryClass;
 use Molajo\Query\QueryProxy;
 use Molajo\Model\ReadModel;
@@ -22,7 +22,7 @@ use PHPUnit_Framework_TestCase;
  * Controller
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
@@ -31,8 +31,6 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
     protected $controller;
 
     /**
-     * Test Get Method
-     *
      * @covers  Molajo\Controller\ReadController::getData
      * @covers  Molajo\Controller\ReadController::runQuery
      * @covers  Molajo\Controller\ReadController::executeQuery
@@ -66,11 +64,11 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\QueryController::orderBy
      * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
      * @covers  Molajo\Controller\QueryController::get
+     * @covers  Molajo\Controller\QueryController::set
      *
-     * @covers  Molajo\Controller\Controller::getValue
-     * @covers  Molajo\Controller\Controller::setValue
-     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
-     *
+     * @covers  Molajo\Controller\Base::getValue
+     * @covers  Molajo\Controller\Base::setValue
+     * @covers  Molajo\Controller\Base::setSiteApplicationProperties
      *
      * @covers  Molajo\Query\QueryBuilder::__construct
      * @covers  Molajo\Query\QueryBuilder::getModelRegistry
@@ -92,6 +90,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\QueryBuilder::orderBy
      * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
      * @covers  Molajo\Query\QueryBuilder::get
+     * @covers  Molajo\Query\QueryBuilder::set
      *
      * @covers  Molajo\Query\QueryProxy::__construct
      * @covers  Molajo\Query\QueryProxy::getSql
@@ -117,6 +116,28 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\Sqllite::__construct
      * @covers  Molajo\Query\Adapter\Sqlserver::__construct
      *
+     * @covers  Molajo\Query\QueryBuilder::__construct
+     * @covers  Molajo\Query\QueryBuilder::getModelRegistry
+     * @covers  Molajo\Query\QueryBuilder::setModelRegistry
+     * @covers  Molajo\Query\QueryBuilder::getSql
+     * @covers  Molajo\Query\QueryBuilder::clearQuery
+     * @covers  Molajo\Query\QueryBuilder::setType
+     * @covers  Molajo\Query\QueryBuilder::getDateFormat
+     * @covers  Molajo\Query\QueryBuilder::getDate
+     * @covers  Molajo\Query\QueryBuilder::getNullDate
+     * @covers  Molajo\Query\QueryBuilder::setDistinct
+     * @covers  Molajo\Query\QueryBuilder::select
+     * @covers  Molajo\Query\QueryBuilder::from
+     * @covers  Molajo\Query\QueryBuilder::whereGroup
+     * @covers  Molajo\Query\QueryBuilder::where
+     * @covers  Molajo\Query\QueryBuilder::groupBy
+     * @covers  Molajo\Query\QueryBuilder::havingGroup
+     * @covers  Molajo\Query\QueryBuilder::having
+     * @covers  Molajo\Query\QueryBuilder::orderBy
+     * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
+     * @covers  Molajo\Query\QueryBuilder::get
+     * @covers  Molajo\Query\QueryBuilder::set
+     *
      * @covers  Molajo\Query\Builder\Sql::__construct
      * @covers  Molajo\Query\Builder\Sql::getSql
      * @covers  Molajo\Query\Builder\Sql::get
@@ -128,6 +149,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::setDistinct
      * @covers  Molajo\Query\Builder\Sql::select
      * @covers  Molajo\Query\Builder\Sql::from
+     * @covers  Molajo\Query\Builder\Sql::setFromKey
      * @covers  Molajo\Query\Builder\Sql::whereGroup
      * @covers  Molajo\Query\Builder\Sql::havingGroup
      * @covers  Molajo\Query\Builder\Sql::where
@@ -157,6 +179,8 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
      * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItem
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItemSpecial
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
@@ -194,15 +218,20 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\FilterData::filter
      *
      * @covers  Molajo\Query\Model\Registry::__construct
+     * @covers  Molajo\Query\Model\Registry::set
      * @covers  Molajo\Query\Model\Registry::getSql
      * @covers  Molajo\Query\Model\Registry::getModelRegistry
      * @covers  Molajo\Query\Model\Registry::setModelRegistry
+     * @covers  Molajo\Query\Model\Registry::replaceModelRegistry
      * @covers  Molajo\Query\Model\Registry::setModelRegistrySQL
      * @covers  Molajo\Query\Model\Criteria::setKeyCriteria
      * @covers  Molajo\Query\Model\Criteria::setWhereStatementsKeyValue
      * @covers  Molajo\Query\Model\Criteria::setModelCriteria
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteria
      * @covers  Molajo\Query\Model\Criteria::setModelCriteriaWhere
-     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhere
+     * @covers  Molajo\Query\Model\Criteria::testModelCriteriaWhere
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhereColumn
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhereCriteria
      * @covers  Molajo\Query\Model\Criteria::setModelCriteriaArrayCriteria
      * @covers  Molajo\Query\Model\Criteria::useModelCriteriaArray
      * @covers  Molajo\Query\Model\Criteria::setModelRegistryCriteriaArrayItem
@@ -222,6 +251,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Model\Table::setJoinItemWhere
      * @covers  Molajo\Query\Model\Table::setJoinItemWhereLoop
      * @covers  Molajo\Query\Model\Table::useJoinItemWhere
+     * @covers  Molajo\Query\Model\Defaults::initialiseModelRegistry
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaults
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryBase
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsGroup
@@ -268,7 +298,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Model\Query::get
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function setup()
     {
@@ -303,8 +333,6 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test Constructor
-     *
      * @covers  Molajo\Controller\ReadController::getData
      * @covers  Molajo\Controller\ReadController::runQuery
      * @covers  Molajo\Controller\ReadController::executeQuery
@@ -338,11 +366,11 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\QueryController::orderBy
      * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
      * @covers  Molajo\Controller\QueryController::get
+     * @covers  Molajo\Controller\QueryController::set
      *
-     * @covers  Molajo\Controller\Controller::getValue
-     * @covers  Molajo\Controller\Controller::setValue
-     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
-     *
+     * @covers  Molajo\Controller\Base::getValue
+     * @covers  Molajo\Controller\Base::setValue
+     * @covers  Molajo\Controller\Base::setSiteApplicationProperties
      *
      * @covers  Molajo\Query\QueryBuilder::__construct
      * @covers  Molajo\Query\QueryBuilder::getModelRegistry
@@ -364,6 +392,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\QueryBuilder::orderBy
      * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
      * @covers  Molajo\Query\QueryBuilder::get
+     * @covers  Molajo\Query\QueryBuilder::set
      *
      * @covers  Molajo\Query\QueryProxy::__construct
      * @covers  Molajo\Query\QueryProxy::getSql
@@ -389,6 +418,28 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\Sqllite::__construct
      * @covers  Molajo\Query\Adapter\Sqlserver::__construct
      *
+     * @covers  Molajo\Query\QueryBuilder::__construct
+     * @covers  Molajo\Query\QueryBuilder::getModelRegistry
+     * @covers  Molajo\Query\QueryBuilder::setModelRegistry
+     * @covers  Molajo\Query\QueryBuilder::getSql
+     * @covers  Molajo\Query\QueryBuilder::clearQuery
+     * @covers  Molajo\Query\QueryBuilder::setType
+     * @covers  Molajo\Query\QueryBuilder::getDateFormat
+     * @covers  Molajo\Query\QueryBuilder::getDate
+     * @covers  Molajo\Query\QueryBuilder::getNullDate
+     * @covers  Molajo\Query\QueryBuilder::setDistinct
+     * @covers  Molajo\Query\QueryBuilder::select
+     * @covers  Molajo\Query\QueryBuilder::from
+     * @covers  Molajo\Query\QueryBuilder::whereGroup
+     * @covers  Molajo\Query\QueryBuilder::where
+     * @covers  Molajo\Query\QueryBuilder::groupBy
+     * @covers  Molajo\Query\QueryBuilder::havingGroup
+     * @covers  Molajo\Query\QueryBuilder::having
+     * @covers  Molajo\Query\QueryBuilder::orderBy
+     * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
+     * @covers  Molajo\Query\QueryBuilder::get
+     * @covers  Molajo\Query\QueryBuilder::set
+     *
      * @covers  Molajo\Query\Builder\Sql::__construct
      * @covers  Molajo\Query\Builder\Sql::getSql
      * @covers  Molajo\Query\Builder\Sql::get
@@ -400,6 +451,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::setDistinct
      * @covers  Molajo\Query\Builder\Sql::select
      * @covers  Molajo\Query\Builder\Sql::from
+     * @covers  Molajo\Query\Builder\Sql::setFromKey
      * @covers  Molajo\Query\Builder\Sql::whereGroup
      * @covers  Molajo\Query\Builder\Sql::havingGroup
      * @covers  Molajo\Query\Builder\Sql::where
@@ -429,6 +481,8 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
      * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItem
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItemSpecial
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
@@ -466,15 +520,20 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\FilterData::filter
      *
      * @covers  Molajo\Query\Model\Registry::__construct
+     * @covers  Molajo\Query\Model\Registry::set
      * @covers  Molajo\Query\Model\Registry::getSql
      * @covers  Molajo\Query\Model\Registry::getModelRegistry
      * @covers  Molajo\Query\Model\Registry::setModelRegistry
+     * @covers  Molajo\Query\Model\Registry::replaceModelRegistry
      * @covers  Molajo\Query\Model\Registry::setModelRegistrySQL
      * @covers  Molajo\Query\Model\Criteria::setKeyCriteria
      * @covers  Molajo\Query\Model\Criteria::setWhereStatementsKeyValue
      * @covers  Molajo\Query\Model\Criteria::setModelCriteria
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteria
      * @covers  Molajo\Query\Model\Criteria::setModelCriteriaWhere
-     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhere
+     * @covers  Molajo\Query\Model\Criteria::testModelCriteriaWhere
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhereColumn
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhereCriteria
      * @covers  Molajo\Query\Model\Criteria::setModelCriteriaArrayCriteria
      * @covers  Molajo\Query\Model\Criteria::useModelCriteriaArray
      * @covers  Molajo\Query\Model\Criteria::setModelRegistryCriteriaArrayItem
@@ -494,6 +553,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Model\Table::setJoinItemWhere
      * @covers  Molajo\Query\Model\Table::setJoinItemWhereLoop
      * @covers  Molajo\Query\Model\Table::useJoinItemWhere
+     * @covers  Molajo\Query\Model\Defaults::initialiseModelRegistry
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaults
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryBase
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsGroup
@@ -540,11 +600,14 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Model\Query::get
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testDefaults()
     {
-        $model_registry = $this->controller->getModelRegistry('*');
+        $model_registry = $this->controller->getModelRegistry();
+
+        var_dump($model_registry);
+        die;
 
         $this->assertEquals('list', $model_registry['query_object']);
         $this->assertEquals(1, $model_registry['process_events']);
@@ -572,9 +635,6 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test Constructor
-     *
-     *
      * @covers  Molajo\Controller\ReadController::getData
      * @covers  Molajo\Controller\ReadController::runQuery
      * @covers  Molajo\Controller\ReadController::executeQuery
@@ -608,11 +668,11 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\QueryController::orderBy
      * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
      * @covers  Molajo\Controller\QueryController::get
+     * @covers  Molajo\Controller\QueryController::set
      *
-     * @covers  Molajo\Controller\Controller::getValue
-     * @covers  Molajo\Controller\Controller::setValue
-     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
-     *
+     * @covers  Molajo\Controller\Base::getValue
+     * @covers  Molajo\Controller\Base::setValue
+     * @covers  Molajo\Controller\Base::setSiteApplicationProperties
      *
      * @covers  Molajo\Query\QueryBuilder::__construct
      * @covers  Molajo\Query\QueryBuilder::getModelRegistry
@@ -634,6 +694,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\QueryBuilder::orderBy
      * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
      * @covers  Molajo\Query\QueryBuilder::get
+     * @covers  Molajo\Query\QueryBuilder::set
      *
      * @covers  Molajo\Query\QueryProxy::__construct
      * @covers  Molajo\Query\QueryProxy::getSql
@@ -659,6 +720,28 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\Sqllite::__construct
      * @covers  Molajo\Query\Adapter\Sqlserver::__construct
      *
+     * @covers  Molajo\Query\QueryBuilder::__construct
+     * @covers  Molajo\Query\QueryBuilder::getModelRegistry
+     * @covers  Molajo\Query\QueryBuilder::setModelRegistry
+     * @covers  Molajo\Query\QueryBuilder::getSql
+     * @covers  Molajo\Query\QueryBuilder::clearQuery
+     * @covers  Molajo\Query\QueryBuilder::setType
+     * @covers  Molajo\Query\QueryBuilder::getDateFormat
+     * @covers  Molajo\Query\QueryBuilder::getDate
+     * @covers  Molajo\Query\QueryBuilder::getNullDate
+     * @covers  Molajo\Query\QueryBuilder::setDistinct
+     * @covers  Molajo\Query\QueryBuilder::select
+     * @covers  Molajo\Query\QueryBuilder::from
+     * @covers  Molajo\Query\QueryBuilder::whereGroup
+     * @covers  Molajo\Query\QueryBuilder::where
+     * @covers  Molajo\Query\QueryBuilder::groupBy
+     * @covers  Molajo\Query\QueryBuilder::havingGroup
+     * @covers  Molajo\Query\QueryBuilder::having
+     * @covers  Molajo\Query\QueryBuilder::orderBy
+     * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
+     * @covers  Molajo\Query\QueryBuilder::get
+     * @covers  Molajo\Query\QueryBuilder::set
+     *
      * @covers  Molajo\Query\Builder\Sql::__construct
      * @covers  Molajo\Query\Builder\Sql::getSql
      * @covers  Molajo\Query\Builder\Sql::get
@@ -670,6 +753,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::setDistinct
      * @covers  Molajo\Query\Builder\Sql::select
      * @covers  Molajo\Query\Builder\Sql::from
+     * @covers  Molajo\Query\Builder\Sql::setFromKey
      * @covers  Molajo\Query\Builder\Sql::whereGroup
      * @covers  Molajo\Query\Builder\Sql::havingGroup
      * @covers  Molajo\Query\Builder\Sql::where
@@ -699,6 +783,8 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
      * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItem
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItemSpecial
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
@@ -736,15 +822,20 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\FilterData::filter
      *
      * @covers  Molajo\Query\Model\Registry::__construct
+     * @covers  Molajo\Query\Model\Registry::set
      * @covers  Molajo\Query\Model\Registry::getSql
      * @covers  Molajo\Query\Model\Registry::getModelRegistry
      * @covers  Molajo\Query\Model\Registry::setModelRegistry
+     * @covers  Molajo\Query\Model\Registry::replaceModelRegistry
      * @covers  Molajo\Query\Model\Registry::setModelRegistrySQL
      * @covers  Molajo\Query\Model\Criteria::setKeyCriteria
      * @covers  Molajo\Query\Model\Criteria::setWhereStatementsKeyValue
      * @covers  Molajo\Query\Model\Criteria::setModelCriteria
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteria
      * @covers  Molajo\Query\Model\Criteria::setModelCriteriaWhere
-     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhere
+     * @covers  Molajo\Query\Model\Criteria::testModelCriteriaWhere
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhereColumn
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhereCriteria
      * @covers  Molajo\Query\Model\Criteria::setModelCriteriaArrayCriteria
      * @covers  Molajo\Query\Model\Criteria::useModelCriteriaArray
      * @covers  Molajo\Query\Model\Criteria::setModelRegistryCriteriaArrayItem
@@ -764,6 +855,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Model\Table::setJoinItemWhere
      * @covers  Molajo\Query\Model\Table::setJoinItemWhereLoop
      * @covers  Molajo\Query\Model\Table::useJoinItemWhere
+     * @covers  Molajo\Query\Model\Defaults::initialiseModelRegistry
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaults
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryBase
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsGroup
@@ -810,7 +902,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Model\Query::get
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testCatalogModelRegistry()
     {
@@ -826,11 +918,11 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
         $query_proxy = new QueryProxy($query_class);
 
         /** Query Builder */
-        $mock = new MockModelRegistry();
+        $mock           = new MockModelRegistry();
         $model_registry = $mock->create();
 
         /** Model Registry */
-        $registry       = new Registry($query_proxy, $model_registry);
+        $registry = new Registry($query_proxy, $model_registry);
 
         /** Query Builder */
         $query_builder = new QueryBuilder($registry);
@@ -839,8 +931,8 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
         $model = new ReadModel($database);
 
         /** Event */
-        $dispatcher = new MockDispatcher();
-        $schedule_event = function($event_name, $options) {
+        $dispatcher     = new MockDispatcher();
+        $schedule_event = function ($event_name, $options) {
             return $options;
         };
 
@@ -852,7 +944,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
             $query_builder
         );
 
-        $model_registry = $this->controller->getModelRegistry('*');
+        $model_registry = $this->controller->getModelRegistry();
 
         $this->assertEquals('Catalog', $model_registry['name']);
         $this->assertEquals('#__catalog', $model_registry['table_name']);
@@ -958,8 +1050,8 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
             'title,model_type,model_name,primary_category_id,alias',
             $model_registry['joins']['0']['select']
         );
-        $this->assertEquals('id', $model_registry['joins']['0']['jointo']);
-        $this->assertEquals('catalog_type_id', $model_registry['joins']['0']['joinwith']);
+        $this->assertEquals('id', $model_registry['joins']['0']['join_to']);
+        $this->assertEquals('catalog_type_id', $model_registry['joins']['0']['join_with']);
         $this->assertEquals('#__site_extension_instances', $model_registry['joins']['2']['table_name']);
         $this->assertEquals('site_extension_instances', $model_registry['joins']['2']['alias']);
         $this->assertEquals('', $model_registry['joins']['2']['select']);
@@ -1050,9 +1142,6 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
 
 
     /**
-     * Test Constructor
-     *
-     *
      * @covers  Molajo\Controller\ReadController::getData
      * @covers  Molajo\Controller\ReadController::runQuery
      * @covers  Molajo\Controller\ReadController::executeQuery
@@ -1086,11 +1175,11 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Controller\QueryController::orderBy
      * @covers  Molajo\Controller\QueryController::setOffsetAndLimit
      * @covers  Molajo\Controller\QueryController::get
+     * @covers  Molajo\Controller\QueryController::set
      *
-     * @covers  Molajo\Controller\Controller::getValue
-     * @covers  Molajo\Controller\Controller::setValue
-     * @covers  Molajo\Controller\Controller::setSiteApplicationProperties
-     *
+     * @covers  Molajo\Controller\Base::getValue
+     * @covers  Molajo\Controller\Base::setValue
+     * @covers  Molajo\Controller\Base::setSiteApplicationProperties
      *
      * @covers  Molajo\Query\QueryBuilder::__construct
      * @covers  Molajo\Query\QueryBuilder::getModelRegistry
@@ -1112,6 +1201,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\QueryBuilder::orderBy
      * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
      * @covers  Molajo\Query\QueryBuilder::get
+     * @covers  Molajo\Query\QueryBuilder::set
      *
      * @covers  Molajo\Query\QueryProxy::__construct
      * @covers  Molajo\Query\QueryProxy::getSql
@@ -1137,6 +1227,28 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Adapter\Sqllite::__construct
      * @covers  Molajo\Query\Adapter\Sqlserver::__construct
      *
+     * @covers  Molajo\Query\QueryBuilder::__construct
+     * @covers  Molajo\Query\QueryBuilder::getModelRegistry
+     * @covers  Molajo\Query\QueryBuilder::setModelRegistry
+     * @covers  Molajo\Query\QueryBuilder::getSql
+     * @covers  Molajo\Query\QueryBuilder::clearQuery
+     * @covers  Molajo\Query\QueryBuilder::setType
+     * @covers  Molajo\Query\QueryBuilder::getDateFormat
+     * @covers  Molajo\Query\QueryBuilder::getDate
+     * @covers  Molajo\Query\QueryBuilder::getNullDate
+     * @covers  Molajo\Query\QueryBuilder::setDistinct
+     * @covers  Molajo\Query\QueryBuilder::select
+     * @covers  Molajo\Query\QueryBuilder::from
+     * @covers  Molajo\Query\QueryBuilder::whereGroup
+     * @covers  Molajo\Query\QueryBuilder::where
+     * @covers  Molajo\Query\QueryBuilder::groupBy
+     * @covers  Molajo\Query\QueryBuilder::havingGroup
+     * @covers  Molajo\Query\QueryBuilder::having
+     * @covers  Molajo\Query\QueryBuilder::orderBy
+     * @covers  Molajo\Query\QueryBuilder::setOffsetAndLimit
+     * @covers  Molajo\Query\QueryBuilder::get
+     * @covers  Molajo\Query\QueryBuilder::set
+     *
      * @covers  Molajo\Query\Builder\Sql::__construct
      * @covers  Molajo\Query\Builder\Sql::getSql
      * @covers  Molajo\Query\Builder\Sql::get
@@ -1148,6 +1260,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\Sql::setDistinct
      * @covers  Molajo\Query\Builder\Sql::select
      * @covers  Molajo\Query\Builder\Sql::from
+     * @covers  Molajo\Query\Builder\Sql::setFromKey
      * @covers  Molajo\Query\Builder\Sql::whereGroup
      * @covers  Molajo\Query\Builder\Sql::havingGroup
      * @covers  Molajo\Query\Builder\Sql::where
@@ -1177,6 +1290,8 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementLimit
      * @covers  Molajo\Query\Builder\BuildSqlElements::returnGetElement
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArray
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItem
+     * @covers  Molajo\Query\Builder\BuildSqlElements::getElementsArrayItemSpecial
      * @covers  Molajo\Query\Builder\BuildSqlElements::setColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getPrimaryColumnPrefix
      * @covers  Molajo\Query\Builder\BuildSqlElements::getElementValuesColumnName
@@ -1214,15 +1329,20 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Builder\FilterData::filter
      *
      * @covers  Molajo\Query\Model\Registry::__construct
+     * @covers  Molajo\Query\Model\Registry::set
      * @covers  Molajo\Query\Model\Registry::getSql
      * @covers  Molajo\Query\Model\Registry::getModelRegistry
      * @covers  Molajo\Query\Model\Registry::setModelRegistry
+     * @covers  Molajo\Query\Model\Registry::replaceModelRegistry
      * @covers  Molajo\Query\Model\Registry::setModelRegistrySQL
      * @covers  Molajo\Query\Model\Criteria::setKeyCriteria
      * @covers  Molajo\Query\Model\Criteria::setWhereStatementsKeyValue
      * @covers  Molajo\Query\Model\Criteria::setModelCriteria
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteria
      * @covers  Molajo\Query\Model\Criteria::setModelCriteriaWhere
-     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhere
+     * @covers  Molajo\Query\Model\Criteria::testModelCriteriaWhere
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhereColumn
+     * @covers  Molajo\Query\Model\Criteria::useModelCriteriaWhereCriteria
      * @covers  Molajo\Query\Model\Criteria::setModelCriteriaArrayCriteria
      * @covers  Molajo\Query\Model\Criteria::useModelCriteriaArray
      * @covers  Molajo\Query\Model\Criteria::setModelRegistryCriteriaArrayItem
@@ -1242,6 +1362,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Model\Table::setJoinItemWhere
      * @covers  Molajo\Query\Model\Table::setJoinItemWhereLoop
      * @covers  Molajo\Query\Model\Table::useJoinItemWhere
+     * @covers  Molajo\Query\Model\Defaults::initialiseModelRegistry
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaults
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryBase
      * @covers  Molajo\Query\Model\Defaults::setModelRegistryDefaultsGroup
@@ -1288,7 +1409,7 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
      * @covers  Molajo\Query\Model\Query::get
      *
      * @return void
-     * @since   1.0
+     * @since   1.0.0
      */
     public function testReadControllerGetData()
     {
@@ -1304,11 +1425,11 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
         $query_proxy = new QueryProxy($query_class);
 
         /** Query Builder */
-        $mock = new MockModelRegistry();
+        $mock           = new MockModelRegistry();
         $model_registry = $mock->create();
 
         /** Model Registry */
-        $registry       = new Registry($query_proxy, $model_registry);
+        $registry = new Registry($query_proxy, $model_registry);
 
         /** Query Builder */
         $query_builder = new QueryBuilder($registry);
@@ -1317,8 +1438,8 @@ class ReadControllerTest extends PHPUnit_Framework_TestCase
         $model = new ReadModel($database);
 
         /** Event */
-        $dispatcher = new MockDispatcher();
-        $schedule_event = function($event_name, $options) {
+        $dispatcher     = new MockDispatcher();
+        $schedule_event = function ($event_name, $options) {
             return $options;
         };
 

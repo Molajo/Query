@@ -3,7 +3,7 @@
  * Bootstrap
  *
  * @package    Molajo
- * @copyright  2014 Amy Stephen. All rights reserved.
+ * @copyright  2014-2015 Amy Stephen. All rights reserved.
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  */
 $base = substr(__DIR__, 0, strlen(__DIR__) - 5);
@@ -14,43 +14,34 @@ if (function_exists('CreateClassMap')) {
 include_once $base . '/vendor/autoload.php';
 
 $classmap = array();
+$results  = createClassMap($base . '/Traits', 'Molajo\\Query\\');
+$classmap = array_merge($classmap, $results);
+
 $results  = createClassMap($base . '/Controller', 'Molajo\\Controller\\');
 $classmap = array_merge($classmap, $results);
-
-$results  = createClassMap($base . '/Source/Model', 'Molajo\\Query\\Model\\');
+$results  = createClassMap($base . '/Model', 'Molajo\\Model\\');
 $classmap = array_merge($classmap, $results);
-
-$results  = createClassMap($base . '/Resource/Adapter', 'Molajo\\Resource\\Adapter\\');
-$classmap = array_merge($classmap, $results);
-$results  = createClassMap($base . '/Resource/Api', 'Molajo\\Resource\\Api\\');
-$classmap = array_merge($classmap, $results);
-$results  = createClassMap($base . '/Resource/Configuration', 'Molajo\\Resource\\Configuration\\');
-$classmap = array_merge($classmap, $results);
-$results  = createClassMap($base . '/Resource/Factory', 'Molajo\\Resource\\Factory\\');
-$classmap = array_merge($classmap, $results);
-
 $results  = createClassMap($base . '/Source/Adapter', 'Molajo\\Query\\Adapter\\');
 $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/Source/Builder', 'Molajo\\Query\\Builder\\');
 $classmap = array_merge($classmap, $results);
+$results  = createClassMap($base . '/Source/Data/Adapter', 'Molajo\\Data\\Adapter\\');
+$classmap = array_merge($classmap, $results);
+$results  = createClassMap($base . '/Source/Data', 'Molajo\\Data\\');
+$classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/Source/Model', 'Molajo\\Query\\Model\\');
 $classmap = array_merge($classmap, $results);
-
-$classmap['Molajo\\Query\\ModelRegistryTrait'] = $base . '/Traits/ModelRegistryTrait.php';
-$classmap['Molajo\\Query\\QueryTrait']         = $base . '/Traits/QueryTrait.php';
-$classmap['Molajo\\Query\\QueryBuilder']       = $base . '/Source/QueryBuilder.php';
-$classmap['Molajo\\Query\\QueryProxy']         = $base . '/Source/QueryProxy.php';
+$results  = createClassMap($base . '/Source', 'Molajo\\Query\\');
+$classmap = array_merge($classmap, $results);
 
 $results  = createClassMap($base . '/.dev/Mocks/Controller', 'Molajo\\Controller\\');
 $classmap = array_merge($classmap, $results);
-$results  = createClassMap($base . '/.dev/Mocks/Database', 'Molajo\\Database\\');
+$results  = createClassMap($base . '/.dev/Mocks/Database', 'Molajo\\Data\\');
 $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/.dev/Mocks/Fieldhandler', 'Molajo\\Fieldhandler\\');
 $classmap = array_merge($classmap, $results);
 $results  = createClassMap($base . '/.dev/Mocks/Query', 'Molajo\\Query\\');
 $classmap = array_merge($classmap, $results);
-
-$classmap['Molajo\\Query\\Driver'] = $base . '/Source/Driver.php';
 
 ksort($classmap);
 
@@ -61,3 +52,6 @@ spl_autoload_register(
         }
     }
 );
+
+
+//include_once $base . '/.dev/Reflection.php';
