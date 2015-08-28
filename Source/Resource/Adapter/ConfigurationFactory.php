@@ -19,7 +19,7 @@ use Exception;
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-class ConfigurationFactory extends NamespaceHandler
+abstract class ConfigurationFactory extends NamespaceHandler
 {
     /**
      * Data Object

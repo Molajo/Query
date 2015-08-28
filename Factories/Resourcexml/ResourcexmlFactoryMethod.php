@@ -49,9 +49,10 @@ class ResourcexmlFactoryMethod extends FactoryMethodBase implements FactoryInter
     {
         parent::setDependencies(array());
 
-        $this->dependencies['Resource']     = array();
-        $this->dependencies['Resourcedata'] = array();
-        $this->dependencies['Registry']     = array();
+        $this->dependencies['Resource']        = array();
+        $this->dependencies['Resourcedata']    = array();
+        $this->dependencies['Registry']        = array();
+        $this->dependencies['Resourcedefault'] = array();
 
         return $this->dependencies;
     }
@@ -82,9 +83,10 @@ class ResourcexmlFactoryMethod extends FactoryMethodBase implements FactoryInter
         $options['scheme_name']           = 'Xml';
         $options['valid_file_extensions'] = array('.xml');
         $options['handler_options']       = array(
-            'data'     => $this->dependencies['Resourcedata'],
-            'resource' => $this->dependencies['Resource'],
-            'registry' => $this->dependencies['Registry'],
+            'data'        => $this->dependencies['Resourcedata'],
+            'resource'    => $this->dependencies['Resource'],
+            'registry'    => $this->dependencies['Registry'],
+            'default_xml' => $this->dependencies['Resourcedefault']
         );
 
         $this->schedule_factory_methods['Resourceadapter'] = $options;

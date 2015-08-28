@@ -19,8 +19,83 @@ use CommonApi\Exception\RuntimeException;
  * @license    http://www.opensource.org/licenses/mit-license.html MIT License
  * @since      1.0.0
  */
-class Xml extends ConfigurationFactory implements ResourceInterface
+final class Xml extends ConfigurationFactory implements ResourceInterface
 {
+    /**
+     * Default Xml
+     *
+     * @var    object
+     * @since  1.0.0
+     */
+    protected $default_xml;
+
+    /**
+     * Extension Type
+     *
+     * @var    string
+     * @since  1.0.0
+     */
+    protected $extension_type = null;
+
+    /**
+     * Extension Sub Type
+     *
+     * @var    string
+     * @since  1.0.0
+     */
+    protected $extension_subtype = null;
+
+    /**
+     * Model Type
+     *
+     * @var    string
+     * @since  1.0.0
+     */
+    protected $model_type = null;
+
+    /**
+     * Model Name
+     *
+     * @var    string
+     * @since  1.0.0
+     */
+    protected $model_name = null;
+
+    /**
+     * Constructor
+     *
+     * @param  string $base_path
+     * @param  array  $resource_map
+     * @param  array  $namespace_prefixes
+     * @param  array  $valid_file_extensions
+     * @param  array  $cache_callbacks
+     * @param  array  $handler_options
+     *
+     * @since  1.0.0
+     */
+    public function __construct(
+        $base_path,
+        array $resource_map = array(),
+        array $namespace_prefixes = array(),
+        array $valid_file_extensions = array(),
+        array $cache_callbacks = array(),
+        array $handler_options = array()
+    ) {
+        if (isset($handler_options['default_xml'])) {
+            $this->default_xml = $handler_options['default_xml'];
+            unset($handler_options['default_xml']);
+        }
+
+        parent::__construct(
+            $base_path,
+            $resource_map,
+            $namespace_prefixes,
+            $valid_file_extensions,
+            $cache_callbacks,
+            $handler_options
+        );
+    }
+
     /**
      * Xml file is located, read, loaded using simplexml into a string and then sent back
      *  or processed by the Configuration data_object or Model utility
@@ -35,10 +110,12 @@ class Xml extends ConfigurationFactory implements ResourceInterface
     public function handlePath($located_path, array $options = array())
     {
         $segments = $this->handlePathSegments($options);
-        list($model_type, $model_name) = $this->setModelTypeName($segments);
+
+        $this->setModelTypeName($segments);
+
         $contents = $this->readXmlFile($located_path);
 
-        return $this->handlePathResults($model_type, $model_name, $contents);
+        return $this->handlePathResults($this->model_type, $this->model_name, $contents);
     }
 
     /**
@@ -73,6 +150,7 @@ class Xml extends ConfigurationFactory implements ResourceInterface
         } else {
             echo '<pre>';
             var_dump($segments);
+
             throw new RuntimeException(
                 'Resource XmlHandler Failure namespace must have at least 3 segments:  '
                 . $options['namespace']
@@ -87,11 +165,13 @@ class Xml extends ConfigurationFactory implements ResourceInterface
      *
      * @param   array $segments
      *
-     * @return  array
+     * @return  $this
      * @since   1.0.0
      */
     protected function setModelTypeName(array $segments = array())
     {
+        $this->extension_type = ucfirst(strtolower($segments[2]));
+
         if (ucfirst(strtolower($segments[2])) === 'Resources') {
             $model_type = $segments[2];
             $model_name = $segments[3] . $segments[4];
@@ -126,7 +206,10 @@ class Xml extends ConfigurationFactory implements ResourceInterface
         $model_type = ucfirst(strtolower(trim($model_type)));
         $model_name = ucfirst(strtolower(trim($model_name)));
 
-        return array($model_type, $model_name);
+        $this->model_type = $model_type;
+        $this->model_name = $model_name;
+
+        return $this;
     }
 
     /**
@@ -134,17 +217,25 @@ class Xml extends ConfigurationFactory implements ResourceInterface
      *
      * @param   string $located_path
      *
-     * @return  object
+     * @return  string
      * @since   1.0.0
      */
     protected function readXmlFile($located_path)
     {
         if (file_exists($located_path)) {
-        } else {
-            return '';
+            return file_get_contents($located_path);
         }
 
-        return file_get_contents($located_path);
+        if (is_object($this->default_xml)) {
+            return $this->default_xml->get(
+                $this->resource_namespace,
+                $this->extension_type,
+                $this->model_type,
+                $this->model_name
+            );
+        }
+
+        throw new RuntimeException('Resource Xml Adapter: No file found for: ' . $this->resource_namespace);
     }
 
     /**
@@ -178,9 +269,9 @@ class Xml extends ConfigurationFactory implements ResourceInterface
      * @return  object
      * @since   1.0.0
      */
-    protected function handlePathApplication($contents)
+    protected function handlePathApplication($file_location)
     {
-        $xml = simplexml_load_string($contents);
+        $xml = simplexml_load_string($file_location);
 
         return $xml;
     }
